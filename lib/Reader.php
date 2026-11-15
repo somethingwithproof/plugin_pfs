@@ -323,7 +323,7 @@ final class Reader {
 			$value      = $update->report->values[$name] ?? null;
 			$start      = $update->report->startMarker;
 			$continuity = $value === null && $spec->kind === ValueKind::Counter && in_array($name, $update->report->absent, true)
-				? Continuity::Absent
+				? ResetDetector::absent($prior, $start, $update->sourceNodeId)
 				: ResetDetector::continuity($prior, $value, $start, $update->sourceNodeId, $spec->kind);
 			$epoch      = ($prior->epoch ?? 0) + ($continuity === Continuity::Reset ? 1 : 0);
 

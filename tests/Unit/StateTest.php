@@ -116,6 +116,26 @@ describe('reset detection', function () {
 			->and(ResetDetector::continuity($absent, 4096.0, null, 3, ValueKind::Counter))->toBe(Continuity::Reset);
 	});
 
+	it('treats a counter that goes absent after a value, or under a new start time or node, as a reset', function () {
+		$start   = '1731000000.000000001';
+		$cleared = '1731599000.000000001';
+		$counted = new Observation(1, 'write_bytes', 10000.0, 100, 100, 3, 300, Continuity::Continuous, $start, 0);
+		$absent  = new Observation(1, 'write_bytes', null, 100, 100, 3, 300, Continuity::Absent, $start, 0);
+
+		// A stats clear: the counter had a value, now the line is gone and
+		// the start time is new. Only from the next read on is it absent.
+		$reset = new Observation(1, 'write_bytes', null, 400, 400, 3, 300, ResetDetector::absent($counted, $cleared, 3), $cleared, 1);
+
+		expect($reset->continuity)->toBe(Continuity::Reset)
+			->and(ResetDetector::absent($counted, $start, 3))->toBe(Continuity::Reset)
+			->and(ResetDetector::absent($reset, $cleared, 3))->toBe(Continuity::Absent)
+			->and(ResetDetector::absent($absent, $start, 3))->toBe(Continuity::Absent)
+			->and(ResetDetector::absent($absent, $cleared, 3))->toBe(Continuity::Reset)
+			->and(ResetDetector::absent($absent, $start, 4))->toBe(Continuity::Reset)
+			->and(ResetDetector::absent($absent, null, 3))->toBe(Continuity::Reset)
+			->and(ResetDetector::absent(null, $start, 3))->toBe(Continuity::Absent);
+	});
+
 	it('never treats a gauge as reset', function () use ($previous) {
 		expect(ResetDetector::continuity($previous, 1.0, null, 9, ValueKind::Gauge))->toBe(Continuity::Continuous);
 	});

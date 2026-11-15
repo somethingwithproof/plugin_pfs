@@ -10,21 +10,23 @@ An absent line is not the only way a value goes missing. A section can fail to r
 
 ## Decision
 
-- **Sums.** In the filesystem-wide counter sums (`read_bytes`, `write_bytes`, `md_ops`), a counter whose line is absent counts as 0 only when all of these hold for that target in the same read:
+- **OST sums.** In the filesystem-wide OST counter sums (`read_bytes`, `write_bytes`), a counter whose line is absent counts as 0 only when all of these hold for that target in the same read:
   - the node printed the target's stats section completely (its `snapshot_time` line is present and the section was not marked failed or truncated);
   - the target is present and its condition is in service;
   - the target reported at least one other known value in that read;
-  - the observation is current.
+  - the observation is current;
+  - the counter did not have a value before under a different or the same `start_time`, and its node did not change: a counter that had counted and is now absent was cleared, so that read is a reset and unknown, and only later reads under the new `start_time` count as 0.
+- **`md_ops`.** The zero rule does not apply to MDTs: the read script reads no condition flags for an MDT, so its condition is never in service. `md_ops` sums the operations each MDT printed; an operation that is absent is left out of the sum's member set. While the set of printed operations stays the same the sum is unchanged by this, and when an operation first appears the member set changes and that interval is unknown once.
 - **Everything else stays unknown.** A target that is missing, stale, unhealthy, of unknown condition, or whose read failed keeps the sum `U`, as before. A line that is present but malformed is unknown, never zero.
 - **Per-target values stay unknown.** The target's own data source still serves `U` for the absent counter. Only the filesystem sum treats it as zero, so the per-target graph shows that the counter was never printed.
 - **Continuity.** The reader records the absent line as its own continuity state (`absent`), not as a value. When the counter first appears, its interval continues from zero only if the node printed the same `start_time` as before and the same node answered; otherwise the interval is a reset and is unknown once.
 
 ## Consequences
 
-- An idle OST or a rarely used metadata operation no longer hides the filesystem throughput or metadata rate.
+- An idle OST no longer hides the filesystem throughput, and a rarely used metadata operation does not hide the metadata rate.
 - The member set of a sum includes an absent-but-healthy target, so the first write to an idle OST does not change the set and does not cost an unknown interval when its `start_time` is printed.
-- On a release that lacks an allowlisted metadata operation, the operation counts as zero in `md_ops`, which is what that release did.
-- If a node ever leaves out a counter line that had counted, the sum would undercount by that target for the read. The source does not do this; a pilot that sees it reopens this record.
+- On a release that lacks an allowlisted metadata operation, the operation is left out of `md_ops`, which gives the same sum as counting it as zero; the first time a rare operation is printed costs one unknown interval.
+- A stats clear that removes a counter line which had counted is a reset, not a zero, so the sum is unknown for that read rather than undercounting the target.
 
 ## Alternatives rejected
 

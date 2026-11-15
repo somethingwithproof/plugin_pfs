@@ -198,6 +198,30 @@ describe('summary', function () {
 		}
 	});
 
+	it('leaves an absent metadata operation out of md_ops instead of counting it, since an MDT is never in service', function () {
+		$mdt = sum_absent(sum_target('scratch-MDT0000', ['kbytes_total' => 100.0, 'kbytes_free' => 50.0, 'kbytes_avail' => 50.0, 'md_open' => 7.0], SUM_T, Presence::Present, Condition::Unknown), 'md_close');
+		$s   = SummaryCalculator::calculate([$mdt], null, 300, SUM_T);
+
+		expect($s->value('md_ops'))->toBe(7.0)
+			->and($s->members['md_ops'])->toBe(sha1('scratch-MDT0000:md_open'));
+	});
+
+	it('keeps the sum unknown when a counter with a value is cleared and goes absent', function () {
+		// 1000 + 10000, then OST0001's stats are cleared: its write line is
+		// gone under a new start time. Zero for it would publish 12000 after
+		// 11000 and hide the clear, so the reset interval is unknown.
+		$before  = SummaryCalculator::calculate([
+			sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 1000.0, 1000.0)),
+			sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0, 1000.0, 10000.0)),
+		], null, 300, SUM_T);
+		$cleared = sum_target('scratch-OST0001', array_merge(sum_ost('scratch-OST0001', 300.0, 1000.0), ['write_bytes' => null]), SUM_T + 300, Presence::Present, Condition::InService, ['write_bytes']);
+		$after   = SummaryCalculator::calculate([sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 1000.0, 12000.0), SUM_T + 300), $cleared], $before, 300, SUM_T + 300);
+
+		expect($before->value('write_bytes'))->toBe(11000.0)
+			->and($cleared->value('write_bytes')?->continuity)->toBe(Continuity::Reset)
+			->and($after->value('write_bytes'))->toBeNull();
+	});
+
 	it('publishes unknown once when the members of a counter sum change', function () {
 		$two   = [sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0)), sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0))];
 		$first = SummaryCalculator::calculate([$two[0]], null, 300, SUM_T);
