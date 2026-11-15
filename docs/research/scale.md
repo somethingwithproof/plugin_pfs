@@ -35,9 +35,49 @@ Counts follow from the schema and code; none was observed in a database.
 
 Poll values per cycle equal the `poller_item` count: 4,500 and 18,000. At a 300-second interval that is 15 and 60 values per second on average, matching the plan.
 
-## Reader cost (plan's assumption, still unmeasured)
+## Reader cost (plan's assumption; parsing and caching measured below, SSH still unmeasured)
 
 The plan assumes 16 targets per server, 125 node reads per cycle for 2,000 targets, two seconds per read, and a concurrency of eight, giving about 30 seconds. These are assumptions, not measurements; the number of targets per server on real sites and the read latency of the chosen node source ([node-privileges.md](node-privileges.md)) are *live*.
+
+## Container measurement (milestone 4)
+
+Run 2026-11-15 with `tests/bin/scale-replay.sh` (driver `tests/bin/scale-flow.php`) for [#52](https://github.com/somethingwithproof/plugin_pfs/issues/52).
+
+**Machine caveat.** One container on a developer laptop: Apple M3 Max, 14 CPUs and 16 GiB given to the OrbStack Linux VM, PHP 8.2.35 CLI, MariaDB in a second container on the same host, Cacti 1.2.31 with `cmd.php`, one process, no boost, no Spine. Node answers are generated fixtures served in process, so no SSH, network, or Lustre time is included. These numbers show how the plugin's own work grows with the target count on this machine; they are not a capacity claim and do not replace the live check in #23.
+
+Each filesystem has N OSTs on N/16 OSS nodes (16 OSTs per OSS) and one MDS with one MDT. One per-target capacity graph is created for every OST, which is one of the three per-OST graphs; graphing throughput and inodes as well would roughly triple the data source, `poller_item`, and RRD counts.
+
+| Measurement | 500 OSTs | 2,000 OSTs |
+|---|---|---|
+| Nodes read | 33 | 126 |
+| Reader run, steady state (s) | 0.25 | 0.91 |
+| Reader run, first (s) | 0.45 | 0.86 |
+| Reader peak memory (MiB) | 18 | 42 |
+| Create the device and index both queries (s) | 1.05 | 1.11 |
+| Indexes in `host_snmp_cache` | 501 | 2,001 |
+| Data query `index`, first call, empty cache (ms) | 7.6 | 29.6 |
+| Data query `query` for one field, cached (ms) | 2.6 | 10.2 |
+| Data query `get`, per call, cached (ms) | 0.088 | 0.327 |
+| Summary script, per call, cached (ms) | 0.069 | 0.072 |
+| Summary script, new instance with an empty cache, same process (ms) | 0.088 | 0.094 |
+| Create one capacity graph per OST (s) | 25.4 | 158.1 |
+| Forced poller run, first, creating RRD files (s, whole seconds) | 2 | 6 |
+| Forced poller run, second (s, whole seconds) | 2 | 3 |
+| `data_local` | 505 | 2,005 |
+| `data_template_rrd` | 1,580 | 6,080 |
+| `graph_local` | 505 | 2,005 |
+| `poller_item` | 1,505 | 6,005 |
+| `host_snmp_cache` | 1,002 | 4,002 |
+| RRD files on disk after two polls | 505 | 2,004 |
+| Plugin observation rows | 4,525 | 18,025 |
+
+Readings:
+
+- The 5 extra data sources and graphs are the overview graphs' summary data sources; each per-target capacity data source has 3 items, so `poller_item` is 3 per OST plus 5.
+- The summary script answers in under 0.1 ms per call at 2,000 targets, against the plan's 50 ms budget for it. The data query `get` stays under 0.4 ms per call once its 30 second cache is filled; the first `index` call, which loads every target, takes about 30 ms.
+- Creating graphs is the largest cost and is Cacti's own: about 0.08 s per graph at 2,000 targets, against 0.05 s at 500. Operators who graph every OST should expect minutes, once.
+- One RRD file of the 2,005 was missing after two polls at 2,000 targets; which one was not recorded. Rerun with the file list before relying on the count.
+- Reader time excludes SSH. With real nodes the reader's time is dominated by the slowest node and the parallelism setting, not by parsing.
 
 ## Limits
 
