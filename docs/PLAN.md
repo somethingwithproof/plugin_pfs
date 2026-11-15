@@ -228,7 +228,16 @@ Two boundaries (ADR 0003):
 | Summary data source | "Parallel Filesystem Summary" data template using a script server input | Polled; reaches Thold through `poller_output` |
 | Graphs | Graph templates for capacity and fill, imbalance, per-target capacity, per-OST throughput, per-MDT operation rates | Placed in graph trees and protected by graph permissions |
 
-Templates ship as Cacti template XML, imported with `import_xml_data()` at install and upgrade and matched by hash so re-import updates rather than duplicates. The data query XML is installed under `resource/script_server/`. One device per filesystem was decided in [ADR 0010](decisions/0010-one-device-per-filesystem.md): a target that fails over keeps its index on the same device, so its history never moves between devices.
+Templates ship as Cacti template XML, imported with `import_xml_data()` at install and upgrade and matched by hash so re-import updates rather than duplicates. The XML is Cacti's own export of templates built in a disposable Cacti (`tests/bin/build-templates.php`), never edited by hand.
+
+Milestone 3 implementation notes, where the build differs from or adds to the text above:
+
+- **Query files are copied into Cacti.** Cacti 1.2.31 and 1.2.x read a data query XML only from inside `<path_cacti>/resource` and resolve symlinks before checking, so the plugin copies `pfs_osts.xml` and `pfs_mdts.xml` to `<path_cacti>/resource/script_server/` at install and records the SHA-256 of each file it wrote. It never replaces or removes a file it did not write or that was changed since, and uninstall removes only unchanged files. If the web server user cannot write that directory, the install records the failure, the health page shows it with the manual copy, and the plugin's own pages and reader keep working. A remote data collector needs the same files (phase 2).
+- **Two data queries.** OSTs and MDTs carry different values, so each type is its own data query ("Parallel Filesystem OSTs", "Parallel Filesystem MDTs") on the one filesystem device.
+- **One data template per per-target graph.** Cacti stores in an RRD file only the values some graph draws when the file is created, and 1.2 never adds a data source to an existing file. A data source shared by graphs created at different times would leave the later graph empty, so each per-target graph template has a data template holding exactly the values it draws. Script server calls stay one per value per target.
+- **One summary data source per overview graph.** Cacti gives each graph that is not from a data query its own data source. Each summary data source is one script server call per cycle returning every summary value, and every summary value is drawn on one of the five overview graphs, so each can carry a Thold threshold.
+- **The summary is computed by the reader**, in the same transaction as the observations it uses, and stored in `plugin_pfs_summary` (schema version 2, which also adds `plugin_pfs_filesystem.host_id`). Partial sums are unknown, and an aggregate counter whose member set changed reads unknown for that run.
+- **Deleting a device unmaps its filesystem** (the `device_remove` hook); deleting a filesystem keeps its device, data sources, and graphs. A mapped device moved to another poller is reported on the health page, not changed back. One device per filesystem was decided in [ADR 0010](decisions/0010-one-device-per-filesystem.md): a target that fails over keeps its index on the same device, so its history never moves between devices.
 
 ## Counter semantics
 
@@ -426,7 +435,7 @@ A compromised node can return hostile data, so parsing and escaping are the cont
 | Repository and name | `Cacti/plugin_pfs`, `Cacti/plugin_lustre`, or community plugin | Before any code is published | Cacti maintainers |
 | Test harness | Whatever maintained plugins use | Milestone 2 | Cacti maintainers |
 | Filesystem device model | One device per filesystem; per server host; per target | Milestone 3 | Decided 2026-11-15 (#11): one device per filesystem, targets as data query indexes ([ADR 0010](decisions/0010-one-device-per-filesystem.md)) |
-| Default graph set | Overview plus on-demand per-target; per-target for all; plugin view | Milestone 3 | Decided 2026-11-15 (#12): five overview graphs per filesystem from one summary data source, per-target graphs on demand ([ADR 0011](decisions/0011-overview-graphs-by-default-targets-on-demand.md)) |
+| Default graph set | Overview plus on-demand per-target; per-target for all; plugin view | Milestone 3 | Decided 2026-11-15 (#12): five overview graphs per filesystem, each with its own summary data source as Cacti creates them, per-target graphs on demand ([ADR 0011](decisions/0011-overview-graphs-by-default-targets-on-demand.md)) |
 | Job views | Bounded top-N table; prefix aggregation; external store | Phase 2 | Research and pilots |
 | Observed clients | Named and sampled clients; server-side per-export statistics; all clients | Phase 2 | Access decision |
 | Privilege model for GPFS and BeeGFS | Fixed node wrapper; product-native export; direct shell | Phase 3 | Security review |

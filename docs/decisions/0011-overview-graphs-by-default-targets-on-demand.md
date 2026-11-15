@@ -17,19 +17,19 @@ The script server answers one call at a time per process. Its per-call cost agai
 
 ## Decision
 
-Creating a filesystem device creates five overview graphs from one "Parallel Filesystem Summary" data source:
+Creating a filesystem device creates five overview graphs, each from a "Parallel Filesystem Summary" data source of its own:
 
-- fill (maximum, mean, and minimum OST used percentage, with the count of targets left out);
+- fill (maximum, mean, and minimum OST used percentage, with the counts of targets, targets left out, and unhealthy targets);
 - imbalance (spread);
 - capacity;
 - aggregate OST throughput;
 - aggregate MDT operations.
 
-The summary is one script server call per poll cycle, whatever the target count. The OST and MDT data queries list every target as an index. No per-target data source or graph exists until an administrator creates it on Cacti's New Graphs page, or enables a Cacti automation rule for these queries.
+Cacti gives each graph that does not come from a data query its own data source, and stores in an RRD file only the values a graph draws. Each summary data source is one script server call per poll cycle that returns every summary value, whatever the target count, and Cacti keeps the values its graph draws. Every summary value is drawn on one of the five graphs, so each can carry a Thold threshold. The OST and MDT data queries list every target as an index. No per-target data source or graph exists until an administrator creates it on Cacti's New Graphs page, or enables a Cacti automation rule for these queries.
 
 ## Consequences
 
-- A new filesystem costs one data source, one RRD file, one script server call per cycle, and five graphs, independent of its size.
+- A new filesystem costs five data sources, five RRD files, five script server calls per cycle, and five graphs, independent of its size. Sharing one data source among graphs that are not from a data query would mean editing Cacti's graph items behind its API, which this plugin does not do.
 - Per-target cost is paid only for the targets an administrator chooses. The scale measurement in #23 decides how many per-target data sources one poller can carry.
 - The summary is computed by the reader from its cache, so the overview does not depend on any per-target data source existing.
 - Aggregates that would be partial are unknown, as ADR 0005 requires, and the number of contributors is published beside them.
