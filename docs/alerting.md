@@ -21,7 +21,7 @@ Per-target gauges (capacity, inodes) can be thresholded the same way from per-ta
 ## Durations
 
 - Set the threshold's fail trigger to at least one poll. The reader and the Cacti poller run on their own schedules, so a value can be one interval old when Cacti polls it.
-- A value that is unknown (`U`) never breaches a high or low threshold. In Thold 1.8.2's source an unknown value takes the not-breached path, so a breached threshold logs a restoral on a gap (read in `thold_check_threshold()`, not exercised end to end). Missing and stale data show up in `targets_missing` and `age`, which stay numeric, so alert on those rather than on a gap.
+- A value that is unknown (`U`) never breaches a high or low threshold. In Thold 1.8.2's source an unknown value takes the not-breached path, so a breached threshold logs a restoral on a gap (read in `thold_check_threshold()`, not exercised end to end). A missing target shows up in `targets_missing` while the summary is current. When reads stop and the summary goes stale, every value but `age` is served as `U`, `targets_missing` included, so `age` is the one that alerts on a read outage; alert on these rather than on a gap.
 - A counter reset produces one unknown interval on the counter's graph.
 
 ## Maintenance

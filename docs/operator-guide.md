@@ -89,7 +89,7 @@ To restore, stop the pollers, restore the database and the RRD directory from th
 
 1. Optional: export the registry from Parallel Filesystem Admin.
 2. Disable, then uninstall the plugin in Configuration, Plugins.
-3. Uninstall removes the plugin's hooks and realms and the data query file copies it wrote and that are unchanged. The imported templates stay in Cacti, like any imported template, so existing devices and graphs keep working. With **Keep Plugin Tables on Uninstall** checked (the default) the tables stay; clear it to drop them. Devices, data sources, graphs, and RRD files you created stay in Cacti and are yours to remove.
+3. Uninstall removes the plugin's hooks and realms and the data query file copies it wrote and that are unchanged. Removing the `poller_bottom` hook stops the reader, so nothing collects node values after uninstall: existing graphs keep their history but stop updating, and their newest values become unknown. The imported templates stay in Cacti, like any imported template, and so do the devices, data sources, and graphs made from them. With **Keep Plugin Tables on Uninstall** checked (the default) the tables stay; clear it to drop them. Devices, data sources, graphs, and RRD files you created stay in Cacti and are yours to remove.
 4. On each node, remove the reader's `authorized_keys` line, the read script, and the account. Storage nodes are never contacted by the uninstall.
 
 ## Troubleshooting
