@@ -46,8 +46,8 @@ Each filesystem is one Cacti device. Its targets (OSTs and MDTs) are the indexes
 |---|---|---|
 | Fill (overview) | Maximum, mean, and minimum OST used percentage, spread (maximum minus minimum), targets total, missing, and unhealthy | No OST has a current capacity reading |
 | Capacity (overview) | Filesystem total and available kilobytes | Any OST is missing or stale, so the total would be partial |
-| Throughput (overview) | Filesystem read and write bytes per second | Any OST is missing, stale, unhealthy without its counter, or reset in the interval |
-| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together | Any MDT is missing, stale, or reset in the interval |
+| Throughput (overview) | Filesystem read and write bytes per second, and the read and write rate gauges for alerts (printed under the graph) | Any OST is missing, stale, unhealthy without its counter, or reset in the interval; the rate gauges also for one or two polls after a reset |
+| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together, and the operation rate gauge for alerts | Any MDT is missing, stale, or reset in the interval; the rate gauge also for one or two polls after a reset |
 | Data age (overview) | Seconds since the oldest observation behind the summary, and contributor counts | Never observed |
 | OST Capacity, Inodes, Throughput (per target) | Used and available, inodes, read and write bytes per second and operations per second | The target is missing, stale, or the node did not print the value |
 | MDT Capacity, Operations (per target) | Used and available, inodes, operations per second by operation | Same |
@@ -57,7 +57,7 @@ Rules behind the table:
 - **Used percentage** follows `lfs df`: used over used plus available, rounded up.
 - **Unknown is a gap, never zero.** A missing target, a failed read, or a value the node did not print is drawn as a gap.
 - **Counters** are stored raw as DERIVE with minimum 0. A reset (a decrease, a changed `start_time`, a different node answering after failover, or an unknown previous value) makes exactly one interval unknown.
-- **Freshness.** A value is current while its age is at most one and a half intervals, delayed up to three, and stale after that. Gauges are served while current or delayed; counters only while current, so a missed read is a gap and not a flat line followed by a doubled rate.
+- **Freshness.** A value is current while its age is at most one and a half intervals, delayed up to three, and stale after that. Gauges are served while current or delayed; counters and the summary's rate gauges only while current, so a missed read is a gap and not a flat line followed by a doubled rate.
 - **Idle targets.** Lustre does not print a counter that has never counted since its start time. The filesystem sums count it as zero for a target that is present, in service, and reported its other values in that read; the per-target graph still shows a gap ([ADR 0013](decisions/0013-absent-counter-lines-count-as-zero-in-sums.md)).
 - **Target set changes.** When a target joins or leaves a sum, that sum is unknown for one poll, so its whole history is not drawn as one interval.
 - **Missing targets** keep their index, data sources, and history until an administrator ignores them in the registry.
