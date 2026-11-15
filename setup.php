@@ -160,10 +160,15 @@ function plugin_pfs_upgrade(bool $grant = false): bool {
 		return false;
 	}
 
-	$info   = plugin_pfs_version();
-	$schema = new \Somethingwithproof\Pfs\Schema(false);
+	$info      = plugin_pfs_version();
+	$schema    = new \Somethingwithproof\Pfs\Schema(false);
+	$templates = pfs_template_installer();
 
-	if ($schema->isCurrent() && $schema->recordedPluginVersion() === $info['version'] && $schema->hooksRegistered()) {
+	// A template install that failed for this template version is retried
+	// only from the Plugins page or the health page, not on every request.
+	$templatesSettled = $templates->isCurrent() || ($templates->failure() !== '' && !$grant);
+
+	if ($schema->isCurrent() && $schema->recordedPluginVersion() === $info['version'] && $schema->hooksRegistered() && $templatesSettled) {
 		return true;
 	}
 
@@ -175,9 +180,59 @@ function plugin_pfs_upgrade(bool $grant = false): bool {
 
 	pfs_setup_hooks($grant);
 
+	// A missing template only stops device provisioning, which the health
+	// page reports; the plugin's own pages and reader still work.
+	if (!$templates->isCurrent() && ($grant || $templates->failure() === '')) {
+		$templates->install();
+	}
+
 	$schema->recordPluginVersion($info['version'], $info['author'], $info['homepage']);
 
 	return true;
+}
+
+function pfs_template_installer(): \Somethingwithproof\Pfs\TemplateInstaller {
+	global $config;
+
+	return new \Somethingwithproof\Pfs\TemplateInstaller(__DIR__, $config['base_path'], new \Somethingwithproof\Pfs\CactiObjectRepository(false));
+}
+
+function pfs_provisioner(): \Somethingwithproof\Pfs\DeviceProvisioner {
+	global $config;
+
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\DeviceProvisioner(
+		new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		new \Somethingwithproof\Pfs\TargetRepository(false),
+		new \Somethingwithproof\Pfs\CactiObjectRepository(false),
+		\Somethingwithproof\Pfs\BackendRegistry::production(),
+		$config['base_path']
+	);
+}
+
+/**
+ * The data query answerer used by scripts/ss_pfs_targets.php.
+ */
+function pfs_target_query(): \Somethingwithproof\Pfs\TargetQuery {
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\TargetQuery(
+		new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		new \Somethingwithproof\Pfs\TargetRepository(false),
+		new \Somethingwithproof\Pfs\ObservationRepository(false),
+		\Somethingwithproof\Pfs\BackendRegistry::production(),
+		$clock
+	);
+}
+
+/**
+ * The summary answerer used by scripts/ss_pfs_summary.php.
+ */
+function pfs_summary_script(): \Somethingwithproof\Pfs\SummaryScript {
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\SummaryScript(new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock), new \Somethingwithproof\Pfs\SummaryRepository(false), $clock);
 }
 
 /**
@@ -219,6 +274,10 @@ function plugin_pfs_uninstall(): void {
 	}
 
 	$schema = new \Somethingwithproof\Pfs\Schema(false);
+
+	// Removes only the query files the plugin wrote and nobody changed. The
+	// templates, devices, data sources, and graphs stay: they are the site's.
+	pfs_template_installer()->uninstall();
 
 	if (pfs_settings()->keepTablesOnUninstall) {
 		$schema->untrackTables();
@@ -266,6 +325,85 @@ function pfs_draw_navigation_text($nav) {
 	}
 
 	return array_merge($nav, \Somethingwithproof\Pfs\Pages::navigation());
+}
+
+/**
+ * device_remove hook: a deleted device no longer carries a filesystem. The
+ * filesystem, its nodes, its targets, and the reader's cache stay, and other
+ * devices are untouched (REQ-DEV-004).
+ *
+ * @param mixed $hostIds
+ * @return mixed
+ */
+function pfs_device_remove($hostIds) {
+	if (!pfs_boot()) {
+		return $hostIds;
+	}
+
+	$ids = array();
+
+	foreach (is_array($hostIds) ? $hostIds : array($hostIds) as $id) {
+		if (is_numeric($id) && (int) $id > 0) {
+			$ids[] = (int) $id;
+		}
+	}
+
+	$count = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($ids);
+
+	if ($count > 0) {
+		\Somethingwithproof\Pfs\Log::info(sprintf('%d filesystems lost their device when it was deleted; they can be given a device again from the registry', $count));
+	}
+
+	return $hostIds;
+}
+
+/**
+ * api_device_new hook, which Cacti runs after every device save: a mapped
+ * device moved to another poller than its filesystem's is reported, not
+ * changed back (REQ-DEV-003, REQ-DEV-004). The health page shows it.
+ *
+ * @param mixed $save
+ * @return mixed
+ */
+function pfs_api_device_new($save) {
+	if (!pfs_boot() || !is_array($save) || !isset($save['id']) || !is_numeric($save['id'])) {
+		return $save;
+	}
+
+	$filesystem = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->findByHost((int) $save['id']);
+	$poller     = isset($save['poller_id']) && is_numeric($save['poller_id']) ? (int) $save['poller_id'] : 0;
+
+	if ($filesystem !== null && $poller > 0 && $poller !== $filesystem->pollerId) {
+		\Somethingwithproof\Pfs\Log::warning(sprintf('Device %d of filesystem %d is now polled by poller %d, but the filesystem is read by poller %d', (int) $save['id'], $filesystem->id, $poller, $filesystem->pollerId));
+	}
+
+	return $save;
+}
+
+/**
+ * graph_buttons hook: link a filesystem device's graphs to the plugin's
+ * view of the filesystem, for users with the view realm (REQ-GRAPH-004).
+ *
+ * @param mixed $data
+ * @return mixed
+ */
+function pfs_graph_buttons($data) {
+	global $config;
+
+	if (!pfs_boot() || !api_plugin_is_enabled('pfs') || !api_plugin_user_realm_auth('pfs.php')) {
+		return $data;
+	}
+
+	$payload = is_array($data) && isset($data[1]) && is_array($data[1]) ? $data[1] : array();
+	$graphId = isset($payload['local_graph_id']) && is_numeric($payload['local_graph_id']) ? (int) $payload['local_graph_id'] : 0;
+	$links   = new \Somethingwithproof\Pfs\GraphLinks(new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()), new \Somethingwithproof\Pfs\CactiObjectRepository(false));
+	$fs      = $links->filesystemFor($graphId);
+
+	if ($fs !== null) {
+		print \Somethingwithproof\Pfs\GraphLinks::html($config['url_path'], $fs);
+	}
+
+	return $data;
 }
 
 /**
@@ -329,6 +467,7 @@ function pfs_reader_with(int $pollerId, \Somethingwithproof\Pfs\NodeSources $sou
 		new \Somethingwithproof\Pfs\NodeHealthRepository(false),
 		new \Somethingwithproof\Pfs\ReaderRepository(false, $clock),
 		new \Somethingwithproof\Pfs\CacheRepository(false),
+		new \Somethingwithproof\Pfs\SummaryRepository(false),
 		\Somethingwithproof\Pfs\BackendRegistry::production(),
 		$sources,
 		$clock,

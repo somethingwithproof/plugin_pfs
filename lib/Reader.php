@@ -45,6 +45,7 @@ final class Reader {
 		private readonly NodeHealthRepository $health,
 		private readonly ReaderRepository $runs,
 		private readonly CacheRepository $cache,
+		private readonly SummaryRepository $summaries,
 		private readonly BackendRegistry $backends,
 		private readonly NodeSources $sources,
 		private readonly Clock $clock,
@@ -238,9 +239,57 @@ final class Reader {
 			Log::warning(sprintf('Filesystem %d: %d target names from node output were rejected', $filesystem->id, $rejected));
 		}
 
-		if (!$this->cache->apply($pollerId, $this->holder, $now, $filesystem, $writes, $records)) {
+		$summary = SummaryCalculator::calculate(self::summaryTargets($existing, $plan->updates, $previous, $writes), $this->summaries->find($filesystem->id), $filesystem->interval, $now);
+
+		if (!$this->cache->apply($pollerId, $this->holder, $now, $filesystem, $writes, $records, $summary)) {
 			Log::warning(sprintf('Filesystem %d: results discarded because the reader lease was lost', $filesystem->id));
 		}
+	}
+
+	/**
+	 * The filesystem's targets as they stand once this run's writes are
+	 * applied: stored targets overlaid with this run's decisions, and stored
+	 * observations overlaid with this run's values.
+	 *
+	 * @param array<string, Target>                                               $existing
+	 * @param iterable<TargetUpdate>                                              $updates
+	 * @param array<int, array<string, Observation>>                              $previous
+	 * @param list<array{update: TargetUpdate, observations: list<Observation>}> $writes
+	 *
+	 * @return list<SummaryTarget>
+	 */
+	private static function summaryTargets(array $existing, iterable $updates, array $previous, array $writes): array {
+		$targets = [];
+
+		foreach ($existing as $name => $target) {
+			$targets[$name] = new SummaryTarget($target->targetId, $target->review, $target->presence, $target->condition, $previous[$target->id] ?? []);
+		}
+
+		foreach ($updates as $update) {
+			$name      = $update->id->name();
+			$before    = $targets[$name] ?? null;
+			$condition = $update->report->condition ?? ($update->presence === Presence::Missing ? ($before->condition ?? Condition::Unknown) : Condition::Unknown);
+
+			$targets[$name] = new SummaryTarget($update->id, $update->existing->review ?? Review::Proposed, $update->presence, $condition, $before->values ?? []);
+		}
+
+		foreach ($writes as $write) {
+			$name = $write['update']->id->name();
+
+			if (!isset($targets[$name])) {
+				continue;
+			}
+
+			$values = $targets[$name]->values;
+
+			foreach ($write['observations'] as $observation) {
+				$values[$observation->metric] = $observation;
+			}
+
+			$targets[$name] = new SummaryTarget($targets[$name]->id, $targets[$name]->review, $targets[$name]->presence, $targets[$name]->condition, $values);
+		}
+
+		return array_values($targets);
 	}
 
 	/**

@@ -108,7 +108,7 @@ if (!$supported && ($preexisting['status'] == 1 || $preexisting['hooks'] > 0)) {
 
 	if ($supported) {
 		guard_expect($state['status'] == 1, 'install and enable succeed (status ' . $state['status'] . ')');
-		guard_expect($state['tables'] === 7, 'all seven plugin tables exist (' . $state['tables'] . ')');
+		guard_expect($state['tables'] === 8, 'all eight plugin tables exist (' . $state['tables'] . ')');
 		guard_expect($state['hooks'] >= 3 && $state['realms'] === 2, 'hooks and realms are registered');
 	} else {
 		guard_expect($state['status'] == 2, 'plugin is left as needing configuration, not enabled (status ' . $state['status'] . ')');

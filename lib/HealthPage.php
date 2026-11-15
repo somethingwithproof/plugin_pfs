@@ -39,7 +39,10 @@ final class HealthPage {
 	) {
 	}
 
-	public function render(Settings $settings): void {
+	/**
+	 * @param list<string> $objectWarnings from HealthWarnings::objects()
+	 */
+	public function render(Settings $settings, array $objectWarnings = []): void {
 		$filesystems = [];
 
 		foreach ($this->filesystems->all() as $filesystem) {
@@ -53,7 +56,7 @@ final class HealthPage {
 
 		html_start_box(__('Parallel Filesystem Warnings', 'pfs'), '100%', '', '3', 'center', '');
 
-		$warnings = $this->warnings->for($settings, $nodes, $health, $runs, $filesystems);
+		$warnings = array_merge($objectWarnings, $this->warnings->for($settings, $nodes, $health, $runs, $filesystems));
 
 		foreach ($warnings as $warning) {
 			print '<tr><td class="textError">' . html_escape($warning) . '</td></tr>';
@@ -61,6 +64,12 @@ final class HealthPage {
 
 		if ($warnings === []) {
 			print '<tr><td>' . html_escape(__('No warnings.', 'pfs')) . '</td></tr>';
+		}
+
+		if ($objectWarnings !== []) {
+			print '<tr><td><form method="post" action="' . html_escape(self::FILE) . '" style="display:inline">'
+				. '<input type="hidden" name="action" value="reinstall_templates">'
+				. '<input type="submit" class="ui-button" value="' . html_escape(__('Install the Templates Again', 'pfs')) . '"></form></td></tr>';
 		}
 
 		html_end_box();

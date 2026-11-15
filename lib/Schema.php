@@ -35,13 +35,16 @@ namespace Somethingwithproof\Pfs;
  * (REQ-LIFE-006).
  */
 final class Schema {
-	public const VERSION = 1;
+	public const VERSION = 2;
 
 	public const HOOKS = [
 		'config_arrays'        => 'pfs_config_arrays',
 		'config_settings'      => 'pfs_config_settings',
 		'draw_navigation_text' => 'pfs_draw_navigation_text',
 		'poller_bottom'        => 'pfs_poller_bottom',
+		'device_remove'        => 'pfs_device_remove',
+		'api_device_new'       => 'pfs_api_device_new',
+		'graph_buttons'        => 'pfs_graph_buttons',
 	];
 
 	private const PLUGIN  = 'pfs';
@@ -129,6 +132,12 @@ final class Schema {
 	private function migrations(): array {
 		return [
 			1 => fn (): bool => $this->createTables(self::tables()),
+			// Milestone 3: the device each filesystem maps to (ADR 0010) and
+			// the stored summary (ADR 0011). A fresh install already has both
+			// from migration 1, which creates the current definitions.
+			2 => fn (): bool => $this->addColumn('plugin_pfs_filesystem', 'host_id', 'int(10) unsigned NOT NULL DEFAULT 0', 'admin_state')
+				&& $this->addIndex('plugin_pfs_filesystem', 'host_id', 'host_id')
+				&& $this->createTables(['plugin_pfs_summary' => self::tables()['plugin_pfs_summary']]),
 		];
 	}
 
@@ -165,6 +174,34 @@ final class Schema {
 		return true;
 	}
 
+	/**
+	 * Add a column to a plugin table unless it is there. Written directly
+	 * rather than through api_plugin_db_add_column(), which records the
+	 * column for removal on uninstall even when the tables are kept.
+	 */
+	private function addColumn(string $table, string $column, string $definition, string $after): bool {
+		if (!$this->columnExists($table, $column)) {
+			// Identifiers cannot be bound; every argument is a constant of this class.
+			db_execute_prepared("ALTER TABLE `$table` ADD COLUMN `$column` $definition AFTER `$after`", [], true, $this->connection);
+		}
+
+		return $this->columnExists($table, $column);
+	}
+
+	private function addIndex(string $table, string $index, string $column): bool {
+		$exists = static fn (\PDO|false $connection): bool => (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.STATISTICS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND INDEX_NAME = ?', [$table, $index], '', true, $connection) > 0;
+
+		if (!$exists($this->connection)) {
+			db_execute_prepared("ALTER TABLE `$table` ADD INDEX `$index` (`$column`)", [], true, $this->connection);
+		}
+
+		return $exists($this->connection);
+	}
+
+	private function columnExists(string $table, string $column): bool {
+		return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ? AND COLUMN_NAME = ?', [$table, $column], '', true, $this->connection) > 0;
+	}
+
 	private function tableExists(string $table): bool {
 		return db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?', [$table], '', true, $this->connection) > 0;
 	}
@@ -194,11 +231,13 @@ final class Schema {
 					$id('poller_id') + ['default' => '1'],
 					$id('expected_interval') + ['default' => '300'],
 					$text('admin_state', 16, 'enabled'),
+					$id('host_id') + ['default' => '0'],
 					$time('created_at'),
 					$time('updated_at'),
 				],
 				'primary'     => 'id',
 				'unique_keys' => [['name' => 'backend_name', 'columns' => ['backend', 'name']]],
+				'keys'        => [['name' => 'host_id', 'columns' => ['host_id']]],
 			],
 			// Endpoint and login name only; the key is a file on the poller.
 			'plugin_pfs_node' => $innodb + [
@@ -284,6 +323,20 @@ final class Schema {
 					$id('rejected_names') + ['default' => '0'],
 				],
 				'primary' => 'node_id',
+			],
+			// The summary the data source serves, one row per value. members
+			// hashes the set summed into an aggregate counter (ADR 0011).
+			'plugin_pfs_summary' => $innodb + [
+				'comment' => 'Filesystem summary values',
+				'columns' => [
+					$id('filesystem_id'),
+					$text('metric', 19),
+					['name' => 'value', 'type' => 'double', 'NULL' => true],
+					$text('members', 40),
+					$time('observed_at'),
+					$time('computed_at'),
+				],
+				'primary' => 'filesystem_id`,`metric',
 			],
 			// One row per poller: the run lease and the last run's counts.
 			'plugin_pfs_reader' => $innodb + [

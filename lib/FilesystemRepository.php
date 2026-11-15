@@ -46,6 +46,57 @@ final class FilesystemRepository {
 		return $out;
 	}
 
+	public function findByHost(int $hostId): ?Filesystem {
+		if ($hostId <= 0) {
+			return null;
+		}
+
+		$row = db_fetch_row_prepared('SELECT * FROM plugin_pfs_filesystem WHERE host_id = ? ORDER BY id LIMIT 1', [$hostId], true, $this->connection);
+
+		return is_array($row) ? Filesystem::fromRow($row) : null;
+	}
+
+	/**
+	 * Map a filesystem to a Cacti device. A device carries at most one
+	 * filesystem, so a device already mapped elsewhere is refused.
+	 */
+	public function mapHost(int $filesystemId, int $hostId): bool {
+		if ($hostId <= 0 || $this->find($filesystemId) === null) {
+			return false;
+		}
+
+		$other = $this->findByHost($hostId);
+
+		if ($other !== null && $other->id !== $filesystemId) {
+			return false;
+		}
+
+		return db_execute_prepared('UPDATE plugin_pfs_filesystem SET host_id = ?, updated_at = ? WHERE id = ?', [$hostId, $this->clock->now(), $filesystemId], true, $this->connection);
+	}
+
+	/**
+	 * Forget the device of every filesystem mapped to one of these devices,
+	 * for the device_remove hook. Nodes, targets, and history stay.
+	 *
+	 * @param list<int> $hostIds
+	 */
+	public function unmapHosts(array $hostIds): int {
+		$hostIds = array_values(array_unique(array_filter($hostIds, static fn (int $id): bool => $id > 0)));
+
+		if ($hostIds === []) {
+			return 0;
+		}
+
+		$placeholders = implode(', ', array_fill(0, count($hostIds), '?'));
+		$count        = (int) db_fetch_cell_prepared("SELECT COUNT(*) FROM plugin_pfs_filesystem WHERE host_id IN ($placeholders)", $hostIds, '', true, $this->connection);
+
+		if ($count > 0) {
+			db_execute_prepared("UPDATE plugin_pfs_filesystem SET host_id = 0, updated_at = ? WHERE host_id IN ($placeholders)", array_merge([$this->clock->now()], $hostIds), true, $this->connection);
+		}
+
+		return $count;
+	}
+
 	public function nameTaken(string $backend, string $name, int $exceptId): bool {
 		return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_filesystem WHERE backend = ? AND name = ? AND id != ?', [$backend, $name, $exceptId], '', true, $this->connection) > 0;
 	}
@@ -84,6 +135,7 @@ final class FilesystemRepository {
 
 		$statements = [
 			['DELETE o FROM plugin_pfs_observation o INNER JOIN plugin_pfs_target t ON t.id = o.target_id WHERE t.filesystem_id = ?', [$id]],
+			['DELETE FROM plugin_pfs_summary WHERE filesystem_id = ?', [$id]],
 			['DELETE FROM plugin_pfs_target WHERE filesystem_id = ?', [$id]],
 			['DELETE h FROM plugin_pfs_node_health h INNER JOIN plugin_pfs_node n ON n.id = h.node_id WHERE n.filesystem_id = ?', [$id]],
 			['DELETE FROM plugin_pfs_node WHERE filesystem_id = ?', [$id]],

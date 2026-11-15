@@ -20,7 +20,8 @@
 /*
  * Parallel Filesystems (Parallel Filesystem View realm). Parses on PHP 8.0;
  * pfs_page_start() refuses an unsupported runtime before any plugin class
- * loads. Reads the cache only.
+ * loads. Reads the cache only. A user without the admin realm sees only
+ * filesystems whose device Cacti lets them see, checked on this request.
  */
 
 chdir('../../');
@@ -38,7 +39,11 @@ $pfs_page  = new \Somethingwithproof\Pfs\TargetsPage(
 	new \Somethingwithproof\Pfs\TargetRepository(false),
 	new \Somethingwithproof\Pfs\ObservationRepository(false),
 	new \Somethingwithproof\Pfs\FreshnessEvaluator($pfs_clock),
-	$pfs_clock
+	$pfs_clock,
+	api_plugin_user_realm_auth('pfs_admin.php'),
+	function ($host_id) {
+		return is_device_allowed($host_id);
+	}
 );
 
 top_header();

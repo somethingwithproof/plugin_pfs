@@ -1,0 +1,154 @@
+<interface>
+	<name>Parallel Filesystem MDTs</name>
+	<description>Metadata targets (MDTs) of a parallel filesystem, answered from the plugin cache</description>
+	<script_path>|path_cacti|/plugins/pfs/scripts/ss_pfs_targets.php</script_path>
+	<script_function>ss_pfs_targets</script_function>
+	<script_server>php</script_server>
+	<arg_prepend>|host_id| mdt</arg_prepend>
+	<arg_index>index</arg_index>
+	<arg_query>query</arg_query>
+	<arg_get>get</arg_get>
+	<arg_num_indexes>num_indexes</arg_num_indexes>
+	<output_delimiter>!</output_delimiter>
+	<index_order>pfsName</index_order>
+	<index_order_type>alphabetic</index_order_type>
+	<index_title_format>|chosen_order_field|</index_title_format>
+
+	<fields>
+		<pfsName>
+			<name>Target</name>
+			<direction>input</direction>
+			<query_name>name</query_name>
+		</pfsName>
+		<pfsIndex>
+			<name>Target Index</name>
+			<direction>input</direction>
+			<query_name>number</query_name>
+		</pfsIndex>
+		<kbytes_total>
+			<name>Total Space (KiB)</name>
+			<direction>output</direction>
+			<query_name>kbytes_total</query_name>
+		</kbytes_total>
+		<kbytes_free>
+			<name>Free Space (KiB)</name>
+			<direction>output</direction>
+			<query_name>kbytes_free</query_name>
+		</kbytes_free>
+		<kbytes_avail>
+			<name>Available Space (KiB)</name>
+			<direction>output</direction>
+			<query_name>kbytes_avail</query_name>
+		</kbytes_avail>
+		<files_total>
+			<name>Total Inodes</name>
+			<direction>output</direction>
+			<query_name>files_total</query_name>
+		</files_total>
+		<files_free>
+			<name>Free Inodes</name>
+			<direction>output</direction>
+			<query_name>files_free</query_name>
+		</files_free>
+		<md_open>
+			<name>Metadata open Operations</name>
+			<direction>output</direction>
+			<query_name>md_open</query_name>
+		</md_open>
+		<md_close>
+			<name>Metadata close Operations</name>
+			<direction>output</direction>
+			<query_name>md_close</query_name>
+		</md_close>
+		<md_mknod>
+			<name>Metadata mknod Operations</name>
+			<direction>output</direction>
+			<query_name>md_mknod</query_name>
+		</md_mknod>
+		<md_link>
+			<name>Metadata link Operations</name>
+			<direction>output</direction>
+			<query_name>md_link</query_name>
+		</md_link>
+		<md_unlink>
+			<name>Metadata unlink Operations</name>
+			<direction>output</direction>
+			<query_name>md_unlink</query_name>
+		</md_unlink>
+		<md_mkdir>
+			<name>Metadata mkdir Operations</name>
+			<direction>output</direction>
+			<query_name>md_mkdir</query_name>
+		</md_mkdir>
+		<md_rmdir>
+			<name>Metadata rmdir Operations</name>
+			<direction>output</direction>
+			<query_name>md_rmdir</query_name>
+		</md_rmdir>
+		<md_rename>
+			<name>Metadata rename Operations</name>
+			<direction>output</direction>
+			<query_name>md_rename</query_name>
+		</md_rename>
+		<md_getattr>
+			<name>Metadata getattr Operations</name>
+			<direction>output</direction>
+			<query_name>md_getattr</query_name>
+		</md_getattr>
+		<md_setattr>
+			<name>Metadata setattr Operations</name>
+			<direction>output</direction>
+			<query_name>md_setattr</query_name>
+		</md_setattr>
+		<md_getxattr>
+			<name>Metadata getxattr Operations</name>
+			<direction>output</direction>
+			<query_name>md_getxattr</query_name>
+		</md_getxattr>
+		<md_setxattr>
+			<name>Metadata setxattr Operations</name>
+			<direction>output</direction>
+			<query_name>md_setxattr</query_name>
+		</md_setxattr>
+		<md_statfs>
+			<name>Metadata statfs Operations</name>
+			<direction>output</direction>
+			<query_name>md_statfs</query_name>
+		</md_statfs>
+		<md_sync>
+			<name>Metadata sync Operations</name>
+			<direction>output</direction>
+			<query_name>md_sync</query_name>
+		</md_sync>
+		<md_samedir_rename>
+			<name>Metadata samedir_rename Operations</name>
+			<direction>output</direction>
+			<query_name>md_samedir_rename</query_name>
+		</md_samedir_rename>
+		<md_crossdir_rename>
+			<name>Metadata crossdir_rename Operations</name>
+			<direction>output</direction>
+			<query_name>md_crossdir_rename</query_name>
+		</md_crossdir_rename>
+		<md_migrate>
+			<name>Metadata migrate Operations</name>
+			<direction>output</direction>
+			<query_name>md_migrate</query_name>
+		</md_migrate>
+		<md_par_rename_file>
+			<name>Metadata parallel_rename_file Operations</name>
+			<direction>output</direction>
+			<query_name>md_par_rename_file</query_name>
+		</md_par_rename_file>
+		<md_par_rename_dir>
+			<name>Metadata parallel_rename_dir Operations</name>
+			<direction>output</direction>
+			<query_name>md_par_rename_dir</query_name>
+		</md_par_rename_dir>
+		<md_rename_trylocks>
+			<name>Metadata rename_trylocks Operations</name>
+			<direction>output</direction>
+			<query_name>md_rename_trylocks</query_name>
+		</md_rename_trylocks>
+	</fields>
+</interface>

@@ -19,6 +19,10 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * A registered filesystem. hostId is the Cacti device it maps to (ADR
+ * 0010), or 0 while it has none.
+ */
 final readonly class Filesystem {
 	public const DEFAULT_INTERVAL = 300;
 	public const MIN_INTERVAL     = 60;
@@ -31,6 +35,7 @@ final readonly class Filesystem {
 		public int $pollerId,
 		public int $interval,
 		public AdminState $adminState,
+		public int $hostId = 0,
 	) {
 	}
 
@@ -55,6 +60,7 @@ final readonly class Filesystem {
 			pollerId: Row::int($row, 'poller_id', 1, 1),
 			interval: min($interval, self::MAX_INTERVAL),
 			adminState: AdminState::tryFrom(Row::string($row, 'admin_state')) ?? AdminState::Disabled,
+			hostId: Row::int($row, 'host_id', 0, 0),
 		);
 	}
 
