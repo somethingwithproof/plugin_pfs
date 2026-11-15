@@ -114,6 +114,32 @@ it('does not call a counter absent when its stats section has no snapshot_time l
 		->and($ost->absent)->toBe([]);
 });
 
+it('keeps a bare counter name with no values unknown, never absent', function () {
+	$output = "#pfs-read 1\n"
+		. "== obdfilter/scratch-OST0000/degraded\n0\n\n"
+		. "== obdfilter/scratch-OST0000/stats\n"
+		. "snapshot_time             1731600000.123456789 secs.nsecs\n"
+		. "start_time                1731000000.000000001 secs.nsecs\n"
+		. "read_bytes 10 samples [bytes] 4096 4096 40960 167772160\n"
+		. "write_bytes   \n\n"
+		. "== mdt/scratch-MDT0000/md_stats\n"
+		. "snapshot_time             1731600000.000000001 secs.nsecs\n"
+		. "open                      70 samples [usecs] 1 900 700 7000\n"
+		. "close\n\n"
+		. "#pfs-read end\n";
+	$report = (new LustreBackend())->parse($output);
+	$ost    = $report->targets['scratch-OST0000'] ?? throw new LogicException('no OST');
+	$mdt    = $report->targets['scratch-MDT0000'] ?? throw new LogicException('no MDT');
+
+	expect($ost->values['read_bytes'])->toBe(40960.0)
+		->and($ost->values['write_bytes'])->toBeNull()
+		->and($ost->absent)->not->toContain('write_bytes')
+		->and($ost->absent)->not->toContain('write_ops')
+		->and($mdt->values['md_open'])->toBe(70.0)
+		->and($mdt->values['md_close'])->toBeNull()
+		->and($mdt->absent)->not->toContain('md_close');
+});
+
 it('rejects an answer without the end marker as incomplete', function () {
 	$report = (new LustreBackend())->parse(pfs_fixture('incomplete.txt'));
 

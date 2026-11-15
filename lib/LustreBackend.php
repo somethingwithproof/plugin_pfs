@@ -396,8 +396,9 @@ final class LustreBackend implements Backend {
 			}
 
 			// A line that looks like a counter we want but does not parse
-			// makes that counter unknown rather than silently absent.
-			if (preg_match('/^([a-z_]{1,32})\s/', $line, $m) === 1) {
+			// makes that counter unknown rather than silently absent. The
+			// line is trimmed, so a bare name ends the line.
+			if (preg_match('/^([a-z_]{1,32})(?:\s|$)/', $line, $m) === 1) {
 				$broken[$m[1]] = true;
 			}
 		}
