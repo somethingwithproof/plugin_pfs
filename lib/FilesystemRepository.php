@@ -1,0 +1,101 @@
+<?php
+/*
+ * SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ *
+ * This file is part of plugin_pfs, a plugin for Cacti.
+ * https://github.com/somethingwithproof/plugin_pfs
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation; either version 2 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ */
+
+namespace Somethingwithproof\Pfs;
+
+final class FilesystemRepository {
+	public function __construct(private readonly \PDO|false $connection, private readonly Clock $clock) {
+	}
+
+	public function find(int $id): ?Filesystem {
+		$row = db_fetch_row_prepared('SELECT * FROM plugin_pfs_filesystem WHERE id = ?', [$id], true, $this->connection);
+
+		return is_array($row) ? Filesystem::fromRow($row) : null;
+	}
+
+	/**
+	 * @return list<Filesystem>
+	 */
+	public function all(): array {
+		$out = [];
+
+		foreach (Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_filesystem ORDER BY name, id', [], true, $this->connection)) as $row) {
+			$filesystem = Filesystem::fromRow($row);
+
+			if ($filesystem !== null) {
+				$out[] = $filesystem;
+			}
+		}
+
+		return $out;
+	}
+
+	public function nameTaken(string $backend, string $name, int $exceptId): bool {
+		return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_filesystem WHERE backend = ? AND name = ? AND id != ?', [$backend, $name, $exceptId], '', true, $this->connection) > 0;
+	}
+
+	/**
+	 * Insert or update, returning the id, or 0 when the write failed.
+	 */
+	public function save(Filesystem $filesystem): int {
+		$now    = $this->clock->now();
+		$values = [$filesystem->name, $filesystem->backend, $filesystem->pollerId, $filesystem->interval, $filesystem->adminState->value];
+
+		if ($filesystem->id === 0) {
+			$ok = db_execute_prepared('INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)', array_merge($values, [$now, $now]), true, $this->connection);
+
+			return $ok ? (int) db_fetch_insert_id($this->connection) : 0;
+		}
+
+		if ($this->find($filesystem->id) === null) {
+			return 0;
+		}
+
+		$ok = db_execute_prepared('UPDATE plugin_pfs_filesystem SET name = ?, backend = ?, poller_id = ?, expected_interval = ?, admin_state = ?, updated_at = ? WHERE id = ?', array_merge($values, [$now, $filesystem->id]), true, $this->connection);
+
+		return $ok ? $filesystem->id : 0;
+	}
+
+	/**
+	 * Remove a filesystem with its nodes, inventory, cache, and node health.
+	 * Rows go children first, so an interrupted delete leaves a filesystem
+	 * that can be deleted again. No node is contacted.
+	 */
+	public function delete(int $id): bool {
+		if ($this->find($id) === null) {
+			return false;
+		}
+
+		$statements = [
+			['DELETE o FROM plugin_pfs_observation o INNER JOIN plugin_pfs_target t ON t.id = o.target_id WHERE t.filesystem_id = ?', [$id]],
+			['DELETE FROM plugin_pfs_target WHERE filesystem_id = ?', [$id]],
+			['DELETE h FROM plugin_pfs_node_health h INNER JOIN plugin_pfs_node n ON n.id = h.node_id WHERE n.filesystem_id = ?', [$id]],
+			['DELETE FROM plugin_pfs_node WHERE filesystem_id = ?', [$id]],
+			['DELETE FROM plugin_pfs_filesystem WHERE id = ?', [$id]],
+		];
+
+		foreach ($statements as [$sql, $params]) {
+			if (!db_execute_prepared($sql, $params, true, $this->connection)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+}
