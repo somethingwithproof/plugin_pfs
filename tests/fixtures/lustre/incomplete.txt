@@ -1,0 +1,6 @@
+#pfs-read 1
+== osd-ldiskfs/scratch-OST0000/kbytestotal
+1000000000
+
+== osd-ldiskfs/scratch-OST0000/kbytesfree
+4000

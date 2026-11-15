@@ -2,7 +2,7 @@
 
 A proposed Cacti 1.2 plugin that brings parallel filesystem health and load into Cacti: capacity and fill imbalance across targets, per-target throughput, and metadata operation rates. Lustre is the first backend. GPFS (IBM Storage Scale) and BeeGFS follow behind a backend interface. The data lands in ordinary Cacti devices, data sources, and graphs, so Thold and Maint alert on and suppress it unchanged.
 
-> **Status: proposal.** This repository contains no plugin code yet. It holds the design, its decision records, and the requirements tracked as issues and milestones. Nothing below describes shipped behavior.
+> **Status: in development, milestone 2 (foundation).** The code installs, upgrades, and uninstalls through Cacti's plugin API and refuses PHP below 8.2. It keeps a registry of filesystems, nodes, and the networks each poller may reach. A background reader on each poller reads its Lustre nodes over SSH through a fixed forced-command script ([node/pfs-read.sh](node/pfs-read.sh)) and caches target inventory, condition, capacity, and counter values with their freshness. An admin-only health page shows what each read returned. It creates no Cacti devices, data sources, or graphs yet, and it has no Thold or Maint integration; those start in milestone 3. It has not run against a real Lustre node. The rest of this README describes the design, not shipped behavior.
 
 ## Why
 

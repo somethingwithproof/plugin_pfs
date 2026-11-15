@@ -1,0 +1,90 @@
+#pfs-read 1
+== version
+2.15.5
+
+== osd-ldiskfs/scratch-OST0000/kbytestotal
+1000000000
+
+== osd-ldiskfs/scratch-OST0000/kbytesfree
+400000000
+
+== osd-ldiskfs/scratch-OST0000/kbytesavail
+380000000
+
+== osd-ldiskfs/scratch-OST0000/filestotal
+65536000
+
+== osd-ldiskfs/scratch-OST0000/filesfree
+60000000
+
+== osd-ldiskfs/scratch-OST0001/kbytestotal
+1000000000
+
+== osd-ldiskfs/scratch-OST0001/kbytesfree
+0
+
+== osd-ldiskfs/scratch-OST0001/kbytesavail
+0
+
+== osd-ldiskfs/scratch-OST0001/filestotal
+65536000
+
+== osd-ldiskfs/scratch-OST0001/filesfree
+65000000
+
+== obdfilter/scratch-OST0000/degraded
+0
+
+== obdfilter/scratch-OST0000/no_precreate
+0
+
+== obdfilter/scratch-OST0000/no_create
+0
+
+== obdfilter/scratch-OST0000/readonly
+0
+
+== obdfilter/scratch-OST0001/degraded
+1
+
+== obdfilter/scratch-OST0001/no_precreate
+0
+
+== obdfilter/scratch-OST0001/no_create
+0
+
+== obdfilter/scratch-OST0001/readonly
+0
+
+== obdfilter/scratch-OST0000/stats
+snapshot_time             1731600000.123456789 secs.nsecs
+start_time                1731000000.000000001 secs.nsecs
+elapsed_time              600000.123456788 secs.nsecs
+read_bytes                1200 samples [bytes] 4096 1048576 734003200 461168601842738790
+write_bytes               800 samples [bytes] 4096 1048576 524288000 368934881474191032
+get_info                  12 samples [usecs] 1 30 120 3000
+statfs                    300 samples [usecs] 0 9 400 900
+
+== obdfilter/scratch-OST0001/stats
+snapshot_time             1731600000.223456789 secs.nsecs
+start_time                1731000000.000000002 secs.nsecs
+elapsed_time              600000.223456787 secs.nsecs
+read_bytes                10 samples [bytes] 4096 4096 40960 167772160
+statfs                    300 samples [usecs] 0 9 400 900
+
+== obdfilter/scratch-OST0000/recovery_status
+status: COMPLETE
+recovery_start: 1731000100
+recovery_duration: 30
+completed_clients: 4/4
+
+== obdfilter/scratch-OST0001/recovery_status
+status: RECOVERING
+recovery_start: 1731599990
+time_remaining: 120
+
+#pfs-read end
+#pfs-read 1
+== osd-ldiskfs/scratch-OST0000/kbytesfree
+7
+#pfs-read end

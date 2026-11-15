@@ -1,0 +1,15 @@
+#pfs-read 1
+== osd-ldiskfs/scratch-OST0000/kbytestotal
+1000000000
+
+== obdfilter/scratch-OST0000/stats
+snapshot_time             1731600000.123456789 secs.nsecs
+start_time                1731000000.000000001 secs.nsecs
+read_bytes                1200 samples [bytes] 4096 1048576 7340
+!! truncated
+
+== osd-ldiskfs/scratch-OST0000/kbytesfree
+!! read-failed
+
+!! total-limit
+#pfs-read end

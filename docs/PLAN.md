@@ -210,7 +210,7 @@ Two boundaries (ADR 0003):
 - **Backend.** For a product, it declares each value it produces (kind: gauge or cumulative counter; unit; which node roles report it), the fixed allowlist of reads it needs, and how to turn node output into observations. It has no write operation. Lustre is first; a stub second backend passes the same contract suite from the start.
 - **Node source.** It carries one allowlisted read and returns bytes. It enforces connect and total timeouts and a maximum response size, and knows nothing about Lustre.
 
-**Access method (open).** How a node source reaches a server is the largest trust decision, tracked as a decision issue with these options, each constrained by ADR 0008:
+**Access method (decided, [ADR 0009](decisions/0009-read-nodes-through-a-forced-ssh-command.md)).** How a node source reaches a server is the largest trust decision. The options below were weighed in issue #7, each constrained by ADR 0008. The restricted SSH forced command was chosen: `node/pfs-read.sh` is the fixed, argument-free script, and `SshNodeSource` runs `ssh` with a fixed argument list, host key checking required, and no remote command. An exporter source can be added later behind the same node source interface.
 
 | Option | Strength | Cost |
 |---|---|---|
@@ -327,7 +327,7 @@ Plugin code is object-oriented wherever Cacti's plugin contract allows it. No ma
 
 **Layout.**
 
-- Classes live under the `Cacti\Pfs` namespace, one class per file, loaded by a small `spl_autoload_register()` loader registered only after the PHP version check. No Composer runtime dependency.
+- Classes live under the `Somethingwithproof\Pfs` namespace (provisional: issue #33 names `Cacti\Pfs`; milestone 2 matches plugin_cloud until the owner decides), one class per file, loaded by a small `spl_autoload_register()` loader registered only after the PHP version check. No Composer runtime dependency.
 - Settings use the `config_settings` hook. Logging uses `cacti_log()` with a `PFS` tag. Forms rely on Cacti's csrf-magic.
 - Strings use the `pfs` text domain, with a `locales/` directory and POT file.
 - Realms: two, "Parallel Filesystem View" and "Parallel Filesystem Admin".
@@ -421,7 +421,7 @@ A compromised node can return hostile data, so parsing and escaping are the cont
 
 | Decision | Options | Needed before | Decided by |
 |---|---|---|---|
-| How Cacti reaches Lustre server nodes | Exporter scrape; restricted SSH command; client mount for capacity only; file drop | Milestone 2 node source | Milestone 1 evidence ([node-privileges](research/node-privileges.md), [lustre-exporter](research/lustre-exporter.md)); open |
+| How Cacti reaches Lustre server nodes | Exporter scrape; restricted SSH command; client mount for capacity only; file drop | Milestone 2 node source | Decided 2026-11-15 (#7): restricted SSH forced command running a fixed script, exporter optional later ([ADR 0009](decisions/0009-read-nodes-through-a-forced-ssh-command.md)) |
 | Thold on counters | DERIVE data sources directly; plugin-computed rate gauges; no rate alerts in phase 1 | Milestone 3 summary data source | Milestone 1 Thold research ([thold-counters](research/thold-counters.md)); open |
 | Repository and name | `Cacti/plugin_pfs`, `Cacti/plugin_lustre`, or community plugin | Before any code is published | Cacti maintainers |
 | Test harness | Whatever maintained plugins use | Milestone 2 | Cacti maintainers |

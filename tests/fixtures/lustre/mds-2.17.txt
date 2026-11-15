@@ -1,0 +1,31 @@
+#pfs-read 1
+== version
+2.17.0
+
+== osd-ldiskfs/scratch-MDT0000/kbytestotal
+200000000
+
+== osd-ldiskfs/scratch-MDT0000/kbytesfree
+150000000
+
+== osd-ldiskfs/scratch-MDT0000/kbytesavail
+140000000
+
+== osd-ldiskfs/scratch-MDT0000/filestotal
+100000000
+
+== osd-ldiskfs/scratch-MDT0000/filesfree
+90000000
+
+== mdt/scratch-MDT0000/md_stats
+snapshot_time             1731600000.000000001 secs.nsecs
+start_time                1730000000.000000001 secs.nsecs
+elapsed_time              1600000.000000000 secs.nsecs
+open                      50000 samples [usecs] 1 3000 900000 90000000
+close                     49990 samples [usecs] 1 900 300000 10000000
+getattr                   120000 samples [usecs] 1 400 500000 9000000
+statfs                    3000 samples [usecs] 1 10 9000 90000
+parallel_rename_file      12 samples [usecs] 10 900 3000 900000
+weird_new_op              4 samples [usecs] 1 1 4 4
+
+#pfs-read end

@@ -1,0 +1,3 @@
+Last login: Thu Nov 14 09:00:00 2026 from 10.20.0.5
+[pfsread@oss01 ~]$ cat /sys/fs/lustre/osd-ldiskfs/scratch-OST0000/kbytestotal
+1000000000
