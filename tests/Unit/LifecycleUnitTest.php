@@ -17,6 +17,7 @@
  * more details.
  */
 
+use Somethingwithproof\Pfs\CreatedDevices;
 use Somethingwithproof\Pfs\Pages;
 use Somethingwithproof\Pfs\Schema;
 use Somethingwithproof\Pfs\Settings;
@@ -28,7 +29,35 @@ it('applies documented defaults to settings that were never saved', function () 
 		->and($settings->sshKeyFile)->toBe(Settings::DEFAULT_KEY_FILE)
 		->and($settings->readerBudget)->toBe(Settings::DEFAULT_BUDGET)
 		->and($settings->maxResponseBytes())->toBe(Settings::DEFAULT_MAX_KIB * 1024)
-		->and($settings->keepTablesOnUninstall)->toBeTrue();
+		->and($settings->keepTablesOnUninstall)->toBeTrue()
+		->and($settings->deleteDevicesOnUninstall)->toBeFalse();
+});
+
+it('deletes the plugin\'s devices on uninstall only after the box was checked and saved', function () {
+	expect(Settings::fromRow(['pfs_uninstall_delete_devices' => ''])->deleteDevicesOnUninstall)->toBeFalse()
+		->and(Settings::fromRow(['pfs_uninstall_delete_devices' => 'on'])->deleteDevicesOnUninstall)->toBeTrue()
+		->and(Settings::form()['pfs_uninstall_delete_devices']['default'])->toBe('');
+});
+
+it('records the devices the plugin created and forgets deleted ones', function () {
+	$GLOBALS['__pfs_options'] = [];
+
+	CreatedDevices::add(7);
+	CreatedDevices::add(3);
+	CreatedDevices::add(7);
+	CreatedDevices::add(0);
+
+	expect(CreatedDevices::ids())->toBe([3, 7]);
+
+	CreatedDevices::forget([7, 99]);
+
+	expect(CreatedDevices::ids())->toBe([3]);
+
+	$GLOBALS['__pfs_options'][CreatedDevices::SETTING] = '["x", -1, 4]';
+
+	expect(CreatedDevices::ids())->toBe([4]);
+
+	$GLOBALS['__pfs_options'] = [];
 });
 
 it('drops tables on uninstall only after the box was cleared and saved', function () {

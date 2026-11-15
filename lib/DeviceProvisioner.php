@@ -122,6 +122,10 @@ final class DeviceProvisioner {
 			return 0;
 		}
 
+		// Recorded before anything else can fail, so an uninstall that
+		// deletes the plugin's devices finds this one too.
+		CreatedDevices::add($hostId);
+
 		if (!$this->filesystems->mapHost($filesystem->id, $hostId)) {
 			Log::error(sprintf('Device %d was created for filesystem %d but could not be mapped', $hostId, $filesystem->id));
 

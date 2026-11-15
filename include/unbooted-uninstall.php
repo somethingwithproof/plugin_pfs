@@ -27,6 +27,32 @@
  */
 
 function pfs_uninstall_unbooted(): void {
+	// Deleting the devices the plugin created needs only core functions, so
+	// it is honoured here too (REQ-LIFE-005); setup.php is already loaded.
+	$delete = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_uninstall_delete_devices'));
+
+	if (is_array($delete) && isset($delete['value']) && $delete['value'] === 'on') {
+		$row      = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_created_devices'));
+		$ids      = is_array($row) && isset($row['value']) && is_string($row['value']) ? json_decode($row['value'], true) : array();
+		$existing = array();
+
+		foreach (is_array($ids) ? $ids : array() as $id) {
+			if (is_int($id) && $id > 0 && (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM host WHERE id = ?', array($id)) > 0) {
+				$existing[] = $id;
+			}
+		}
+
+		pfs_uninstall_devices($existing);
+
+		// No plugin hook runs here, so the mapping and the record are
+		// cleared directly; kept tables must not point at a deleted device.
+		if ($existing !== array() && (int) db_fetch_cell_prepared("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") > 0) {
+			db_execute_prepared('UPDATE plugin_pfs_filesystem SET host_id = 0 WHERE host_id IN (' . implode(', ', array_fill(0, count($existing), '?')) . ')', $existing);
+		}
+
+		db_execute_prepared('DELETE FROM settings WHERE name = ?', array('pfs_created_devices'));
+	}
+
 	$row  = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_uninstall_keep_tables'));
 	$keep = !is_array($row) || $row === array() || (isset($row['value']) && $row['value'] === 'on');
 

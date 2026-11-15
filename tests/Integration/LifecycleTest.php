@@ -204,6 +204,58 @@ it('honours keep tables on uninstall when the runtime is refused', function () {
 		->and($dropped['schema'])->toBeEmpty();
 });
 
+it('keeps every device on uninstall unless asked to delete the ones it created', function () {
+	lifecycle('install');
+
+	$made    = lifecycle('devices');
+	$created = (string) $made['result']['created'];
+	$mapped  = (string) $made['result']['existing'];
+
+	expect((int) $created)->toBeGreaterThan(0)
+		->and($made['created_devices'])->toBe('[' . $created . ']')
+		->and($made['devices'][$created]['graph_local'])->toBe(5)
+		->and($made['devices'][$mapped]['graph_local'])->toBe(5);
+
+	$kept = lifecycle('uninstall');
+
+	expect($kept['devices'])->toBe($made['devices'])
+		->and($kept['created_devices'])->toBe('[' . $created . ']')
+		->and($kept['filesystem_hosts'])->toBe(['made' => (int) $created, 'mapped' => (int) $mapped]);
+});
+
+it('deletes only the devices it created, with their graphs and data sources, when the box was checked', function () {
+	lifecycle('install');
+
+	$made    = lifecycle('devices');
+	$created = (string) $made['result']['created'];
+	$mapped  = (string) $made['result']['existing'];
+
+	lifecycle('set_setting', 'pfs_uninstall_delete_devices=on');
+
+	$after = lifecycle('uninstall');
+
+	expect(array_keys($after['devices']))->toBe([(int) $mapped])
+		->and($after['devices'][$mapped])->toBe($made['devices'][$mapped])
+		->and($after['created_devices'])->toBe('[]')
+		->and($after['filesystem_hosts'])->toBe(['made' => 0, 'mapped' => (int) $mapped])
+		->and($after['tables']['plugin_pfs_filesystem'])->toBe(2);
+});
+
+it('deletes only the devices it created on uninstall when the runtime is refused', function () {
+	lifecycle('install');
+
+	$made   = lifecycle('devices');
+	$mapped = (string) $made['result']['existing'];
+
+	lifecycle('set_setting', 'pfs_uninstall_delete_devices=on');
+
+	$after = lifecycle('uninstall_unbooted');
+
+	expect(array_keys($after['devices']))->toBe([(int) $mapped])
+		->and($after['created_devices'])->toBe('')
+		->and($after['filesystem_hosts'])->toBe(['made' => 0, 'mapped' => (int) $mapped]);
+});
+
 it('grants realms on install but never on a repair a viewer triggers', function () {
 	expect(lifecycle('install')['admin'])->toBe(2);
 

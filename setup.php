@@ -275,8 +275,22 @@ function plugin_pfs_uninstall(): void {
 
 	$schema = new \Somethingwithproof\Pfs\Schema(false);
 
+	if (pfs_settings()->deleteDevicesOnUninstall) {
+		$objects = new \Somethingwithproof\Pfs\CactiObjectRepository(false);
+		$created = array_values(array_filter(\Somethingwithproof\Pfs\CreatedDevices::ids(), static fn (int $id): bool => $objects->device($id) !== null));
+
+		pfs_uninstall_devices($created);
+
+		// Core runs no hook of a disabled plugin, so device_remove did not
+		// clear the mapping or the record; kept tables must not point at a
+		// deleted device.
+		(new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($created);
+		\Somethingwithproof\Pfs\CreatedDevices::forget($created);
+	}
+
 	// Removes only the query files the plugin wrote and nobody changed. The
-	// templates, devices, data sources, and graphs stay: they are the site's.
+	// templates stay, and so do devices unless deleted above: they are the
+	// site's.
 	pfs_template_installer()->uninstall();
 
 	if (pfs_settings()->keepTablesOnUninstall) {
@@ -286,6 +300,32 @@ function plugin_pfs_uninstall(): void {
 	} else {
 		$schema->forgetVersion();
 	}
+}
+
+/**
+ * Delete the devices the plugin created, through Cacti's own device delete
+ * with their graphs and data sources (delete type 2, as the Devices page
+ * offers). Cacti's RRD cleanup setting decides what happens to the RRD
+ * files. The callers pass only recorded ids that still name a device, and
+ * unmap and forget them after. Shared with the unbooted uninstall, so PHP
+ * 8.0 syntax (REQ-LIFE-005).
+ *
+ * @param list<int> $hostIds existing devices recorded as created by the plugin
+ */
+function pfs_uninstall_devices(array $hostIds): void {
+	global $config;
+
+	if ($hostIds === array()) {
+		return;
+	}
+
+	include_once($config['base_path'] . '/lib/api_device.php');
+	include_once($config['base_path'] . '/lib/api_data_source.php');
+	include_once($config['base_path'] . '/lib/api_graph.php');
+
+	api_device_remove_multi($hostIds, 2);
+
+	cacti_log(sprintf('NOTE: Uninstall deleted the %d devices the plugin created, as configured', count($hostIds)), false, 'PFS');
 }
 
 function pfs_config_arrays(): void {
@@ -349,6 +389,7 @@ function pfs_device_remove($hostIds) {
 	}
 
 	$count = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($ids);
+	\Somethingwithproof\Pfs\CreatedDevices::forget($ids);
 
 	if ($count > 0) {
 		\Somethingwithproof\Pfs\Log::info(sprintf('%d filesystems lost their device when it was deleted; they can be given a device again from the registry', $count));
