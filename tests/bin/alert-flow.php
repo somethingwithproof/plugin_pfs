@@ -56,7 +56,7 @@ use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
 use Somethingwithproof\Pfs\TemplateInstaller;
 
-const ALERT_STEPS = array('setup', 'warmup', 'baseline', 'burst', 'burst2', 'rated', 'calm', 'imbalance', 'balanced', 'lost', 'returned', 'silent', 'answering', 'maint', 'maint2', 'unmaint', 'final');
+const ALERT_STEPS = array('setup', 'warmup', 'baseline', 'burst', 'burst2', 'rated', 'reset', 'rejoined', 'resumed', 'reburst', 'reburst2', 'calm', 'imbalance', 'balanced', 'lost', 'returned', 'silent', 'answering', 'maint', 'maint2', 'unmaint', 'final');
 
 // Thold's log statuses (plugins/thold/includes/settings.php), defined there
 // only while Thold's config hook runs.
@@ -85,10 +85,10 @@ $failures = 0;
 
 /** The thresholds: summary value => [high threshold, fail trigger in polls]. */
 const ALERT_THOLDS = array(
-	'fill_spread_pct' => array('20', 1),
-	'targets_missing' => array('0.5', 1),
-	'age'             => array('30', 1),
-	'write_bytes'     => array('1000000000', 2),
+	'fill_spread_pct'  => array('20', 1),
+	'targets_missing'  => array('0.5', 1),
+	'age'              => array('30', 1),
+	'write_bytes_rate' => array('1000000000', 2),
 );
 
 function alert_expect($ok, $message) {
@@ -106,11 +106,16 @@ function alert_state($name, $value = null) {
 	return (string) db_fetch_cell_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_alert_' . $name));
 }
 
-/** Two healthy OSTs at 40 and 45 percent; $write is the per-OST write total. */
+/**
+ * Two healthy OSTs at 40 and 45 percent; $write is the per-OST write total.
+ * Both report the stats start time kept in the state, which the reset step
+ * changes, as a stats clear or a server restart does.
+ */
 function alert_osts($write, array $change = array()) {
-	$osts = array(
-		0 => array('used' => 40, 'read' => 1000000, 'write' => $write),
-		1 => array('used' => 45, 'read' => 1000000, 'write' => $write),
+	$start = alert_state('start') === '' ? '1731000000.000000001' : alert_state('start');
+	$osts  = array(
+		0 => array('used' => 40, 'read' => 1000000, 'write' => $write, 'start' => $start),
+		1 => array('used' => 45, 'read' => 1000000, 'write' => $write, 'start' => $start),
 	);
 
 	foreach ($change as $index => $fields) {
@@ -243,6 +248,23 @@ function alert_create_thold($hostId, $name, $hi, $trigger) {
 	return is_numeric($id) ? (int) $id : 0;
 }
 
+/** 1 TB more per OST within one poll: far above 1 GB/s. */
+function alert_burst() {
+	return alert_osts(alert_write(1000000000000));
+}
+
+function alert_breached_once($step) {
+	$t = alert_thold('write_bytes_rate');
+	alert_expect((int) $t['thold_alert'] !== 0 && (int) $t['thold_fail_count'] === 1 && alert_since('write_bytes_rate') === array(), "$step: one poll above the rate threshold breaches it without notifying (fail_count=" . $t['thold_fail_count'] . ', log ' . json_encode(alert_since('write_bytes_rate')) . ')');
+}
+
+/** After a reset the rate gauge is unknown, Thold logs nothing for it, and stays enabled. */
+function alert_unknown_rate($step) {
+	$t = alert_thold('write_bytes_rate');
+	alert_expect(!is_numeric($t['lastread']) && (int) $t['thold_alert'] === 0 && alert_since('write_bytes_rate') === array(), "$step: the write rate gauge reads unknown after the reset, with no breach or log entry (lastread='" . $t['lastread'] . "', alert=" . $t['thold_alert'] . ', log ' . json_encode(alert_since('write_bytes_rate')) . ')');
+	alert_expect(api_plugin_is_enabled('thold'), "$step: Thold is still enabled");
+}
+
 function alert_rrd($localDataId, $name) {
 	$path = get_data_source_path($localDataId, true);
 	$out  = (string) shell_exec('rrdtool lastupdate ' . escapeshellarg($path) . ' 2>&1');
@@ -311,38 +333,52 @@ switch ($step) {
 
 		break;
 	case 'baseline':
-		// Thold's first rate reading after it starts is against no previous
-		// value; the fail trigger of two polls keeps that from alerting.
 		alert_quiet($step, array_keys(ALERT_THOLDS));
-		// 10 TB more per OST within one poll: far above 1 GB/s.
-		alert_read(alert_osts(alert_write(10000000000000)));
+		alert_expect(is_numeric(alert_thold('write_bytes_rate')['lastread']), 'baseline: Thold reads the write rate gauge as a number');
+		alert_read(alert_burst());
 
 		break;
 	case 'burst':
-		$t = alert_thold('write_bytes');
-		alert_expect((int) $t['thold_alert'] !== 0 && (int) $t['thold_fail_count'] === 1 && alert_since('write_bytes') === array(), 'burst: one poll above the rate threshold breaches it without notifying (fail_count=' . $t['thold_fail_count'] . ', log ' . json_encode(alert_since('write_bytes')) . ')');
-		alert_read(alert_osts(alert_write(10000000000000)));
+	case 'reburst':
+		alert_breached_once($step);
+		alert_read(alert_burst());
 
 		break;
 	case 'burst2':
-		alert_check($step, 'write_bytes', true, array(ALERT_NOTIFY));
+	case 'reburst2':
+		alert_check($step, 'write_bytes_rate', true, array(ALERT_NOTIFY));
 		alert_read(alert_osts(alert_write()));
 
 		break;
 	case 'rated':
-		alert_check($step, 'write_bytes', false, array(ALERT_RESTORE));
+		alert_check($step, 'write_bytes_rate', false, array(ALERT_RESTORE));
 
-		// Thold 1.8.2 keeps the U a counter data source reads after a reset
-		// or a change of contributing targets as its previous value, and its
-		// next rate calculation throws a TypeError in the poller, after
-		// which Cacti disables Thold (docs/alerting.md). The rest of this
-		// replay changes the target set, so the rate threshold goes first.
-		thold_api_thold_remove((int) alert_state('thold_write_bytes'));
-		alert_expect((int) db_fetch_cell_prepared('SELECT COUNT(*) FROM thold_data WHERE id = ?', array((int) alert_state('thold_write_bytes'))) === 0, 'rated: the rate threshold is removed before the target set changes');
+		// Both OSTs report a new stats start time and counters near zero:
+		// a counter reset. A Thold threshold on the DERIVE write_bytes
+		// would see U here and fail on the next number (docs/alerting.md);
+		// the gauge is U for two polls and Thold carries on. (With every
+		// OST reset at once the run after the reset sums the same members
+		// again, so it is two unknown polls here, not the three of a
+		// single target's reset.)
+		alert_state('start', '1731700000.000000001');
+		alert_state('write', 0);
 		alert_read(alert_osts(alert_write()));
 
 		break;
+	case 'reset':
+	case 'rejoined':
+		alert_unknown_rate($step);
+		alert_read(alert_osts(alert_write()));
+
+		break;
+	case 'resumed':
+		alert_check($step, 'write_bytes_rate', false, array());
+		alert_expect(is_numeric(alert_thold('write_bytes_rate')['lastread']), 'resumed: the write rate gauge is a number again after the reset');
+		alert_read(alert_burst());
+
+		break;
 	case 'calm':
+		alert_check($step, 'write_bytes_rate', false, array(ALERT_RESTORE));
 		alert_quiet($step, array('fill_spread_pct', 'targets_missing', 'age'));
 		alert_read(alert_osts(alert_write(), array(0 => array('used' => 90), 1 => array('used' => 10))));
 
