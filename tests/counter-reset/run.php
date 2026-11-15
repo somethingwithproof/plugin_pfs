@@ -94,7 +94,7 @@ function reset_detected(float $prev, float $cur, ?string $prev_start, ?string $c
 $rows = [];
 $rows['A reset to 0, then normal (6000 per step = 100/s)'] = scenario($rrdtool, $dir, 'a',
 	[0 => 0, 1 => 6000, 2 => 12000, 3 => 18000, 4 => 0, 5 => 6000, 6 => 12000], 'U');
-$rows['B reset, next value above last pre-reset value, max U'] = scenario($rrdtool, $dir, 'b',
+$rows['B one-step jump 18000 -> 90000 (could hide a reset), max U'] = scenario($rrdtool, $dir, 'b',
 	[0 => 0, 1 => 6000, 2 => 12000, 3 => 18000, 4 => 90000, 5 => 96000], 'U');
 $rows['C same as B, DS maximum 500/s'] = scenario($rrdtool, $dir, 'c',
 	[0 => 0, 1 => 6000, 2 => 12000, 3 => 18000, 4 => 90000, 5 => 96000], '500');

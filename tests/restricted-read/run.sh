@@ -29,6 +29,12 @@ echo 1000000 > "$sysr/osd-ldiskfs/fs-OST0000/kbytestotal"
 echo 400000 > "$sysr/osd-ldiskfs/fs-OST0000/kbytesfree"
 echo 0 > "$sysr/obdfilter/fs-OST0000/degraded"
 printf 'snapshot_time 1.0 secs.nsecs\nread_bytes 3 samples [bytes] 1 4096 9000\n' > "$procr/obdfilter/fs-OST0000/stats"
+# Many small targets: with a per-file reservation of the cap, 70 targets would
+# exhaust the 4 MiB budget before the later groups (stats) were read.
+n=1
+while [ "$n" -le 70 ]; do
+	d="$sysr/osd-ldiskfs/fs-OST$(printf '%04d' "$n")"; mkdir -p "$d"; echo 1 > "$d/kbytestotal"; n=$((n + 1))
+done
 echo secret > "$work/outside"
 ln -s "$work/outside" "$sysr/osd-ldiskfs/fs-OST0000/kbytesavail"      # symlink: must be skipped
 echo do-not-read > "$sysr/obdfilter/fs-OST0000/evict_client"            # not in the allowlist
@@ -43,7 +49,9 @@ DESC="allowlisted capacity value present"; ck grep -q '^400000$' "$out"
 DESC="allowlisted stats file present"; ck grep -q 'read_bytes 3 samples' "$out"
 DESC="symlink skipped"; ck sh -c "! grep -q secret '$out'"
 DESC="non-allowlisted file skipped"; ck sh -c "! grep -q do-not-read '$out'"
-DESC="oversized file truncated to 65536 bytes"; ck sh -c "[ \"\$(grep -c '^== mdt' '$out')\" = 0 ] || [ \$(wc -c < '$out') -lt 140000 ]"
+DESC="oversized file read as exactly one header and 65536 payload bytes"
+ck sh -c "[ \"\$(grep -c '^== mdt/' '$out')\" = 1 ] && [ \"\$(awk '/^== mdt\\//{getline; print length(\$0), (\$0 ~ /^x+\$/ ? \"allx\" : \"mixed\")}' '$out')\" = '65536 allx' ]"
+DESC="stats group still read after 70 small targets"; ck grep -q 'read_bytes 3 samples' "$out"
 DESC="arguments rejected"; ck sh -c "! sh '$work/pfs-read.sh' x 2>/dev/null"
 echo "output: $(wc -c < "$out") bytes; work dir $work"
 exit $fail

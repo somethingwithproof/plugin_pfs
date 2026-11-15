@@ -65,10 +65,11 @@ $type = (int)($argv[2] ?? 3);
 $step = 60;
 $name = 'v';
 // Counter values at one poll per minute. 18000 -> 0 is a reset; the next
-// sequence repeats the case where the post-reset value is larger than before.
+// sequence jumps 18000 -> 90000 in one step, which could hide a reset (the
+// endpoint difference is only a lower bound on the true rate in that case).
 $sequences = [
 	'reset to 0, then normal' => [0, 6000, 12000, 18000, 0, 6000, 12000],
-	'reset, next value above the last pre-reset value' => [0, 6000, 12000, 18000, 90000, 96000],
+	'one-step upward jump that may hide a reset (18000 to 90000)' => [0, 6000, 12000, 18000, 90000, 96000],
 ];
 
 foreach ($sequences as $label => $values) {

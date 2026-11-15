@@ -17,7 +17,7 @@
 #
 # Prototype of the fixed, argument-free read described in ADR 0008. It prints
 # an allowlist of Lustre parameter files from a node, each framed by a header
-# line, with per-file and total size limits. It takes no arguments, ignores its
+# line, with per-file and total size limits (the total counts the bytes actually printed, framing included). It takes no arguments, ignores its
 # environment for paths, writes nothing, skips symbolic links and anything that
 # is not a regular file, and never opens a path that is not in the allowlist.
 # It is a prototype for review; it has not run against a real Lustre node.
@@ -69,12 +69,19 @@ list | while read -r root glob; do
 		[ -L "$f" ] && continue
 		[ "$total" -lt "$MAX_TOTAL" ] || exit 0
 		rel=${f#"$root"/}
+		# Bounded read. The sentinel "x<exit status>" keeps trailing newlines
+		# and carries head's status out of the command substitution.
+		out=$(head -c "$MAX_FILE" "$f" 2>/dev/null; printf 'x%s' "$?")
+		rc=${out##*x}
+		data=${out%x*}
 		printf '== %s\n' "$rel"
-		# Bounded read; a read error is reported, never turned into zeros.
-		if ! head -c "$MAX_FILE" "$f" 2>/dev/null; then
+		printf '%s' "$data"
+		if [ "$rc" -ne 0 ]; then
+			# A failed read is reported, never turned into zeros.
 			printf '!! read-failed\n'
 		fi
 		printf '\n'
-		total=$((total + MAX_FILE))
+		# Charge the bytes actually emitted: payload plus framing.
+		total=$((total + ${#data} + ${#rel} + 8))
 	done
 done
