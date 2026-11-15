@@ -13,5 +13,8 @@ Each record captures one architecture decision: its context, the decision, its c
 | [0007](0007-cacti-1231-floor-no-core-patches.md) | Target Cacti 1.2.31 or later with no core patches | Accepted |
 | [0008](0008-fixed-allowlisted-node-reads.md) | Read nodes with fixed, allowlisted requests and no operator input | Accepted |
 | [0009](0009-read-nodes-through-a-forced-ssh-command.md) | Read nodes through a forced SSH command running a fixed script | Accepted |
+| [0010](0010-one-device-per-filesystem.md) | Model each filesystem as one Cacti device with targets as data query indexes | Accepted |
+| [0011](0011-overview-graphs-by-default-targets-on-demand.md) | Create overview graphs by default and per-target graphs on demand | Accepted |
+| [0012](0012-thold-rate-alerts-high-thresholds-only.md) | Allow Thold rate alerts on counters for high thresholds only | Accepted |
 
 Open decisions are tracked as issues labelled `type: decision`.

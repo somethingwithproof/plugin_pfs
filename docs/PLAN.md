@@ -228,7 +228,7 @@ Two boundaries (ADR 0003):
 | Summary data source | "Parallel Filesystem Summary" data template using a script server input | Polled; reaches Thold through `poller_output` |
 | Graphs | Graph templates for capacity and fill, imbalance, per-target capacity, per-OST throughput, per-MDT operation rates | Placed in graph trees and protected by graph permissions |
 
-Templates ship as Cacti template XML, imported with `import_xml_data()` at install and upgrade and matched by hash so re-import updates rather than duplicates. The data query XML is installed under `resource/script_server/`. Whether one device per filesystem or one per server host is right depends on failover evidence, because a target that moves between servers should not move its history.
+Templates ship as Cacti template XML, imported with `import_xml_data()` at install and upgrade and matched by hash so re-import updates rather than duplicates. The data query XML is installed under `resource/script_server/`. One device per filesystem was decided in [ADR 0010](decisions/0010-one-device-per-filesystem.md): a target that fails over keeps its index on the same device, so its history never moves between devices.
 
 ## Counter semantics
 
@@ -261,7 +261,7 @@ Each cached observation carries observation time, ingestion time, source node, a
 - **Throughput.** Per-OST read and write bytes per second; the aggregate follows the unknown rule above.
 - **Metadata.** Per-MDT operations per second by allowlisted operation.
 
-Gaps show as gaps. Whether per-target graphs are created for every OST by default is an open decision; the proposal is a small default set with per-target graphs created through the data query on demand, because hundreds of OSTs would multiply graph rows and an overview graph with hundreds of series is unreadable. A `graph_buttons` link joins a device's other graphs to its filesystem graphs.
+Gaps show as gaps. The default set is decided in [ADR 0011](decisions/0011-overview-graphs-by-default-targets-on-demand.md): the overview graphs are created with the device, and per-target graphs only through the data query on demand, because hundreds of OSTs would multiply graph rows and an overview graph with hundreds of series is unreadable. A `graph_buttons` link joins a device's other graphs to its filesystem graphs.
 
 ## Alerting and maintenance
 
@@ -280,7 +280,7 @@ Thold thresholds and Maint device schedules apply with no change to either plugi
 Stated limits:
 
 - **Sampling alignment.** Cacti polls on its own interval and the reader reads nodes on its own. Thold durations should be at least one poll interval.
-- **Rates.** Thold can compute a rate from a DERIVE data source, with one negative sample on a reset, and an endpoint-difference rate (a lower bound) if a reset is hidden by a larger later value ([thold-counters](research/thold-counters.md)). Whether to allow rate alerts in phase 1 is the open decision in issue #8; until it is made, only capacity, imbalance, target count, and staleness alerts are planned.
+- **Rates.** Thold can compute a rate from a DERIVE data source, with one negative sample on a reset, and an endpoint-difference rate (a lower bound) if a reset is hidden by a larger later value ([thold-counters](research/thold-counters.md)). Decided in [ADR 0012](decisions/0012-thold-rate-alerts-high-thresholds-only.md) (#8): rate alerts on DERIVE data sources are supported for high thresholds with a duration of at least two polls; low-threshold rate alerts are unsupported in phase 1, because a reset can reach Thold as a negative rate.
 - **Resets.** A counter reset yields one unknown interval, which does not trigger a threshold.
 - **Summary only.** Alerts see the summary and per-target gauges, not distributions.
 
@@ -422,11 +422,11 @@ A compromised node can return hostile data, so parsing and escaping are the cont
 | Decision | Options | Needed before | Decided by |
 |---|---|---|---|
 | How Cacti reaches Lustre server nodes | Exporter scrape; restricted SSH command; client mount for capacity only; file drop | Milestone 2 node source | Decided 2026-11-15 (#7): restricted SSH forced command running a fixed script, exporter optional later ([ADR 0009](decisions/0009-read-nodes-through-a-forced-ssh-command.md)) |
-| Thold on counters | DERIVE data sources directly; plugin-computed rate gauges; no rate alerts in phase 1 | Milestone 3 summary data source | Milestone 1 Thold research ([thold-counters](research/thold-counters.md)); open |
+| Thold on counters | DERIVE data sources directly; plugin-computed rate gauges; no rate alerts in phase 1 | Milestone 3 summary data source | Decided 2026-11-15 (#8): DERIVE with the reader publishing unknown for a reset interval; Thold rate alerts for high thresholds only with a duration of two polls; low-threshold rate alerts unsupported in phase 1 ([ADR 0012](decisions/0012-thold-rate-alerts-high-thresholds-only.md)) |
 | Repository and name | `Cacti/plugin_pfs`, `Cacti/plugin_lustre`, or community plugin | Before any code is published | Cacti maintainers |
 | Test harness | Whatever maintained plugins use | Milestone 2 | Cacti maintainers |
-| Filesystem device model | One device per filesystem; per server host; per target | Milestone 3 | Failover and cost evidence |
-| Default graph set | Overview plus on-demand per-target; per-target for all; plugin view | Milestone 3 | Cost evidence |
+| Filesystem device model | One device per filesystem; per server host; per target | Milestone 3 | Decided 2026-11-15 (#11): one device per filesystem, targets as data query indexes ([ADR 0010](decisions/0010-one-device-per-filesystem.md)) |
+| Default graph set | Overview plus on-demand per-target; per-target for all; plugin view | Milestone 3 | Decided 2026-11-15 (#12): five overview graphs per filesystem from one summary data source, per-target graphs on demand ([ADR 0011](decisions/0011-overview-graphs-by-default-targets-on-demand.md)) |
 | Job views | Bounded top-N table; prefix aggregation; external store | Phase 2 | Research and pilots |
 | Observed clients | Named and sampled clients; server-side per-export statistics; all clients | Phase 2 | Access decision |
 | Privilege model for GPFS and BeeGFS | Fixed node wrapper; product-native export; direct shell | Phase 3 | Security review |
