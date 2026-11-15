@@ -47,22 +47,24 @@ Run 2026-11-15 with `tests/bin/scale-replay.sh` (driver `tests/bin/scale-flow.ph
 
 Each filesystem has N OSTs on N/16 OSS nodes (16 OSTs per OSS) and one MDS with one MDT. One per-target capacity graph is created for every OST, which is one of the three per-OST graphs; graphing throughput and inodes as well would roughly triple the data source, `poller_item`, and RRD counts.
 
+Each target count is measured alone: after its counts are taken, the replay removes that filesystem with its device, data sources, and graphs before building the next one, so the 2,000 OST poller runs do not also poll the 500 OST filesystem. The figures below are from that isolated run; an earlier run that left the 500 OST filesystem in place gave the same row counts and readings within a few tenths of a second, except the first 2,000 OST poller run (6 s then, 7 s now).
+
 | Measurement | 500 OSTs | 2,000 OSTs |
 |---|---|---|
 | Nodes read | 33 | 126 |
-| Reader run, steady state (s) | 0.25 | 0.91 |
-| Reader run, first (s) | 0.45 | 0.86 |
+| Reader run, steady state (s) | 0.40 | 0.96 |
+| Reader run, first (s) | 0.70 | 1.12 |
 | Reader peak memory (MiB) | 18 | 42 |
-| Create the device and index both queries (s) | 1.05 | 1.11 |
+| Create the device and index both queries (s) | 0.91 | 1.15 |
 | Indexes in `host_snmp_cache` | 501 | 2,001 |
-| Data query `index`, first call, empty cache (ms) | 7.6 | 29.6 |
-| Data query `query` for one field, cached (ms) | 2.6 | 10.2 |
-| Data query `get`, per call, cached (ms) | 0.088 | 0.327 |
-| Summary script, per call, cached (ms) | 0.069 | 0.072 |
-| Summary script, new instance with an empty cache, same process (ms) | 0.088 | 0.094 |
-| Create one capacity graph per OST (s) | 25.4 | 158.1 |
-| Forced poller run, first, creating RRD files (s, whole seconds) | 2 | 6 |
-| Forced poller run, second (s, whole seconds) | 2 | 3 |
+| Data query `index`, first call, empty cache (ms) | 8.2 | 30.4 |
+| Data query `query` for one field, cached (ms) | 2.5 | 10.1 |
+| Data query `get`, per call, cached (ms) | 0.090 | 0.342 |
+| Summary script, per call, cached (ms) | 0.076 | 0.067 |
+| Summary script, new instance with an empty cache, same process (ms) | 0.101 | 0.097 |
+| Create one capacity graph per OST (s) | 25.7 | 156.5 |
+| Forced poller run, first, creating RRD files (s, whole seconds) | 2 | 7 |
+| Forced poller run, second (s, whole seconds) | 1 | 3 |
 | `data_local` | 505 | 2,005 |
 | `data_template_rrd` | 1,580 | 6,080 |
 | `graph_local` | 505 | 2,005 |
@@ -76,7 +78,7 @@ Readings:
 - The 5 extra data sources and graphs are the overview graphs' summary data sources; each per-target capacity data source has 3 items, so `poller_item` is 3 per OST plus 5.
 - The summary script answers in under 0.1 ms per call at 2,000 targets, against the plan's 50 ms budget for it. The data query `get` stays under 0.4 ms per call once its 30 second cache is filled; the first `index` call, which loads every target, takes about 30 ms.
 - Creating graphs is the largest cost and is Cacti's own: about 0.08 s per graph at 2,000 targets, against 0.05 s at 500. Operators who graph every OST should expect minutes, once.
-- One RRD file of the 2,005 was missing after two polls at 2,000 targets; which one was not recorded. Rerun with the file list before relying on the count.
+- One RRD file of the 2,005 was missing after two polls at 2,000 targets, in both runs, including the isolated one; at 500 targets every file existed. Which data source lacks its file was not recorded, and the cause is not known. Rerun with the file list before relying on the count.
 - Reader time excludes SSH. With real nodes the reader's time is dominated by the slowest node and the parallelism setting, not by parsing.
 
 ## Limits

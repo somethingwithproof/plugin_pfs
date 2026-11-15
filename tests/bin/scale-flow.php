@@ -40,6 +40,7 @@ chdir(dirname(__DIR__, 4));
 
 require('./include/cli_check.php');
 require_once($config['base_path'] . '/lib/api_device.php');
+require_once($config['base_path'] . '/lib/api_data_source.php');
 require_once($config['base_path'] . '/lib/api_graph.php');
 require_once($config['base_path'] . '/lib/template.php');
 require_once($config['base_path'] . '/lib/data_query.php');
