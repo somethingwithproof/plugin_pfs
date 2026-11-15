@@ -24,9 +24,18 @@
  * tests/bin/failure-replay.sh:
  *
  *   setup          a filesystem whose node is read through the stand-in
- *   arm <mode>     choose what the stand-in does and make the node due
+ *   arm <mode>     wait for no reader to hold the lease, then choose what
+ *                  the stand-in does, make the node due, and record when
+ *                  the scenario started
  *   (php plugins/pfs/poller_pfs.php --poller=1 --force, timed)
- *   check <mode>   the state the reader recorded for that mode
+ *   settle <s>     wait at most s seconds for a reader started elsewhere
+ *                  (by poller_bottom) to attempt the node and let go of
+ *                  the lease
+ *   running <pid> <s>
+ *                  wait at most s seconds until the reader with that
+ *                  process id holds the lease, so it is mid-run
+ *   check <mode>   the state the reader recorded for that mode, from an
+ *                  attempt made after the scenario started
  *   cleanup        remove the filesystem and restore the settings
  *
  * Modes: ok, unreachable, hostkey, slow, oversized, unframed, dbloss. The
@@ -54,8 +63,8 @@ $dir  = (string) getenv('PFS_FAULT_DIR');
 $step = isset($argv[1]) ? $argv[1] : '';
 $mode = isset($argv[2]) ? $argv[2] : '';
 
-if (getenv('PFS_TEST_DATABASE') !== 'disposable' || $dir === '' || !is_dir($dir) || !in_array($step, array('setup', 'arm', 'check', 'cleanup'), true) || (in_array($step, array('arm', 'check'), true) && !in_array($mode, FAULT_MODES, true))) {
-	fwrite(STDERR, "Set PFS_TEST_DATABASE=disposable and PFS_FAULT_DIR, and pass setup, arm <mode>, check <mode>, or cleanup\n");
+if (getenv('PFS_TEST_DATABASE') !== 'disposable' || $dir === '' || !is_dir($dir) || !in_array($step, array('setup', 'arm', 'settle', 'running', 'check', 'cleanup'), true) || (in_array($step, array('arm', 'check'), true) && !in_array($mode, FAULT_MODES, true))) {
+	fwrite(STDERR, "Set PFS_TEST_DATABASE=disposable and PFS_FAULT_DIR, and pass setup, arm <mode>, settle <seconds>, running <pid> <seconds>, check <mode>, or cleanup\n");
 	exit(2);
 }
 
@@ -85,6 +94,45 @@ function fault_health() {
 	$row = db_fetch_row_prepared('SELECT outcome, error, last_attempt, last_success, duration FROM plugin_pfs_node_health WHERE node_id = ?', array((int) fault_state('node')));
 
 	return is_array($row) ? $row : array();
+}
+
+/** The poller 1 lease, or an empty array before any reader ran. */
+function fault_lease() {
+	$row = db_fetch_row('SELECT holder, expires_at FROM plugin_pfs_reader WHERE poller_id = 1');
+
+	return is_array($row) ? $row : array();
+}
+
+function fault_lease_free() {
+	$lease = fault_lease();
+
+	return !isset($lease['expires_at']) || (int) $lease['expires_at'] < time();
+}
+
+/** Whether the node was attempted at or after the scenario started. */
+function fault_fresh() {
+	$health = fault_health();
+
+	return isset($health['last_attempt']) && (int) $health['last_attempt'] >= (int) fault_state('armed_at');
+}
+
+/**
+ * Poll $done every fifth of a second for at most $seconds. A wait on state
+ * another process writes, never a fixed sleep: the reader started by
+ * poller_bottom may not have registered yet when the poller returns.
+ */
+function fault_wait($done, $seconds) {
+	$until = microtime(true) + $seconds;
+
+	while (!$done()) {
+		if (microtime(true) >= $until) {
+			return false;
+		}
+
+		usleep(200000);
+	}
+
+	return true;
 }
 
 function fault_observed() {
@@ -131,15 +179,42 @@ switch ($step) {
 
 		break;
 	case 'arm':
+		// A reader still holding the lease makes the next forced run skip,
+		// and its check would then read an older attempt.
+		fault_expect(fault_wait('fault_lease_free', 60), "$mode: no reader holds the lease when the scenario starts (" . json_encode(fault_lease()) . ')');
 		file_put_contents("$dir/mode", "$mode\n");
 		db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 		fault_state('before', fault_observed());
+		fault_state('armed_at', time());
+
+		break;
+	case 'settle':
+		$seconds = max(1, (int) $mode);
+		fault_expect(fault_wait(function () {
+			return fault_fresh() && fault_lease_free();
+		}, $seconds), "the reader poller_bottom started attempted the node and let go of the lease within $seconds s (" . json_encode(array('health' => fault_health(), 'lease' => fault_lease())) . ')');
+
+		break;
+	case 'running':
+		$pid     = (int) $mode;
+		$seconds = max(1, isset($argv[3]) ? (int) $argv[3] : 0);
+		fault_expect($pid > 0 && fault_wait(function () use ($pid) {
+			$lease = fault_lease();
+
+			return isset($lease['holder']) && strpos((string) $lease['holder'], 'poller1-' . $pid . '-') === 0 && (int) $lease['expires_at'] >= time();
+		}, $seconds), "the reader with process id $pid holds the lease within $seconds s (" . json_encode(fault_lease()) . ')');
 
 		break;
 	case 'check':
 		$health = fault_health();
 		$fs     = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->find((int) fault_state('fs'));
-		print 'EVIDENCE ' . $mode . ' health ' . json_encode($health) . PHP_EOL;
+		print 'EVIDENCE ' . $mode . ' health ' . json_encode($health) . ' armed_at ' . fault_state('armed_at') . PHP_EOL;
+
+		// The dbloss run may have lost its connection before it recorded
+		// the attempt; every other mode must show an attempt of its own.
+		if ($mode !== 'dbloss') {
+			fault_expect(fault_fresh(), "$mode: the reader attempted the node after the scenario started, so the state below is this scenario's");
+		}
 
 		if ($mode === 'ok') {
 			fault_expect(isset($health['outcome']) && $health['error'] === '' && fault_observed() > (int) fault_state('before'), 'ok: the production reader read the node through the stand-in and cached its values');

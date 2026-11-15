@@ -78,10 +78,9 @@ php poller.php --poller=1 --force > "$PFS_FAULT_DIR/poll.txt" 2>&1 || fail=1
 took=$(( $(date +%s) - start ))
 echo "TIMING slow poller $took s"
 [ "$took" -lt 25 ] && echo "PASS the Cacti poller finished in $took s while the node hung for 30" || { echo "FAIL the Cacti poller took $took s"; fail=1; }
-for _ in $(seq 1 30); do
-	[ "$(php -r 'chdir("."); include("./include/cli_check.php"); print db_fetch_cell("SELECT COUNT(*) FROM processes WHERE tasktype = \"pfs\"");')" = 0 ] && break
-	sleep 1
-done
+# The background reader may not have started when the poller returns, so
+# wait for its attempt and its released lease rather than for a process.
+flow settle 60
 flow check slow
 
 # The database connection drops while the reader waits for a node.
@@ -89,7 +88,10 @@ echo "== database connection lost mid-read"
 flow arm dbloss
 php plugins/pfs/poller_pfs.php --poller=1 --force > "$PFS_FAULT_DIR/dbloss.txt" 2>&1 &
 pid=$!
-sleep 2
+# Wait, bounded, until this reader holds the lease: it is then mid-run and
+# its connection is open. The node answers after 5 s and the read timeout
+# is 3 s, so the kill lands while the reader waits for the node.
+flow running "$pid" 20
 # Nothing else uses the disposable database now, so every other connection
 # to it is the reader's, which is waiting on the node.
 killed=0
