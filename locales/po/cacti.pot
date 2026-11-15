@@ -1,0 +1,655 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Thomas Vincent
+# This file is distributed under the same license as the pfs package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0-dev\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Actions"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr ""
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr ""
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "State"
+msgstr ""
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr ""
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr ""
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr ""
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr ""
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr ""
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr ""
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr ""
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr ""
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr ""
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr ""
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr ""
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr ""
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr ""
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr ""
+
+#: lib/Format.php
+msgid "Never"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr ""
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr ""
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr ""
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr ""
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr ""
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr ""
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr ""
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr ""
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr ""
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr ""
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr ""
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr ""
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr ""
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr ""
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr ""
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr ""
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr ""
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr ""
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr ""
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr ""
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr ""
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr ""
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr ""
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr ""
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr ""
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr ""
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr ""
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr ""
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr ""
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr ""
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr ""
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr ""
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. No node was contacted."
+msgstr ""
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr ""
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr ""
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr ""
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr ""
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr ""
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr ""
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr ""
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr ""
+
+#: setup.php
+msgid "Management"
+msgstr ""
