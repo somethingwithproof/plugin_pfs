@@ -16,5 +16,6 @@ Each record captures one architecture decision: its context, the decision, its c
 | [0010](0010-one-device-per-filesystem.md) | Model each filesystem as one Cacti device with targets as data query indexes | Accepted |
 | [0011](0011-overview-graphs-by-default-targets-on-demand.md) | Create overview graphs by default and per-target graphs on demand | Accepted |
 | [0012](0012-thold-rate-alerts-high-thresholds-only.md) | Allow Thold rate alerts on counters for high thresholds only | Accepted |
+| [0013](0013-absent-counter-lines-count-as-zero-in-sums.md) | Count an absent counter line as zero in filesystem sums, for healthy targets only | Accepted |
 
 Open decisions are tracked as issues labelled `type: decision`.

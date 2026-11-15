@@ -107,6 +107,15 @@ describe('reset detection', function () {
 			->and((new Observation(1, 'read_bytes', 10.0, 100, 100, 3, 300))->published())->toBe(10.0);
 	});
 
+	it('continues from an absent counter line only with the same start time and source', function () {
+		$absent = new Observation(1, 'write_bytes', null, 100, 100, 3, 300, Continuity::Absent, '1731000000.000000001', 0);
+
+		expect(ResetDetector::continuity($absent, 4096.0, '1731000000.000000001', 3, ValueKind::Counter))->toBe(Continuity::Continuous)
+			->and(ResetDetector::continuity($absent, 4096.0, '1731599000.000000001', 3, ValueKind::Counter))->toBe(Continuity::Reset)
+			->and(ResetDetector::continuity($absent, 4096.0, '1731000000.000000001', 4, ValueKind::Counter))->toBe(Continuity::Reset)
+			->and(ResetDetector::continuity($absent, 4096.0, null, 3, ValueKind::Counter))->toBe(Continuity::Reset);
+	});
+
 	it('never treats a gauge as reset', function () use ($previous) {
 		expect(ResetDetector::continuity($previous, 1.0, null, 9, ValueKind::Gauge))->toBe(Continuity::Continuous);
 	});

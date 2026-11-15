@@ -24,11 +24,16 @@ namespace Somethingwithproof\Pfs;
  *
  * $values holds every value the backend declares for the target's type; a
  * value the node did not print, or printed in a form the parser rejects, is
- * null (unknown), never zero (REQ-BACKEND-003).
+ * null (unknown), never zero (REQ-BACKEND-003). $absent names the counters
+ * whose stats section the node printed without that counter's line: Lustre
+ * omits a counter that has not counted since its start time, so the summary
+ * may count it as zero for a healthy target (ADR 0013). The value itself
+ * stays null.
  */
 final readonly class TargetReport {
 	/**
 	 * @param array<string, ?float> $values value name => value
+	 * @param list<string>          $absent counter value names absent from a printed stats section
 	 */
 	public function __construct(
 		public TargetId $id,
@@ -36,6 +41,7 @@ final readonly class TargetReport {
 		public ?string $startMarker,
 		public Condition $condition,
 		public ?string $recovery,
+		public array $absent = [],
 	) {
 	}
 }

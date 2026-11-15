@@ -192,7 +192,7 @@ final class LustreBackend implements Backend {
 
 		$version  = null;
 		$rejected = 0;
-		/** @var array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string}> $targets */
+		/** @var array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string, absent: list<string>}> $targets */
 		$targets = [];
 
 		foreach ($paths as $i => $path) {
@@ -231,7 +231,7 @@ final class LustreBackend implements Backend {
 			}
 
 			$name = $id->name();
-			$targets[$name] ??= ['id' => $id, 'values' => [], 'flags' => [], 'start' => null, 'recovery' => null];
+			$targets[$name] ??= ['id' => $id, 'values' => [], 'flags' => [], 'start' => null, 'recovery' => null, 'absent' => []];
 
 			switch ($match['kind']) {
 				case 'capacity':
@@ -252,6 +252,11 @@ final class LustreBackend implements Backend {
 					foreach (self::OST_COUNTERS as $counter => [$samples, $sum]) {
 						$targets[$name]['values'][$samples] = $stats['counters'][$counter]['samples'] ?? null;
 						$targets[$name]['values'][$sum]     = $stats['counters'][$counter]['sum'] ?? null;
+
+						if (!array_key_exists($counter, $stats['counters']) && $stats['complete']) {
+							$targets[$name]['absent'][] = $samples;
+							$targets[$name]['absent'][] = $sum;
+						}
 					}
 
 					$targets[$name]['start'] = $stats['start'];
@@ -262,6 +267,10 @@ final class LustreBackend implements Backend {
 
 					foreach (self::MDT_OPS as $counter => $value) {
 						$targets[$name]['values'][$value] = $stats['counters'][$counter]['samples'] ?? null;
+
+						if (!array_key_exists($counter, $stats['counters']) && $stats['complete']) {
+							$targets[$name]['absent'][] = $value;
+						}
 					}
 
 					$targets[$name]['start'] = $stats['start'];
@@ -285,7 +294,7 @@ final class LustreBackend implements Backend {
 				}
 			}
 
-			$reports[$name] = new TargetReport($target['id'], $values, $target['start'], self::condition($target['flags']), $target['recovery']);
+			$reports[$name] = new TargetReport($target['id'], $values, $target['start'], self::condition($target['flags']), $target['recovery'], $target['absent']);
 		}
 
 		ksort($reports);
@@ -308,14 +317,14 @@ final class LustreBackend implements Backend {
 	}
 
 	/**
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string}> $targets
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string, absent: list<string>}> $targets
 	 */
 	private function noteTarget(string $path, array &$targets): void {
 		$match = $this->classify($path);
 		$id    = $match === null ? null : TargetId::parse($match['target']);
 
 		if ($id !== null && ($match['type'] === null || $id->type === $match['type'])) {
-			$targets[$id->name()] ??= ['id' => $id, 'values' => [], 'flags' => [], 'start' => null, 'recovery' => null];
+			$targets[$id->name()] ??= ['id' => $id, 'values' => [], 'flags' => [], 'start' => null, 'recovery' => null, 'absent' => []];
 		}
 	}
 
@@ -343,14 +352,17 @@ final class LustreBackend implements Backend {
 	 * A stats file: snapshot_time, optional start_time and elapsed_time, then
 	 * "<name> <count> samples [<unit>]" with optional min, max, sum, and sum
 	 * of squares. A counter printed twice, or a line that does not match the
-	 * format, leaves that counter unknown.
+	 * format, leaves that counter unknown. complete is true when the section
+	 * carried its snapshot_time line, so a counter missing from it was left
+	 * out by Lustre rather than lost in transit.
 	 *
 	 * @param list<string> $lines
 	 *
-	 * @return array{start: ?string, counters: array<string, array{samples: ?float, sum: ?float}>}
+	 * @return array{start: ?string, complete: bool, counters: array<string, array{samples: ?float, sum: ?float}>}
 	 */
 	private static function stats(array $lines): array {
 		$start    = null;
+		$snapshot = false;
 		$counters = [];
 		$broken   = [];
 
@@ -365,6 +377,8 @@ final class LustreBackend implements Backend {
 				if ($m[1] === 'start_time') {
 					$start = $m[2];
 				}
+
+				$snapshot = $snapshot || $m[1] === 'snapshot_time';
 
 				continue;
 			}
@@ -392,7 +406,7 @@ final class LustreBackend implements Backend {
 			$counters[$name] = ['samples' => null, 'sum' => null];
 		}
 
-		return ['start' => $start, 'counters' => $counters];
+		return ['start' => $start, 'complete' => $snapshot, 'counters' => $counters];
 	}
 
 	/**

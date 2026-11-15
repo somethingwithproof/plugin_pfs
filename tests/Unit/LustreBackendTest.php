@@ -18,8 +18,14 @@
  */
 
 use Somethingwithproof\Pfs\Condition;
+use Somethingwithproof\Pfs\Continuity;
 use Somethingwithproof\Pfs\LustreBackend;
+use Somethingwithproof\Pfs\Observation;
+use Somethingwithproof\Pfs\Presence;
 use Somethingwithproof\Pfs\ReadError;
+use Somethingwithproof\Pfs\Review;
+use Somethingwithproof\Pfs\SummaryCalculator;
+use Somethingwithproof\Pfs\SummaryTarget;
 use Somethingwithproof\Pfs\TargetType;
 use Somethingwithproof\Pfs\ValueKind;
 use Somethingwithproof\Pfs\ValueSpec;
@@ -58,6 +64,8 @@ it('reads capacity, flags, counters, and recovery from an OSS', function () {
 		->and($ost1->values['read_ops'])->toBe(10.0)
 		->and($ost1->values['write_ops'])->toBeNull()
 		->and($ost1->values['write_bytes'])->toBeNull()
+		->and($ost1->absent)->toBe(['write_ops', 'write_bytes'])
+		->and($ost0->absent)->toBe([])
 		->and($ost1->condition)->toBe(Condition::Degraded)
 		->and($ost1->recovery)->toBe('RECOVERING');
 });
@@ -71,6 +79,8 @@ it('reads MDT operations and leaves unprinted ones unknown', function () {
 		->and($mdt->values['md_open'])->toBe(50000.0)
 		->and($mdt->values['md_par_rename_file'])->toBe(12.0)
 		->and($mdt->values['md_mkdir'])->toBeNull()
+		->and($mdt->absent)->toContain('md_mkdir')
+		->and($mdt->absent)->not->toContain('md_open')
 		->and($mdt->values)->not->toHaveKey('weird_new_op')
 		->and($mdt->values)->not->toHaveKey('read_bytes')
 		->and($mdt->condition)->toBe(Condition::Unknown);
@@ -92,7 +102,16 @@ it('turns truncated, failed, and cut-off sections into unknown values, not zeros
 		->and($ost->values['kbytes_free'])->toBeNull()
 		->and($ost->values['read_bytes'])->toBeNull()
 		->and($ost->values['read_ops'])->toBeNull()
+		->and($ost->absent)->toBe([])
 		->and($ost->startMarker)->toBeNull();
+});
+
+it('does not call a counter absent when its stats section has no snapshot_time line', function () {
+	$output = "#pfs-read 1\n== obdfilter/scratch-OST0000/stats\nread_bytes 10 samples [bytes] 4096 4096 40960 167772160\n#pfs-read end\n";
+	$ost    = (new LustreBackend())->parse($output)->targets['scratch-OST0000'] ?? throw new LogicException('no target');
+
+	expect($ost->values['write_bytes'])->toBeNull()
+		->and($ost->absent)->toBe([]);
 });
 
 it('rejects an answer without the end marker as incomplete', function () {
@@ -179,4 +198,40 @@ it('declares the stats values as counters and capacity as gauges', function () {
 	expect($kinds['kbytes_free'])->toBe(ValueKind::Gauge)
 		->and($kinds['read_bytes'])->toBe(ValueKind::Counter)
 		->and($kinds['md_open'])->toBe(ValueKind::Counter);
+});
+
+it('parses the generated fixtures the end-to-end flows and the scale harness use', function () {
+	require_once __DIR__ . '/../bin/lustre-fixture.php';
+
+	$oss = (new LustreBackend())->parse(pfs_fixture_oss('scratch', [0 => ['used' => 40, 'read' => 4096, 'write' => 8192], 1 => ['used' => 90, 'read' => 4096, 'write' => null, 'degraded' => 1]]));
+	$mds = (new LustreBackend())->parse(pfs_fixture_mds('scratch', [0 => ['open' => 10, 'close' => 9]]));
+
+	expect($oss->usable() && !$oss->partial && $mds->usable() && !$mds->partial)->toBeTrue()
+		->and($oss->targets['scratch-OST0000']->values['kbytes_avail'])->toBe(600000000.0)
+		->and($oss->targets['scratch-OST0000']->values['write_bytes'])->toBe(8192.0)
+		->and($oss->targets['scratch-OST0000']->condition)->toBe(Condition::InService)
+		->and($oss->targets['scratch-OST0001']->absent)->toBe(['write_ops', 'write_bytes'])
+		->and($oss->targets['scratch-OST0001']->condition)->toBe(Condition::Degraded)
+		->and($mds->targets['scratch-MDT0000']->values['md_open'])->toBe(10.0)
+		->and($mds->targets['scratch-MDT0000']->absent)->toContain('md_mkdir');
+});
+
+it('marks the operations a 2.15 MDT does not print as absent, so md_ops still sums', function () {
+	$mdt = (new LustreBackend())->parse(pfs_fixture('mds-2.15.txt'))->targets['scratch-MDT0000'];
+
+	expect($mdt->values['md_open'])->toBe(50000.0)
+		->and($mdt->values['md_par_rename_file'])->toBeNull()
+		->and($mdt->absent)->toContain('md_par_rename_file', 'md_par_rename_dir', 'md_rename_trylocks', 'md_migrate')
+		->and($mdt->absent)->not->toContain('md_open');
+
+	$observations = [];
+
+	foreach ($mdt->values as $metric => $value) {
+		$observations[$metric] = new Observation(1, $metric, $value, 1000, 1000, 1, 300, in_array($metric, $mdt->absent, true) ? Continuity::Absent : Continuity::Continuous);
+	}
+
+	$summary = SummaryCalculator::calculate([new SummaryTarget($mdt->id, Review::Accepted, Presence::Present, Condition::InService, $observations)], null, 300, 1000);
+
+	expect($summary->value('md_ops'))->toBe(50000.0 + 49990.0 + 120000.0 + 3000.0 + 7.0)
+		->and($summary->value('mdt_contributors'))->toBe(1.0);
 });

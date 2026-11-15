@@ -29,11 +29,23 @@ namespace Somethingwithproof\Pfs;
  * 5), or the previous value was unknown, so no rate can be trusted across it.
  * A reset hidden by a later, larger value with no start_time is not
  * detectable; that limit is documented in the research.
+ *
+ * A counter Lustre left out of its stats section (Continuity::Absent) has not
+ * counted since its start time, so its first printed value continues from
+ * zero when the start time is printed, unchanged, and the node is the same;
+ * without a start time to compare there is no way to rule out a clear, and
+ * the interval is a reset (ADR 0013).
  */
 final class ResetDetector {
 	public static function continuity(?Observation $previous, ?float $value, ?string $start, int $sourceNodeId, ValueKind $kind): Continuity {
 		if ($kind === ValueKind::Gauge || $previous === null || $value === null) {
 			return Continuity::Continuous;
+		}
+
+		if ($previous->continuity === Continuity::Absent) {
+			return $start !== null && $start === $previous->startMarker && $previous->sourceNodeId === $sourceNodeId
+				? Continuity::Continuous
+				: Continuity::Reset;
 		}
 
 		return match (true) {
