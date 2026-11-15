@@ -2,7 +2,7 @@
 
 Research for [#24](https://github.com/somethingwithproof/plugin_pfs/issues/24), run 2026-11-15. Question: how does a target's identity, counters, and capacity behave when an OST or MDT fails over to another server, and what does each server report meanwhile?
 
-**Result.** From Lustre source, parameters are per node and per mounted target: a target's stats, capacity attributes, and `recovery_status` exist only on the server that currently has the target mounted, and a new mount starts new counters. So a target's identity is its name (`<fsname>-OST<nnnn>` or `-MDT<nnnn>`, the device name used in every parameter path), and the same name should appear on exactly one node at a time. The proposed rule is below: identify the target by name within a filesystem, take the observation from the node whose `recovery_status` is not `INACTIVE` and whose observation is newest, and record the source node with each value; a name reported by two nodes in the same cycle is a conflict state (unknown), not a sum. None of this was observed on a failover pair, so what each server prints during the move, whether a stale directory remains on the old node, and the time in `RECOVERING` are *live*; the exit criterion "a failover fixture" is not met.
+**Result.** From Lustre source, parameters are per node and per mounted target: a target's stats, capacity attributes, and `recovery_status` exist only on the server that currently has the target mounted, and a new mount starts new counters. So a target's identity is its name (`<fsname>-OST<nnnn>` or `-MDT<nnnn>`, the device name used in every parameter path), and the same name should appear on exactly one node at a time. The proposed rule is below: identify the target by name within a filesystem, take the freshest successful observation of that name, and record the source node with each value (`recovery_status` is shown as recovery activity, never used to decide which node owns the target, because `INACTIVE` only means the target has no recoverable clients); a name reported by two nodes in the same cycle is a conflict state (unknown), not a sum. None of this was observed on a failover pair, so what each server prints during the move, whether a stale directory remains on the old node, and the time in `RECOVERING` are *live*; the exit criterion "a failover fixture" is not met.
 
 ## What source shows
 
@@ -22,7 +22,7 @@ Research for [#24](https://github.com/somethingwithproof/plugin_pfs/issues/24), 
 3. Per cycle, for each target: use the observation from the node that reported the target fresh; if two nodes report the same name, state is "conflict" and capacity and counters are unknown for that cycle (never summed, never the larger).
 4. A target missing from every node is "not observed" (unknown), not zero, and not "failed over"; the plugin cannot tell a failover in progress from an outage without `recovery_status`.
 5. A change of source node resets counter continuity: a new mount starts new counters, so the first interval after a move is unknown ([counter-reset.md](counter-reset.md)).
-6. Show `recovery_status` where readable: `RECOVERING` is a visible transitional state; `COMPLETE` is the normal state after a move.
+6. Show `recovery_status` where readable: `RECOVERING` is a visible transitional state; `COMPLETE` is the normal state after a move, and `INACTIVE` (no recoverable clients) can be reported by a target that is mounted and serving, so it says nothing about ownership.
 
 ## Limits
 
