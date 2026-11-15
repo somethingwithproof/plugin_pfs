@@ -1,6 +1,6 @@
 # Contributing
 
-This project is in the proposal stage. Most useful contributions right now are evidence for the research issues in milestone 1 and review of the requirements and open decisions.
+This project is in development; milestone 2 (foundation) is merged and there is no release. Most useful contributions right now are evidence for the research issues in milestone 1 and review of the requirements and open decisions.
 
 ## Before you start
 
