@@ -210,7 +210,7 @@ Two boundaries (ADR 0003):
 - **Backend.** For a product, it declares each value it produces (kind: gauge or cumulative counter; unit; which node roles report it), the fixed allowlist of reads it needs, and how to turn node output into observations. It has no write operation. Lustre is first; a stub second backend passes the same contract suite from the start.
 - **Node source.** It carries one allowlisted read and returns bytes. It enforces connect and total timeouts and a maximum response size, and knows nothing about Lustre.
 
-**Access method (open).** How a node source reaches a server is the largest trust decision, tracked as a decision issue with these options, each constrained by ADR 0008:
+**Access method (open).** How a node source reaches a server is the largest trust decision, tracked as a decision issue with these options, each constrained by ADR 0008. Milestone 2 implements the restricted SSH forced command provisionally: `node/pfs-read.sh` is the fixed, argument-free script, and `SshNodeSource` runs `ssh` with a fixed argument list, host key checking required, and no remote command. An exporter source can be added later behind the same node source interface.
 
 | Option | Strength | Cost |
 |---|---|---|
@@ -327,7 +327,7 @@ Plugin code is object-oriented wherever Cacti's plugin contract allows it. No ma
 
 **Layout.**
 
-- Classes live under the `Cacti\Pfs` namespace, one class per file, loaded by a small `spl_autoload_register()` loader registered only after the PHP version check. No Composer runtime dependency.
+- Classes live under the `Somethingwithproof\Pfs` namespace (provisional: issue #33 names `Cacti\Pfs`; milestone 2 matches plugin_cloud until the owner decides), one class per file, loaded by a small `spl_autoload_register()` loader registered only after the PHP version check. No Composer runtime dependency.
 - Settings use the `config_settings` hook. Logging uses `cacti_log()` with a `PFS` tag. Forms rely on Cacti's csrf-magic.
 - Strings use the `pfs` text domain, with a `locales/` directory and POT file.
 - Realms: two, "Parallel Filesystem View" and "Parallel Filesystem Admin".
