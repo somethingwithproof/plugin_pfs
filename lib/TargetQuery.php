@@ -146,7 +146,10 @@ final class TargetQuery {
 		$observation = $values[$target->id][$field] ?? null;
 		$value       = $observation?->published();
 
-		if ($observation === null || $value === null) {
+		// A target that a complete read left out, or that two nodes
+		// reported, keeps its index and data source but serves U: its last
+		// value would otherwise draw on for up to two intervals.
+		if ($target->presence !== Presence::Present || $observation === null || $value === null) {
 			return 'U';
 		}
 
