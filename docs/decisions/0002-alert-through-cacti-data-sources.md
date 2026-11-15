@@ -22,3 +22,7 @@ Each filesystem gets a "Parallel Filesystem Summary" data source using a script 
 - **Plugin-owned incident engine.** Duplicates Thold and Maint and adds a third notification path.
 - **Thold reading the cache directly.** Would be a Thold redesign.
 - **Writing values into Cacti RRDs outside the poller.** Bypasses the poller and conflicts with boost.
+
+## Research update (2026-11-15)
+
+Milestone 1 research ([cacti-core](../research/cacti-core.md), [thold-counters](../research/thold-counters.md)) checked this record. The statements about `poller_output` and that Thold sees only polled data sources hold. Two details are corrected. Maint does not act through a hook: Maint registers an `is_device_in_maintenance` hook that no caller uses, and Thold (and Cacti's SNMP agent code) instead call `plugin_maint_check_cacti_host()` directly after loading Maint's functions file, so the Maint suppression applies to Thold notifications for the device and values are still collected. Maint declares `remote_collect:0`, so on a remote collector Maint's hooks do not run. The open question about rates from counter data sources is answered in [thold-counters](../research/thold-counters.md); the decision itself stays open (issue #8).

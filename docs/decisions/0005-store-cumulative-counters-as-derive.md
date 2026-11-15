@@ -20,3 +20,7 @@ Cumulative counters are stored as raw values in DERIVE data sources with minimum
 
 - **COUNTER type.** Its overflow correction turns a reset into a large false value.
 - **Plugin-computed rates for graphs.** Duplicates RRDtool and adds state.
+
+## Research update (2026-11-15)
+
+Measured offline with RRDtool ([counter-reset](../research/counter-reset.md)) and by running Thold's rate function ([thold-counters](../research/thold-counters.md)). Two statements here are corrected. "A reset costs one unknown interval, not a spike" is true only when the counter restarts below the last value; a reset followed by a larger value gives a false spike in a DERIVE data source with minimum 0 alone (1,200 per second against a true 100 in the fixture), and a per-counter data source maximum turns that spike into an unknown interval. "Rates come from RRDtool" holds for graphs only: Thold computes its own rate from the polled value and does not apply the minimum, so on a reset it sees a negative rate. The decision stands, with a per-counter maximum added to the DERIVE template and the reader's reset rule (decrease or changed `start_time`) as proposed in the research. The statement that a write to a stats file clears it holds at Lustre 2.15.8, 2.16.1, and 2.17.0 ([lustre-parameters](../research/lustre-parameters.md)).

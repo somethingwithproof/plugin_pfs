@@ -24,3 +24,7 @@ Reading storage nodes crosses the plugin's largest trust boundary. Some Lustre p
 
 - **Arbitrary operator-defined commands.** Turns the plugin into remote command execution.
 - **Running node reads as root from Cacti.** Widens privilege on both ends.
+
+## Research update (2026-11-15)
+
+The context says some Lustre parameters are readable by an ordinary user and some only by root. From source ([lustre-parameters](../research/lustre-parameters.md), [node-privileges](../research/node-privileges.md)): capacity, inode, and condition parameters are sysfs attributes readable by any user, and OST `stats` is a procfs file on Lustre 2.15.8 and 2.16.1 but a debugfs file on 2.17.0, which the kernel documents as root-only by default. Which reads need root on 2.17 is a live check. A fixed, argument-free read script was prototyped and tested on a fixture ([tests/restricted-read](../../tests/restricted-read/pfs-read.sh)).
