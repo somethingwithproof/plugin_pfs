@@ -1,6 +1,6 @@
 # Node setup
 
-How a Lustre server is prepared so that the plugin's reader can read it. Nothing here has run on a real Lustre node yet; the live checks are in [#20](https://github.com/somethingwithproof/plugin_pfs/issues/20).
+How a Lustre server is prepared so that the plugin's reader can read it ([ADR 0009](decisions/0009-read-nodes-through-a-forced-ssh-command.md)). Nothing here has run on a real Lustre node yet; the live checks are in [#20](https://github.com/somethingwithproof/plugin_pfs/issues/20).
 
 ## On each Lustre server
 
