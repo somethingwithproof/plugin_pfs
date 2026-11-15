@@ -21,7 +21,8 @@ namespace Somethingwithproof\Pfs;
 
 /**
  * The health page (REQ-HEALTH-001 to REQ-HEALTH-004), for Parallel
- * Filesystem Admin only. It shows what the readers last recorded and never
+ * Filesystem Admin only, limited to filesystems on devices Cacti allows the
+ * user (DeviceAccess). It shows what the readers last recorded and never
  * contacts a node. Node output is never printed: the only node-supplied
  * strings it shows are target names and a version that passed their
  * patterns, and every cell is escaped.
@@ -36,24 +37,30 @@ final class HealthPage {
 		private readonly ReaderRepository $runs,
 		private readonly HealthWarnings $warnings,
 		private readonly Clock $clock,
+		private readonly DeviceAccess $access,
 	) {
 	}
 
-	public function render(Settings $settings): void {
+	/**
+	 * @param list<string> $objectWarnings from HealthWarnings::objects()
+	 */
+	public function render(Settings $settings, array $objectWarnings = []): void {
 		$filesystems = [];
 
-		foreach ($this->filesystems->all() as $filesystem) {
+		foreach ($this->access->filesystems($this->filesystems->all()) as $filesystem) {
 			$filesystems[$filesystem->id] = $filesystem;
 		}
 
-		$nodes  = $this->nodes->all();
+		// Nodes of filesystems on devices this user may not see are left
+		// out. Reader runs belong to a poller, not a device, and stay.
+		$nodes  = array_values(array_filter($this->nodes->all(), static fn (Node $n): bool => isset($filesystems[$n->filesystemId])));
 		$health = $this->health->all();
 		$runs   = $this->runs->all();
 		$now    = $this->clock->now();
 
 		html_start_box(__('Parallel Filesystem Warnings', 'pfs'), '100%', '', '3', 'center', '');
 
-		$warnings = $this->warnings->for($settings, $nodes, $health, $runs, $filesystems);
+		$warnings = array_merge($objectWarnings, $this->warnings->for($settings, $nodes, $health, $runs, $filesystems));
 
 		foreach ($warnings as $warning) {
 			print '<tr><td class="textError">' . html_escape($warning) . '</td></tr>';
@@ -61,6 +68,12 @@ final class HealthPage {
 
 		if ($warnings === []) {
 			print '<tr><td>' . html_escape(__('No warnings.', 'pfs')) . '</td></tr>';
+		}
+
+		if ($objectWarnings !== []) {
+			print '<tr><td><form method="post" action="' . html_escape(self::FILE) . '" style="display:inline">'
+				. '<input type="hidden" name="action" value="reinstall_templates">'
+				. '<input type="submit" class="ui-button" value="' . html_escape(__('Install the Templates Again', 'pfs')) . '"></form></td></tr>';
 		}
 
 		html_end_box();

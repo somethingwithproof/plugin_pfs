@@ -121,7 +121,9 @@ foreach ($access as $user => $expect) {
 
 	foreach ($expect as $page => $allowed) {
 		list($code, $body) = perm_http($base . $page, $jar);
-		$shown = strpos($body, $pages[$page]) !== false;
+		// A viewer sees only filesystems whose device Cacti allows, so the
+		// view page may say none is visible instead.
+		$shown = strpos($body, $pages[$page]) !== false || ($page === 'pfs.php' && strpos($body, 'No filesystem is visible to you') !== false);
 
 		perm_expect($shown === $allowed && preg_match('/(Fatal error|Parse error|Warning:|Uncaught)/', $body) !== 1, "$user " . ($allowed ? 'sees' : 'is denied') . " $page (HTTP $code)");
 	}

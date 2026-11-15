@@ -23,6 +23,11 @@ namespace Somethingwithproof\Pfs;
  * The view page: each filesystem's targets, where they were last seen, their
  * condition, and how fresh their values are. It reads the cache only, so a
  * reload is never a measurement (REQ-STATE-006).
+ *
+ * Visibility follows Cacti, not a plugin permission layer (REQ-SEC-011,
+ * REQ-SEC-012): a filesystem mapped to a device is shown to users Cacti
+ * allows to see that device, checked on every request; an unmapped
+ * filesystem and every node name are shown to administrators only.
  */
 final class TargetsPage {
 	public const FILE = 'pfs.php';
@@ -34,7 +39,18 @@ final class TargetsPage {
 		private readonly ObservationRepository $observations,
 		private readonly FreshnessEvaluator $freshness,
 		private readonly Clock $clock,
+		private readonly bool $admin = true,
+		private readonly ?\Closure $deviceAllowed = null,
 	) {
+	}
+
+	/**
+	 * Filesystems this user may see.
+	 *
+	 * @return list<Filesystem>
+	 */
+	public function visible(): array {
+		return array_values(array_filter($this->filesystems->all(), fn (Filesystem $f): bool => $this->admin || ($f->hostId > 0 && $this->deviceAllowed !== null && ($this->deviceAllowed)($f->hostId) === true)));
 	}
 
 	public function render(): void {
@@ -44,17 +60,24 @@ final class TargetsPage {
 			$names[$node->id] = $node->name;
 		}
 
-		$filesystems = $this->filesystems->all();
+		$filesystems = $this->visible();
 
 		if ($filesystems === []) {
 			html_start_box(__('Parallel Filesystems', 'pfs'), '100%', '', '3', 'center', '');
-			print '<tr><td><em>' . html_escape(__('No filesystems registered yet.', 'pfs')) . '</em></td></tr>';
+			print '<tr><td><em>' . html_escape($this->admin ? __('No filesystems registered yet.', 'pfs') : __('No filesystem is visible to you.', 'pfs')) . '</em></td></tr>';
 			html_end_box();
 		}
 
 		foreach ($filesystems as $filesystem) {
 			html_start_box(__('Filesystem %s', html_escape($filesystem->name), 'pfs'), '100%', '', '3', 'center', '');
-			print Format::header([__('Target', 'pfs'), __('Review', 'pfs'), __('Presence', 'pfs'), __('Condition', 'pfs'), __('Recovery', 'pfs'), __('Freshness', 'pfs'), __('Known Values', 'pfs'), __('Source Node', 'pfs'), __('Last Seen', 'pfs')]);
+
+			if ($filesystem->hostId > 0) {
+				print '<tr><td colspan="9"><a class="linkEditMain" id="pfs_graphs_' . $filesystem->id . '" href="' . html_escape($this->graphsUrl($filesystem->hostId)) . '">' . html_escape(__('Graphs of this filesystem', 'pfs')) . '</a></td></tr>';
+			}
+
+			$labels = [__('Target', 'pfs'), __('Review', 'pfs'), __('Presence', 'pfs'), __('Condition', 'pfs'), __('Recovery', 'pfs'), __('Freshness', 'pfs'), __('Known Values', 'pfs'), __('Source Node', 'pfs'), __('Last Seen', 'pfs')];
+
+			print Format::header($this->admin ? $labels : array_values(array_diff($labels, [__('Source Node', 'pfs')])));
 
 			$targets      = $this->targets->forFilesystem($filesystem->id);
 			$observations = $this->observations->forFilesystem($filesystem->id);
@@ -64,11 +87,25 @@ final class TargetsPage {
 			}
 
 			foreach ($targets as $target) {
-				print Format::row($this->row($target, $observations[$target->id] ?? [], $filesystem, $names));
+				$cells = $this->row($target, $observations[$target->id] ?? [], $filesystem, $names);
+
+				if (!$this->admin) {
+					array_splice($cells, 7, 1);
+				}
+
+				print Format::row($cells);
 			}
 
 			html_end_box();
 		}
+	}
+
+	/**
+	 * Cacti's graph preview of one device, which applies Cacti's own graph
+	 * permissions.
+	 */
+	public function graphsUrl(int $hostId): string {
+		return '../../graph_view.php?action=preview&reset=true&host_id=' . $hostId;
 	}
 
 	/**

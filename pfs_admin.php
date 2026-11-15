@@ -34,7 +34,7 @@ if (!pfs_page_start()) {
 	exit;
 }
 
-pfs_require_post('pfs_admin.php', array('save_fs', 'delete_fs', 'save_node', 'delete_node', 'add_network', 'delete_network', 'accept_target', 'ignore_target'));
+pfs_require_post('pfs_admin.php', array('save_fs', 'delete_fs', 'save_node', 'delete_node', 'add_network', 'delete_network', 'accept_target', 'ignore_target', 'save_device', 'unmap_device'));
 
 $pfs_clock       = new \Somethingwithproof\Pfs\SystemClock();
 $pfs_backends    = \Somethingwithproof\Pfs\BackendRegistry::production();
@@ -43,8 +43,40 @@ $pfs_nodes       = new \Somethingwithproof\Pfs\NodeRepository(false, $pfs_clock)
 $pfs_networks    = new \Somethingwithproof\Pfs\NetworkRepository(false, $pfs_clock);
 $pfs_targets     = new \Somethingwithproof\Pfs\TargetRepository(false);
 $pfs_pollers     = new \Somethingwithproof\Pfs\PollerRepository(false);
-$pfs_page        = new \Somethingwithproof\Pfs\AdminPage($pfs_filesystems, $pfs_nodes, $pfs_networks, $pfs_targets, $pfs_backends, $pfs_pollers);
+$pfs_objects     = new \Somethingwithproof\Pfs\CactiObjectRepository(false);
+$pfs_provisioner = pfs_provisioner();
+$pfs_access      = new \Somethingwithproof\Pfs\DeviceAccess(function ($host_id) {
+	return is_device_allowed($host_id);
+});
+$pfs_page        = new \Somethingwithproof\Pfs\AdminPage($pfs_filesystems, $pfs_nodes, $pfs_networks, $pfs_targets, $pfs_backends, $pfs_pollers, $pfs_provisioner, $pfs_objects, $pfs_access);
 $pfs_action      = (string) get_nfilter_request_var('action');
+
+/**
+ * Refuse an action on a record whose Cacti device this user may not see.
+ * Every action that loads an existing record calls this before it changes
+ * anything (DeviceAccess).
+ *
+ * @param mixed $allowed
+ */
+function pfs_admin_require($allowed) {
+	if ($allowed !== true) {
+		raise_message('pfs_denied', __('That record belongs to a Cacti device you do not have permission for. Nothing was changed.', 'pfs'), MESSAGE_LEVEL_ERROR);
+		header('Location: pfs_admin.php');
+		exit;
+	}
+}
+
+/**
+ * The filesystem of a node or target, for the device check.
+ *
+ * @param mixed $record
+ * @return mixed
+ */
+function pfs_admin_parent($record) {
+	global $pfs_filesystems;
+
+	return is_object($record) && isset($record->filesystemId) ? $pfs_filesystems->find((int) $record->filesystemId) : null;
+}
 
 /**
  * @param list<string> $fields
@@ -71,6 +103,10 @@ switch ($pfs_action) {
 			exit;
 		}
 
+		if ($pfs_existing !== null) {
+			pfs_admin_require($pfs_access->filesystem($pfs_existing));
+		}
+
 		$pfs_parsed = \Somethingwithproof\Pfs\FilesystemInput::parse($pfs_input, $pfs_id, $pfs_backends, $pfs_pollers->names());
 		$pfs_errors = $pfs_parsed->errors;
 
@@ -90,8 +126,17 @@ switch ($pfs_action) {
 		header('Location: pfs_admin.php');
 		exit;
 	case 'delete_fs':
-		if ($pfs_filesystems->delete((int) get_filter_request_var('id'))) {
-			raise_message('pfs_deleted', __('The filesystem, its nodes, and its inventory were deleted. No node was contacted.', 'pfs'), MESSAGE_LEVEL_INFO);
+		$pfs_fs = $pfs_filesystems->find((int) get_filter_request_var('id'));
+
+		if ($pfs_fs === null) {
+			header('Location: pfs_admin.php');
+			exit;
+		}
+
+		pfs_admin_require($pfs_access->filesystem($pfs_fs));
+
+		if ($pfs_filesystems->delete($pfs_fs->id)) {
+			raise_message('pfs_deleted', __('The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted.', 'pfs'), MESSAGE_LEVEL_INFO);
 		}
 
 		header('Location: pfs_admin.php');
@@ -106,9 +151,14 @@ switch ($pfs_action) {
 			exit;
 		}
 
+		if ($pfs_existing !== null) {
+			pfs_admin_require($pfs_access->filesystem(pfs_admin_parent($pfs_existing)));
+		}
+
+		// A node can be saved only into a filesystem this user may see.
 		$pfs_fs_map = array();
 
-		foreach ($pfs_filesystems->all() as $pfs_fs) {
+		foreach ($pfs_access->filesystems($pfs_filesystems->all()) as $pfs_fs) {
 			$pfs_fs_map[$pfs_fs->id] = $pfs_fs;
 		}
 
@@ -131,7 +181,16 @@ switch ($pfs_action) {
 		header('Location: pfs_admin.php');
 		exit;
 	case 'delete_node':
-		if ($pfs_nodes->delete((int) get_filter_request_var('id'))) {
+		$pfs_node = $pfs_nodes->find((int) get_filter_request_var('id'));
+
+		if ($pfs_node === null) {
+			header('Location: pfs_admin.php');
+			exit;
+		}
+
+		pfs_admin_require($pfs_access->filesystem(pfs_admin_parent($pfs_node)));
+
+		if ($pfs_nodes->delete($pfs_node->id)) {
 			raise_message('pfs_deleted', __('The node was deleted. Targets it reported keep their history.', 'pfs'), MESSAGE_LEVEL_INFO);
 		}
 
@@ -150,21 +209,83 @@ switch ($pfs_action) {
 		exit;
 	case 'accept_target':
 	case 'ignore_target':
-		$pfs_targets->review((int) get_filter_request_var('id'), $pfs_action === 'accept_target' ? \Somethingwithproof\Pfs\Review::Accepted : \Somethingwithproof\Pfs\Review::Ignored);
+		$pfs_target = $pfs_targets->find((int) get_filter_request_var('id'));
+
+		if ($pfs_target === null) {
+			header('Location: pfs_admin.php');
+			exit;
+		}
+
+		pfs_admin_require($pfs_access->filesystem(pfs_admin_parent($pfs_target)));
+
+		$pfs_targets->review($pfs_target->id, $pfs_action === 'accept_target' ? \Somethingwithproof\Pfs\Review::Accepted : \Somethingwithproof\Pfs\Review::Ignored);
+		header('Location: pfs_admin.php');
+		exit;
+	case 'device':
+		$pfs_fs = $pfs_filesystems->find((int) get_filter_request_var('id'));
+
+		if ($pfs_fs === null || $pfs_fs->hostId > 0) {
+			header('Location: pfs_admin.php');
+			exit;
+		}
+
+		pfs_admin_require($pfs_access->filesystem($pfs_fs));
+
+		top_header();
+		$pfs_page->renderDeviceConfirm($pfs_fs, (int) get_filter_request_var('host_id'));
+		bottom_footer();
+		exit;
+	case 'save_device':
+		$pfs_fs   = $pfs_filesystems->find((int) get_filter_request_var('id'));
+		$pfs_host = (int) get_filter_request_var('host_id');
+
+		pfs_admin_require($pfs_fs !== null && $pfs_access->filesystem($pfs_fs) && ($pfs_host === 0 || $pfs_access->device($pfs_host)));
+
+		if ($pfs_fs === null || $pfs_fs->hostId > 0 || $pfs_provisioner->refusal() !== null) {
+			raise_message('pfs_device', __('No device was added: the filesystem already has one, or the templates are not installed.', 'pfs'), MESSAGE_LEVEL_ERROR);
+		} elseif ($pfs_host > 0) {
+			$pfs_ok = $pfs_provisioner->map($pfs_fs, $pfs_host);
+			raise_message('pfs_device', $pfs_ok ? __('The device was mapped and the data queries and overview graphs were added.', 'pfs') : __('The device could not be mapped. It may be mapped to another filesystem.', 'pfs'), $pfs_ok ? MESSAGE_LEVEL_INFO : MESSAGE_LEVEL_ERROR);
+		} else {
+			$pfs_ok = $pfs_provisioner->create($pfs_fs) > 0;
+			raise_message('pfs_device', $pfs_ok ? __('The device, its data queries, and its overview graphs were created.', 'pfs') : __('Cacti did not create the device. See the Cacti log.', 'pfs'), $pfs_ok ? MESSAGE_LEVEL_INFO : MESSAGE_LEVEL_ERROR);
+		}
+
+		header('Location: pfs_admin.php');
+		exit;
+	case 'unmap_device':
+		$pfs_fs = $pfs_filesystems->find((int) get_filter_request_var('id'));
+
+		if ($pfs_fs !== null && $pfs_fs->hostId > 0) {
+			pfs_admin_require($pfs_access->filesystem($pfs_fs));
+			$pfs_filesystems->unmapHosts(array($pfs_fs->hostId));
+			raise_message('pfs_device', __('The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again.', 'pfs'), MESSAGE_LEVEL_INFO);
+		}
+
 		header('Location: pfs_admin.php');
 		exit;
 	case 'edit_fs':
 		$pfs_id = (int) get_filter_request_var('id');
+		$pfs_fs = $pfs_id > 0 ? $pfs_filesystems->find($pfs_id) : null;
+
+		if ($pfs_fs !== null) {
+			pfs_admin_require($pfs_access->filesystem($pfs_fs));
+		}
 
 		top_header();
-		$pfs_page->renderFilesystemEdit($pfs_id > 0 ? $pfs_filesystems->find($pfs_id) : null);
+		$pfs_page->renderFilesystemEdit($pfs_fs);
 		bottom_footer();
 		exit;
 	case 'edit_node':
-		$pfs_id = (int) get_filter_request_var('id');
+		$pfs_id   = (int) get_filter_request_var('id');
+		$pfs_node = $pfs_id > 0 ? $pfs_nodes->find($pfs_id) : null;
+
+		if ($pfs_node !== null) {
+			pfs_admin_require($pfs_access->filesystem(pfs_admin_parent($pfs_node)));
+		}
 
 		top_header();
-		$pfs_page->renderNodeEdit($pfs_id > 0 ? $pfs_nodes->find($pfs_id) : null);
+		$pfs_page->renderNodeEdit($pfs_node);
 		bottom_footer();
 		exit;
 	case 'export':

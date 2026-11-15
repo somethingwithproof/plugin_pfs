@@ -17,6 +17,8 @@ path = [
     "phpunit.xml",
     "phpunit-integration.xml",
     "tests/fixtures/**",
+    "templates/**",
+    "resource/**",
     "locales/po/**",
     "locales/LC_MESSAGES/**",
 ]

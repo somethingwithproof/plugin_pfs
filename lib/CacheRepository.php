@@ -21,7 +21,8 @@ namespace Somethingwithproof\Pfs;
 
 /**
  * Applies one reader run's results for one filesystem: targets, their
- * observations, and the node health rows, in one transaction that commits
+ * observations, the node health rows, and the summary computed from them,
+ * in one transaction that commits
  * only while the run's lease is held (REQ-READ-004). A run that lost its
  * lease, or whose transaction InnoDB ended, writes nothing; every statement
  * is an upsert keyed on the target and value, so the next run simply writes
@@ -39,7 +40,7 @@ final class CacheRepository {
 	 * @param list<array{update: TargetUpdate, observations: list<Observation>}> $writes
 	 * @param list<NodeHealth>                                                    $health
 	 */
-	public function apply(int $pollerId, string $holder, int $now, Filesystem $filesystem, array $writes, array $health): bool {
+	public function apply(int $pollerId, string $holder, int $now, Filesystem $filesystem, array $writes, array $health, ?Summary $summary = null): bool {
 		if (!db_begin_transaction($this->connection)) {
 			return false;
 		}
@@ -69,6 +70,14 @@ final class CacheRepository {
 			}
 
 			$ok = $this->health($record) && $this->inTransaction();
+		}
+
+		foreach ($summary === null ? [] : $summary->values as $metric => $value) {
+			if (!$ok || $summary === null) {
+				break;
+			}
+
+			$ok = $this->summary($filesystem->id, $metric, $value, $summary) && $this->inTransaction();
 		}
 
 		if ($ok && db_commit_transaction($this->connection)) {
@@ -109,6 +118,14 @@ final class CacheRepository {
 			ON DUPLICATE KEY UPDATE value = VALUES(value), observed_at = VALUES(observed_at), ingested_at = VALUES(ingested_at), source_node_id = VALUES(source_node_id),
 				expected_interval = VALUES(expected_interval), continuity = VALUES(continuity), start_marker = VALUES(start_marker), epoch = VALUES(epoch)', [
 			$targetId, $o->metric, $o->value, $o->observedAt, $o->ingestedAt, $o->sourceNodeId, $o->expectedInterval, $o->continuity->value, $o->startMarker ?? '', $o->epoch,
+		], true, $this->connection);
+	}
+
+	private function summary(int $filesystemId, string $metric, ?float $value, Summary $summary): bool {
+		return db_execute_prepared('INSERT INTO plugin_pfs_summary (filesystem_id, metric, value, members, observed_at, computed_at)
+			VALUES (?, ?, ?, ?, ?, ?)
+			ON DUPLICATE KEY UPDATE value = VALUES(value), members = VALUES(members), observed_at = VALUES(observed_at), computed_at = VALUES(computed_at)', [
+			$filesystemId, $metric, $value, $summary->members[$metric] ?? '', $summary->observedAt, $summary->computedAt,
 		], true, $this->connection);
 	}
 

@@ -111,6 +111,47 @@ final class HealthWarnings {
 	}
 
 	/**
+	 * Warnings about the Cacti objects the plugin depends on: the imported
+	 * templates, the data query files under Cacti's resource tree, and the
+	 * device each filesystem maps to.
+	 *
+	 * @param list<string>                                     $queryFiles  query files missing or changed
+	 * @param array<int, Filesystem>                           $filesystems id => filesystem
+	 * @param array<int, array{id: int, poller_id: int}|null>  $devices     filesystem id => its device, null when it no longer exists
+	 *
+	 * @return list<string>
+	 */
+	public function objects(string $templateFailure, bool $templatesPresent, array $queryFiles, array $filesystems, array $devices): array {
+		$warnings = [];
+
+		if ($templateFailure !== '') {
+			$warnings[] = __('Installing the Parallel Filesystem templates failed: %s', $templateFailure, 'pfs');
+		} elseif (!$templatesPresent) {
+			$warnings[] = __('The Parallel Filesystem templates are not installed, so no device can be added.', 'pfs');
+		}
+
+		foreach ($queryFiles as $file) {
+			$warnings[] = __('The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets.', $file, 'pfs');
+		}
+
+		foreach ($filesystems as $id => $filesystem) {
+			if ($filesystem->hostId === 0) {
+				continue;
+			}
+
+			$device = $devices[$id] ?? null;
+
+			if ($device === null) {
+				$warnings[] = __('Filesystem %s is mapped to device %d, which no longer exists.', $filesystem->name, $filesystem->hostId, 'pfs');
+			} elseif ($device['poller_id'] !== $filesystem->pollerId) {
+				$warnings[] = __('The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device\'s data sources need.', $filesystem->name, $device['poller_id'], $filesystem->pollerId, 'pfs');
+			}
+		}
+
+		return $warnings;
+	}
+
+	/**
 	 * @return list<string>
 	 */
 	private function files(Settings $settings): array {

@@ -36,7 +36,20 @@ final class AdminPage {
 		private readonly TargetRepository $targets,
 		private readonly BackendRegistry $backends,
 		private readonly PollerRepository $pollers,
+		private readonly DeviceProvisioner $provisioner,
+		private readonly CactiObjectRepository $objects,
+		private readonly DeviceAccess $access,
 	) {
+	}
+
+	/**
+	 * Nodes of the filesystems this user may see.
+	 *
+	 * @param array<int, Filesystem> $filesystems
+	 * @return list<Node>
+	 */
+	private function visibleNodes(array $filesystems): array {
+		return array_values(array_filter($this->nodes->all(), static fn (Node $n): bool => isset($filesystems[$n->filesystemId])));
 	}
 
 	/**
@@ -46,13 +59,13 @@ final class AdminPage {
 	public function renderList(): void {
 		$filesystems = $this->filesystemMap();
 		$pollers     = $this->pollers->names();
-		$nodes       = $this->nodes->all();
+		$nodes       = $this->visibleNodes($filesystems);
 
 		html_start_box(__('Filesystems', 'pfs'), '100%', '', '3', 'center', self::FILE . '?action=edit_fs');
-		print Format::header([__('Name', 'pfs'), __('Backend', 'pfs'), __('Poller', 'pfs'), __('Expected Interval', 'pfs'), __('State', 'pfs'), __('Nodes', 'pfs'), __('Actions', 'pfs')]);
+		print Format::header([__('Name', 'pfs'), __('Backend', 'pfs'), __('Poller', 'pfs'), __('Expected Interval', 'pfs'), __('State', 'pfs'), __('Nodes', 'pfs'), __('Cacti Device', 'pfs'), __('Actions', 'pfs')]);
 
 		if ($filesystems === []) {
-			print '<tr><td colspan="7"><em>' . html_escape(__('No filesystems registered yet.', 'pfs')) . '</em></td></tr>';
+			print '<tr><td colspan="8"><em>' . html_escape(__('No filesystems registered yet.', 'pfs')) . '</em></td></tr>';
 		}
 
 		foreach ($filesystems as $fs) {
@@ -65,6 +78,7 @@ final class AdminPage {
 				. '<td>' . html_escape(__('%d seconds', $fs->interval, 'pfs')) . '</td>'
 				. '<td>' . html_escape($fs->adminState->value) . '</td>'
 				. '<td>' . $count . '</td>'
+				. '<td>' . $this->deviceCell($fs) . '</td>'
 				. '<td>' . $this->actionForm('delete_fs', $fs->id, __('Delete', 'pfs')) . '</td>'
 				. '</tr>';
 		}
@@ -159,6 +173,53 @@ final class AdminPage {
 	}
 
 	/**
+	 * Choose a new or an existing device for a filesystem, and see what the
+	 * plugin will add before confirming (REQ-DEV-002). Choosing is a GET that
+	 * changes nothing; only the confirm button posts.
+	 */
+	public function renderDeviceConfirm(Filesystem $fs, int $hostId): void {
+		$refusal = $this->provisioner->refusal();
+		// Every mapped device is excluded, whoever may see it; only devices
+		// Cacti allows this user are offered.
+		$devices = array_filter($this->objects->mappableDevices(array_values(array_filter(array_map(static fn (Filesystem $f): int => $f->hostId, $this->filesystems->all())))), fn (string $name, int $id): bool => $this->access->device($id), ARRAY_FILTER_USE_BOTH);
+		$hostId  = isset($devices[$hostId]) ? $hostId : 0;
+
+		print '<form method="get" action="' . html_escape(self::FILE) . '">';
+		html_start_box(__('Cacti Device for Filesystem %s', html_escape($fs->name), 'pfs'), '100%', '', '3', 'center', '');
+
+		$this->select('host_id', __('Device', 'pfs'), [0 => __('Create a new device', 'pfs')] + $devices, (string) $hostId);
+
+		print '<tr><td colspan="2"><input type="hidden" name="action" value="device"><input type="hidden" name="id" value="' . $fs->id . '">'
+			. '<input type="submit" class="ui-button" value="' . html_escape(__('Show What Will Be Added', 'pfs')) . '"></td></tr>';
+		html_end_box();
+		print '</form>';
+
+		html_start_box(__('Objects to Add', 'pfs'), '100%', '', '3', 'center', '');
+
+		if ($refusal !== null) {
+			print '<tr><td class="textError">' . html_escape($refusal) . '</td></tr>';
+			html_end_box();
+
+			return;
+		}
+
+		foreach ($this->provisioner->plan($fs, $hostId) as $line) {
+			print '<tr class="tableRow"><td>' . html_escape($line) . '</td></tr>';
+		}
+
+		if ($hostId > 0) {
+			print '<tr><td><em>' . html_escape(__('The device keeps its own settings, poller included. Nothing on it is changed or removed.', 'pfs')) . '</em></td></tr>';
+		}
+
+		print '<tr><td><em>' . html_escape(__('Per-target graphs are created on demand from the device\'s New Graphs page.', 'pfs')) . '</em></td></tr>';
+		html_end_box();
+
+		print '<form method="post" action="' . html_escape(self::FILE) . '">'
+			. '<input type="hidden" name="host_id" value="' . $hostId . '">';
+		$this->submitLabel('save_device', $fs->id, $hostId > 0 ? __('Map This Device', 'pfs') : __('Create the Device', 'pfs'));
+	}
+
+	/**
 	 * The registry as data for the export download.
 	 *
 	 * @return array<string, mixed>
@@ -171,9 +232,9 @@ final class AdminPage {
 			'version'     => $version,
 			'exported_at' => $now,
 			'filesystems' => array_values(array_map(static fn (Filesystem $f): array => ['name' => $f->name, 'backend' => $f->backend, 'poller_id' => $f->pollerId, 'expected_interval' => $f->interval, 'admin_state' => $f->adminState->value], $filesystems)),
-			'nodes'       => array_map(static fn (Node $n): array => ['name' => $n->name, 'filesystem' => $filesystems[$n->filesystemId]->name ?? '', 'role' => $n->role->value, 'poller_id' => $n->pollerId, 'endpoint' => $n->endpoint, 'port' => $n->port, 'login' => $n->user, 'access_method' => $n->accessMethod->value, 'admin_state' => $n->adminState->value], $this->nodes->all()),
+			'nodes'       => array_map(static fn (Node $n): array => ['name' => $n->name, 'filesystem' => $filesystems[$n->filesystemId]->name ?? '', 'role' => $n->role->value, 'poller_id' => $n->pollerId, 'endpoint' => $n->endpoint, 'port' => $n->port, 'login' => $n->user, 'access_method' => $n->accessMethod->value, 'admin_state' => $n->adminState->value], $this->visibleNodes($filesystems)),
 			'networks'    => array_map(static fn (array $n): array => ['poller_id' => $n['poller_id'], 'cidr' => $n['cidr']], $this->networks->all()),
-			'targets'     => array_map(static fn (Target $t): array => ['filesystem' => $filesystems[$t->filesystemId]->name ?? '', 'name' => $t->name(), 'review' => $t->review->value, 'presence' => $t->presence->value], $this->targets->all()),
+			'targets'     => array_map(static fn (Target $t): array => ['filesystem' => $filesystems[$t->filesystemId]->name ?? '', 'name' => $t->name(), 'review' => $t->review->value, 'presence' => $t->presence->value], array_values(array_filter($this->targets->all(), static fn (Target $t): bool => isset($filesystems[$t->filesystemId])))),
 		];
 	}
 
@@ -210,7 +271,8 @@ final class AdminPage {
 
 	/**
 	 * Targets the readers found that nobody reviewed yet, with the number of
-	 * values each would add as data sources in milestone 3 (REQ-INV-003).
+	 * values each adds to a data source once it is graphed (REQ-INV-003).
+	 * Ignoring a target also removes it from the device's data query.
 	 *
 	 * @param array<int, Filesystem> $filesystems
 	 */
@@ -246,7 +308,7 @@ final class AdminPage {
 	private function filesystemMap(): array {
 		$out = [];
 
-		foreach ($this->filesystems->all() as $fs) {
+		foreach ($this->access->filesystems($this->filesystems->all()) as $fs) {
 			$out[$fs->id] = $fs;
 		}
 
@@ -267,6 +329,26 @@ final class AdminPage {
 		foreach ($errors as $message) {
 			print '<tr><td colspan="2" class="textError">' . html_escape($message) . '</td></tr>';
 		}
+	}
+
+	private function deviceCell(Filesystem $fs): string {
+		$device = $fs->hostId > 0 ? $this->objects->device($fs->hostId) : null;
+
+		if ($device === null) {
+			return '<a class="linkEditMain" href="' . html_escape(self::FILE . '?action=device&id=' . $fs->id) . '">' . html_escape(__('Add a device', 'pfs')) . '</a>';
+		}
+
+		$warning = $device['poller_id'] !== $fs->pollerId ? ' <span class="textError">' . html_escape(__('(polled by poller %d, not %d)', $device['poller_id'], $fs->pollerId, 'pfs')) . '</span>' : '';
+
+		return '<a class="linkEditMain" href="' . html_escape('../../host.php?action=edit&id=' . $device['id']) . '">' . html_escape($device['description']) . '</a>' . $warning . ' '
+			. $this->actionForm('unmap_device', $fs->id, __('Unmap', 'pfs'));
+	}
+
+	private function submitLabel(string $action, int $id, string $label): void {
+		print '<input type="hidden" name="action" value="' . html_escape($action) . '">'
+			. '<input type="hidden" name="id" value="' . $id . '">'
+			. '<input type="submit" class="ui-button" value="' . html_escape($label) . '">'
+			. '</form>';
 	}
 
 	private function submit(string $action, int $id): void {

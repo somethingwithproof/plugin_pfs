@@ -106,6 +106,14 @@ switch ($action) {
 		db_execute('DROP TABLE IF EXISTS `' . preg_replace('/[^a-z_]/', '', $argument) . '`');
 
 		break;
+	case 'to_schema_1':
+		// What a milestone 2 install left: no device column, no summary.
+		db_execute('ALTER TABLE plugin_pfs_filesystem DROP INDEX host_id, DROP COLUMN host_id');
+		db_execute('DROP TABLE IF EXISTS plugin_pfs_summary');
+		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_summary'");
+		db_execute("UPDATE settings SET value = '1' WHERE name = 'pfs_schema_version'");
+
+		break;
 	case 'seed':
 		// A filesystem row, so table drops and keeps are visible.
 		db_execute("INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state) VALUES ('seed', 'lustre', 1, 300, 'enabled')");
@@ -172,4 +180,5 @@ print json_encode(array(
 	'admin'   => (int) db_fetch_cell("SELECT COUNT(*) FROM user_auth_realm AS uar INNER JOIN plugin_realms AS pr ON pr.id + 100 = uar.realm_id WHERE pr.plugin = 'pfs' AND uar.user_id = 1"),
 	'tracked' => array_column(db_fetch_assoc("SELECT `table` FROM plugin_db_changes WHERE plugin = 'pfs' AND method = 'create' ORDER BY `table`"), 'table'),
 	'tables'  => $tables,
+	'host_column' => (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") === 1,
 ), JSON_PRETTY_PRINT) . PHP_EOL;

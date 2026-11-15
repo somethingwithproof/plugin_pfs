@@ -1,0 +1,74 @@
+<interface>
+	<name>Parallel Filesystem OSTs</name>
+	<description>Object storage targets (OSTs) of a parallel filesystem, answered from the plugin cache</description>
+	<script_path>|path_cacti|/plugins/pfs/scripts/ss_pfs_targets.php</script_path>
+	<script_function>ss_pfs_targets</script_function>
+	<script_server>php</script_server>
+	<arg_prepend>|host_id| ost</arg_prepend>
+	<arg_index>index</arg_index>
+	<arg_query>query</arg_query>
+	<arg_get>get</arg_get>
+	<arg_num_indexes>num_indexes</arg_num_indexes>
+	<output_delimiter>!</output_delimiter>
+	<index_order>pfsName</index_order>
+	<index_order_type>alphabetic</index_order_type>
+	<index_title_format>|chosen_order_field|</index_title_format>
+
+	<fields>
+		<pfsName>
+			<name>Target</name>
+			<direction>input</direction>
+			<query_name>name</query_name>
+		</pfsName>
+		<pfsIndex>
+			<name>Target Index</name>
+			<direction>input</direction>
+			<query_name>number</query_name>
+		</pfsIndex>
+		<kbytes_total>
+			<name>Total Space (KiB)</name>
+			<direction>output</direction>
+			<query_name>kbytes_total</query_name>
+		</kbytes_total>
+		<kbytes_free>
+			<name>Free Space (KiB)</name>
+			<direction>output</direction>
+			<query_name>kbytes_free</query_name>
+		</kbytes_free>
+		<kbytes_avail>
+			<name>Available Space (KiB)</name>
+			<direction>output</direction>
+			<query_name>kbytes_avail</query_name>
+		</kbytes_avail>
+		<files_total>
+			<name>Total Inodes</name>
+			<direction>output</direction>
+			<query_name>files_total</query_name>
+		</files_total>
+		<files_free>
+			<name>Free Inodes</name>
+			<direction>output</direction>
+			<query_name>files_free</query_name>
+		</files_free>
+		<read_bytes>
+			<name>Bytes Read</name>
+			<direction>output</direction>
+			<query_name>read_bytes</query_name>
+		</read_bytes>
+		<read_ops>
+			<name>Read Operations</name>
+			<direction>output</direction>
+			<query_name>read_ops</query_name>
+		</read_ops>
+		<write_bytes>
+			<name>Bytes Written</name>
+			<direction>output</direction>
+			<query_name>write_bytes</query_name>
+		</write_bytes>
+		<write_ops>
+			<name>Write Operations</name>
+			<direction>output</direction>
+			<query_name>write_ops</query_name>
+		</write_ops>
+	</fields>
+</interface>
