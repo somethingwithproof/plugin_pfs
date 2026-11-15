@@ -203,7 +203,8 @@ final class TemplateInstaller {
 	/**
 	 * Copy the data query files into Cacti's resource tree.
 	 *
-	 * Ownership is recorded only for a file this method wrote: a file that is
+	 * Ownership is recorded only for a file this method wrote, as soon as it is
+ * written: a file that is
 	 * already there with the right content, for example one an administrator
 	 * copied by hand, is used but not recorded, so uninstall never removes
 	 * it. A file is replaced only when the plugin wrote it and nobody changed
@@ -215,7 +216,6 @@ final class TemplateInstaller {
 	 */
 	private function installQueryFiles(): ?string {
 		$written = $this->written();
-		$changed = false;
 
 		foreach (self::QUERIES as [, $file]) {
 			$source = $this->querySource($file);
@@ -250,11 +250,10 @@ final class TemplateInstaller {
 				return sprintf('Could not write %s. Copy plugins/pfs/resource/script_server/%s there as the web server user, then reinstall the templates from the health page', $target, $file);
 			}
 
+			// Saved at once: a later file that fails must not leave this one
+			// written but unrecorded, or a retry would find it identical and
+			// take it for an administrator's copy.
 			$written[$file] = $want;
-			$changed        = true;
-		}
-
-		if ($changed) {
 			set_config_option(self::FILES_SETTING, (string) json_encode($written));
 		}
 

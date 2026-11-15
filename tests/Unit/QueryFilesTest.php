@@ -75,6 +75,24 @@ it('uses an identical file an administrator copied without taking it over, so un
 		->and(file_exists($this->dest . '/pfs_mdts.xml'))->toBeFalse();
 });
 
+it('keeps owning a file it wrote when a later file fails, so a retry and uninstall still treat it as its own', function () {
+	file_put_contents($this->dest . '/pfs_mdts.xml', "<query>local</query>\n");
+
+	expect(($this->copy)())->toContain('pfs_mdts.xml exists and was not written by this plugin')
+		->and(json_decode($GLOBALS['__pfs_options'][TemplateInstaller::FILES_SETTING], true))->toHaveKey('pfs_osts.xml');
+
+	// The operator clears the conflict and installs again.
+	unlink($this->dest . '/pfs_mdts.xml');
+
+	expect(($this->copy)())->toBeNull()
+		->and(array_keys(json_decode($GLOBALS['__pfs_options'][TemplateInstaller::FILES_SETTING], true)))->toBe(['pfs_osts.xml', 'pfs_mdts.xml']);
+
+	$this->installer->uninstall();
+
+	expect(file_exists($this->dest . '/pfs_osts.xml'))->toBeFalse()
+		->and(file_exists($this->dest . '/pfs_mdts.xml'))->toBeFalse();
+});
+
 it('leaves a different file it did not write alone', function () {
 	file_put_contents($this->dest . '/pfs_osts.xml', "<query>local</query>\n");
 
