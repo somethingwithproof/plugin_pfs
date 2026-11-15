@@ -85,7 +85,12 @@ it('runs a fixed argument vector with host key checking and no remote command', 
 
 	$argv = $runner->commands[3];
 
+	// No ssh_config, the poller user's or the system's, may add options:
+	// -F /dev/null comes before every -o option.
 	expect($argv[0])->toBe($this->settings->sshBinary)
+		->and(array_slice($argv, 1, 2))->toBe(['-F', '/dev/null'])
+		->and(array_search('-F', $argv, true))->toBeLessThan(array_search('-o', $argv, true))
+		->and(array_keys($argv, '-F', true))->toHaveCount(1)
 		->and($argv)->toContain('StrictHostKeyChecking=yes')
 		->and($argv)->toContain('BatchMode=yes')
 		->and($argv)->toContain('GlobalKnownHostsFile=/dev/null')

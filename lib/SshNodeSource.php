@@ -92,6 +92,9 @@ final class SshNodeSource implements NodeSource {
 
 		return [
 			$s->sshBinary,
+			// Before every -o: neither ~/.ssh/config of the poller user nor
+			// the system ssh_config can add options. Per-site options are
+			// plugin settings.
 			'-F', '/dev/null',
 			'-T',
 			'-o', 'BatchMode=yes',
