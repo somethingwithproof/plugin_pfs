@@ -377,6 +377,182 @@ jobs:
           exit 1
         fi
 
+  # The milestone 3 and 4 end-to-end runs (tests/bin) against real poller
+  # runs: device flow, target churn and reindex, backup and restore, the Thold
+  # and Maint replay, and failure qualification. One PHP version per Cacti
+  # ref keeps the job time down; the scale harness stays a manual run
+  # (docs/release.md).
+  end-to-end:
+    name: End to end on Cacti ${{ matrix.cacti }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    strategy:
+      fail-fast: false
+      matrix:
+        cacti: ['release/1.2.31', '1.2.x']
+
+    services:
+      mariadb:
+        image: mariadb:11.8@sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15
+        env:
+          MYSQL_ROOT_PASSWORD: cactiroot
+          MYSQL_DATABASE: cacti
+          MYSQL_USER: cactiuser
+          MYSQL_PASSWORD: cactiuser
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mariadb-admin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - name: Checkout Cacti
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        repository: Cacti/cacti
+        ref: ${{ matrix.cacti }}
+        path: cacti
+
+    - name: Checkout pfs plugin
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        path: cacti/plugins/pfs
+
+    # Thold and Maint run unchanged, at the releases docs/alerting.md names.
+    - name: Checkout Thold v1.8.2
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        repository: Cacti/plugin_thold
+        ref: 1eb406bd0f81f3204358cce7bd43c8bb5adc8e4a
+        path: cacti/plugins/thold
+
+    - name: Checkout Maint v1.3
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      with:
+        persist-credentials: false
+        repository: Cacti/plugin_maint
+        ref: cd62de9cc323a4f5a8ac80a8d9dda3c7fa16c470
+        path: cacti/plugins/maint
+
+    - name: Install PHP 8.2
+      uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+      with:
+        php-version: '8.2'
+        extensions: intl, mysql, gd, ldap, gmp, xml, json, mbstring, openssl, snmp
+        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York"
+        coverage: none
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y rrdtool mariadb-client
+
+    - name: Initialize Cacti database
+      run: |
+        echo -e "[client]\nuser = root\npassword = cactiroot\nhost = 127.0.0.1\n" > ~/.my.cnf
+        chmod 600 ~/.my.cnf
+        mariadb -e "CREATE USER IF NOT EXISTS 'cactiuser'@'127.0.0.1' IDENTIFIED BY 'cactiuser';"
+        mariadb -e "GRANT ALL PRIVILEGES ON cacti.* TO 'cactiuser'@'127.0.0.1';"
+        mariadb -e "GRANT SELECT ON mysql.time_zone_name TO 'cactiuser'@'127.0.0.1';"
+        mariadb -e "FLUSH PRIVILEGES;"
+        mariadb cacti < cacti/cacti.sql
+        mariadb -e "INSERT INTO settings (name, value) VALUES ('path_php_binary', '$(command -v php)')" cacti
+        sed -r "s/localhost/127.0.0.1/g" cacti/include/config.php.dist > cacti/include/config.php
+
+    - name: Install Cacti via CLI
+      working-directory: cacti
+      run: php cli/install_cacti.php --accept-eula --install --force
+
+    - name: Install and enable the plugin
+      working-directory: cacti
+      run: php plugins/pfs/tests/bin/php-guard-check.php
+
+    - name: Device flow
+      working-directory: cacti
+      env:
+        PFS_TEST_DATABASE: disposable
+      # RRDtool refuses a second update to a file in the same second, and
+      # the flows run faster than that, so each forced poll waits a second.
+      run: |
+        set -eu
+        php plugins/pfs/tests/bin/device-flow.php setup
+        sleep 1
+        php poller.php --poller=1 --force > /dev/null
+        php plugins/pfs/tests/bin/device-flow.php check
+        sleep 1
+        php poller.php --poller=1 --force > /dev/null
+        php plugins/pfs/tests/bin/device-flow.php later
+
+    - name: Target churn and reindex
+      working-directory: cacti
+      env:
+        PFS_TEST_DATABASE: disposable
+      run: |
+        set -eu
+        for phase in setup remove add return; do
+          php plugins/pfs/tests/bin/target-flow.php "$phase"
+          sleep 1
+          php poller.php --poller=1 --force > /dev/null
+        done
+        php plugins/pfs/tests/bin/target-flow.php check
+
+    - name: Backup and restore
+      working-directory: cacti
+      env:
+        PFS_TEST_DATABASE: disposable
+      run: PFS_TEST_MYSQL_DEFAULTS="$HOME/.my.cnf" sh plugins/pfs/tests/bin/restore-replay.sh
+
+    # The poller logs a failed ownership change for each RRD file it has not
+    # created yet; that line is not a fault of the flows.
+    - name: Check the flows' log for errors
+      working-directory: cacti
+      run: |
+        if [ -f log/cacti.log ]; then
+          if grep -E "FATAL:|ERROR:|WARNING:" log/cacti.log | grep -v "does not exist for ownership assignment"; then
+            exit 1
+          fi
+          mv log/cacti.log log/flows.log
+        fi
+
+    - name: Thold and Maint replay
+      working-directory: cacti
+      env:
+        PFS_TEST_DATABASE: disposable
+      run: |
+        sh plugins/pfs/tests/bin/alert-replay.sh
+        if grep -E "PHP ERROR|DISABLING PLUGIN|TypeError|Fatal" log/cacti.log; then
+          exit 1
+        fi
+        mv log/cacti.log log/alert.log
+
+    # Provokes failed reads, a lost database connection, and slow nodes, so
+    # its log is printed, not checked. Not root here, so the RRD permission
+    # scenario is skipped; the container run covers it.
+    - name: Failure qualification
+      working-directory: cacti
+      env:
+        PFS_TEST_DATABASE: disposable
+      run: |
+        PFS_TEST_MYSQL_DEFAULTS="$HOME/.my.cnf" sh plugins/pfs/tests/bin/failure-replay.sh
+        if [ -f log/cacti.log ]; then mv log/cacti.log log/failure.log; fi
+
+    - name: Show the end-to-end logs
+      if: always()
+      working-directory: cacti
+      run: |
+        for f in log/flows.log log/alert.log log/failure.log log/cacti.log; do
+          if [ -f "$f" ]; then
+            echo "== $f"
+            cat "$f"
+          fi
+        done
+
   workflow-lint:
     name: Workflow lint
     runs-on: ubuntu-latest
@@ -412,6 +588,7 @@ jobs:
       - entry-point-lint
       - integration-test
       - php-guard
+      - end-to-end
       - workflow-lint
       - reuse
     runs-on: ubuntu-latest

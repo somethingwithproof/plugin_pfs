@@ -15,8 +15,9 @@
 # FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
 # more details.
 
-# Failure qualification (tests/bin/failure-flow.php). Run as root from the
-# root of a disposable Cacti install with the plugin enabled:
+# Failure qualification (tests/bin/failure-flow.php). Run from the root of a
+# disposable Cacti install with the plugin enabled, as root for the RRD
+# permission scenario:
 #
 #   PFS_TEST_DATABASE=disposable PFS_TEST_MYSQL_DEFAULTS=<client defaults file> \
 #     sh plugins/pfs/tests/bin/failure-replay.sh
@@ -109,8 +110,9 @@ flow check ok
 
 # An RRD file the poller cannot write. Root ignores file modes, so the
 # poller runs as www-data with that one file left owned by root, read-only.
+# Changing owners needs root; elsewhere (a CI runner) the scenario is skipped.
 echo "== RRD file the poller cannot write"
-if id www-data > /dev/null 2>&1; then
+if [ "$(id -u)" -eq 0 ] && id www-data > /dev/null 2>&1; then
 	# shellcheck disable=SC2046 # the id and the path, split on purpose
 	set -- $(php -r 'chdir("."); include("./include/cli_check.php"); include_once("./lib/rrd.php"); $id = db_fetch_cell("SELECT dl.id FROM data_local dl INNER JOIN host h ON h.id = dl.host_id WHERE h.hostname LIKE \"fault.%\" AND dl.snmp_query_id = 0 ORDER BY dl.id LIMIT 1"); print $id . " " . get_data_source_path($id, true);')
 	rrd_id=${1:-0}
@@ -162,7 +164,7 @@ if id www-data > /dev/null 2>&1; then
 	reader after-rrd
 	flow check ok
 else
-	echo "SKIP no unprivileged www-data user to run the poller as"
+	echo "SKIP not root, or no unprivileged www-data user to run the poller as"
 fi
 
 flow cleanup
