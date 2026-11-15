@@ -22,3 +22,7 @@ The reader runs on the Cacti poller that can reach a filesystem's nodes: the mai
 
 - **Custom bridge service.** The largest security surface, duplicating what remote collectors provide.
 - **Main server reaching every node.** Fails on segmented networks and widens the credential footprint.
+
+## Research update (2026-11-15)
+
+The context said plugins such as servcheck run work on collectors through `remote_collect`, `replicate_out`, and `poller_bottom`. That is not right for `poller_bottom`: core gates `poller_bottom` on the `remote_poller` capability and `poller_output`, `poller_top` on `remote_collect` ([cacti-core](../research/cacti-core.md)). Running Cacti's own gating functions at `release/1.2.31` and the current `1.2.x` showed that an INFO declaring only `remote_collect:1`, as servcheck's does, leaves `poller_bottom` skipped on a collector; `remote_collect:1, remote_poller:1` runs it. The plugin's INFO declares both. The open consequence ("Which INFO capabilities make each hook run") is therefore resolved in principle; a check on a real collector remains (live). On `1.2.x`, `remote_agent.php` authorizes on the TCP peer address instead of `get_client_addr()`, so a proxied collector needs the proxy address registered as the poller.

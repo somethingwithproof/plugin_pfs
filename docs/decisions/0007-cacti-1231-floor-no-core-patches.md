@@ -20,3 +20,7 @@ The minimum Cacti release is 1.2.31, declared as `compat = 1.2.31` in `INFO`. Th
 
 - **Requiring the current 1.2.x head.** Excludes sites that have not upgraded.
 - **Carrying a core patch for a missing hook.** Breaks the no-patch constraint and every site's upgrade path.
+
+## Research update (2026-11-15)
+
+Every API named here has the same signature at `release/1.2.31` and the current `1.2.x` ([cacti-core](../research/cacti-core.md)). Behavior differs in three places the plugin must respect: `api_plugin_db_table_create()` skips an existing table on 1.2.31 and refreshes its schema on `1.2.x`; `exec_background()` shell-quotes its first argument only on `1.2.x`; and hook and realm registration is refused unless the calling function's name contains `install`, `upgrade`, or `setup`. No API was missing at 1.2.31, so the decision stands.
