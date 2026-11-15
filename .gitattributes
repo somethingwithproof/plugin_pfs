@@ -1,2 +1,12 @@
 * text=auto eol=lf
 *.rrd binary
+
+# Left out of release archives (git archive, GitHub source downloads); see
+# docs/release.md.
+/.github export-ignore
+/tests export-ignore
+/phpstan.neon export-ignore
+/phpunit.xml export-ignore
+/phpunit-integration.xml export-ignore
+/.editorconfig export-ignore
+/.gitattributes export-ignore

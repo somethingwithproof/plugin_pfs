@@ -40,7 +40,7 @@ function tpl_xml(): string {
 /**
  * Every data source item in the export: name => [type id, minimum, maximum].
  *
- * @return list<array{name: string, type: string, min: string, max: string}>
+ * @return list<array{hash: string, name: string, type: string, min: string, max: string}>
  */
 function tpl_items(): array {
 	// Export tags are hash_, a two digit object type (08 is a data source
@@ -52,7 +52,7 @@ function tpl_items(): array {
 		preg_match('#<rrd_minimum>(.*?)</rrd_minimum>#', $match[3], $min);
 		preg_match('#<rrd_maximum>(.*?)</rrd_maximum>#', $match[3], $max);
 		preg_match('#<data_source_type_id>(.*?)</data_source_type_id>#', $match[3], $type);
-		$items[] = ['name' => $match[2], 'type' => $type[1] ?? '', 'min' => $min[1] ?? '', 'max' => $max[1] ?? ''];
+		$items[] = ['hash' => $match[1], 'name' => $match[2], 'type' => $type[1] ?? '', 'min' => $min[1] ?? '', 'max' => $max[1] ?? ''];
 	}
 
 	return $items;
@@ -110,6 +110,20 @@ it('stores every backend value on some per-target data template and every summar
 
 	foreach (Summary::names() as $name) {
 		expect($names)->toHaveKey($name);
+	}
+});
+
+// Cacti creates and updates only the data source items some graph item
+// references, so a summary value no graph draws never reaches its RRD or
+// Thold.
+it('draws every summary value on some graph', function () {
+	preg_match_all('#<task_item_id>(hash_08\d{4}[0-9a-f]{32})</task_item_id>#', tpl_xml(), $m);
+	$drawn = array_flip($m[1]);
+
+	foreach (tpl_items() as $item) {
+		if (in_array($item['name'], Summary::names(), true)) {
+			expect(isset($drawn[$item['hash']]))->toBeTrue($item['name'] . ' is not on any graph');
+		}
 	}
 });
 

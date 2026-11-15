@@ -22,9 +22,12 @@ namespace Somethingwithproof\Pfs;
 /**
  * Counter continuity of one cached value (REQ-STATE-004). Reset means the
  * interval that ends at this observation contains a reset, so its rate is
- * unknown.
+ * unknown. Absent means the node printed the counter's stats section and the
+ * counter's line was not in it, which Lustre does for a counter that has not
+ * counted since its start time; the value itself stays unknown (ADR 0013).
  */
 enum Continuity: string {
 	case Continuous = 'continuous';
 	case Reset      = 'reset';
+	case Absent     = 'absent';
 }

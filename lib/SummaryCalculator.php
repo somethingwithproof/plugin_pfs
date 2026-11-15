@@ -31,6 +31,12 @@ namespace Somethingwithproof\Pfs;
  * capacity totals need every OST, and the aggregate counters need every OST
  * (or MDT) present with a current, continuous value.
  *
+ * A counter Lustre left out of a target's stats section has not counted
+ * since its start time. In a sum it counts as zero, but only for a target
+ * that is present, in service, and reported other values in the same read;
+ * a missing, stale, or failed target still makes the sum unknown (ADR 0013).
+ * The target's own value stays unknown.
+ *
  * An aggregate counter is a sum of counters, so its member set must not
  * change between two published values: a target joining would add its whole
  * history to the sum. Each counter's member set is kept as a hash, and a
@@ -182,7 +188,7 @@ final class SummaryCalculator {
 
 			foreach ($metrics as $metric) {
 				$observation = $target->value($metric);
-				$value       = $observation?->published();
+				$value       = self::absentAsZero($target, $observation, $current) ? 0.0 : $observation?->published();
 
 				if ($value === null || !$current($observation)) {
 					continue;
@@ -213,6 +219,31 @@ final class SummaryCalculator {
 		sort($members);
 
 		return ['value' => $complete ? $total : null, 'members' => $members, 'contributors' => $contributors];
+	}
+
+	/**
+	 * Whether an absent counter counts as zero: the observation says Lustre
+	 * left the line out, it is current, and the target is present, in
+	 * service, and has a known value from the same read.
+	 *
+	 * @param \Closure(?Observation): bool $current
+	 */
+	private static function absentAsZero(SummaryTarget $target, ?Observation $observation, \Closure $current): bool {
+		if ($observation === null || $observation->continuity !== Continuity::Absent || !$current($observation)) {
+			return false;
+		}
+
+		if ($target->presence !== Presence::Present || $target->condition !== Condition::InService) {
+			return false;
+		}
+
+		foreach ($target->values as $other) {
+			if ($other->value !== null && $other->observedAt === $observation->observedAt) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

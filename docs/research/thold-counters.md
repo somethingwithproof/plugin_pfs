@@ -57,3 +57,21 @@ Maint suppresses Thold notifications for a device through the guarded function c
 | Issue | Check | What it settles |
 |---|---|---|
 | [#22](https://github.com/somethingwithproof/plugin_pfs/issues/22) | Install Thold and Maint on a Cacti 1.2.31 test instance, create a DERIVE fixture data source and thresholds, feed the sequences above through the poller | The values Thold stores and alerts on, end to end; Maint suppression |
+
+## Milestone 4 end-to-end run
+
+Run 2026-11-15 with `tests/bin/alert-replay.sh` on a disposable Cacti 1.2.31 (PHP 8.2.35, `cmd.php`), Thold v1.8.2 (`1eb406bd0f81f3204358cce7bd43c8bb5adc8e4a`) and Maint v1.3 (`cd62de9cc323a4f5a8ac80a8d9dda3c7fa16c470`), unchanged, with the plugin's summary data source fed from fixture reads. Results for gauges and for a rate threshold that sees no unknown value are in [alerting.md](../alerting.md#what-was-tested).
+
+**Unknown values break Thold 1.8.2 on DERIVE data sources.** In the first run a high threshold on the summary `write_bytes` (DERIVE) saw the `U` the plugin serves for the poll after a target left the sum. Thold's `thold_poller_output()` stored `U` as the threshold's `oldvalue` (a `varchar`), and on the next numeric value `thold_get_currentval()` computed `value - 'U'`:
+
+```
+ERROR PHP ERROR in  Plugin 'thold': Uncaught TypeError: Unsupported operand types: string - string in /work/cacti/plugins/thold/thold_functions.php:812
+  #0 /work/cacti/plugins/thold/includes/polling.php(157): thold_get_currentval(...)
+  #1 /work/cacti/lib/plugins.php(288): thold_poller_output(Array)
+  #3 /work/cacti/lib/poller.php(816): api_plugin_hook_function('poller_output', Array)
+  #4 /work/cacti/poller.php(782): process_poller_output(...)
+```
+
+Cacti's error handler then disabled the Thold plugin (`api_plugin_disable_all()` for a fatal error in a plugin file), and that poll's output processing stopped. Every later Thold check in the run was skipped. The same applies to any DERIVE or COUNTER data source with a Thold threshold that reads `U` once, which the plugin does by design on a reset or a change of contributors (ADR 0012). Thold's development branch at `dc76952ee52e8b4877b2d5b830caab1f7c43dde9` (2026-11-09, not released) treats an unknown or stale counter sample as a fresh baseline and keeps the alert state; it was read, not run.
+
+Also seen in the run: Thold's first rate after a threshold is created divides the raw counter by the data source step (no previous value), which a two-poll fail trigger absorbs. In Thold 1.8.2's source a non-numeric value takes the not-breached branch of `thold_check_threshold()`, so an unknown value restores a breached threshold; this was read, not exercised.

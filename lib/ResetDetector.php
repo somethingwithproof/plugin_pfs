@@ -29,11 +29,29 @@ namespace Somethingwithproof\Pfs;
  * 5), or the previous value was unknown, so no rate can be trusted across it.
  * A reset hidden by a later, larger value with no start_time is not
  * detectable; that limit is documented in the research.
+ *
+ * A counter Lustre left out of its stats section (Continuity::Absent) has not
+ * counted since its start time, so its first printed value continues from
+ * zero when the start time is printed, unchanged, and the node is the same;
+ * without a start time to compare there is no way to rule out a clear, and
+ * the interval is a reset (ADR 0013).
+ *
+ * Entering absence is checked the same way (absent()): a counter that had a
+ * value and is now left out was cleared, as is one whose start time or node
+ * changed, so that interval is a reset and not a zero. Only a counter that
+ * was already without a value under the same start time and node, or that
+ * has no earlier observation, is Absent.
  */
 final class ResetDetector {
 	public static function continuity(?Observation $previous, ?float $value, ?string $start, int $sourceNodeId, ValueKind $kind): Continuity {
 		if ($kind === ValueKind::Gauge || $previous === null || $value === null) {
 			return Continuity::Continuous;
+		}
+
+		if ($previous->continuity === Continuity::Absent) {
+			return $start !== null && $start === $previous->startMarker && $previous->sourceNodeId === $sourceNodeId
+				? Continuity::Continuous
+				: Continuity::Reset;
 		}
 
 		return match (true) {
@@ -43,5 +61,18 @@ final class ResetDetector {
 			$start !== null && $previous->startMarker !== null && $start !== $previous->startMarker => Continuity::Reset,
 			default                                                                       => Continuity::Continuous,
 		};
+	}
+
+	/**
+	 * Continuity of a counter Lustre left out of a complete stats section.
+	 */
+	public static function absent(?Observation $previous, ?string $start, int $sourceNodeId): Continuity {
+		if ($previous === null) {
+			return Continuity::Absent;
+		}
+
+		return $previous->value === null && $start !== null && $start === $previous->startMarker && $previous->sourceNodeId === $sourceNodeId
+			? Continuity::Absent
+			: Continuity::Reset;
 	}
 }

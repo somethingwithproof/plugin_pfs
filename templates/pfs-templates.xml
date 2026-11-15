@@ -433,6 +433,25 @@
 				<dash_offset></dash_offset>
 				<sequence>19</sequence>
 			</hash_100103fe90374cc401fb04a3e3493969d9e295>
+			<hash_1001030736812becc59c1f71a59cf00d969b71>
+				<graph_type_id>11</graph_type_id>
+				<task_item_id>hash_080103daf82948cb2dfd865880d08160a7848a</task_item_id>
+				<color_id>0</color_id>
+				<alpha>FF</alpha>
+				<consolidation_function_id>1</consolidation_function_id>
+				<cdef_id>0</cdef_id>
+				<vdef_id>0</vdef_id>
+				<shift></shift>
+				<value></value>
+				<gprint_id>hash_0601030292662719dc838b36ba4253137dbf08</gprint_id>
+				<textalign></textalign>
+				<text_format>Seconds since the oldest observation:</text_format>
+				<hard_return>on</hard_return>
+				<line_width>0.00</line_width>
+				<dashes></dashes>
+				<dash_offset></dash_offset>
+				<sequence>20</sequence>
+			</hash_1001030736812becc59c1f71a59cf00d969b71>
 		</items>
 		<inputs>
 			<hash_090103239faeacbb2ad283651462b4105d4d02>

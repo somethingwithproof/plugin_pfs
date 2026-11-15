@@ -315,6 +315,9 @@ $overview = array(
 		array('rrd' => $s['targets_total'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Targets:', 'gprint' => $gCount),
 		array('rrd' => $s['targets_missing'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Left out of the summary:', 'gprint' => $gCount),
 		array('rrd' => $s['targets_unhealthy'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Unhealthy:', 'gprint' => $gCount),
+		// Cacti stores only the data source items a graph references, so age
+		// must appear on a graph for Thold to see it.
+		array('rrd' => $s['age'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Seconds since the oldest observation:', 'gprint' => $gCount),
 	), '100', true),
 	pfs_graph_template('Parallel Filesystem Imbalance', '|host_description| - Imbalance (fullest minus emptiest OST)', 'percentage points', 1000, array(
 		array('rrd' => $s['fill_spread_pct'], 'type' => GRAPH_ITEM_TYPE_AREA, 'color' => '7D3C98', 'text' => 'Spread', 'gprint' => $gPct, 'legends' => $last),

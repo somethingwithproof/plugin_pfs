@@ -52,6 +52,19 @@ function sum_target(string $name, array $values, int $at = SUM_T, Presence $pres
 	return new SummaryTarget(TargetId::parse($name), $review, $presence, $condition, $observations);
 }
 
+/**
+ * The target with $metric recorded as a counter line Lustre left out of a
+ * stats section in the same read as its other values.
+ */
+function sum_absent(SummaryTarget $target, string $metric): SummaryTarget {
+	$at     = max(array_map(static fn (Observation $o): int => $o->observedAt, $target->values));
+	$values = $target->values;
+
+	$values[$metric] = new Observation(1, $metric, null, $at, $at, 1, 300, Continuity::Absent);
+
+	return new SummaryTarget($target->id, $target->review, $target->presence, $target->condition, $values);
+}
+
 function sum_ost(string $name, float $used, float $read = 1000.0, float $write = 500.0, array $extra = []): array {
 	return ['kbytes_total' => 1000.0, 'kbytes_free' => 1000.0 - $used, 'kbytes_avail' => 1000.0 - $used, 'files_total' => 100.0, 'files_free' => 90.0, 'read_bytes' => $read, 'write_bytes' => $write] + $extra;
 }
@@ -138,18 +151,75 @@ describe('summary', function () {
 			->and($s->value('fill_max_pct'))->toBe(30.0);
 	});
 
-	it('keeps an absent counter line unknown, so a sum that needs it is unknown', function () {
+	it('keeps a counter with no observation or a rejected line unknown, so a sum that needs it is unknown', function () {
 		$ost1 = sum_ost('scratch-OST0001', 300.0);
 		unset($ost1['write_bytes']);
+		$rejected = sum_ost('scratch-OST0001', 300.0, 1000.0, 0.0);
+		$rejected['write_bytes'] = null;
 
+		foreach ([$ost1, $rejected] as $values) {
+			$s = SummaryCalculator::calculate([
+				sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0)),
+				sum_target('scratch-OST0001', $values),
+			], null, 300, SUM_T);
+
+			expect($s->value('write_bytes'))->toBeNull()
+				->and($s->value('read_bytes'))->toBe(2000.0)
+				->and($s->value('ost_contributors'))->toBe(1.0);
+		}
+	});
+
+	it('counts an absent counter line as zero for a present, in-service OST that reported its other values', function () {
 		$s = SummaryCalculator::calculate([
 			sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0)),
-			sum_target('scratch-OST0001', $ost1),
+			sum_absent(sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0)), 'write_bytes'),
 		], null, 300, SUM_T);
 
-		expect($s->value('write_bytes'))->toBeNull()
+		expect($s->value('write_bytes'))->toBe(500.0)
 			->and($s->value('read_bytes'))->toBe(2000.0)
-			->and($s->value('ost_contributors'))->toBe(1.0);
+			->and($s->value('ost_contributors'))->toBe(2.0)
+			->and($s->members['write_bytes'])->toBe(sha1("scratch-OST0000:write_bytes\nscratch-OST0001:write_bytes"));
+	});
+
+	it('keeps the sum unknown when the OST with an absent line is missing, unhealthy, stale, or reported nothing else', function () {
+		$healthy = sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0));
+		$cases   = [
+			'missing'   => sum_absent(sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0), SUM_T, Presence::Missing), 'write_bytes'),
+			'degraded'  => sum_absent(sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0), SUM_T, Presence::Present, Condition::Degraded), 'write_bytes'),
+			'unknown'   => sum_absent(sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0), SUM_T, Presence::Present, Condition::Unknown), 'write_bytes'),
+			'stale'     => sum_absent(sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0), SUM_T - 600), 'write_bytes'),
+			'read lost' => sum_absent(sum_target('scratch-OST0001', array_map(static fn (): ?float => null, sum_ost('scratch-OST0001', 300.0))), 'write_bytes'),
+		];
+
+		foreach ($cases as $case => $target) {
+			$s = SummaryCalculator::calculate([$healthy, $target], null, 300, SUM_T);
+
+			expect($s->value('write_bytes'))->toBeNull($case);
+		}
+	});
+
+	it('leaves an absent metadata operation out of md_ops instead of counting it, since an MDT is never in service', function () {
+		$mdt = sum_absent(sum_target('scratch-MDT0000', ['kbytes_total' => 100.0, 'kbytes_free' => 50.0, 'kbytes_avail' => 50.0, 'md_open' => 7.0], SUM_T, Presence::Present, Condition::Unknown), 'md_close');
+		$s   = SummaryCalculator::calculate([$mdt], null, 300, SUM_T);
+
+		expect($s->value('md_ops'))->toBe(7.0)
+			->and($s->members['md_ops'])->toBe(sha1('scratch-MDT0000:md_open'));
+	});
+
+	it('keeps the sum unknown when a counter with a value is cleared and goes absent', function () {
+		// 1000 + 10000, then OST0001's stats are cleared: its write line is
+		// gone under a new start time. Zero for it would publish 12000 after
+		// 11000 and hide the clear, so the reset interval is unknown.
+		$before  = SummaryCalculator::calculate([
+			sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 1000.0, 1000.0)),
+			sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 300.0, 1000.0, 10000.0)),
+		], null, 300, SUM_T);
+		$cleared = sum_target('scratch-OST0001', array_merge(sum_ost('scratch-OST0001', 300.0, 1000.0), ['write_bytes' => null]), SUM_T + 300, Presence::Present, Condition::InService, ['write_bytes']);
+		$after   = SummaryCalculator::calculate([sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 1000.0, 12000.0), SUM_T + 300), $cleared], $before, 300, SUM_T + 300);
+
+		expect($before->value('write_bytes'))->toBe(11000.0)
+			->and($cleared->value('write_bytes')?->continuity)->toBe(Continuity::Reset)
+			->and($after->value('write_bytes'))->toBeNull();
 	});
 
 	it('publishes unknown once when the members of a counter sum change', function () {
