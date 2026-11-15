@@ -26,7 +26,7 @@ Status: phase 1 is code complete and has run only against fixture node output in
 
 ### Data query files
 
-Cacti reads a data query XML only from inside `<path_cacti>/resource`, so the install copies `resource/script_server/pfs_osts.xml` and `pfs_mdts.xml` from the plugin into `<path_cacti>/resource/script_server/`. It records the SHA-256 of each file it wrote, never replaces a file it did not write or that was changed since, and uninstall removes only unchanged files.
+Cacti reads a data query XML only from inside `<path_cacti>/resource`, so the install copies `resource/script_server/pfs_osts.xml` and `pfs_mdts.xml` from the plugin into `<path_cacti>/resource/script_server/`. It refuses a symbolic link at either destination and writes each file through a temporary file in the same directory. It records the SHA-256 only of a file it wrote: a file that is already there with the same content, such as a copy made with the steps below, is used but stays yours, and uninstall leaves it. The install never replaces a file it did not write or that was changed since, and uninstall removes only the files it wrote, while unchanged.
 
 If the web server user cannot write that directory, the health page says so and the data queries cannot list targets. Copy the files once as a user who can, keeping them readable by the web server and poller users:
 
@@ -36,7 +36,7 @@ install -m 0644 plugins/pfs/resource/script_server/pfs_osts.xml resource/script_
 install -m 0644 plugins/pfs/resource/script_server/pfs_mdts.xml resource/script_server/
 ```
 
-Then use **Install the Templates Again** on the health page. The warning clears when both copies match the plugin's. Repeat the copy after an upgrade that changes either file; the health page warns when they differ.
+Then use **Install the Templates Again** on the health page. The warning clears when both copies match the plugin's. Because these copies are yours, the plugin does not update or remove them: repeat the copy after an upgrade that changes either file (the health page warns when they differ), and remove them yourself after uninstalling.
 
 ## What the graphs and values mean
 

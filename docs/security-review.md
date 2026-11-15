@@ -54,11 +54,12 @@ No issue found.
 
 ### File writes into Cacti
 
-- Install copies two fixed file names into `<path_cacti>/resource/script_server/` and records their SHA-256. It never replaces a file it did not write or that changed since, and uninstall removes only files whose hash still matches. No path comes from user input.
+- Install copies two fixed file names into `<path_cacti>/resource/script_server/` and records the SHA-256 of each file it wrote. A file already there with the right content is used but not recorded, so uninstall never removes a copy an administrator made. It never replaces a file it did not write or that changed since, and uninstall removes only recorded files whose hash still matches. No path comes from user input.
+- A symbolic link at either destination, dangling or not, is refused before anything is written. Each file is copied to a temporary file in the same directory, its hash is checked, and it is renamed into place; `rename()` replaces the path itself and does not follow a link. Uninstall does not remove a link. `tests/Unit/QueryFilesTest.php` covers both kinds of link, an administrator's copy, and replacement of the plugin's own copy.
 - Templates are imported through Cacti's own import code from the shipped XML; the export test checks it carries no data source profile and no third-party attribution.
 - The reader writes only to the plugin's own tables; Cacti writes the RRD files.
 
-Residual: the copy follows a symbolic link at the target path. Planting one needs write access to `resource/script_server/`, which is the privilege the install itself uses, so it gives nothing new; an external reviewer should still decide whether to refuse a symbolic link there.
+Residual: an account that can write `resource/script_server/` can still replace a file between the install's checks and Cacti reading it; that account can already change any data query Cacti loads from there, so this gives it nothing new.
 
 ### Database access
 
@@ -78,7 +79,7 @@ None in this pass. The device-permission gap found in milestone 3 was fixed then
 4. `SshNodeSource::argv()` and `ProcRunner`: option injection through any setting or node field, and the child's environment and file descriptors.
 5. `LustreBackend::parse()` with crafted input: memory and time at the size limits.
 6. The permission suite results (`tests/bin/page-permissions.php`, `tests/bin/device-permissions.php`) and the realm and `is_device_allowed()` checks in `pfs.php`, `pfs_admin.php`, and `pfs_health.php`.
-7. The query file copy and uninstall removal, including the symbolic link residual.
+7. The query file copy and uninstall removal, including the symbolic link refusal and the temporary file and rename.
 8. Remote data collectors are phase 2 and out of scope here; `remote_agent` actions do not exist yet.
 
 ## Owners
