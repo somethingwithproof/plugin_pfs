@@ -725,6 +725,10 @@ msgid "No targets found yet."
 msgstr ""
 
 #: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr ""
+
+#: pfs_admin.php
 msgid "Name: another filesystem of this backend already uses this name."
 msgstr ""
 

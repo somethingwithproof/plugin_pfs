@@ -27,6 +27,9 @@
  *               no node names, its graphs, no data source pages
  *   pfsrevoked  View realm, device and graphs denied by Cacti: nothing
  *   pfsnorealm  Console and graphs, no plugin realm: no plugin page or link
+ *   pfsadmin2   both realms, but Cacti grants only the "work" filesystem's
+ *               device: the registry, export, and health page hide the
+ *               other device's records, and every change to them is refused
  *
  * Graph and data source access is Cacti's own; the plugin adds no layer, so
  * this shows that the plugin's objects follow it. Disposable databases only:
@@ -105,6 +108,9 @@ $fsId = (int) db_fetch_insert_id();
 db_execute_prepared("INSERT INTO plugin_pfs_node (filesystem_id, name, role, poller_id, endpoint, port, ssh_user, access_method, admin_state) VALUES (?, 'oss-probe-name', 'oss', 1, '10.20.0.1', 22, 'pfsread', 'ssh', 'enabled')", array($fsId));
 $nodeId = (int) db_fetch_insert_id();
 db_execute("INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state) VALUES ('orphan', 'lustre', 1, 300, 'enabled')");
+$orphanId = (int) db_fetch_insert_id();
+db_execute("INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state) VALUES ('work', 'lustre', 1, 300, 'enabled')");
+$workId = (int) db_fetch_insert_id();
 
 $source  = new FixtureNodeSource(array());
 $sources = new NodeSources();
@@ -117,7 +123,11 @@ $graph  = (int) db_fetch_cell_prepared('SELECT id FROM graph_local WHERE host_id
 $ds     = (int) db_fetch_cell_prepared('SELECT id FROM data_local WHERE host_id = ? ORDER BY id LIMIT 1', array($hostId));
 dp_expect($hostId > 0 && $graph > 0 && $ds > 0, 'the filesystem has a device with graphs and data sources');
 
-$view = (int) db_fetch_cell("SELECT id + 100 FROM plugin_realms WHERE plugin = 'pfs' AND file = 'pfs.php'");
+$workHost = pfs_provisioner()->create($repo->find($workId));
+dp_expect($workHost > 0, 'the second filesystem has its own device');
+
+$view  = (int) db_fetch_cell("SELECT id + 100 FROM plugin_realms WHERE plugin = 'pfs' AND file = 'pfs.php'");
+$admin = (int) db_fetch_cell("SELECT id + 100 FROM plugin_realms WHERE plugin = 'pfs' AND file LIKE 'pfs_admin.php%'");
 
 db_execute_prepared("UPDATE user_auth SET password = ?, must_change_password = '', password_change = '', enabled = 'on', locked = '', failed_attempts = 0 WHERE id = 1", array(password_hash($password, PASSWORD_DEFAULT)));
 
@@ -130,6 +140,7 @@ $users = array(
 	'pfsscoped'  => array('realms' => array(7, 8, 27, $view), 'policy' => 2, 'perms' => array(3 => $hostId)),
 	'pfsrevoked' => array('realms' => array(7, 8, 27, $view), 'policy' => 2, 'perms' => array()),
 	'pfsnorealm' => array('realms' => array(7, 8), 'policy' => 1, 'perms' => array()),
+	'pfsadmin2'  => array('realms' => array(7, 8, 27, $view, $admin), 'policy' => 2, 'perms' => array(3 => $workHost)),
 );
 
 foreach ($users as $name => $spec) {
@@ -180,6 +191,63 @@ foreach ($expect as $user => $want) {
 
 	unlink($jar);
 }
+
+// A plugin administrator whom Cacti grants only the work device.
+function dp_token($body) {
+	return preg_match('/csrfMagicToken\s*=\s*"([^"]+)"/', $body, $m) ? $m[1] : '';
+}
+
+$target   = (int) db_fetch_cell_prepared("SELECT id FROM plugin_pfs_target WHERE filesystem_id = ? ORDER BY id LIMIT 1", array($fsId));
+$review   = (string) db_fetch_cell_prepared('SELECT review FROM plugin_pfs_target WHERE id = ?', array($target));
+$fsState  = function () use ($fsId, $orphanId, $nodeId, $target) {
+	return array(
+		'scratch' => db_fetch_row_prepared('SELECT name, host_id, poller_id FROM plugin_pfs_filesystem WHERE id = ?', array($fsId)),
+		'orphan'  => (int) db_fetch_cell_prepared('SELECT host_id FROM plugin_pfs_filesystem WHERE id = ?', array($orphanId)),
+		'node'    => (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_node WHERE id = ?', array($nodeId)),
+		'review'  => (string) db_fetch_cell_prepared('SELECT review FROM plugin_pfs_target WHERE id = ?', array($target)),
+	);
+};
+$before = $fsState();
+$jar    = dp_login('pfsadmin2');
+
+list(, $list) = dp_http($base . 'pfs_admin.php', $jar);
+dp_expect(strpos($list, 'action=edit_fs&amp;id=' . $fsId . '"') === false && strpos($list, 'oss-probe-name') === false && strpos($list, 'action=edit_fs&amp;id=' . $workId . '"') !== false && strpos($list, 'action=edit_fs&amp;id=' . $orphanId . '"') !== false, 'a restricted administrator\'s registry lists only filesystems on allowed devices, and unmapped ones');
+
+list(, $export) = dp_http($base . 'pfs_admin.php?action=export', $jar);
+$data = json_decode($export, true);
+dp_expect(is_array($data) && !in_array('scratch', array_column($data['filesystems'], 'name'), true) && $data['nodes'] === array() && $data['targets'] === array(), 'a restricted administrator\'s export leaves out records on denied devices');
+
+list(, $health) = dp_http($base . 'pfs_health.php', $jar);
+dp_expect(strpos($health, 'Parallel Filesystem Warnings') !== false && strpos($health, 'oss-probe-name') === false, 'a restricted administrator\'s health page leaves out nodes on denied devices');
+
+list(, $edit) = dp_http($base . 'pfs_admin.php?action=edit_fs&id=' . $fsId, $jar);
+dp_expect(strpos($edit, 'value="scratch"') === false && strpos($edit, 'do not have permission for') !== false, 'a restricted administrator cannot open a filesystem on a denied device');
+
+list(, $edit) = dp_http($base . 'pfs_admin.php?action=edit_node&id=' . $nodeId, $jar);
+dp_expect(strpos($edit, 'oss-probe-name') === false, 'a restricted administrator cannot open a node on a denied device');
+
+$posts = array(
+	'save_fs'       => array('id' => $fsId, 'backend' => 'lustre', 'name' => 'renamed', 'poller_id' => 1, 'expected_interval' => 600, 'enabled' => 'on'),
+	'delete_fs'     => array('id' => $fsId),
+	'delete_node'   => array('id' => $nodeId),
+	'ignore_target' => array('id' => $target),
+	'unmap_device'  => array('id' => $fsId),
+	'save_device'   => array('id' => $orphanId, 'host_id' => $hostId),
+	'save_node'     => array('id' => 0, 'filesystem_id' => $fsId, 'name' => 'oss-intruder', 'role' => 'oss', 'poller_id' => 1, 'endpoint' => '10.20.0.9', 'port' => 22, 'ssh_user' => 'pfsread', 'enabled' => 'on'),
+);
+
+foreach ($posts as $action => $fields) {
+	list(, $page) = dp_http($base . 'pfs_admin.php', $jar);
+	dp_http($base . 'pfs_admin.php', $jar, array('__csrf_magic' => dp_token($page), 'action' => $action) + $fields);
+}
+
+$after = $fsState();
+dp_expect($after === $before && $review !== '' && (int) db_fetch_cell("SELECT COUNT(*) FROM plugin_pfs_node WHERE name = 'oss-intruder'") === 0, 'every change a restricted administrator posts to records on a denied device is refused: ' . json_encode(array($before, $after)));
+
+list(, $page) = dp_http($base . 'pfs_admin.php', $jar);
+dp_http($base . 'pfs_admin.php', $jar, array('__csrf_magic' => dp_token($page), 'action' => 'unmap_device', 'id' => $workId));
+dp_expect((int) db_fetch_cell_prepared('SELECT host_id FROM plugin_pfs_filesystem WHERE id = ?', array($workId)) === 0, 'the same administrator can still change the filesystem on its allowed device');
+unlink($jar);
 
 // A device permission revoked between two requests applies to the next one.
 $scoped = (int) db_fetch_cell("SELECT id FROM user_auth WHERE username = 'pfsscoped'");

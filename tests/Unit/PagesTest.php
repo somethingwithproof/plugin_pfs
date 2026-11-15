@@ -17,6 +17,7 @@
  * more details.
  */
 
+use Somethingwithproof\Pfs\DeviceAccess;
 use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\AdminState;
 use Somethingwithproof\Pfs\Collection;
@@ -79,7 +80,7 @@ it('escapes every stored string the health page prints', function () {
 		'FROM plugin_pfs_node' => [['id' => 3, 'filesystem_id' => 1, 'name' => 'oss01', 'role' => 'oss', 'poller_id' => 1, 'endpoint' => '10.20.0.11', 'port' => 22, 'ssh_user' => 'pfsread', 'access_method' => 'ssh', 'admin_state' => 'enabled']],
 	];
 
-	$page = new HealthPage(new FilesystemRepository(false, $clock), new NodeRepository(false, $clock), new NodeHealthRepository(false), new ReaderRepository(false, $clock), new HealthWarnings(fn (string $p): ?int => 0600, $clock), $clock);
+	$page = new HealthPage(new FilesystemRepository(false, $clock), new NodeRepository(false, $clock), new NodeHealthRepository(false), new ReaderRepository(false, $clock), new HealthWarnings(fn (string $p): ?int => 0600, $clock), $clock, new DeviceAccess(fn (int $id): bool => true));
 
 	ob_start();
 	$page->render(\Somethingwithproof\Pfs\Settings::fromRow([]));
@@ -93,7 +94,7 @@ it('escapes every stored string the health page prints', function () {
 
 it('keeps unknown apart from zero in a node row', function () {
 	$clock = new FixedClock(10000);
-	$page  = new HealthPage(new FilesystemRepository(false, $clock), new NodeRepository(false, $clock), new NodeHealthRepository(false), new ReaderRepository(false, $clock), new HealthWarnings(fn (string $p): ?int => 0600, $clock), $clock);
+	$page  = new HealthPage(new FilesystemRepository(false, $clock), new NodeRepository(false, $clock), new NodeHealthRepository(false), new ReaderRepository(false, $clock), new HealthWarnings(fn (string $p): ?int => 0600, $clock), $clock, new DeviceAccess(fn (int $id): bool => true));
 	$node  = new Node(3, 1, 'oss01', NodeRole::Oss, 1, '10.20.0.11', 22, 'pfsread', AccessMethod::Ssh, AdminState::Enabled);
 
 	expect($page->nodeRow($node, null, new NodeHealth(3), 10000))->toBe(['oss01', '-', 'Object storage server (OSS)', '1', 'never', 'Never', '-', '-', '-', '-'])

@@ -21,7 +21,8 @@ namespace Somethingwithproof\Pfs;
 
 /**
  * The health page (REQ-HEALTH-001 to REQ-HEALTH-004), for Parallel
- * Filesystem Admin only. It shows what the readers last recorded and never
+ * Filesystem Admin only, limited to filesystems on devices Cacti allows the
+ * user (DeviceAccess). It shows what the readers last recorded and never
  * contacts a node. Node output is never printed: the only node-supplied
  * strings it shows are target names and a version that passed their
  * patterns, and every cell is escaped.
@@ -36,6 +37,7 @@ final class HealthPage {
 		private readonly ReaderRepository $runs,
 		private readonly HealthWarnings $warnings,
 		private readonly Clock $clock,
+		private readonly DeviceAccess $access,
 	) {
 	}
 
@@ -45,11 +47,13 @@ final class HealthPage {
 	public function render(Settings $settings, array $objectWarnings = []): void {
 		$filesystems = [];
 
-		foreach ($this->filesystems->all() as $filesystem) {
+		foreach ($this->access->filesystems($this->filesystems->all()) as $filesystem) {
 			$filesystems[$filesystem->id] = $filesystem;
 		}
 
-		$nodes  = $this->nodes->all();
+		// Nodes of filesystems on devices this user may not see are left
+		// out. Reader runs belong to a poller, not a device, and stay.
+		$nodes  = array_values(array_filter($this->nodes->all(), static fn (Node $n): bool => isset($filesystems[$n->filesystemId])));
 		$health = $this->health->all();
 		$runs   = $this->runs->all();
 		$now    = $this->clock->now();

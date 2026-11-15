@@ -38,7 +38,18 @@ final class AdminPage {
 		private readonly PollerRepository $pollers,
 		private readonly DeviceProvisioner $provisioner,
 		private readonly CactiObjectRepository $objects,
+		private readonly DeviceAccess $access,
 	) {
+	}
+
+	/**
+	 * Nodes of the filesystems this user may see.
+	 *
+	 * @param array<int, Filesystem> $filesystems
+	 * @return list<Node>
+	 */
+	private function visibleNodes(array $filesystems): array {
+		return array_values(array_filter($this->nodes->all(), static fn (Node $n): bool => isset($filesystems[$n->filesystemId])));
 	}
 
 	/**
@@ -48,7 +59,7 @@ final class AdminPage {
 	public function renderList(): void {
 		$filesystems = $this->filesystemMap();
 		$pollers     = $this->pollers->names();
-		$nodes       = $this->nodes->all();
+		$nodes       = $this->visibleNodes($filesystems);
 
 		html_start_box(__('Filesystems', 'pfs'), '100%', '', '3', 'center', self::FILE . '?action=edit_fs');
 		print Format::header([__('Name', 'pfs'), __('Backend', 'pfs'), __('Poller', 'pfs'), __('Expected Interval', 'pfs'), __('State', 'pfs'), __('Nodes', 'pfs'), __('Cacti Device', 'pfs'), __('Actions', 'pfs')]);
@@ -168,7 +179,9 @@ final class AdminPage {
 	 */
 	public function renderDeviceConfirm(Filesystem $fs, int $hostId): void {
 		$refusal = $this->provisioner->refusal();
-		$devices = $this->objects->mappableDevices(array_values(array_filter(array_map(static fn (Filesystem $f): int => $f->hostId, $this->filesystems->all()))));
+		// Every mapped device is excluded, whoever may see it; only devices
+		// Cacti allows this user are offered.
+		$devices = array_filter($this->objects->mappableDevices(array_values(array_filter(array_map(static fn (Filesystem $f): int => $f->hostId, $this->filesystems->all())))), fn (string $name, int $id): bool => $this->access->device($id), ARRAY_FILTER_USE_BOTH);
 		$hostId  = isset($devices[$hostId]) ? $hostId : 0;
 
 		print '<form method="get" action="' . html_escape(self::FILE) . '">';
@@ -219,9 +232,9 @@ final class AdminPage {
 			'version'     => $version,
 			'exported_at' => $now,
 			'filesystems' => array_values(array_map(static fn (Filesystem $f): array => ['name' => $f->name, 'backend' => $f->backend, 'poller_id' => $f->pollerId, 'expected_interval' => $f->interval, 'admin_state' => $f->adminState->value], $filesystems)),
-			'nodes'       => array_map(static fn (Node $n): array => ['name' => $n->name, 'filesystem' => $filesystems[$n->filesystemId]->name ?? '', 'role' => $n->role->value, 'poller_id' => $n->pollerId, 'endpoint' => $n->endpoint, 'port' => $n->port, 'login' => $n->user, 'access_method' => $n->accessMethod->value, 'admin_state' => $n->adminState->value], $this->nodes->all()),
+			'nodes'       => array_map(static fn (Node $n): array => ['name' => $n->name, 'filesystem' => $filesystems[$n->filesystemId]->name ?? '', 'role' => $n->role->value, 'poller_id' => $n->pollerId, 'endpoint' => $n->endpoint, 'port' => $n->port, 'login' => $n->user, 'access_method' => $n->accessMethod->value, 'admin_state' => $n->adminState->value], $this->visibleNodes($filesystems)),
 			'networks'    => array_map(static fn (array $n): array => ['poller_id' => $n['poller_id'], 'cidr' => $n['cidr']], $this->networks->all()),
-			'targets'     => array_map(static fn (Target $t): array => ['filesystem' => $filesystems[$t->filesystemId]->name ?? '', 'name' => $t->name(), 'review' => $t->review->value, 'presence' => $t->presence->value], $this->targets->all()),
+			'targets'     => array_map(static fn (Target $t): array => ['filesystem' => $filesystems[$t->filesystemId]->name ?? '', 'name' => $t->name(), 'review' => $t->review->value, 'presence' => $t->presence->value], array_values(array_filter($this->targets->all(), static fn (Target $t): bool => isset($filesystems[$t->filesystemId])))),
 		];
 	}
 
@@ -295,7 +308,7 @@ final class AdminPage {
 	private function filesystemMap(): array {
 		$out = [];
 
-		foreach ($this->filesystems->all() as $fs) {
+		foreach ($this->access->filesystems($this->filesystems->all()) as $fs) {
 			$out[$fs->id] = $fs;
 		}
 

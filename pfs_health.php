@@ -44,11 +44,14 @@ if (get_nfilter_request_var('action') === 'reinstall_templates') {
 	exit;
 }
 
+$pfs_access      = new \Somethingwithproof\Pfs\DeviceAccess(function ($host_id) {
+	return is_device_allowed($host_id);
+});
 $pfs_objects     = new \Somethingwithproof\Pfs\CactiObjectRepository(false);
 $pfs_filesystems = array();
 $pfs_devices     = array();
 
-foreach ((new \Somethingwithproof\Pfs\FilesystemRepository(false, $pfs_clock))->all() as $pfs_fs) {
+foreach ($pfs_access->filesystems((new \Somethingwithproof\Pfs\FilesystemRepository(false, $pfs_clock))->all()) as $pfs_fs) {
 	$pfs_filesystems[$pfs_fs->id] = $pfs_fs;
 	$pfs_devices[$pfs_fs->id]     = $pfs_fs->hostId > 0 ? $pfs_objects->device($pfs_fs->hostId) : null;
 }
@@ -59,7 +62,8 @@ $pfs_page  = new \Somethingwithproof\Pfs\HealthPage(
 	new \Somethingwithproof\Pfs\NodeHealthRepository(false),
 	new \Somethingwithproof\Pfs\ReaderRepository(false, $pfs_clock),
 	\Somethingwithproof\Pfs\HealthWarnings::production($pfs_clock),
-	$pfs_clock
+	$pfs_clock,
+	$pfs_access
 );
 
 top_header();
