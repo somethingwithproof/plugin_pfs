@@ -1,6 +1,6 @@
 # Contributing
 
-This project is in development; milestone 2 (foundation) is merged and there is no release. Most useful contributions right now are evidence for the research issues in milestone 1 and review of the requirements and open decisions.
+This project is in development; milestones 2 and 3 are merged, milestone 4 is code complete pending pilots and an external security review, and there is no release. Most useful contributions right now are evidence for the research issues in milestone 1 and review of the requirements and open decisions.
 
 ## Before you start
 
