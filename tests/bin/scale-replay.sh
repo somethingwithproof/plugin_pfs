@@ -33,7 +33,24 @@ echo "METRIC host_cpus $(nproc 2>/dev/null || echo unknown)"
 echo "METRIC host_memory_kib $(awk '/MemTotal/ {print $2}' /proc/meminfo 2>/dev/null || echo unknown)"
 echo "METRIC php $(php -r 'print PHP_VERSION;')"
 
+# The filesystem being measured, removed again on any exit before its own
+# removal step, so a failed run leaves nothing behind for the next one.
+built=
+out=
+cleanup() {
+	status=$?
+	trap - EXIT
+	[ -n "$out" ] && rm -f "$out"
+	if [ -n "$built" ]; then
+		php plugins/pfs/tests/bin/scale-flow.php remove "$built" || status=1
+	fi
+	exit $status
+}
+trap cleanup EXIT
+trap 'exit 130' INT TERM
+
 for n in "$@"; do
+	built=$n
 	php plugins/pfs/tests/bin/scale-flow.php build "$n" || exit 1
 	for run in 1 2; do
 		start=$(date +%s)
@@ -41,12 +58,13 @@ for n in "$@"; do
 		if ! php poller.php --poller=1 --force > "$out" 2>&1; then
 			echo "FAIL poller run $run for $n targets:" >&2
 			tail -20 "$out" >&2
-			rm -f "$out"
 			exit 1
 		fi
 		rm -f "$out"
+		out=
 		echo "METRIC $n poller_run_${run}_s $(( $(date +%s) - start ))"
 	done
 	php plugins/pfs/tests/bin/scale-flow.php after "$n" || exit 1
+	built=
 	php plugins/pfs/tests/bin/scale-flow.php remove "$n" || exit 1
 done

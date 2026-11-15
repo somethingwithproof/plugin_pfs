@@ -38,6 +38,17 @@ PFS_FAULT_DIR=$(mktemp -d)
 export PFS_FAULT_DIR
 fail=0
 
+# The last update time of an RRD file, or nothing when rrdtool fails or does
+# not print a numeric time.
+rrd_last() {
+	last=$("$RRDTOOL" lastupdate "$1" 2> /dev/null) || return 0
+	last=$(printf '%s\n' "$last" | tail -1 | cut -d: -f1)
+	case "$last" in
+		'' | *[!0-9]*) ;;
+		*) printf '%s\n' "$last" ;;
+	esac
+}
+
 flow() {
 	php plugins/pfs/tests/bin/failure-flow.php "$@" || fail=1
 }
@@ -104,26 +115,36 @@ if id www-data > /dev/null 2>&1; then
 	set -- $(php -r 'chdir("."); include("./include/cli_check.php"); include_once("./lib/rrd.php"); $id = db_fetch_cell("SELECT dl.id FROM data_local dl INNER JOIN host h ON h.id = dl.host_id WHERE h.hostname LIKE \"fault.%\" AND dl.snmp_query_id = 0 ORDER BY dl.id LIMIT 1"); print $id . " " . get_data_source_path($id, true);')
 	rrd_id=${1:-0}
 	rrd=${2:-}
+	# The executable Cacti itself runs, which need not be on PATH.
+	RRDTOOL=$(php -r 'chdir("."); include("./include/cli_check.php"); print read_config_option("path_rrdtool");')
 	php poller.php --poller=1 --force > /dev/null 2>&1 || fail=1
-	if [ "$rrd_id" -gt 0 ] && [ -f "$rrd" ]; then
+	if [ "$rrd_id" -gt 0 ] && [ -f "$rrd" ] && [ -x "$RRDTOOL" ]; then
 		chown -R www-data rra log
 		chown root "$rrd" && chmod 0444 "$rrd"
 		su -s /bin/sh www-data -c "test -w '$rrd'" && denied=no || denied=yes
-		before=$(rrdtool lastupdate "$rrd" | tail -1 | cut -d: -f1)
+		before=$(rrd_last "$rrd")
 		sleep 2
 		# The poller writes its output until it exits, so a separate marker
 		# made before the poll tells which RRD files it updated.
 		touch "$PFS_FAULT_DIR/rrd-mark"
 		su -s /bin/sh www-data -c 'php poller.php --poller=1 --force' > "$PFS_FAULT_DIR/rrd.txt" 2>&1
 		status=$?
-		after=$(rrdtool lastupdate "$rrd" | tail -1 | cut -d: -f1)
+		after=$(rrd_last "$rrd")
 		others=$(find rra -name '*.rrd' -newer "$PFS_FAULT_DIR/rrd-mark" ! -path "$rrd" | wc -l)
 		chown -R root rra log
 		chmod 0644 "$rrd"
 		echo "EVIDENCE rrd poller exit $status, other files updated in that poll: $others"
 		[ "$status" -eq 0 ] || { echo "FAIL the Cacti poller failed:"; tail -5 "$PFS_FAULT_DIR/rrd.txt"; fail=1; }
 		[ "$others" -gt 0 ] && echo "PASS the poll updated the other RRD files" || { echo "FAIL the poll updated no other RRD file"; fail=1; }
-		[ "$before" = "$after" ] && echo "PASS the unwritable RRD file was not updated ($before)" || { echo "FAIL the unwritable RRD file changed ($before, $after)"; fail=1; }
+		if [ -z "$before" ] || [ -z "$after" ]; then
+			echo "FAIL could not read the RRD file's last update before and after the poll ($before, $after)"
+			fail=1
+		elif [ "$before" = "$after" ]; then
+			echo "PASS the unwritable RRD file was not updated ($before)"
+		else
+			echo "FAIL the unwritable RRD file changed ($before, $after)"
+			fail=1
+		fi
 		# Cacti does not always log the refused update, so the permission is
 		# checked directly and the log line is evidence only.
 		grep "RRDtool did not acknowledge the update for local_data_id: $rrd_id\$" log/cacti.log | tail -1 | sed 's/^/EVIDENCE rrd log: /'
@@ -134,7 +155,7 @@ if id www-data > /dev/null 2>&1; then
 			fail=1
 		fi
 	else
-		echo "FAIL no summary RRD file of the fault device to make unwritable ($rrd_id, $rrd)"
+		echo "FAIL no summary RRD file of the fault device to make unwritable, or no rrdtool ($rrd_id, $rrd, $RRDTOOL)"
 		fail=1
 	fi
 	flow arm ok
