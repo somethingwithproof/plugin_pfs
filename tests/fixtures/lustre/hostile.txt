@@ -1,0 +1,47 @@
+#pfs-read 1
+== version
+2.15.5<script>alert(1)</script>
+
+== osd-ldiskfs/scratch-OST0000/kbytestotal
+1000000000
+
+== osd-ldiskfs/<b>x</b>-OST0000/kbytestotal
+5
+
+== osd-ldiskfs/scratch-OST00000/kbytestotal
+5
+
+== osd-ldiskfs/scratch-OSTzzzz/kbytestotal
+5
+
+== osd-ldiskfs/../../../etc/kbytestotal
+5
+
+== osd-ldiskfs/scratch-MDT0000/no_create
+1
+
+== obdfilter/scratch-MDT0000/degraded
+1
+
+== obdfilter/scratch-OST0000/evict_client
+nid=all
+
+== mgs/MGS/live/scratch
+fsname: scratch
+
+== obdfilter/scratch-OST0000/degraded
+2
+
+== obdfilter/scratch-OST0000/readonly
+-1
+
+== osd-ldiskfs/scratch-OST0000/kbytesfree
+12abc
+
+== osd-ldiskfs/scratch-OST0000/kbytesavail
+99999999999999999999999
+
+== osd-ldiskfs/other-OST0007/kbytestotal
+42
+
+#pfs-read end
