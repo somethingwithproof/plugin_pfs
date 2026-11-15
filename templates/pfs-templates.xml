@@ -1025,6 +1025,44 @@
 				<dash_offset></dash_offset>
 				<sequence>9</sequence>
 			</hash_1001038b3c386bee1e7d83b89cb4e7cd005578>
+			<hash_10010344e9d2527385b889d7b864dbc1ddd158>
+				<graph_type_id>11</graph_type_id>
+				<task_item_id>hash_080103426ddd3cec3ded763ea9b37b9b285aa6</task_item_id>
+				<color_id>0</color_id>
+				<alpha>FF</alpha>
+				<consolidation_function_id>1</consolidation_function_id>
+				<cdef_id>0</cdef_id>
+				<vdef_id>0</vdef_id>
+				<shift></shift>
+				<value></value>
+				<gprint_id>hash_0601030f36be6854f815e687c278a297bedeec</gprint_id>
+				<textalign></textalign>
+				<text_format>Read rate for alerts:</text_format>
+				<hard_return>on</hard_return>
+				<line_width>0.00</line_width>
+				<dashes></dashes>
+				<dash_offset></dash_offset>
+				<sequence>10</sequence>
+			</hash_10010344e9d2527385b889d7b864dbc1ddd158>
+			<hash_100103c8a470d107d98b45b18d838587ac9f65>
+				<graph_type_id>11</graph_type_id>
+				<task_item_id>hash_0801038a2e20b641a473fc4b92be12c03fc962</task_item_id>
+				<color_id>0</color_id>
+				<alpha>FF</alpha>
+				<consolidation_function_id>1</consolidation_function_id>
+				<cdef_id>0</cdef_id>
+				<vdef_id>0</vdef_id>
+				<shift></shift>
+				<value></value>
+				<gprint_id>hash_0601030f36be6854f815e687c278a297bedeec</gprint_id>
+				<textalign></textalign>
+				<text_format>Write rate for alerts:</text_format>
+				<hard_return>on</hard_return>
+				<line_width>0.00</line_width>
+				<dashes></dashes>
+				<dash_offset></dash_offset>
+				<sequence>11</sequence>
+			</hash_100103c8a470d107d98b45b18d838587ac9f65>
 		</items>
 		<inputs>
 			<hash_0901033a91293466f2c3d0728d3a412e1abf0c>
@@ -1197,6 +1235,25 @@
 				<dash_offset></dash_offset>
 				<sequence>5</sequence>
 			</hash_1001035caec747b084678142c1584586e813e1>
+			<hash_100103cdc43e15c47dda85b1c430d129d2a060>
+				<graph_type_id>11</graph_type_id>
+				<task_item_id>hash_080103b674258c1b25b19dbf6c8728e3aae8fd</task_item_id>
+				<color_id>0</color_id>
+				<alpha>FF</alpha>
+				<consolidation_function_id>1</consolidation_function_id>
+				<cdef_id>0</cdef_id>
+				<vdef_id>0</vdef_id>
+				<shift></shift>
+				<value></value>
+				<gprint_id>hash_0601030f36be6854f815e687c278a297bedeec</gprint_id>
+				<textalign></textalign>
+				<text_format>Operation rate for alerts:</text_format>
+				<hard_return>on</hard_return>
+				<line_width>0.00</line_width>
+				<dashes></dashes>
+				<dash_offset></dash_offset>
+				<sequence>6</sequence>
+			</hash_100103cdc43e15c47dda85b1c430d129d2a060>
 		</items>
 		<inputs>
 			<hash_090103a925981177720647fe443efa0e0522dd>
@@ -3133,6 +3190,30 @@
 				<rrd_heartbeat>600</rrd_heartbeat>
 				<data_input_field_id>hash_070103fe67b7068f994ce92887cb46a5f7f0b4</data_input_field_id>
 			</hash_0801030a16938850a42116d4fd547b667ebf94>
+			<hash_080103426ddd3cec3ded763ea9b37b9b285aa6>
+				<data_source_name>read_bytes_rate</data_source_name>
+				<rrd_minimum>0</rrd_minimum>
+				<rrd_maximum>10000000000000</rrd_maximum>
+				<data_source_type_id>1</data_source_type_id>
+				<rrd_heartbeat>600</rrd_heartbeat>
+				<data_input_field_id>hash_070103663255a79f78c239de7dd100839a5199</data_input_field_id>
+			</hash_080103426ddd3cec3ded763ea9b37b9b285aa6>
+			<hash_0801038a2e20b641a473fc4b92be12c03fc962>
+				<data_source_name>write_bytes_rate</data_source_name>
+				<rrd_minimum>0</rrd_minimum>
+				<rrd_maximum>10000000000000</rrd_maximum>
+				<data_source_type_id>1</data_source_type_id>
+				<rrd_heartbeat>600</rrd_heartbeat>
+				<data_input_field_id>hash_07010370659696e06092b54686a97c11bc4543</data_input_field_id>
+			</hash_0801038a2e20b641a473fc4b92be12c03fc962>
+			<hash_080103b674258c1b25b19dbf6c8728e3aae8fd>
+				<data_source_name>md_ops_rate</data_source_name>
+				<rrd_minimum>0</rrd_minimum>
+				<rrd_maximum>1000000000</rrd_maximum>
+				<data_source_type_id>1</data_source_type_id>
+				<rrd_heartbeat>600</rrd_heartbeat>
+				<data_input_field_id>hash_070103c042d8cf812b79b0fe0175d920996803</data_input_field_id>
+			</hash_080103b674258c1b25b19dbf6c8728e3aae8fd>
 			<hash_080103daf82948cb2dfd865880d08160a7848a>
 				<data_source_name>age</data_source_name>
 				<rrd_minimum>0</rrd_minimum>
@@ -3769,6 +3850,33 @@
 				<input_output>out</input_output>
 				<data_name>md_ops</data_name>
 			</hash_070103fe67b7068f994ce92887cb46a5f7f0b4>
+			<hash_070103663255a79f78c239de7dd100839a5199>
+				<name>Read bytes rate</name>
+				<update_rra>on</update_rra>
+				<regexp_match></regexp_match>
+				<allow_nulls></allow_nulls>
+				<type_code></type_code>
+				<input_output>out</input_output>
+				<data_name>read_bytes_rate</data_name>
+			</hash_070103663255a79f78c239de7dd100839a5199>
+			<hash_07010370659696e06092b54686a97c11bc4543>
+				<name>Write bytes rate</name>
+				<update_rra>on</update_rra>
+				<regexp_match></regexp_match>
+				<allow_nulls></allow_nulls>
+				<type_code></type_code>
+				<input_output>out</input_output>
+				<data_name>write_bytes_rate</data_name>
+			</hash_07010370659696e06092b54686a97c11bc4543>
+			<hash_070103c042d8cf812b79b0fe0175d920996803>
+				<name>Md ops rate</name>
+				<update_rra>on</update_rra>
+				<regexp_match></regexp_match>
+				<allow_nulls></allow_nulls>
+				<type_code></type_code>
+				<input_output>out</input_output>
+				<data_name>md_ops_rate</data_name>
+			</hash_070103c042d8cf812b79b0fe0175d920996803>
 			<hash_070103cd76cd55fe02f2f43b60049befe90a10>
 				<name>Age</name>
 				<update_rra>on</update_rra>

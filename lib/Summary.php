@@ -22,8 +22,9 @@ namespace Somethingwithproof\Pfs;
 /**
  * One filesystem's summary as the reader last computed it: the values the
  * "Parallel Filesystem Summary" data source serves, the member set behind
- * each aggregate counter, and the time of the oldest observation that
- * contributed. A null value is unknown.
+ * each aggregate counter, the read time each aggregate counter was summed
+ * at, and the time of the oldest observation that contributed. A null value
+ * is unknown.
  */
 final readonly class Summary {
 	/** Gauges: levels, percentages, and counts. */
@@ -37,18 +38,29 @@ final readonly class Summary {
 	/** Aggregate cumulative counters, stored as DERIVE. */
 	public const COUNTERS = ['read_bytes', 'write_bytes', 'md_ops'];
 
+	/**
+	 * Per-second rates of the aggregate counters, computed by the reader and
+	 * stored as GAUGE, so Thold can threshold a rate without seeing a counter
+	 * (ADR 0012). Each is the counter's name plus RATE_SUFFIX.
+	 */
+	public const RATES = ['read_bytes_rate', 'write_bytes_rate', 'md_ops_rate'];
+
+	public const RATE_SUFFIX = '_rate';
+
 	/** Computed when the data source is polled, from observedAt. */
 	public const AGE = 'age';
 
 	/**
-	 * @param array<string, ?float> $values  metric => value, for every name in GAUGES and COUNTERS
-	 * @param array<string, string> $members counter => hash of the targets (and operations) summed
+	 * @param array<string, ?float> $values    metric => value, for every name in GAUGES, COUNTERS, and RATES
+	 * @param array<string, string> $members   counter => hash of the targets (and operations) summed
+	 * @param array<string, int>    $counterAt counter => the read time every summed value shares, 0 when the sum is unknown or its values were read at different times
 	 */
 	public function __construct(
 		public array $values,
 		public array $members,
 		public int $observedAt,
 		public int $computedAt,
+		public array $counterAt = [],
 	) {
 	}
 
@@ -56,10 +68,15 @@ final readonly class Summary {
 	 * @return list<string> every value name the data source returns, in order
 	 */
 	public static function names(): array {
-		return array_merge(self::GAUGES, self::COUNTERS, [self::AGE]);
+		return array_merge(self::GAUGES, self::COUNTERS, self::RATES, [self::AGE]);
 	}
 
 	public function value(string $metric): ?float {
 		return $this->values[$metric] ?? null;
+	}
+
+	/** The counter a rate is computed from, or null when $metric is not a rate. */
+	public static function counterOf(string $metric): ?string {
+		return in_array($metric, self::RATES, true) ? substr($metric, 0, -strlen(self::RATE_SUFFIX)) : null;
 	}
 }

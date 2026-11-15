@@ -22,7 +22,9 @@ namespace Somethingwithproof\Pfs;
 /**
  * Reads the summary the reader stored per filesystem. The reader writes it
  * through CacheRepository, in the same transaction as the observations it
- * was computed from.
+ * was computed from. A rate row's observed_at holds the read time its
+ * counter was summed at (Summary::$counterAt); every other row's holds the
+ * summary's oldest observation.
  */
 final class SummaryRepository {
 	public function __construct(private readonly \PDO|false $connection) {
@@ -35,9 +37,10 @@ final class SummaryRepository {
 			return null;
 		}
 
-		$known    = array_merge(Summary::GAUGES, Summary::COUNTERS);
+		$known    = array_merge(Summary::GAUGES, Summary::COUNTERS, Summary::RATES);
 		$values   = array_fill_keys($known, null);
 		$members  = [];
+		$at       = [];
 		$observed = 0;
 		$computed = 0;
 
@@ -49,8 +52,16 @@ final class SummaryRepository {
 			}
 
 			$values[$metric] = Row::float($row, 'value');
-			$observed        = Row::int($row, 'observed_at', 0, 0);
 			$computed        = Row::int($row, 'computed_at', 0, 0);
+			$counter         = Summary::counterOf($metric);
+
+			if ($counter !== null) {
+				$at[$counter] = Row::int($row, 'observed_at', 0, 0);
+
+				continue;
+			}
+
+			$observed = Row::int($row, 'observed_at', 0, 0);
 
 			$hash = Row::string($row, 'members');
 
@@ -59,6 +70,6 @@ final class SummaryRepository {
 			}
 		}
 
-		return new Summary($values, $members, $observed, $computed);
+		return new Summary($values, $members, $observed, $computed, $at);
 	}
 }

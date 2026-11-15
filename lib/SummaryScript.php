@@ -25,8 +25,8 @@ namespace Somethingwithproof\Pfs;
  * the reader stored. Nothing here contacts a node.
  *
  * Gauges are served while the summary's oldest contributing observation is
- * current or delayed, counters only while it is current (ADR 0012), and age
- * whenever anything was ever observed.
+ * current or delayed, counters and their rates only while it is current
+ * (ADR 0012), and age whenever anything was ever observed.
  */
 final class SummaryScript {
 	public function __construct(
@@ -52,7 +52,7 @@ final class SummaryScript {
 			$pairs[] = $name . ':' . ($served ? Number::format($summary?->value($name)) : 'U');
 		}
 
-		foreach (Summary::COUNTERS as $name) {
+		foreach (array_merge(Summary::COUNTERS, Summary::RATES) as $name) {
 			$pairs[] = $name . ':' . ($freshness === Freshness::Current ? Number::format($summary?->value($name)) : 'U');
 		}
 

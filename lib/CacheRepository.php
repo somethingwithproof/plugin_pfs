@@ -122,10 +122,16 @@ final class CacheRepository {
 	}
 
 	private function summary(int $filesystemId, string $metric, ?float $value, Summary $summary): bool {
+		$counter = Summary::counterOf($metric);
+
+		// A rate row keeps its counter's read time, which the next run's rate
+		// is measured from (SummaryRepository).
+		$observedAt = $counter === null ? $summary->observedAt : ($summary->counterAt[$counter] ?? 0);
+
 		return db_execute_prepared('INSERT INTO plugin_pfs_summary (filesystem_id, metric, value, members, observed_at, computed_at)
 			VALUES (?, ?, ?, ?, ?, ?)
 			ON DUPLICATE KEY UPDATE value = VALUES(value), members = VALUES(members), observed_at = VALUES(observed_at), computed_at = VALUES(computed_at)', [
-			$filesystemId, $metric, $value, $summary->members[$metric] ?? '', $summary->observedAt, $summary->computedAt,
+			$filesystemId, $metric, $value, $summary->members[$metric] ?? '', $observedAt, $summary->computedAt,
 		], true, $this->connection);
 	}
 

@@ -31,8 +31,10 @@
  * Data source types follow ADR 0005 and ADR 0012: capacity and counts are
  * GAUGE with minimum 0; cumulative counters are DERIVE with minimum 0 and a
  * generous maximum that is a plausibility bound, not a reset filter. The
- * maximums are stated per second: 100 GB/s per OST, 10 million operations
- * per second per target, and 100 times that for filesystem aggregates.
+ * summary's rates, which the reader computes, are GAUGE with the same bound.
+ * The maximums are stated per second: 100 GB/s per OST, 10 million
+ * operations per second per target, and 100 times that for filesystem
+ * aggregates.
  */
 
 chdir(dirname(__DIR__, 4));
@@ -298,6 +300,9 @@ foreach (Summary::names() as $i => $name) {
 
 	if (in_array($name, Summary::COUNTERS, true)) {
 		$summaryItems[$name] = array(PFS_DERIVE, $name === 'md_ops' ? PFS_MAX_FS_OPS : PFS_MAX_FS_BYTES, $fieldId);
+	} elseif (in_array($name, Summary::RATES, true)) {
+		// The reader's rates, for Thold: gauges with the counters' maximum.
+		$summaryItems[$name] = array(PFS_GAUGE, $name === 'md_ops_rate' ? PFS_MAX_FS_OPS : PFS_MAX_FS_BYTES, $fieldId);
 	} else {
 		$summaryItems[$name] = array(PFS_GAUGE, substr($name, -4) === '_pct' ? '100' : 'U', $fieldId);
 	}
@@ -331,10 +336,15 @@ $overview = array(
 		array('rrd' => $s['read_bytes'], 'type' => GRAPH_ITEM_TYPE_LINE2, 'color' => '1E8449', 'text' => 'Read', 'gprint' => $gNum, 'legends' => $last),
 		array('rrd' => $s['write_bytes'], 'type' => GRAPH_ITEM_TYPE_LINE2, 'color' => '2471A3', 'text' => 'Written', 'gprint' => $gNum, 'legends' => $last),
 		array('rrd' => $s['ost_contributors'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'OSTs summed:', 'gprint' => $gCount),
+		// The rate gauges Thold thresholds (ADR 0012); printed so Cacti
+		// stores them.
+		array('rrd' => $s['read_bytes_rate'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Read rate for alerts:', 'gprint' => $gNum),
+		array('rrd' => $s['write_bytes_rate'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Write rate for alerts:', 'gprint' => $gNum),
 	)),
 	pfs_graph_template('Parallel Filesystem Metadata Operations', '|host_description| - Metadata Operations (operations per second)', 'operations per second', 1000, array(
 		array('rrd' => $s['md_ops'], 'type' => GRAPH_ITEM_TYPE_LINE2, 'color' => '7D3C98', 'text' => 'All allowlisted operations', 'gprint' => $gNum, 'legends' => $last),
 		array('rrd' => $s['mdt_contributors'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'MDTs summed:', 'gprint' => $gCount),
+		array('rrd' => $s['md_ops_rate'], 'type' => GRAPH_ITEM_TYPE_GPRINT_LAST, 'text' => 'Operation rate for alerts:', 'gprint' => $gNum),
 	)),
 );
 
