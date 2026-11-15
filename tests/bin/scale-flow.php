@@ -25,11 +25,14 @@
  *   php plugins/pfs/tests/bin/scale-flow.php build <N>
  *   (time one forced Cacti poller run)
  *   php plugins/pfs/tests/bin/scale-flow.php after <N>
+ *   php plugins/pfs/tests/bin/scale-flow.php remove <N>
  *
  * build prints the reader's time and memory, the data query reindex time,
  * the script server functions' time per call, and the time to create one
  * per-target graph for every OST. after prints the Cacti row and RRD file
- * counts. Results are for the machine the run is on; nothing here is a
+ * counts. remove deletes the filesystem's device with its data sources and
+ * graphs, then the filesystem, so the next target count is measured alone.
+ * Results are for the machine the run is on; nothing here is a
  * capacity claim. Must parse on PHP 8.0.
  */
 
@@ -57,8 +60,8 @@ use Somethingwithproof\Pfs\TemplateInstaller;
 $step = isset($argv[1]) ? $argv[1] : '';
 $n    = isset($argv[2]) ? (int) $argv[2] : 0;
 
-if (getenv('PFS_TEST_DATABASE') !== 'disposable' || !in_array($step, array('build', 'after'), true) || $n < 16 || $n > 20000) {
-	fwrite(STDERR, "Set PFS_TEST_DATABASE=disposable and pass build or after, and a target count of 16 to 20000\n");
+if (getenv('PFS_TEST_DATABASE') !== 'disposable' || !in_array($step, array('build', 'after', 'remove'), true) || $n < 16 || $n > 20000) {
+	fwrite(STDERR, "Set PFS_TEST_DATABASE=disposable and pass build, after, or remove, and a target count of 16 to 20000\n");
 	exit(2);
 }
 
@@ -172,6 +175,25 @@ if ($step === 'build') {
 
 	push_out_host($host, 0);
 	scale_metric("$n capacity_graphs_create_s", round((hrtime(true) - $start) / 1e9, 1));
+} elseif ($step === 'remove') {
+	if ($fs === null) {
+		fwrite(STDERR, "FAIL no filesystem $name to remove\n");
+		exit(1);
+	}
+
+	if ($fs->hostId > 0) {
+		api_device_remove_multi(array($fs->hostId), 2);
+	}
+
+	$gone = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->delete($fs->id);
+	$left = (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM poller_item WHERE host_id = ?', array($fs->hostId));
+
+	if (!$gone || $left > 0) {
+		fwrite(STDERR, "FAIL $name was not removed ($left poller items left)\n");
+		exit(1);
+	}
+
+	print "REMOVED $name and its device\n";
 } else {
 	$host = $fs === null ? 0 : $fs->hostId;
 

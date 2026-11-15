@@ -21,7 +21,9 @@
 #   PFS_TEST_DATABASE=disposable sh plugins/pfs/tests/bin/scale-replay.sh [N ...]
 #
 # For each target count (default 500 and 2000) it builds the filesystem,
-# times one forced poller run with cmd.php, and prints METRIC lines.
+# times two forced poller runs with cmd.php, prints METRIC lines, and removes
+# the filesystem and its device again, so each count is measured alone.
+# Exits non-zero when a step or a poller run fails.
 set -u
 
 [ "${PFS_TEST_DATABASE:-}" = disposable ] || { echo "Set PFS_TEST_DATABASE=disposable" >&2; exit 2; }
@@ -35,8 +37,16 @@ for n in "$@"; do
 	php plugins/pfs/tests/bin/scale-flow.php build "$n" || exit 1
 	for run in 1 2; do
 		start=$(date +%s)
-		php poller.php --poller=1 --force > /dev/null 2>&1
+		out=$(mktemp)
+		if ! php poller.php --poller=1 --force > "$out" 2>&1; then
+			echo "FAIL poller run $run for $n targets:" >&2
+			tail -20 "$out" >&2
+			rm -f "$out"
+			exit 1
+		fi
+		rm -f "$out"
 		echo "METRIC $n poller_run_${run}_s $(( $(date +%s) - start ))"
 	done
 	php plugins/pfs/tests/bin/scale-flow.php after "$n" || exit 1
+	php plugins/pfs/tests/bin/scale-flow.php remove "$n" || exit 1
 done

@@ -32,7 +32,10 @@ php cli/plugin_manage.php --plugin=thold --plugin=maint --install --enable || ex
 
 fail=0
 
-for step in $(php plugins/pfs/tests/bin/alert-flow.php list); do
+steps=$(php plugins/pfs/tests/bin/alert-flow.php list) || { echo "alert-flow.php list failed" >&2; exit 1; }
+[ -n "$steps" ] || { echo "alert-flow.php list printed no steps" >&2; exit 1; }
+
+for step in $steps; do
 	echo "== step $step"
 	php plugins/pfs/tests/bin/alert-flow.php "$step" || fail=1
 	[ "$step" = final ] && break

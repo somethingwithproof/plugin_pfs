@@ -30,6 +30,10 @@ set -u
 [ -r "${PFS_TEST_MYSQL_DEFAULTS:-}" ] || { echo "Set PFS_TEST_MYSQL_DEFAULTS to a readable client defaults file" >&2; exit 2; }
 
 CLIENT=$(command -v mariadb || command -v mysql)
+DB=$(php -r 'chdir("."); include("./include/cli_check.php"); print $database_default;')
+case "$DB" in
+	'' | *[!A-Za-z0-9_]*) echo "Cannot read a plain database name from include/config.php" >&2; exit 2 ;;
+esac
 PFS_FAULT_DIR=$(mktemp -d)
 export PFS_FAULT_DIR
 fail=0
@@ -74,11 +78,18 @@ flow arm dbloss
 php plugins/pfs/poller_pfs.php --poller=1 --force > "$PFS_FAULT_DIR/dbloss.txt" 2>&1 &
 pid=$!
 sleep 2
-"$CLIENT" --defaults-file="$PFS_TEST_MYSQL_DEFAULTS" -N -e "SELECT ID FROM information_schema.PROCESSLIST WHERE DB = 'cacti' AND ID <> CONNECTION_ID()" | while read -r id; do
-	"$CLIENT" --defaults-file="$PFS_TEST_MYSQL_DEFAULTS" -e "KILL $id" || true
-done
+# Nothing else uses the disposable database now, so every other connection
+# to it is the reader's, which is waiting on the node.
+killed=0
+if kill -0 "$pid" 2> /dev/null; then
+	for id in $("$CLIENT" --defaults-file="$PFS_TEST_MYSQL_DEFAULTS" -N -e "SELECT ID FROM information_schema.PROCESSLIST WHERE DB = '$DB' AND ID <> CONNECTION_ID()"); do
+		"$CLIENT" --defaults-file="$PFS_TEST_MYSQL_DEFAULTS" -e "KILL $id" && killed=$((killed + 1))
+	done
+fi
 wait "$pid"
-echo "EVIDENCE dbloss reader exit $? output: $(tr '\n' ' ' < "$PFS_FAULT_DIR/dbloss.txt" | cut -c1-400)"
+status=$?
+echo "EVIDENCE dbloss killed $killed reader connection(s) on $DB; reader exit $status output: $(tr '\n' ' ' < "$PFS_FAULT_DIR/dbloss.txt" | cut -c1-400)"
+[ "$killed" -gt 0 ] && echo "PASS the reader's database connection was killed mid-read" || { echo "FAIL no reader connection to $DB was killed, so the scenario proves nothing"; fail=1; }
 flow check dbloss
 echo "== after the database came back"
 flow arm ok
@@ -89,20 +100,43 @@ flow check ok
 # poller runs as www-data with that one file left owned by root, read-only.
 echo "== RRD file the poller cannot write"
 if id www-data > /dev/null 2>&1; then
-	rrd=$(php -r 'chdir("."); include("./include/cli_check.php"); include_once("./lib/rrd.php"); $id = db_fetch_cell("SELECT dl.id FROM data_local dl INNER JOIN host h ON h.id = dl.host_id WHERE h.hostname LIKE \"fault.%\" AND dl.snmp_query_id = 0 ORDER BY dl.id LIMIT 1"); print get_data_source_path($id, true);')
-	php poller.php --poller=1 --force > /dev/null 2>&1
-	chown -R www-data rra log
-	chown root "$rrd" && chmod 0444 "$rrd"
-	before=$(rrdtool lastupdate "$rrd" | tail -1 | cut -d: -f1)
-	sleep 2
-	su -s /bin/sh www-data -c 'php poller.php --poller=1 --force' > "$PFS_FAULT_DIR/rrd.txt" 2>&1
-	after=$(rrdtool lastupdate "$rrd" | tail -1 | cut -d: -f1)
-	others=$(find rra -name '*.rrd' -newer "$PFS_FAULT_DIR/rrd.txt" ! -path "$rrd" | wc -l)
-	grep -i "rrd" log/cacti.log | grep -i "permission denied\|ERROR" | tail -2 | sed 's/^/EVIDENCE rrd log: /'
-	[ "$before" = "$after" ] && echo "PASS the unwritable RRD file was not updated ($before)" || { echo "FAIL the unwritable RRD file changed ($before, $after)"; fail=1; }
-	chown -R root rra log
-	chmod 0644 "$rrd"
-	echo "EVIDENCE rrd other files updated in that poll: $others"
+	# shellcheck disable=SC2046 # the id and the path, split on purpose
+	set -- $(php -r 'chdir("."); include("./include/cli_check.php"); include_once("./lib/rrd.php"); $id = db_fetch_cell("SELECT dl.id FROM data_local dl INNER JOIN host h ON h.id = dl.host_id WHERE h.hostname LIKE \"fault.%\" AND dl.snmp_query_id = 0 ORDER BY dl.id LIMIT 1"); print $id . " " . get_data_source_path($id, true);')
+	rrd_id=${1:-0}
+	rrd=${2:-}
+	php poller.php --poller=1 --force > /dev/null 2>&1 || fail=1
+	if [ "$rrd_id" -gt 0 ] && [ -f "$rrd" ]; then
+		chown -R www-data rra log
+		chown root "$rrd" && chmod 0444 "$rrd"
+		su -s /bin/sh www-data -c "test -w '$rrd'" && denied=no || denied=yes
+		before=$(rrdtool lastupdate "$rrd" | tail -1 | cut -d: -f1)
+		sleep 2
+		# The poller writes its output until it exits, so a separate marker
+		# made before the poll tells which RRD files it updated.
+		touch "$PFS_FAULT_DIR/rrd-mark"
+		su -s /bin/sh www-data -c 'php poller.php --poller=1 --force' > "$PFS_FAULT_DIR/rrd.txt" 2>&1
+		status=$?
+		after=$(rrdtool lastupdate "$rrd" | tail -1 | cut -d: -f1)
+		others=$(find rra -name '*.rrd' -newer "$PFS_FAULT_DIR/rrd-mark" ! -path "$rrd" | wc -l)
+		chown -R root rra log
+		chmod 0644 "$rrd"
+		echo "EVIDENCE rrd poller exit $status, other files updated in that poll: $others"
+		[ "$status" -eq 0 ] || { echo "FAIL the Cacti poller failed:"; tail -5 "$PFS_FAULT_DIR/rrd.txt"; fail=1; }
+		[ "$others" -gt 0 ] && echo "PASS the poll updated the other RRD files" || { echo "FAIL the poll updated no other RRD file"; fail=1; }
+		[ "$before" = "$after" ] && echo "PASS the unwritable RRD file was not updated ($before)" || { echo "FAIL the unwritable RRD file changed ($before, $after)"; fail=1; }
+		# Cacti does not always log the refused update, so the permission is
+		# checked directly and the log line is evidence only.
+		grep "RRDtool did not acknowledge the update for local_data_id: $rrd_id\$" log/cacti.log | tail -1 | sed 's/^/EVIDENCE rrd log: /'
+		if [ "$denied" = yes ]; then
+			echo "PASS the poller user could not write the RRD file, so the unchanged file is the refused update"
+		else
+			echo "FAIL the poller user could write the RRD file, so the scenario proves nothing"
+			fail=1
+		fi
+	else
+		echo "FAIL no summary RRD file of the fault device to make unwritable ($rrd_id, $rrd)"
+		fail=1
+	fi
 	flow arm ok
 	reader after-rrd
 	flow check ok

@@ -85,6 +85,30 @@ function churn_state($name, $value = null) {
 	return (string) db_fetch_cell_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_churn_' . $name));
 }
 
+/**
+ * Wait for the reader the last forced poll started in the background
+ * (poller_bottom). Run beside it, it would find the churn nodes due once
+ * this flow moves their last attempt back, try them over SSH, and hold the
+ * lease the fixture read needs.
+ */
+function churn_settle() {
+	for ($i = 0; $i < 60; $i++) {
+		$busy = (int) db_fetch_cell("SELECT COUNT(*) FROM processes WHERE tasktype = 'pfs'") > 0;
+
+		foreach (glob('/proc/[0-9]*/cmdline') ?: array() as $file) {
+			$busy = $busy || strpos((string) @file_get_contents($file), 'poller_pfs.php') !== false;
+		}
+
+		if (!$busy) {
+			return;
+		}
+
+		sleep(1);
+	}
+
+	churn_expect(false, 'the background reader finished within 60 seconds');
+}
+
 /** Read the OSTs given (index => used percent) and the 2.15 MDS answer now. */
 function churn_read(array $used, $at) {
 	global $mds215;
@@ -101,9 +125,13 @@ function churn_read(array $used, $at) {
 	$source->answer((int) churn_state('mds'), $mds215);
 	$sources->register(AccessMethod::Ssh, $source);
 
+	churn_settle();
 	db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 
-	return pfs_reader_with(1, $sources, new FixedClock($at))->run(1, 240, 4);
+	$run = pfs_reader_with(1, $sources, new FixedClock($at))->run(1, 240, 4);
+	churn_expect($run->startedAt > 0, 'the fixture read ran, not skipped for a lease another run held');
+
+	return $run;
 }
 
 /** Rerun both data queries on the device, as a reindex does. */
