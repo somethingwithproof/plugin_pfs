@@ -6,7 +6,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: pfs 0.1.0-dev\n"
+"Project-Id-Version: pfs 0.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"

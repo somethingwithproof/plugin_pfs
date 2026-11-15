@@ -18,7 +18,7 @@
 ; remote collector; remote_collect:1 alone skips it (docs/research/cacti-core.md).
 [info]
 name = pfs
-version = 0.1.0-dev
+version = 0.1.0
 longname = Parallel Filesystems
 author = "Thomas Vincent (somethingwithproof)"
 email = thomasvincent@gmail.com
