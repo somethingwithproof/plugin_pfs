@@ -96,6 +96,11 @@ if (!function_exists('db_execute_prepared')) {
 	function db_execute_prepared($sql, $params = [], $log = true, $db_conn = false, $log_function = null) {
 		$GLOBALS['__pfs_db_exec'][] = ['sql' => $sql, 'params' => $params];
 
+		foreach ($GLOBALS['__pfs_db_fail'] ?? [] as $needle) {
+			if (str_contains($sql, $needle)) {
+				return false;
+			}
+		}
 		return true;
 	}
 }

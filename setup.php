@@ -410,7 +410,8 @@ function pfs_device_remove($hostIds) {
 	}
 
 	$count = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($ids);
-	(new \Somethingwithproof\Pfs\CreatedDeviceRepository(false))->forget($ids);
+	// Core invokes this hook before deleting the host. Keep ownership
+	// until uninstall can confirm deletion, including a remote soft delete.
 
 	if ($count > 0) {
 		\Somethingwithproof\Pfs\Log::info(sprintf('%d filesystems lost their device when it was deleted; they can be given a device again from the registry', $count));

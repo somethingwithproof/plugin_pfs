@@ -119,7 +119,9 @@ final class Schema {
 	 * schema version so a reinstall reuses them.
 	 */
 	public function untrackTables(): void {
-		db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", [self::PLUGIN], true, $this->connection);
+		if (!db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", [self::PLUGIN], true, $this->connection)) {
+			throw new \RuntimeException('Uninstall stopped because the plugin tables could not be preserved.');
+		}
 	}
 
 	/**
@@ -133,7 +135,9 @@ final class Schema {
 			return false;
 		}
 
-		db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND `table` = ? AND method = 'create'", [self::PLUGIN, CreatedDeviceRepository::TABLE], true, $this->connection);
+		if (!db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND `table` = ? AND method = 'create'", [self::PLUGIN, CreatedDeviceRepository::TABLE], true, $this->connection)) {
+			throw new \RuntimeException('Uninstall stopped because device ownership could not be preserved.');
+		}
 
 		return true;
 	}

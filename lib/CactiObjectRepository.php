@@ -52,7 +52,9 @@ final class CactiObjectRepository {
 	}
 
 	public function deviceRemoved(int $hostId): bool {
-		return db_fetch_row_prepared('SELECT id FROM host WHERE id = ?', [$hostId], true, $this->connection) === [];
+		$row = db_fetch_row_prepared('SELECT id, deleted FROM host WHERE id = ?', [$hostId], true, $this->connection);
+
+		return $row === [] || (is_array($row) && Row::string($row, 'deleted') === 'on');
 	}
 
 	public function defaultProfileId(): int {

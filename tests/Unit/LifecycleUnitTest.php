@@ -190,3 +190,56 @@ it('forgets unbooted ownership only after a device is confirmed absent', functio
 		$GLOBALS['__pfs_db_rows'] = [];
 	}
 });
+
+it('stops unbooted uninstall when ownership metadata or legacy data cannot be read', function () {
+	require_once dirname(__DIR__, 2) . '/include/unbooted-uninstall.php';
+	try {
+		$GLOBALS['__pfs_db_rows'] = ['information_schema.TABLES' => false];
+		expect(fn () => pfs_unbooted_created_devices())->toThrow(RuntimeException::class);
+		$GLOBALS['__pfs_db_rows'] = ['FROM settings' => [['value' => '[123,']]];
+		expect(fn () => pfs_unbooted_created_devices())->toThrow(RuntimeException::class);
+		$GLOBALS['__pfs_db_rows'] = ['FROM settings' => false];
+		expect(fn () => pfs_unbooted_created_devices())->toThrow(RuntimeException::class);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+	}
+});
+
+it('stops uninstall when core would still drop the ownership table', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM plugin_pfs_created_devices' => [[1]]];
+	$GLOBALS['__pfs_db_fail'] = ['DELETE FROM plugin_db_changes'];
+	try {
+		expect(fn () => (new Schema(false))->keepCreatedDevices())->toThrow(RuntimeException::class);
+		expect(fn () => (new Schema(false))->untrackTables())->toThrow(RuntimeException::class);
+		$GLOBALS['__pfs_db_rows']['information_schema.TABLES'] = [[1]];
+		$GLOBALS['__pfs_db_rows']['FROM settings'] = [['value' => '']];
+		expect(fn () => pfs_uninstall_unbooted())->toThrow(RuntimeException::class);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_fail'] = [];
+	}
+});
+
+it('cleans mappings for remote hosts whose deletion is queued by Cacti', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM host' => [['id' => 7, 'deleted' => 'on']]];
+	try {
+		expect((new \Somethingwithproof\Pfs\CactiObjectRepository(false))->deviceRemoved(7))->toBeTrue()
+			->and(pfs_unbooted_removed_devices([7]))->toBe([7]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+	}
+});
+
+it('waits for a reader process that has not registered in Cacti yet', function () {
+	require_once dirname(__DIR__) . '/bin/reader-idle.php';
+	$GLOBALS['__pfs_db_rows'] = [];
+	$process = proc_open([PHP_BINARY, '-r', 'usleep(5000000);', 'poller_pfs.php'], [['pipe', 'r'], ['file', '/dev/null', 'w'], ['file', '/dev/null', 'w']], $pipes);
+	expect(is_resource($process))->toBeTrue();
+	try {
+		expect(pfs_reader_idle())->toBeFalse();
+	} finally {
+		proc_terminate($process);
+		fclose($pipes[0]);
+		proc_close($process);
+	}
+});

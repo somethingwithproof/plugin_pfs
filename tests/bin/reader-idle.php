@@ -33,7 +33,13 @@ function pfs_reader_idle($poller = 1) {
 	$leaseFree  = is_array($lease) && (!isset($lease['expires_at']) || (int) $lease['expires_at'] < time());
 	$registered = db_fetch_cell_prepared("SELECT COUNT(*) FROM processes WHERE tasktype = 'pfs' AND taskname = 'reader' AND taskid = ?", array($poller));
 
-	return $leaseFree && $registered !== false && (int) $registered === 0;
+	// A background PHP process can pause before registering with Cacti.
+	// Include that startup window, and fail closed if process lookup fails.
+	$readers = array();
+	$status = 0;
+	exec("pgrep -f '[p]oller_pfs[.]php'", $readers, $status);
+
+	return $leaseFree && $registered !== false && (int) $registered === 0 && $status === 1;
 }
 
 /**

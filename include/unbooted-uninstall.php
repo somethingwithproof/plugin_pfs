@@ -39,15 +39,23 @@ function pfs_unbooted_created_devices(): array {
 	if (pfs_unbooted_record_exists()) {
 		$rows = db_fetch_assoc_prepared('SELECT host_id FROM plugin_pfs_created_devices', array());
 
-		foreach (is_array($rows) ? $rows : array() as $row) {
+		if (!is_array($rows)) {
+			throw new RuntimeException('Uninstall stopped because device ownership could not be read.');
+		}
+
+		foreach ($rows as $row) {
 			$ids[] = (int) $row['host_id'];
 		}
 	}
 
 	$row    = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_created_devices'));
-	$legacy = is_array($row) && isset($row['value']) && is_string($row['value']) ? json_decode($row['value'], true) : array();
+	$value = is_array($row) && isset($row['value']) && is_string($row['value']) ? $row['value'] : '';
+	$legacy = $value === '' ? array() : json_decode($value, true);
+	if ($row === false || !is_array($legacy)) {
+		throw new RuntimeException('Uninstall stopped because legacy device ownership could not be read.');
+	}
 
-	foreach (is_array($legacy) ? $legacy : array() as $id) {
+	foreach ($legacy as $id) {
 		if (is_int($id)) {
 			$ids[] = $id;
 		}
@@ -59,7 +67,11 @@ function pfs_unbooted_created_devices(): array {
 }
 
 function pfs_unbooted_record_exists(): bool {
-	return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?', array('plugin_pfs_created_devices')) > 0;
+	$count = db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?', array('plugin_pfs_created_devices'));
+	if ($count === false) {
+		throw new RuntimeException('Uninstall stopped because the ownership table could not be checked.');
+	}
+	return (int) $count > 0;
 }
 
 /**
@@ -68,7 +80,8 @@ function pfs_unbooted_record_exists(): bool {
  */
 function pfs_unbooted_removed_devices(array $ids): array {
 	return array_values(array_filter($ids, function ($id) {
-		return db_fetch_row_prepared('SELECT id FROM host WHERE id = ?', array($id)) === array();
+		$row = db_fetch_row_prepared('SELECT id, deleted FROM host WHERE id = ?', array($id));
+		return $row === array() || (is_array($row) && isset($row['deleted']) && $row['deleted'] === 'on');
 	}));
 }
 
@@ -115,7 +128,9 @@ function pfs_uninstall_unbooted(): void {
 	$keep = !is_array($row) || $row === array() || (isset($row['value']) && $row['value'] === 'on');
 
 	if ($keep) {
-		db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", array('pfs'));
+		if (!db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", array('pfs'))) {
+			throw new RuntimeException('Uninstall stopped because the plugin tables could not be preserved.');
+		}
 		cacti_log('NOTE: Uninstall kept the plugin tables as configured', false, 'PFS');
 	} else {
 		// As Schema::keepCreatedDevices(): a record that still lists a
@@ -123,7 +138,9 @@ function pfs_uninstall_unbooted(): void {
 		$count = pfs_unbooted_record_exists() ? db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_created_devices', array()) : 0;
 
 		if ($count === false || (int) $count > 0) {
-			db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND `table` = ? AND method = 'create'", array('pfs', 'plugin_pfs_created_devices'));
+			if (!db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND `table` = ? AND method = 'create'", array('pfs', 'plugin_pfs_created_devices'))) {
+				throw new RuntimeException('Uninstall stopped because device ownership could not be preserved.');
+			}
 			cacti_log('NOTE: Uninstall dropped the plugin tables but kept the record of the devices the plugin created, which are still in Cacti', false, 'PFS');
 		}
 
