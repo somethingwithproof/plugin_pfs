@@ -26,7 +26,10 @@ namespace Somethingwithproof\Pfs;
  *
  * Gauges are served while the summary's oldest contributing observation is
  * current or delayed, counters and their rates only while it is current
- * (ADR 0012), and age whenever anything was ever observed.
+ * (ADR 0012), and age whenever anything was ever observed. A rate is also
+ * served only while the counter it comes from was read recently enough to
+ * be current: that read can trail the capacity read the summary time is
+ * taken from.
  */
 final class SummaryScript {
 	public function __construct(
@@ -52,8 +55,14 @@ final class SummaryScript {
 			$pairs[] = $name . ':' . ($served ? Number::format($summary?->value($name)) : 'U');
 		}
 
-		foreach (array_merge(Summary::COUNTERS, Summary::RATES) as $name) {
+		foreach (Summary::COUNTERS as $name) {
 			$pairs[] = $name . ':' . ($freshness === Freshness::Current ? Number::format($summary?->value($name)) : 'U');
+		}
+
+		foreach (Summary::COUNTERS as $counter) {
+			$read    = (new FreshnessEvaluator($clock))->evaluate($summary?->counterAt[$counter] ?? 0, $interval);
+			$served  = $freshness === Freshness::Current && $read === Freshness::Current;
+			$pairs[] = $counter . Summary::RATE_SUFFIX . ':' . ($served ? Number::format($summary?->value($counter . Summary::RATE_SUFFIX)) : 'U');
 		}
 
 		$age     = $summary === null || $summary->observedAt <= 0 ? null : (float) max(0, $clock->now() - $summary->observedAt);

@@ -121,7 +121,18 @@ switch ($action) {
 		db_execute('ALTER TABLE plugin_pfs_filesystem DROP INDEX host_id, DROP COLUMN host_id');
 		db_execute('DROP TABLE IF EXISTS plugin_pfs_summary');
 		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_summary'");
+		db_execute('DROP TABLE IF EXISTS plugin_pfs_created_devices');
+		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_created_devices'");
 		db_execute("UPDATE settings SET value = '1' WHERE name = 'pfs_schema_version'");
+
+		break;
+	case 'to_schema_2':
+		// What a milestone 4 install left: the created devices as one JSON
+		// setting, here the ids in the argument.
+		db_execute('DROP TABLE IF EXISTS plugin_pfs_created_devices');
+		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_created_devices'");
+		db_execute_prepared("REPLACE INTO settings (name, value) VALUES ('pfs_created_devices', ?)", array($argument));
+		db_execute("UPDATE settings SET value = '2' WHERE name = 'pfs_schema_version'");
 
 		break;
 	case 'seed':
@@ -215,7 +226,8 @@ print json_encode(array(
 	'devices' => array_map(static function ($row) {
 		return array('data_local' => (int) $row['ds'], 'graph_local' => (int) $row['graphs']);
 	}, array_column(db_fetch_assoc("SELECT h.id, (SELECT COUNT(*) FROM data_local d WHERE d.host_id = h.id) AS ds, (SELECT COUNT(*) FROM graph_local g WHERE g.host_id = h.id) AS graphs FROM host h WHERE h.hostname LIKE '%.pfs.invalid' OR h.hostname = 'lifecycle.example.invalid'"), null, 'id')),
-	'created_devices' => (string) db_fetch_cell("SELECT value FROM settings WHERE name = 'pfs_created_devices'"),
+	'created_devices' => db_fetch_cell("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_created_devices'") ? json_encode(array_map('intval', array_column(db_fetch_assoc('SELECT host_id FROM plugin_pfs_created_devices ORDER BY host_id'), 'host_id'))) : '',
+	'legacy_created_devices' => (string) db_fetch_cell("SELECT value FROM settings WHERE name = 'pfs_created_devices'"),
 	'filesystem_hosts' => db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") ? array_map('intval', array_column(db_fetch_assoc('SELECT name, host_id FROM plugin_pfs_filesystem ORDER BY name'), 'host_id', 'name')) : array(),
 	'host_column' => (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") === 1,
 ), JSON_PRETTY_PRINT) . PHP_EOL;

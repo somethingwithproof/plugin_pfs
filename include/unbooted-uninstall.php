@@ -26,23 +26,75 @@
  * run both paths. No storage node is contacted.
  */
 
+/**
+ * The recorded host ids: the plugin_pfs_created_devices table, and the
+ * setting milestone 4 kept them in, for a schema not yet migrated. Mirrors
+ * CreatedDeviceRepository.
+ *
+ * @return list<int>
+ */
+function pfs_unbooted_created_devices(): array {
+	$ids = array();
+
+	if (pfs_unbooted_record_exists()) {
+		$rows = db_fetch_assoc_prepared('SELECT host_id FROM plugin_pfs_created_devices', array());
+
+		foreach (is_array($rows) ? $rows : array() as $row) {
+			$ids[] = (int) $row['host_id'];
+		}
+	}
+
+	$row    = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_created_devices'));
+	$legacy = is_array($row) && isset($row['value']) && is_string($row['value']) ? json_decode($row['value'], true) : array();
+
+	foreach (is_array($legacy) ? $legacy : array() as $id) {
+		if (is_int($id)) {
+			$ids[] = $id;
+		}
+	}
+
+	return array_values(array_unique(array_filter($ids, function ($id) {
+		return $id > 0;
+	})));
+}
+
+function pfs_unbooted_record_exists(): bool {
+	return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?', array('plugin_pfs_created_devices')) > 0;
+}
+
+/**
+ * @param list<int> $ids
+ * @return list<int>
+ */
+function pfs_unbooted_removed_devices(array $ids): array {
+	return array_values(array_filter($ids, function ($id) {
+		return db_fetch_row_prepared('SELECT id FROM host WHERE id = ?', array($id)) === array();
+	}));
+}
+
 function pfs_uninstall_unbooted(): void {
+	// A recorded device deleted while the plugin was disabled is no longer
+	// the plugin's to track.
+	if (pfs_unbooted_record_exists()) {
+		db_execute_prepared('DELETE FROM plugin_pfs_created_devices WHERE host_id NOT IN (SELECT id FROM host)', array());
+	}
+
 	// Deleting the devices the plugin created needs only core functions, so
 	// it is honoured here too (REQ-LIFE-005); setup.php is already loaded.
 	$delete = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_uninstall_delete_devices'));
 
 	if (is_array($delete) && isset($delete['value']) && $delete['value'] === 'on') {
-		$row      = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_created_devices'));
-		$ids      = is_array($row) && isset($row['value']) && is_string($row['value']) ? json_decode($row['value'], true) : array();
+		$recorded = pfs_unbooted_created_devices();
 		$existing = array();
 
-		foreach (is_array($ids) ? $ids : array() as $id) {
+		foreach ($recorded as $id) {
 			if (is_int($id) && $id > 0 && (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM host WHERE id = ?', array($id)) > 0) {
 				$existing[] = $id;
 			}
 		}
 
 		pfs_uninstall_devices($existing);
+		$existing = pfs_unbooted_removed_devices($recorded);
 
 		// No plugin hook runs here, so the mapping and the record are
 		// cleared directly; kept tables must not point at a deleted device.
@@ -50,7 +102,13 @@ function pfs_uninstall_unbooted(): void {
 			db_execute_prepared('UPDATE plugin_pfs_filesystem SET host_id = 0 WHERE host_id IN (' . implode(', ', array_fill(0, count($existing), '?')) . ')', $existing);
 		}
 
-		db_execute_prepared('DELETE FROM settings WHERE name = ?', array('pfs_created_devices'));
+		if ($existing !== array() && pfs_unbooted_record_exists()) {
+			db_execute_prepared('DELETE FROM plugin_pfs_created_devices WHERE host_id IN (' . implode(', ', array_fill(0, count($existing), '?')) . ')', $existing);
+		}
+
+		if (count($existing) === count($recorded)) {
+			db_execute_prepared('DELETE FROM settings WHERE name = ?', array('pfs_created_devices'));
+		}
 	}
 
 	$row  = db_fetch_row_prepared('SELECT value FROM settings WHERE name = ?', array('pfs_uninstall_keep_tables'));
@@ -60,6 +118,15 @@ function pfs_uninstall_unbooted(): void {
 		db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", array('pfs'));
 		cacti_log('NOTE: Uninstall kept the plugin tables as configured', false, 'PFS');
 	} else {
+		// As Schema::keepCreatedDevices(): a record that still lists a
+		// device outlives the other tables.
+		$count = pfs_unbooted_record_exists() ? db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_created_devices', array()) : 0;
+
+		if ($count === false || (int) $count > 0) {
+			db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND `table` = ? AND method = 'create'", array('pfs', 'plugin_pfs_created_devices'));
+			cacti_log('NOTE: Uninstall dropped the plugin tables but kept the record of the devices the plugin created, which are still in Cacti', false, 'PFS');
+		}
+
 		db_execute_prepared('DELETE FROM settings WHERE name = ?', array('pfs_schema_version'));
 	}
 }

@@ -51,6 +51,10 @@ final class CactiObjectRepository {
 		return $this->idByHash('host_template', TemplateInstaller::hash('host_template', TemplateInstaller::DEVICE_TEMPLATE));
 	}
 
+	public function deviceRemoved(int $hostId): bool {
+		return db_fetch_row_prepared('SELECT id FROM host WHERE id = ?', [$hostId], true, $this->connection) === [];
+	}
+
 	public function defaultProfileId(): int {
 		$id = (int) db_fetch_cell_prepared("SELECT id FROM data_source_profiles WHERE `default` = 'on' ORDER BY id LIMIT 1", [], '', true, $this->connection);
 

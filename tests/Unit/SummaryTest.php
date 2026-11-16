@@ -371,6 +371,19 @@ describe('summary input', function () {
 			->and($never)->toContain('fill_max_pct:U')->toContain('age:U');
 	});
 
+	it('serves a rate only while the counter it comes from is current, even when capacity is', function () {
+		$values = array_fill_keys(array_merge(Summary::GAUGES, Summary::COUNTERS, Summary::RATES), 1.0);
+		$at     = ['read_bytes' => SUM_T, 'write_bytes' => SUM_T + 299, 'md_ops' => 0];
+		$answer = SummaryScript::format(new Summary($values, [], SUM_T + 299, SUM_T + 299, $at), 300, new FixedClock(SUM_T + 460));
+
+		// read_bytes was read 460 s ago, past 1.5 intervals, while the
+		// capacity read the summary time comes from is 161 s old.
+		expect($answer)->toContain('fill_max_pct:1')
+			->and($answer)->toContain('read_bytes_rate:U')
+			->and($answer)->toContain('write_bytes_rate:1')
+			->and($answer)->toContain('md_ops_rate:U');
+	});
+
 	it('keeps every summary name a valid RRD data source name', function () {
 		foreach (Summary::names() as $name) {
 			expect($name)->toMatch('/^[a-zA-Z0-9_]{1,19}$/');

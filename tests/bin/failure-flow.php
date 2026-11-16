@@ -29,8 +29,8 @@
  *                  the scenario started
  *   (php plugins/pfs/poller_pfs.php --poller=1 --force, timed)
  *   settle <s>     wait at most s seconds for a reader started elsewhere
- *                  (by poller_bottom) to attempt the node and let go of
- *                  the lease
+ *                  (by poller_bottom) to attempt the node, release the
+ *                  lease, and unregister its process
  *   running <pid> <s>
  *                  wait at most s seconds until the reader with that
  *                  process id holds the lease, so it is mid-run
@@ -49,6 +49,7 @@ require_once($config['base_path'] . '/lib/api_device.php');
 require_once($config['base_path'] . '/lib/utility.php');
 require_once($config['base_path'] . '/plugins/pfs/setup.php');
 require_once($config['base_path'] . '/plugins/pfs/tests/bin/lustre-fixture.php');
+require_once($config['base_path'] . '/plugins/pfs/tests/bin/reader-idle.php');
 
 $called_by_script_server = true;
 require_once($config['base_path'] . '/plugins/pfs/scripts/ss_pfs_targets.php');
@@ -103,10 +104,9 @@ function fault_lease() {
 	return is_array($row) ? $row : array();
 }
 
+/** No reader holds the lease or is still registered as running. */
 function fault_lease_free() {
-	$lease = fault_lease();
-
-	return !isset($lease['expires_at']) || (int) $lease['expires_at'] < time();
+	return pfs_reader_idle(1);
 }
 
 /** Whether the node was attempted at or after the scenario started. */
@@ -122,17 +122,7 @@ function fault_fresh() {
  * poller_bottom may not have registered yet when the poller returns.
  */
 function fault_wait($done, $seconds) {
-	$until = microtime(true) + $seconds;
-
-	while (!$done()) {
-		if (microtime(true) >= $until) {
-			return false;
-		}
-
-		usleep(200000);
-	}
-
-	return true;
+	return pfs_wait_until($done, $seconds);
 }
 
 function fault_observed() {
@@ -181,7 +171,7 @@ switch ($step) {
 	case 'arm':
 		// A reader still holding the lease makes the next forced run skip,
 		// and its check would then read an older attempt.
-		fault_expect(fault_wait('fault_lease_free', 60), "$mode: no reader holds the lease when the scenario starts (" . json_encode(fault_lease()) . ')');
+		fault_expect(fault_wait('fault_lease_free', 60), "$mode: no reader holds the lease or is registered when the scenario starts (" . json_encode(fault_lease()) . ')');
 		file_put_contents("$dir/mode", "$mode\n");
 		db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 		fault_state('before', fault_observed());
@@ -192,7 +182,7 @@ switch ($step) {
 		$seconds = max(1, (int) $mode);
 		fault_expect(fault_wait(function () {
 			return fault_fresh() && fault_lease_free();
-		}, $seconds), "the reader poller_bottom started attempted the node and let go of the lease within $seconds s (" . json_encode(array('health' => fault_health(), 'lease' => fault_lease())) . ')');
+		}, $seconds), "the reader poller_bottom started attempted the node and ended within $seconds s (" . json_encode(array('health' => fault_health(), 'lease' => fault_lease())) . ')');
 
 		break;
 	case 'running':

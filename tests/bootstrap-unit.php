@@ -110,7 +110,7 @@ if (!function_exists('db_fetch_row_prepared')) {
 	function db_fetch_row_prepared($sql, $params = [], $log = true, $db_conn = false, $log_function = null) {
 		$rows = pfs_test_rows($sql);
 
-		return is_array($rows) && isset($rows[0]) ? $rows[0] : [];
+		return $rows === false ? false : (is_array($rows) && isset($rows[0]) ? $rows[0] : []);
 	}
 }
 
@@ -147,7 +147,7 @@ if (!function_exists('db_fetch_cell_prepared')) {
 
 		$rows = pfs_test_rows($sql);
 
-		return is_array($rows) && isset($rows[0]) ? reset($rows[0]) : 0;
+		return $rows === false ? false : (is_array($rows) && isset($rows[0]) ? reset($rows[0]) : 0);
 	}
 }
 

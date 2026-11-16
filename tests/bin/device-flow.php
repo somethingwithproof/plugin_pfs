@@ -50,6 +50,7 @@ require_once($config['base_path'] . '/lib/data_query.php');
 require_once($config['base_path'] . '/lib/utility.php');
 require_once($config['base_path'] . '/lib/rrd.php');
 require_once($config['base_path'] . '/plugins/pfs/setup.php');
+require_once($config['base_path'] . '/plugins/pfs/tests/bin/reader-idle.php');
 
 // Load the script server functions without running their CLI branch.
 $called_by_script_server = true;
@@ -259,6 +260,14 @@ if ($argv[1] === 'setup') {
 	flow_expect(ss_pfs_targets($hostId, 'ost', 'get', 'write_ops', 'scratch-OST0001') === 'U', 'a counter line the node never printed is served as U');
 	flow_expect(ss_pfs_targets($hostId, 'ost', 'get', 'read_bytes', '../../etc/passwd') === 'U' && ss_pfs_targets($hostId, 'ost', 'get', 'password', 'scratch-OST0000') === 'U' && ss_pfs_targets($hostId, 'mdt', 'get', 'read_bytes', 'scratch-OST0000') === 'U', 'hostile indexes and fields are served as U');
 	flow_expect(ss_pfs_targets($hostId + 999, 'ost', 'index') === '', 'a device without a filesystem lists no targets');
+
+	// The poll before this phase started a reader in the background. While
+	// it holds the lease the reset read below would be skipped, so wait,
+	// bounded by the longest a run can hold the lease.
+	$bound = pfs_settings()->readerBudget + 60;
+	flow_expect(pfs_wait_until(function () {
+		return pfs_reader_idle(1);
+	}, $bound), "the background reader ended within $bound s before the reset read");
 
 	// The counters go backwards: a reset. The reader marks it and the
 	// script serves U for the counters until the next continuous read.

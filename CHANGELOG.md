@@ -14,7 +14,7 @@ Phase 1, Lustre observation. Not released: pilots on real filesystems, the exter
 - One Cacti device per filesystem with OST and MDT script server data queries, device, data, and graph templates, five overview graphs, and per-target graphs on demand; counters as DERIVE data sources that read unknown across a reset (milestone 3).
 - A per-filesystem summary data source for Thold: fill and imbalance, target counts, capacity totals, filesystem throughput and metadata counters, and data age (milestones 3 and 4).
 - Summary rate gauges, `read_bytes_rate`, `write_bytes_rate`, and `md_ops_rate`, computed by the reader so Thold can alert on rates without a counter data source ([ADR 0012 amendment](docs/decisions/0012-thold-rate-alerts-high-thresholds-only.md#amendment-2026-11-15)).
-- An uninstall setting, off by default, that deletes the devices the plugin created, with their graphs and data sources, through Cacti's device delete; mapped existing devices always stay (REQ-LIFE-005, [#31](https://github.com/somethingwithproof/plugin_pfs/issues/31)).
+- An uninstall setting, off by default, that deletes the devices the plugin created, with their graphs and data sources, through Cacti's device delete; mapped existing devices always stay. The devices the plugin created are recorded one row each in `plugin_pfs_created_devices`, which outlives an uninstall that drops the other tables while it lists a device still in Cacti (REQ-LIFE-005, [#31](https://github.com/somethingwithproof/plugin_pfs/issues/31)).
 - Device permissions on every page and admin action, and a `graph_buttons` link from a device's graphs to its filesystem view (milestone 3).
 - End-to-end tests with unchanged Thold and Maint releases, target churn and reindex, backup and restore, failure scenarios, and a scale harness (milestone 4).
 - Operator guide, alerting guide, release process, security self-review, and pilot plan (milestone 4).
@@ -25,6 +25,7 @@ Phase 1, Lustre observation. Not released: pilots on real filesystems, the exter
 
 ### Fixed
 
+- A rate gauge was served from a counter read that was no longer current while the capacity read the summary time comes from still was; each rate now also needs its own counter read to be current.
 - A target that a complete read left out serves unknown on its per-target data source at once, instead of its last value until that value went stale.
 - The Fill graph did not draw `age`, so Cacti stored no value for it and Thold could not threshold it.
 

@@ -207,7 +207,9 @@ function pfs_provisioner(): \Somethingwithproof\Pfs\DeviceProvisioner {
 		new \Somethingwithproof\Pfs\TargetRepository(false),
 		new \Somethingwithproof\Pfs\CactiObjectRepository(false),
 		\Somethingwithproof\Pfs\BackendRegistry::production(),
-		$config['base_path']
+		$config['base_path'],
+		new \Somethingwithproof\Pfs\CreatedDeviceRepository(false),
+		$clock
 	);
 }
 
@@ -273,19 +275,34 @@ function plugin_pfs_uninstall(): void {
 		return;
 	}
 
-	$schema = new \Somethingwithproof\Pfs\Schema(false);
+	$schema  = new \Somethingwithproof\Pfs\Schema(false);
+	$objects = new \Somethingwithproof\Pfs\CactiObjectRepository(false);
+	$record  = new \Somethingwithproof\Pfs\CreatedDeviceRepository(false);
+
+	// Code replaced without the upgrade being run still has the record in
+	// its old place; finish the pending migrations first, which never
+	// contact a node.
+	if ($schema->storedVersion() > 0 && $schema->storedVersion() < \Somethingwithproof\Pfs\Schema::VERSION) {
+		if (!$schema->migrate()) {
+			throw new \RuntimeException('Uninstall stopped because the created-device record could not be migrated.');
+		}
+	}
+
+	// A recorded device deleted while the plugin was disabled is no longer
+	// the plugin's to track.
+	$record->forget(array_values(array_filter($record->ids(), static fn (int $id): bool => $objects->deviceRemoved($id))));
 
 	if (pfs_settings()->deleteDevicesOnUninstall) {
-		$objects = new \Somethingwithproof\Pfs\CactiObjectRepository(false);
-		$created = array_values(array_filter(\Somethingwithproof\Pfs\CreatedDevices::ids(), static fn (int $id): bool => $objects->device($id) !== null));
+		$created = $record->ids();
 
 		pfs_uninstall_devices($created);
+		$created = array_values(array_filter($created, static fn (int $id): bool => $objects->deviceRemoved($id)));
 
 		// Core runs no hook of a disabled plugin, so device_remove did not
 		// clear the mapping or the record; kept tables must not point at a
 		// deleted device.
 		(new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($created);
-		\Somethingwithproof\Pfs\CreatedDevices::forget($created);
+		$record->forget($created);
 	}
 
 	// Removes only the query files the plugin wrote and nobody changed. The
@@ -298,6 +315,10 @@ function plugin_pfs_uninstall(): void {
 
 		\Somethingwithproof\Pfs\Log::info('Uninstall kept the plugin tables as configured');
 	} else {
+		if ($schema->keepCreatedDevices()) {
+			\Somethingwithproof\Pfs\Log::info('Uninstall dropped the plugin tables but kept the record of the devices the plugin created, which are still in Cacti');
+		}
+
 		$schema->forgetVersion();
 	}
 }
@@ -389,7 +410,7 @@ function pfs_device_remove($hostIds) {
 	}
 
 	$count = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($ids);
-	\Somethingwithproof\Pfs\CreatedDevices::forget($ids);
+	(new \Somethingwithproof\Pfs\CreatedDeviceRepository(false))->forget($ids);
 
 	if ($count > 0) {
 		\Somethingwithproof\Pfs\Log::info(sprintf('%d filesystems lost their device when it was deleted; they can be given a device again from the registry', $count));

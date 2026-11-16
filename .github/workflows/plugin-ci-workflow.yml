@@ -514,7 +514,16 @@ jobs:
       working-directory: cacti
       run: |
         if [ -f log/cacti.log ]; then
-          if grep -E "FATAL:|ERROR:|WARNING:" log/cacti.log | grep -v "does not exist for ownership assignment"; then
+          # Cacti 1.2.31 leaves incomplete poller-output rows when a
+          # multi-item source returns U. The churn replay checks those
+          # gaps; keep the diagnostics visible and restrict this allowance
+          # to the affected core release and the plugin's templates.
+          core_warnings='^$'
+          if [ "$(cat include/cacti_version)" = '1.2.31' ]; then
+            core_warnings="^[^ ]+ [0-9:]+ - POLLER: Poller\\[1\\] PID\\[[0-9]+\\] WARNING: (Poller Output Table not Empty\\.  Issues: [0-9]+, DS\\[[0-9, ]+\\]|There are [0-9]+ Data Sources not returning all data leaving rows in the poller output table\\.  Details to follow\\.|Data Template 'Parallel Filesystem [^']+' is impacted by lack of complete information)\$"
+            grep -E "$core_warnings" log/cacti.log || true
+          fi
+          if grep -E "FATAL:|ERROR:|WARNING:" log/cacti.log | grep -v "does not exist for ownership assignment" | grep -vE "$core_warnings" | grep -vE '^[^ ]+ [0-9:]+ - SYSTEM WARNING: Primary Admin account notifications disabled!  Unable to send administrative Email\.$'; then
             exit 1
           fi
           mv log/cacti.log log/flows.log

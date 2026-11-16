@@ -17,7 +17,7 @@
  * more details.
  */
 
-use Somethingwithproof\Pfs\CreatedDevices;
+use Somethingwithproof\Pfs\CreatedDeviceRepository;
 use Somethingwithproof\Pfs\Pages;
 use Somethingwithproof\Pfs\Schema;
 use Somethingwithproof\Pfs\Settings;
@@ -39,31 +39,57 @@ it('deletes the plugin\'s devices on uninstall only after the box was checked an
 		->and(Settings::form()['pfs_uninstall_delete_devices']['default'])->toBe('');
 });
 
-it('records the devices the plugin created and forgets deleted ones', function () {
-	$GLOBALS['__pfs_options'] = [];
+it('records the devices the plugin created and forgets deleted ones, one row each', function () {
+	$GLOBALS['__pfs_db_exec'] = [];
+	$record = new CreatedDeviceRepository(false);
 
-	CreatedDevices::add(7);
-	CreatedDevices::add(3);
-	CreatedDevices::add(7);
-	CreatedDevices::add(0);
+	expect($record->add(7, 100))->toBeTrue()
+		->and($record->add(0, 100))->toBeFalse()
+		->and($record->forget([7, 0, 7, 99]))->toBeTrue()
+		->and($record->forget([]))->toBeTrue();
 
-	expect(CreatedDevices::ids())->toBe([3, 7]);
+	expect($GLOBALS['__pfs_db_exec'])->toBe([
+		['sql' => 'INSERT IGNORE INTO plugin_pfs_created_devices (host_id, created_at) VALUES (?, ?)', 'params' => [7, 100]],
+		['sql' => 'DELETE FROM plugin_pfs_created_devices WHERE host_id IN (?, ?)', 'params' => [7, 99]],
+	]);
 
-	CreatedDevices::forget([7, 99]);
-
-	expect(CreatedDevices::ids())->toBe([3]);
-
-	$GLOBALS['__pfs_options'][CreatedDevices::SETTING] = '["x", -1, 4]';
-
-	expect(CreatedDevices::ids())->toBe([4]);
-
-	$GLOBALS['__pfs_options'] = [];
+	$GLOBALS['__pfs_db_rows'] = ['FROM plugin_pfs_created_devices' => [['host_id' => 3], ['host_id' => '7'], ['host_id' => 0]]];
+	expect($record->ids())->toBe([3, 7]);
+	$GLOBALS['__pfs_db_rows'] = [];
+	$GLOBALS['__pfs_db_exec'] = [];
 });
 
 it('drops tables on uninstall only after the box was cleared and saved', function () {
 	expect(Settings::fromRow(['pfs_uninstall_keep_tables' => ''])->keepTablesOnUninstall)->toBeFalse()
 		->and(Settings::fromRow(['pfs_uninstall_keep_tables' => null])->keepTablesOnUninstall)->toBeFalse()
 		->and(Settings::fromRow(['pfs_uninstall_keep_tables' => 'on'])->keepTablesOnUninstall)->toBeTrue();
+});
+
+it('keeps device ownership records when a database read fails or legacy JSON is damaged', function () {
+	$record = new CreatedDeviceRepository(false);
+	$GLOBALS['__pfs_db_rows'] = ['FROM plugin_pfs_created_devices' => false, 'FROM settings' => false];
+	$GLOBALS['__pfs_db_exec'] = [];
+
+	try {
+		expect($record->hasRecords())->toBeTrue()
+			->and($record->importLegacy(100))->toBeFalse();
+		$GLOBALS['__pfs_db_rows'] = ['FROM settings' => [['value' => '[123,']]];
+		expect($record->importLegacy(100))->toBeFalse()
+			->and($GLOBALS['__pfs_db_exec'])->toBe([]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_exec'] = [];
+	}
+});
+
+it('accepts an empty legacy device setting during uninstall', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM settings' => [['value' => '']]];
+	try {
+		expect((new CreatedDeviceRepository(false))->importLegacy(100))->toBeTrue();
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_exec'] = [];
+	}
 });
 
 it('bounds numeric settings', function (string $name, mixed $stored, string $property, int $expected) {
@@ -149,4 +175,18 @@ it('keeps observation names within the 19 characters of an RRD data source', fun
 	$metric = array_values(array_filter(Schema::tables()['plugin_pfs_observation']['columns'], fn (array $c): bool => $c['name'] === 'metric'));
 
 	expect($metric[0]['type'])->toBe('varchar(19)');
+});
+
+it('forgets unbooted ownership only after a device is confirmed absent', function () {
+	require_once dirname(__DIR__, 2) . '/include/unbooted-uninstall.php';
+	try {
+		$GLOBALS['__pfs_db_rows'] = ['FROM host' => false];
+		expect(pfs_unbooted_removed_devices([7]))->toBe([]);
+		$GLOBALS['__pfs_db_rows'] = ['FROM host' => [['id' => 7]]];
+		expect(pfs_unbooted_removed_devices([7]))->toBe([]);
+		$GLOBALS['__pfs_db_rows'] = ['FROM host' => []];
+		expect(pfs_unbooted_removed_devices([7]))->toBe([7]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+	}
 });
