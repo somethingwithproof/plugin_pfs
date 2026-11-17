@@ -29,6 +29,7 @@ namespace Somethingwithproof\Pfs;
  * REQ-HEALTH-004); the view realm sees inventory and freshness only.
  */
 final class Pages {
+	public const OPERATOR = ['pfs_operator.php'];
 	public const VIEW  = ['pfs.php'];
 	public const ADMIN = ['pfs_admin.php', 'pfs_health.php'];
 
@@ -37,6 +38,7 @@ final class Pages {
 	 */
 	public static function realms(): array {
 		return [
+			['name' => __('Parallel Filesystem Operator', 'pfs'), 'files' => self::OPERATOR],
 			['name' => __('Parallel Filesystem View', 'pfs'), 'files' => self::VIEW],
 			['name' => __('Parallel Filesystem Admin', 'pfs'), 'files' => self::ADMIN],
 		];
@@ -46,7 +48,7 @@ final class Pages {
 	 * @return list<string>
 	 */
 	public static function files(): array {
-		return array_merge(self::VIEW, self::ADMIN);
+		return array_merge(self::VIEW, self::ADMIN, self::OPERATOR);
 	}
 
 	/**
@@ -57,6 +59,7 @@ final class Pages {
 	 */
 	public static function menu(): array {
 		return [
+			'pfs_operator.php' => __('Parallel Filesystem Operations', 'pfs'),
 			'pfs.php'        => __('Parallel Filesystems', 'pfs'),
 			'pfs_admin.php'  => __('Parallel Filesystem Registry', 'pfs'),
 			'pfs_health.php' => __('Parallel Filesystem Health', 'pfs'),

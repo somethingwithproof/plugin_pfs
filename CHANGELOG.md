@@ -8,6 +8,8 @@ Phase 1, Lustre observation. Not released: pilots on real filesystems, the exter
 
 ### Added
 
+- Parallel Filesystem Operator realm and Operations page with current observations and personal acknowledgments. Existing administrators inherit Operator access; operators inherit monitoring access without configuration rights.
+
 - Plugin install, upgrade, and uninstall through Cacti's plugin API, with a refusal on PHP below 8.2 that leaves Cacti working (milestone 2).
 - Registry of filesystems, nodes, and the networks each poller may reach; a background reader per poller that reads Lustre servers over SSH through a fixed forced-command script, `node/pfs-read.sh` (milestone 2).
 - A cache of target inventory, condition, capacity, and counters with their freshness, and a health page (milestone 2).
