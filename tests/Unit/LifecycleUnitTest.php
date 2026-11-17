@@ -59,6 +59,34 @@ it('records the devices the plugin created and forgets deleted ones, one row eac
 	$GLOBALS['__pfs_db_exec'] = [];
 });
 
+it('lists mapped Cacti devices for uninstall checks', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM plugin_pfs_filesystem' => [['host_id' => 7], ['host_id' => '7'], ['host_id' => 0]]];
+
+	try {
+		$repository = new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock());
+		expect($repository->mappedHostIds())->toBe([7]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+	}
+});
+
+it('keeps mappings intact when an unmap query or write fails', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM plugin_pfs_filesystem' => [['COUNT(*)' => 1]]];
+	$repository              = new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock());
+
+	try {
+		$GLOBALS['__pfs_db_rows']['FROM plugin_pfs_filesystem'] = false;
+		expect(fn () => $repository->unmapHosts([7]))->toThrow(RuntimeException::class);
+
+		$GLOBALS['__pfs_db_rows']['FROM plugin_pfs_filesystem'] = [['COUNT(*)' => 1]];
+		$GLOBALS['__pfs_db_fail'] = ['UPDATE plugin_pfs_filesystem SET host_id = 0'];
+		expect(fn () => $repository->unmapHosts([7]))->toThrow(RuntimeException::class);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_fail'] = [];
+	}
+});
+
 it('drops tables on uninstall only after the box was cleared and saved', function () {
 	expect(Settings::fromRow(['pfs_uninstall_keep_tables' => ''])->keepTablesOnUninstall)->toBeFalse()
 		->and(Settings::fromRow(['pfs_uninstall_keep_tables' => null])->keepTablesOnUninstall)->toBeFalse()
@@ -227,6 +255,76 @@ it('cleans mappings for remote hosts whose deletion is queued by Cacti', functio
 			->and(pfs_unbooted_removed_devices([7]))->toBe([7]);
 	} finally {
 		$GLOBALS['__pfs_db_rows'] = [];
+	}
+});
+
+it('does not treat a failed Cacti host lookup as a confirmed deletion', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM host' => false];
+
+	try {
+		expect(fn () => (new \Somethingwithproof\Pfs\CactiObjectRepository(false))->deviceRemoved(7))->toThrow(RuntimeException::class);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+	}
+});
+
+it('clears mappings for remote hosts soft-deleted while the plugin was disabled', function () {
+	$GLOBALS['__pfs_db_rows'] = [
+		'information_schema.COLUMNS'       => [['has_column' => 1]],
+		'FROM plugin_pfs_filesystem'        => [['host_id' => 7]],
+		'FROM host'                         => [['id' => 7, 'deleted' => 'on']],
+		'information_schema.TABLES'         => [],
+		'FROM settings'                     => [],
+	];
+	$GLOBALS['__pfs_db_exec'] = [];
+
+	try {
+		pfs_uninstall_unbooted();
+
+		expect($GLOBALS['__pfs_db_exec'])->toContain([
+			'sql'    => 'UPDATE plugin_pfs_filesystem SET host_id = 0 WHERE host_id IN (?)',
+			'params' => [7],
+		]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_exec'] = [];
+	}
+});
+
+it('stops unbooted uninstall when a filesystem mapping cannot be read', function () {
+	$GLOBALS['__pfs_db_rows'] = [
+		'information_schema.COLUMNS' => [['has_column' => 1]],
+		'FROM plugin_pfs_filesystem' => false,
+	];
+	$GLOBALS['__pfs_db_exec'] = [];
+
+	try {
+		expect(fn () => pfs_uninstall_unbooted())->toThrow(RuntimeException::class);
+		expect($GLOBALS['__pfs_db_exec'])->toBe([]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_exec'] = [];
+	}
+});
+
+it('keeps ownership records when clearing a removed-device mapping fails', function () {
+	$GLOBALS['__pfs_db_rows'] = [
+		'information_schema.COLUMNS'       => [['has_column' => 1]],
+		'FROM plugin_pfs_filesystem'        => [['host_id' => 7]],
+		'FROM host'                         => [['id' => 7, 'deleted' => 'on']],
+		'information_schema.TABLES'         => [],
+		'FROM settings'                     => [],
+	];
+	$GLOBALS['__pfs_db_exec'] = [];
+	$GLOBALS['__pfs_db_fail'] = ['UPDATE plugin_pfs_filesystem SET host_id = 0'];
+
+	try {
+		expect(fn () => pfs_uninstall_unbooted())->toThrow(RuntimeException::class);
+		expect(array_column($GLOBALS['__pfs_db_exec'], 'sql'))->not->toContain('DELETE FROM plugin_pfs_created_devices WHERE host_id NOT IN (SELECT id FROM host)');
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+		$GLOBALS['__pfs_db_exec'] = [];
+		$GLOBALS['__pfs_db_fail'] = [];
 	}
 });
 

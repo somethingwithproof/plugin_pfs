@@ -81,11 +81,69 @@ function pfs_unbooted_record_exists(): bool {
 function pfs_unbooted_removed_devices(array $ids): array {
 	return array_values(array_filter($ids, function ($id) {
 		$row = db_fetch_row_prepared('SELECT id, deleted FROM host WHERE id = ?', array($id));
+
+		if ($row === false) {
+			throw new RuntimeException('Uninstall stopped because device mappings could not be checked.');
+		}
+
 		return $row === array() || (is_array($row) && isset($row['deleted']) && $row['deleted'] === 'on');
 	}));
 }
 
+/**
+ * @return list<int>
+ */
+function pfs_unbooted_mapped_host_ids(): array {
+	$columns = db_fetch_cell_prepared(
+		"SELECT COUNT(*) FROM information_schema.COLUMNS "
+			. "WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' "
+			. "AND COLUMN_NAME = 'host_id'",
+		array()
+	);
+
+	if ($columns === false) {
+		throw new RuntimeException('Uninstall stopped because filesystem mappings could not be checked.');
+	}
+
+	if ((int) $columns === 0) {
+		return array();
+	}
+
+	$rows = db_fetch_assoc_prepared('SELECT host_id FROM plugin_pfs_filesystem WHERE host_id > 0', array());
+
+	if (!is_array($rows)) {
+		throw new RuntimeException('Uninstall stopped because filesystem mappings could not be read.');
+	}
+
+	$ids = array();
+
+	foreach ($rows as $row) {
+		$id = isset($row['host_id']) ? (int) $row['host_id'] : 0;
+
+		if ($id > 0) {
+			$ids[] = $id;
+		}
+	}
+
+	return array_values(array_unique($ids));
+}
+
+function pfs_unbooted_unmap_removed_devices(): void {
+	$removed = pfs_unbooted_removed_devices(pfs_unbooted_mapped_host_ids());
+
+	$sql = 'UPDATE plugin_pfs_filesystem SET host_id = 0 WHERE host_id IN (';
+	$sql .= implode(', ', array_fill(0, count($removed), '?')) . ')';
+
+	if ($removed !== array() && !db_execute_prepared($sql, $removed)) {
+		throw new RuntimeException('Uninstall stopped because removed-device mappings could not be cleared.');
+	}
+}
+
 function pfs_uninstall_unbooted(): void {
+	// The plugin can be uninstalled while disabled, when no device_remove
+	// hook cleared mappings for remotely soft-deleted hosts.
+	pfs_unbooted_unmap_removed_devices();
+
 	// A recorded device deleted while the plugin was disabled is no longer
 	// the plugin's to track.
 	if (pfs_unbooted_record_exists()) {
@@ -111,12 +169,15 @@ function pfs_uninstall_unbooted(): void {
 
 		// No plugin hook runs here, so the mapping and the record are
 		// cleared directly; kept tables must not point at a deleted device.
-		if ($existing !== array() && (int) db_fetch_cell_prepared("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") > 0) {
-			db_execute_prepared('UPDATE plugin_pfs_filesystem SET host_id = 0 WHERE host_id IN (' . implode(', ', array_fill(0, count($existing), '?')) . ')', $existing);
-		}
+		pfs_unbooted_unmap_removed_devices();
 
 		if ($existing !== array() && pfs_unbooted_record_exists()) {
-			db_execute_prepared('DELETE FROM plugin_pfs_created_devices WHERE host_id IN (' . implode(', ', array_fill(0, count($existing), '?')) . ')', $existing);
+			$sql = 'DELETE FROM plugin_pfs_created_devices WHERE host_id IN (';
+			$sql .= implode(', ', array_fill(0, count($existing), '?')) . ')';
+
+			if (!db_execute_prepared($sql, $existing)) {
+				throw new RuntimeException('Uninstall stopped because device ownership could not be cleared.');
+			}
 		}
 
 		if (count($existing) === count($recorded)) {

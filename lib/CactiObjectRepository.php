@@ -54,6 +54,10 @@ final class CactiObjectRepository {
 	public function deviceRemoved(int $hostId): bool {
 		$row = db_fetch_row_prepared('SELECT id, deleted FROM host WHERE id = ?', [$hostId], true, $this->connection);
 
+		if ($row === false) {
+			throw new \RuntimeException('Uninstall stopped because device status could not be checked.');
+		}
+
 		return $row === [] || (is_array($row) && Row::string($row, 'deleted') === 'on');
 	}
 

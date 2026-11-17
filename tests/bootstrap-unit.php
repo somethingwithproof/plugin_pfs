@@ -186,3 +186,4 @@ $GLOBALS['config'] = [
 
 require_once dirname(__DIR__) . '/setup.php';
 require_once dirname(__DIR__) . '/include/autoload.php';
+require_once dirname(__DIR__) . '/include/unbooted-uninstall.php';

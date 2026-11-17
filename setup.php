@@ -288,9 +288,21 @@ function plugin_pfs_uninstall(): void {
 		}
 	}
 
-	// A recorded device deleted while the plugin was disabled is no longer
-	// the plugin's to track.
-	$record->forget(array_values(array_filter($record->ids(), static fn (int $id): bool => $objects->deviceRemoved($id))));
+	// A remotely deleted Cacti device can remain as a soft-deleted host row.
+	// Clear its mapping even when uninstall was not asked to delete devices.
+	$filesystemRepository = new \Somethingwithproof\Pfs\FilesystemRepository(
+		false,
+		new \Somethingwithproof\Pfs\SystemClock()
+	);
+	$removedHosts          = array_values(array_filter(
+		$filesystemRepository->mappedHostIds(),
+		static fn (int $id): bool => $objects->deviceRemoved($id)
+	));
+	$filesystemRepository->unmapHosts($removedHosts);
+
+	// Forget ownership only after mappings for confirmed-removed devices clear.
+	$removedCreated = array_values(array_filter($record->ids(), static fn (int $id): bool => $objects->deviceRemoved($id)));
+	$record->forget($removedCreated);
 
 	if (pfs_settings()->deleteDevicesOnUninstall) {
 		$created = $record->ids();
@@ -301,7 +313,7 @@ function plugin_pfs_uninstall(): void {
 		// Core runs no hook of a disabled plugin, so device_remove did not
 		// clear the mapping or the record; kept tables must not point at a
 		// deleted device.
-		(new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($created);
+		$filesystemRepository->unmapHosts($created);
 		$record->forget($created);
 	}
 
