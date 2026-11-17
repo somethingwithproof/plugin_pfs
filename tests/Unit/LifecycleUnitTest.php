@@ -208,12 +208,22 @@ it('keeps observation names within the 19 characters of an RRD data source', fun
 it('forgets unbooted ownership only after a device is confirmed absent', function () {
 	require_once dirname(__DIR__, 2) . '/include/unbooted-uninstall.php';
 	try {
-		$GLOBALS['__pfs_db_rows'] = ['FROM host' => false];
+		$GLOBALS['__pfs_db_rows'] = ['FROM host' => [['id' => 7, 'deleted' => '']]];
 		expect(pfs_unbooted_removed_devices([7]))->toBe([]);
-		$GLOBALS['__pfs_db_rows'] = ['FROM host' => [['id' => 7]]];
-		expect(pfs_unbooted_removed_devices([7]))->toBe([]);
+		$GLOBALS['__pfs_db_rows'] = ['FROM host' => [['id' => 7, 'deleted' => 'on']]];
+		expect(pfs_unbooted_removed_devices([7]))->toBe([7]);
 		$GLOBALS['__pfs_db_rows'] = ['FROM host' => []];
 		expect(pfs_unbooted_removed_devices([7]))->toBe([7]);
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = [];
+	}
+});
+
+it('does not treat a failed unbooted host lookup as a removed device', function () {
+	$GLOBALS['__pfs_db_rows'] = ['FROM host' => false];
+
+	try {
+		expect(fn () => pfs_unbooted_removed_devices([7]))->toThrow(RuntimeException::class);
 	} finally {
 		$GLOBALS['__pfs_db_rows'] = [];
 	}
