@@ -21,6 +21,7 @@
 define('PFS_VERSION', (string) (parse_ini_file(dirname(__DIR__, 2) . '/INFO', true)['info']['version'] ?? ''));
 
 const PFS_TABLES = [
+	'plugin_pfs_created_devices',
 	'plugin_pfs_filesystem',
 	'plugin_pfs_network',
 	'plugin_pfs_node',
@@ -48,7 +49,7 @@ it('installs fresh with tracked tables, hooks, and both realms, leaving the plug
 
 	expect($state['plugin']['status'])->toEqual('4')
 		->and($state['plugin']['version'])->toEqual(PFS_VERSION)
-		->and($state['schema'])->toEqual('2')
+		->and($state['schema'])->toEqual('3')
 		->and(array_keys($state['tables']))->toBe(PFS_TABLES)
 		->and($state['tracked'])->toBe(PFS_TABLES)
 		->and(array_keys($state['hooks']))->toBe(PFS_HOOKS)
@@ -117,7 +118,7 @@ it('finishes an upgrade that was interrupted after creating only some tables', f
 	expect($state['result'])->toBeTrue()
 		->and(array_keys($state['tables']))->toBe(PFS_TABLES)
 		->and($state['tables']['plugin_pfs_filesystem'])->toBe(1)
-		->and($state['schema'])->toEqual('2')
+		->and($state['schema'])->toEqual('3')
 		->and($state['plugin']['version'])->toEqual(PFS_VERSION);
 });
 
@@ -134,7 +135,7 @@ it('upgrades a milestone 2 schema, keeping its filesystems and adding the device
 	$state = lifecycle('upgrade');
 
 	expect($state['result'])->toBeTrue()
-		->and($state['schema'])->toEqual('2')
+		->and($state['schema'])->toEqual('3')
 		->and($state['host_column'])->toBeTrue()
 		->and(array_keys($state['tables']))->toBe(PFS_TABLES)
 		->and($state['tables']['plugin_pfs_filesystem'])->toBe(1);
@@ -148,7 +149,7 @@ it('does not advance past a migration that did not run', function () {
 	expect($stopped['result'])->toBeTrue()
 		->and($stopped['schema'])->toEqual('0');
 
-	expect(lifecycle('upgrade')['schema'])->toEqual('2');
+	expect(lifecycle('upgrade')['schema'])->toEqual('3');
 });
 
 it('refuses a schema newer than the code and leaves the recorded version alone', function () {
@@ -202,6 +203,94 @@ it('honours keep tables on uninstall when the runtime is refused', function () {
 	$dropped = lifecycle('uninstall_unbooted');
 	expect($dropped['tables'])->toBe([])
 		->and($dropped['schema'])->toBeEmpty();
+});
+
+it('keeps every device on uninstall unless asked to delete the ones it created', function () {
+	lifecycle('install');
+
+	$made    = lifecycle('devices');
+	$created = (string) $made['result']['created'];
+	$mapped  = (string) $made['result']['existing'];
+
+	expect((int) $created)->toBeGreaterThan(0)
+		->and($made['created_devices'])->toBe('[' . $created . ']')
+		->and($made['devices'][$created]['graph_local'])->toBe(5)
+		->and($made['devices'][$mapped]['graph_local'])->toBe(5);
+
+	$kept = lifecycle('uninstall');
+
+	expect($kept['devices'])->toBe($made['devices'])
+		->and($kept['created_devices'])->toBe('[' . $created . ']')
+		->and($kept['filesystem_hosts'])->toBe(['made' => (int) $created, 'mapped' => (int) $mapped]);
+});
+
+it('deletes only the devices it created, with their graphs and data sources, when the box was checked', function () {
+	lifecycle('install');
+
+	$made    = lifecycle('devices');
+	$created = (string) $made['result']['created'];
+	$mapped  = (string) $made['result']['existing'];
+
+	lifecycle('set_setting', 'pfs_uninstall_delete_devices=on');
+
+	$after = lifecycle('uninstall');
+
+	expect(array_keys($after['devices']))->toBe([(int) $mapped])
+		->and($after['devices'][$mapped])->toBe($made['devices'][$mapped])
+		->and($after['created_devices'])->toBe('[]')
+		->and($after['filesystem_hosts'])->toBe(['made' => 0, 'mapped' => (int) $mapped])
+		->and($after['tables']['plugin_pfs_filesystem'])->toBe(2);
+});
+
+it('deletes only the devices it created on uninstall when the runtime is refused', function () {
+	lifecycle('install');
+
+	$made   = lifecycle('devices');
+	$mapped = (string) $made['result']['existing'];
+
+	lifecycle('set_setting', 'pfs_uninstall_delete_devices=on');
+
+	$after = lifecycle('uninstall_unbooted');
+
+	expect(array_keys($after['devices']))->toBe([(int) $mapped])
+		->and($after['created_devices'])->toBe('[]')
+		->and($after['filesystem_hosts'])->toBe(['made' => 0, 'mapped' => (int) $mapped]);
+});
+
+it('keeps the record of devices it created through an uninstall that drops the other tables', function () {
+	lifecycle('install');
+
+	$made    = lifecycle('devices');
+	$created = (string) $made['result']['created'];
+
+	lifecycle('set_setting', 'pfs_uninstall_keep_tables=');
+
+	$dropped = lifecycle('uninstall');
+
+	// The devices stay in Cacti, so the record of which one the plugin made
+	// stays too, for a later uninstall asked to delete it.
+	expect(array_keys($dropped['tables']))->toBe(['plugin_pfs_created_devices'])
+		->and($dropped['created_devices'])->toBe('[' . $created . ']')
+		->and($dropped['devices'])->toBe($made['devices']);
+
+	$reinstalled = lifecycle('install');
+	expect($reinstalled['created_devices'])->toBe('[' . $created . ']')
+		->and($reinstalled['tracked'])->toBe(PFS_TABLES);
+});
+
+it('moves a milestone 4 record of created devices from its setting into the table', function () {
+	lifecycle('install');
+	lifecycle('to_schema_2', '[5, 1234567, "x", -1]');
+
+	$before = lifecycle('state');
+	expect($before['tables'])->not->toHaveKey('plugin_pfs_created_devices')
+		->and($before['legacy_created_devices'])->toBe('[5, 1234567, "x", -1]');
+
+	$state = lifecycle('upgrade');
+	expect($state['schema'])->toEqual('3')
+		->and($state['created_devices'])->toBe('[5,1234567]')
+		->and($state['legacy_created_devices'])->toBe('')
+		->and($state['tracked'])->toBe(PFS_TABLES);
 });
 
 it('grants realms on install but never on a repair a viewer triggers', function () {

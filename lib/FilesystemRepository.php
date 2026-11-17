@@ -57,6 +57,34 @@ final class FilesystemRepository {
 	}
 
 	/**
+	 * @return list<int>
+	 */
+	public function mappedHostIds(): array {
+		$rows = db_fetch_assoc_prepared(
+			'SELECT host_id FROM plugin_pfs_filesystem WHERE host_id > 0 ORDER BY host_id',
+			[],
+			true,
+			$this->connection
+		);
+
+		if (!is_array($rows)) {
+			throw new \RuntimeException('Uninstall stopped because filesystem mappings could not be read.');
+		}
+
+		$ids = [];
+
+		foreach ($rows as $row) {
+			$id = Row::int($row, 'host_id', 0, 1);
+
+			if ($id > 0) {
+				$ids[] = $id;
+			}
+		}
+
+		return array_values(array_unique($ids));
+	}
+
+	/**
 	 * Map a filesystem to a Cacti device. A device carries at most one
 	 * filesystem, so a device already mapped elsewhere is refused.
 	 */
@@ -88,13 +116,17 @@ final class FilesystemRepository {
 		}
 
 		$placeholders = implode(', ', array_fill(0, count($hostIds), '?'));
-		$count        = (int) db_fetch_cell_prepared("SELECT COUNT(*) FROM plugin_pfs_filesystem WHERE host_id IN ($placeholders)", $hostIds, '', true, $this->connection);
+		$count        = db_fetch_cell_prepared("SELECT COUNT(*) FROM plugin_pfs_filesystem WHERE host_id IN ($placeholders)", $hostIds, '', true, $this->connection);
 
-		if ($count > 0) {
-			db_execute_prepared("UPDATE plugin_pfs_filesystem SET host_id = 0, updated_at = ? WHERE host_id IN ($placeholders)", array_merge([$this->clock->now()], $hostIds), true, $this->connection);
+		if ($count === false) {
+			throw new \RuntimeException('Uninstall stopped because filesystem mappings could not be checked.');
 		}
 
-		return $count;
+		if ((int) $count > 0 && !db_execute_prepared("UPDATE plugin_pfs_filesystem SET host_id = 0, updated_at = ? WHERE host_id IN ($placeholders)", array_merge([$this->clock->now()], $hostIds), true, $this->connection)) {
+			throw new \RuntimeException('Uninstall stopped because filesystem mappings could not be cleared.');
+		}
+
+		return (int) $count;
 	}
 
 	public function nameTaken(string $backend, string $name, int $exceptId): bool {

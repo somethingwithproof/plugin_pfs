@@ -37,6 +37,8 @@ final class DeviceProvisioner {
 		private readonly CactiObjectRepository $objects,
 		private readonly BackendRegistry $backends,
 		private readonly string $cactiPath,
+		private readonly CreatedDeviceRepository $created,
+		private readonly Clock $clock,
 	) {
 	}
 
@@ -118,6 +120,15 @@ final class DeviceProvisioner {
 
 		if ($hostId <= 0) {
 			Log::error(sprintf('Cacti refused the device for filesystem %d', $filesystem->id));
+
+			return 0;
+		}
+
+		// Recorded before anything else can fail, so an uninstall that
+		// deletes the plugin's devices finds this one too.
+		if (!$this->created->add($hostId, $this->clock->now())) {
+			api_device_remove($hostId);
+			Log::error(sprintf('Could not record ownership of device %d for filesystem %d; rollback %s', $hostId, $filesystem->id, $this->objects->deviceRemoved($hostId) ? 'completed' : 'failed; remove the device in Cacti'));
 
 			return 0;
 		}

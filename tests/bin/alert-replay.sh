@@ -52,10 +52,21 @@ for step in $steps; do
 	# poller_bottom starts poller_thold.php in the background. Wait for it,
 	# then run it in the foreground: a run that finds nothing new to check
 	# changes nothing, because Thold clears each threshold's check flag.
+	# The background job may not have registered in processes yet when
+	# poller.php returns, and a foreground run that finds it registered
+	# exits without checking, so wait for the process itself to end too.
+	settled=0
 	for _ in $(seq 1 60); do
-		[ "$(php -r 'chdir("."); include("./include/cli_check.php"); print db_fetch_cell("SELECT COUNT(*) FROM processes WHERE tasktype = \"thold\"");')" = 0 ] && break
+		busy=0
+		for f in /proc/[0-9]*/cmdline; do
+			case $(tr '\0' ' ' < "$f" 2>/dev/null) in
+				*poller_thold.php* | *thold_notify.php*) busy=1 ;;
+			esac
+		done
+		[ "$busy" -eq 0 ] && [ "$(php -r 'chdir("."); include("./include/cli_check.php"); print db_fetch_cell("SELECT COUNT(*) FROM processes WHERE tasktype = \"thold\"");')" = 0 ] && { settled=1; break; }
 		sleep 1
 	done
+	[ "$settled" -eq 1 ] || { echo "the background Thold check did not finish"; fail=1; }
 
 	php plugins/thold/poller_thold.php > /tmp/pfs-alert-thold.txt 2>&1 || { fail=1; cat /tmp/pfs-alert-thold.txt; }
 done

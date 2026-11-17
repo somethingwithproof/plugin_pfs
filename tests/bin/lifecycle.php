@@ -45,7 +45,25 @@ ob_start();
 
 switch ($action) {
 	case 'reset':
-		api_plugin_uninstall('pfs');
+		// A disposable database starts without the plugin tables, but the
+		// cleanup path still runs before every lifecycle scenario. Cacti's
+		// uninstall callback is meaningful only after the plugin schema has
+		// been created; otherwise the mapping lookup correctly fails closed.
+		$filesystemTableExists = (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem'") === 1;
+
+		if ($filesystemTableExists) {
+			api_plugin_uninstall('pfs');
+		}
+
+		// Devices the device actions below made, with their graphs.
+		$hosts = array_map('intval', array_column(db_fetch_assoc("SELECT id FROM host WHERE hostname LIKE '%.pfs.invalid' OR hostname = 'lifecycle.example.invalid'"), 'id'));
+
+		if ($hosts !== array()) {
+			include_once($config['base_path'] . '/lib/api_device.php');
+			include_once($config['base_path'] . '/lib/api_data_source.php');
+			include_once($config['base_path'] . '/lib/api_graph.php');
+			api_device_remove_multi($hosts, 2);
+		}
 
 		foreach (db_fetch_assoc("SELECT TABLE_NAME AS t FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME LIKE 'plugin\\_pfs\\_%'") as $row) {
 			db_execute('DROP TABLE `' . $row['t'] . '`');
@@ -111,7 +129,18 @@ switch ($action) {
 		db_execute('ALTER TABLE plugin_pfs_filesystem DROP INDEX host_id, DROP COLUMN host_id');
 		db_execute('DROP TABLE IF EXISTS plugin_pfs_summary');
 		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_summary'");
+		db_execute('DROP TABLE IF EXISTS plugin_pfs_created_devices');
+		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_created_devices'");
 		db_execute("UPDATE settings SET value = '1' WHERE name = 'pfs_schema_version'");
+
+		break;
+	case 'to_schema_2':
+		// What a milestone 4 install left: the created devices as one JSON
+		// setting, here the ids in the argument.
+		db_execute('DROP TABLE IF EXISTS plugin_pfs_created_devices');
+		db_execute("DELETE FROM plugin_db_changes WHERE plugin = 'pfs' AND `table` = 'plugin_pfs_created_devices'");
+		db_execute_prepared("REPLACE INTO settings (name, value) VALUES ('pfs_created_devices', ?)", array($argument));
+		db_execute("UPDATE settings SET value = '2' WHERE name = 'pfs_schema_version'");
 
 		break;
 	case 'seed':
@@ -123,9 +152,31 @@ switch ($action) {
 		include($config['base_path'] . '/plugins/pfs/tests/bin/reader-flow.php');
 
 		break;
+	case 'devices':
+		// One filesystem with a device the plugin creates, one mapped onto a
+		// device that already existed (REQ-LIFE-005).
+		include_once($config['base_path'] . '/plugins/pfs/setup.php');
+		include_once($config['base_path'] . '/lib/api_device.php');
+		pfs_boot();
+
+		$repo = new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock());
+		db_execute("INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state) VALUES ('made', 'lustre', 1, 300, 'enabled')");
+		$made    = (int) db_fetch_insert_id();
+		$created = pfs_provisioner()->create($repo->find($made));
+
+		$existing = (int) api_device_save(0, 0, 'lifecycle existing', 'lifecycle.example.invalid', '', 0, '', '', 161, 500, '', 0, 1, 23, 400, 1, '', '', '', '', '', '', 10, 1, 1, 0);
+		db_execute("INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state) VALUES ('mapped', 'lustre', 1, 300, 'enabled')");
+		$mapped = (int) db_fetch_insert_id();
+		pfs_provisioner()->map($repo->find($mapped), $existing);
+
+		$result = array('created' => $created, 'existing' => $existing);
+
+		break;
 	case 'uninstall_unbooted':
-		// What core does on uninstall when pfs_boot() refuses: the PHP 8.0
-		// fallback, then core drops whatever is still tracked.
+		// What core does on uninstall when pfs_boot() refuses: setup.php is
+		// loaded, the PHP 8.0 fallback runs, then core drops whatever is
+		// still tracked.
+		include_once($config['base_path'] . '/plugins/pfs/setup.php');
 		include_once($config['base_path'] . '/plugins/pfs/include/unbooted-uninstall.php');
 		pfs_uninstall_unbooted();
 		api_plugin_db_changes_remove('pfs');
@@ -180,5 +231,11 @@ print json_encode(array(
 	'admin'   => (int) db_fetch_cell("SELECT COUNT(*) FROM user_auth_realm AS uar INNER JOIN plugin_realms AS pr ON pr.id + 100 = uar.realm_id WHERE pr.plugin = 'pfs' AND uar.user_id = 1"),
 	'tracked' => array_column(db_fetch_assoc("SELECT `table` FROM plugin_db_changes WHERE plugin = 'pfs' AND method = 'create' ORDER BY `table`"), 'table'),
 	'tables'  => $tables,
+	'devices' => array_map(static function ($row) {
+		return array('data_local' => (int) $row['ds'], 'graph_local' => (int) $row['graphs']);
+	}, array_column(db_fetch_assoc("SELECT h.id, (SELECT COUNT(*) FROM data_local d WHERE d.host_id = h.id) AS ds, (SELECT COUNT(*) FROM graph_local g WHERE g.host_id = h.id) AS graphs FROM host h WHERE h.hostname LIKE '%.pfs.invalid' OR h.hostname = 'lifecycle.example.invalid'"), null, 'id')),
+	'created_devices' => db_fetch_cell("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_created_devices'") ? json_encode(array_map('intval', array_column(db_fetch_assoc('SELECT host_id FROM plugin_pfs_created_devices ORDER BY host_id'), 'host_id'))) : '',
+	'legacy_created_devices' => (string) db_fetch_cell("SELECT value FROM settings WHERE name = 'pfs_created_devices'"),
+	'filesystem_hosts' => db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") ? array_map('intval', array_column(db_fetch_assoc('SELECT name, host_id FROM plugin_pfs_filesystem ORDER BY name'), 'host_id', 'name')) : array(),
 	'host_column' => (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") === 1,
 ), JSON_PRETTY_PRINT) . PHP_EOL;

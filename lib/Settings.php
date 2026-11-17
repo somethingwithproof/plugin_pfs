@@ -35,6 +35,7 @@ final readonly class Settings {
 		'pfs_reader_budget',
 		'pfs_concurrency',
 		'pfs_uninstall_keep_tables',
+		'pfs_uninstall_delete_devices',
 	];
 
 	public const DEFAULT_SSH         = '/usr/bin/ssh';
@@ -56,6 +57,7 @@ final readonly class Settings {
 		public int $readerBudget,
 		public int $concurrency,
 		public bool $keepTablesOnUninstall,
+		public bool $deleteDevicesOnUninstall = false,
 	) {
 	}
 
@@ -63,7 +65,8 @@ final readonly class Settings {
 	 * A setting that was never saved reads as its default, and an out of
 	 * range number as its default or its bound. Keeping tables is the
 	 * default, so an uninstall drops the registry only after an
-	 * administrator cleared the box (REQ-LIFE-005).
+	 * administrator cleared the box (REQ-LIFE-005). Deleting the devices the
+	 * plugin created is off unless an administrator checked it.
 	 *
 	 * @param array<string, mixed> $row setting name => stored value, absent when never saved
 	 */
@@ -78,6 +81,7 @@ final readonly class Settings {
 			readerBudget: min(Row::int($row, 'pfs_reader_budget', self::DEFAULT_BUDGET, 10), 3600),
 			concurrency: min(Row::int($row, 'pfs_concurrency', self::DEFAULT_CONCURRENCY, 1), 64),
 			keepTablesOnUninstall: array_key_exists('pfs_uninstall_keep_tables', $row) ? Row::bool($row, 'pfs_uninstall_keep_tables') : true,
+			deleteDevicesOnUninstall: array_key_exists('pfs_uninstall_delete_devices', $row) && Row::bool($row, 'pfs_uninstall_delete_devices'),
 		);
 	}
 
@@ -149,6 +153,12 @@ final readonly class Settings {
 				'description'   => __('When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way.', 'pfs'),
 				'method'        => 'checkbox',
 				'default'       => 'on',
+			],
+			'pfs_uninstall_delete_devices' => [
+				'friendly_name' => __('Delete the Devices This Plugin Created on Uninstall', 'pfs'),
+				'description'   => __('When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti\'s own RRD cleanup setting removes them. Cleared, the devices stay.', 'pfs'),
+				'method'        => 'checkbox',
+				'default'       => '',
 			],
 		];
 	}

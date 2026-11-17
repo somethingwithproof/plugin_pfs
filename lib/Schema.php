@@ -35,7 +35,7 @@ namespace Somethingwithproof\Pfs;
  * (REQ-LIFE-006).
  */
 final class Schema {
-	public const VERSION = 2;
+	public const VERSION = 3;
 
 	public const HOOKS = [
 		'config_arrays'        => 'pfs_config_arrays',
@@ -119,7 +119,27 @@ final class Schema {
 	 * schema version so a reinstall reuses them.
 	 */
 	public function untrackTables(): void {
-		db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", [self::PLUGIN], true, $this->connection);
+		if (!db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND method = 'create'", [self::PLUGIN], true, $this->connection)) {
+			throw new \RuntimeException('Uninstall stopped because the plugin tables could not be preserved.');
+		}
+	}
+
+	/**
+	 * Keep the created-device table through an uninstall that drops the
+	 * other tables, while it still lists a device: the devices stay in
+	 * Cacti, and a later uninstall may be asked to delete them. An empty
+	 * table is dropped with the rest. Returns whether it was kept.
+	 */
+	public function keepCreatedDevices(): bool {
+		if (!(new CreatedDeviceRepository($this->connection))->hasRecords()) {
+			return false;
+		}
+
+		if (!db_execute_prepared("DELETE FROM plugin_db_changes WHERE plugin = ? AND `table` = ? AND method = 'create'", [self::PLUGIN, CreatedDeviceRepository::TABLE], true, $this->connection)) {
+			throw new \RuntimeException('Uninstall stopped because device ownership could not be preserved.');
+		}
+
+		return true;
 	}
 
 	public function forgetVersion(): void {
@@ -138,6 +158,11 @@ final class Schema {
 			2 => fn (): bool => $this->addColumn('plugin_pfs_filesystem', 'host_id', 'int(10) unsigned NOT NULL DEFAULT 0', 'admin_state')
 				&& $this->addIndex('plugin_pfs_filesystem', 'host_id', 'host_id')
 				&& $this->createTables(['plugin_pfs_summary' => self::tables()['plugin_pfs_summary']]),
+			// The created-device record moves from one size-limited setting
+			// to its own table. A fresh install has the table from
+			// migration 1 and no setting to move.
+			3 => fn (): bool => $this->createTables([CreatedDeviceRepository::TABLE => self::tables()[CreatedDeviceRepository::TABLE]])
+				&& (new CreatedDeviceRepository($this->connection))->importLegacy(time()),
 		];
 	}
 
@@ -355,6 +380,16 @@ final class Schema {
 					['name' => 'stopped_early', 'type' => 'tinyint(1)', 'unsigned' => true, 'NULL' => false, 'default' => '0'],
 				],
 				'primary' => 'poller_id',
+			],
+			// One row per device DeviceProvisioner::create() made, for the
+			// optional delete on uninstall (REQ-LIFE-005).
+			CreatedDeviceRepository::TABLE => $innodb + [
+				'comment' => 'Devices the parallel filesystem plugin created',
+				'columns' => [
+					$id('host_id'),
+					$time('created_at'),
+				],
+				'primary' => 'host_id',
 			],
 		];
 	}

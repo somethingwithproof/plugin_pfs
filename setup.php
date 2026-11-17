@@ -207,7 +207,9 @@ function pfs_provisioner(): \Somethingwithproof\Pfs\DeviceProvisioner {
 		new \Somethingwithproof\Pfs\TargetRepository(false),
 		new \Somethingwithproof\Pfs\CactiObjectRepository(false),
 		\Somethingwithproof\Pfs\BackendRegistry::production(),
-		$config['base_path']
+		$config['base_path'],
+		new \Somethingwithproof\Pfs\CreatedDeviceRepository(false),
+		$clock
 	);
 }
 
@@ -273,10 +275,51 @@ function plugin_pfs_uninstall(): void {
 		return;
 	}
 
-	$schema = new \Somethingwithproof\Pfs\Schema(false);
+	$schema  = new \Somethingwithproof\Pfs\Schema(false);
+	$objects = new \Somethingwithproof\Pfs\CactiObjectRepository(false);
+	$record  = new \Somethingwithproof\Pfs\CreatedDeviceRepository(false);
+
+	// Code replaced without the upgrade being run still has the record in
+	// its old place; finish the pending migrations first, which never
+	// contact a node.
+	if ($schema->storedVersion() > 0 && $schema->storedVersion() < \Somethingwithproof\Pfs\Schema::VERSION) {
+		if (!$schema->migrate()) {
+			throw new \RuntimeException('Uninstall stopped because the created-device record could not be migrated.');
+		}
+	}
+
+	// A remotely deleted Cacti device can remain as a soft-deleted host row.
+	// Clear its mapping even when uninstall was not asked to delete devices.
+	$filesystemRepository = new \Somethingwithproof\Pfs\FilesystemRepository(
+		false,
+		new \Somethingwithproof\Pfs\SystemClock()
+	);
+	$removedHosts          = array_values(array_filter(
+		$filesystemRepository->mappedHostIds(),
+		static fn (int $id): bool => $objects->deviceRemoved($id)
+	));
+	$filesystemRepository->unmapHosts($removedHosts);
+
+	// Forget ownership only after mappings for confirmed-removed devices clear.
+	$removedCreated = array_values(array_filter($record->ids(), static fn (int $id): bool => $objects->deviceRemoved($id)));
+	$record->forget($removedCreated);
+
+	if (pfs_settings()->deleteDevicesOnUninstall) {
+		$created = $record->ids();
+
+		pfs_uninstall_devices($created);
+		$created = array_values(array_filter($created, static fn (int $id): bool => $objects->deviceRemoved($id)));
+
+		// Core runs no hook of a disabled plugin, so device_remove did not
+		// clear the mapping or the record; kept tables must not point at a
+		// deleted device.
+		$filesystemRepository->unmapHosts($created);
+		$record->forget($created);
+	}
 
 	// Removes only the query files the plugin wrote and nobody changed. The
-	// templates, devices, data sources, and graphs stay: they are the site's.
+	// templates stay, and so do devices unless deleted above: they are the
+	// site's.
 	pfs_template_installer()->uninstall();
 
 	if (pfs_settings()->keepTablesOnUninstall) {
@@ -284,8 +327,38 @@ function plugin_pfs_uninstall(): void {
 
 		\Somethingwithproof\Pfs\Log::info('Uninstall kept the plugin tables as configured');
 	} else {
+		if ($schema->keepCreatedDevices()) {
+			\Somethingwithproof\Pfs\Log::info('Uninstall dropped the plugin tables but kept the record of the devices the plugin created, which are still in Cacti');
+		}
+
 		$schema->forgetVersion();
 	}
+}
+
+/**
+ * Delete the devices the plugin created, through Cacti's own device delete
+ * with their graphs and data sources (delete type 2, as the Devices page
+ * offers). Cacti's RRD cleanup setting decides what happens to the RRD
+ * files. The callers pass only recorded ids that still name a device, and
+ * unmap and forget them after. Shared with the unbooted uninstall, so PHP
+ * 8.0 syntax (REQ-LIFE-005).
+ *
+ * @param list<int> $hostIds existing devices recorded as created by the plugin
+ */
+function pfs_uninstall_devices(array $hostIds): void {
+	global $config;
+
+	if ($hostIds === array()) {
+		return;
+	}
+
+	include_once($config['base_path'] . '/lib/api_device.php');
+	include_once($config['base_path'] . '/lib/api_data_source.php');
+	include_once($config['base_path'] . '/lib/api_graph.php');
+
+	api_device_remove_multi($hostIds, 2);
+
+	cacti_log(sprintf('NOTE: Uninstall deleted the %d devices the plugin created, as configured', count($hostIds)), false, 'PFS');
 }
 
 function pfs_config_arrays(): void {
@@ -349,6 +422,8 @@ function pfs_device_remove($hostIds) {
 	}
 
 	$count = (new \Somethingwithproof\Pfs\FilesystemRepository(false, new \Somethingwithproof\Pfs\SystemClock()))->unmapHosts($ids);
+	// Core invokes this hook before deleting the host. Keep ownership
+	// until uninstall can confirm deletion, including a remote soft delete.
 
 	if ($count > 0) {
 		\Somethingwithproof\Pfs\Log::info(sprintf('%d filesystems lost their device when it was deleted; they can be given a device again from the registry', $count));

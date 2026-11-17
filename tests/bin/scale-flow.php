@@ -204,8 +204,15 @@ if ($step === 'build') {
 
 	$files = 0;
 
-	foreach (db_fetch_assoc_prepared('SELECT id FROM data_local WHERE host_id = ?', array($host)) as $row) {
-		$files += is_file(get_data_source_path((int) $row['id'], true)) ? 1 : 0;
+	foreach (db_fetch_assoc_prepared('SELECT id, data_template_id, snmp_index FROM data_local WHERE host_id = ?', array($host)) as $row) {
+		$path = get_data_source_path((int) $row['id'], true);
+
+		if (is_file($path)) {
+			$files++;
+		} else {
+			$items = (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM poller_item WHERE local_data_id = ?', array((int) $row['id']));
+			print 'EVIDENCE no RRD file for data source ' . $row['id'] . " (template {$row['data_template_id']}, index '{$row['snmp_index']}', $items poller items): " . basename($path) . PHP_EOL;
+		}
 	}
 
 	scale_metric("$n rrd_files", $files);

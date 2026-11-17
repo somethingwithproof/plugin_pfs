@@ -46,8 +46,8 @@ Each filesystem is one Cacti device. Its targets (OSTs and MDTs) are the indexes
 |---|---|---|
 | Fill (overview) | Maximum, mean, and minimum OST used percentage, spread (maximum minus minimum), targets total, missing, and unhealthy | No OST has a current capacity reading |
 | Capacity (overview) | Filesystem total and available kilobytes | Any OST is missing or stale, so the total would be partial |
-| Throughput (overview) | Filesystem read and write bytes per second | Any OST is missing, stale, unhealthy without its counter, or reset in the interval |
-| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together | Any MDT is missing, stale, or reset in the interval |
+| Throughput (overview) | Filesystem read and write bytes per second, and the read and write rate gauges for alerts (printed under the graph) | Any OST is missing, stale, unhealthy without its counter, or reset in the interval; the rate gauges also for one or two polls after a reset |
+| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together, and the operation rate gauge for alerts | Any MDT is missing, stale, or reset in the interval; the rate gauge also for one or two polls after a reset |
 | Data age (overview) | Seconds since the oldest observation behind the summary, and contributor counts | Never observed |
 | OST Capacity, Inodes, Throughput (per target) | Used and available, inodes, read and write bytes per second and operations per second | The target is missing, stale, or the node did not print the value |
 | MDT Capacity, Operations (per target) | Used and available, inodes, operations per second by operation | Same |
@@ -57,7 +57,7 @@ Rules behind the table:
 - **Used percentage** follows `lfs df`: used over used plus available, rounded up.
 - **Unknown is a gap, never zero.** A missing target, a failed read, or a value the node did not print is drawn as a gap.
 - **Counters** are stored raw as DERIVE with minimum 0. A reset (a decrease, a changed `start_time`, a different node answering after failover, or an unknown previous value) makes exactly one interval unknown.
-- **Freshness.** A value is current while its age is at most one and a half intervals, delayed up to three, and stale after that. Gauges are served while current or delayed; counters only while current, so a missed read is a gap and not a flat line followed by a doubled rate.
+- **Freshness.** A value is current while its age is at most one and a half intervals, delayed up to three, and stale after that. Gauges are served while current or delayed; counters and the summary's rate gauges only while current, so a missed read is a gap and not a flat line followed by a doubled rate.
 - **Idle targets.** Lustre does not print a counter that has never counted since its start time. The filesystem sums count it as zero for a target that is present, in service, and reported its other values in that read; the per-target graph still shows a gap ([ADR 0013](decisions/0013-absent-counter-lines-count-as-zero-in-sums.md)).
 - **Target set changes.** When a target joins or leaves a sum, that sum is unknown for one poll, so its whole history is not drawn as one interval.
 - **Missing targets** keep their index, data sources, and history until an administrator ignores them in the registry.
@@ -67,7 +67,8 @@ Rules behind the table:
 1. Back up first (below).
 2. Replace the `plugins/pfs` directory with the new release. Keep the directory name.
 3. Open Configuration, Plugins. Cacti shows the new version, and the plugin brings its schema, hooks, realms, templates, and data query files up to date when Cacti next loads its configuration (opening the Plugins page does). An interrupted upgrade finishes on the next load. The reader does not run while the schema is behind; it logs that the upgrade has to be finished.
-4. Check the health page and the Cacti log. A template or query file problem is reported there, not silently skipped.
+4. If you are upgrading from a pre-release version that predates the rate gauges, preserve any Throughput and Metadata graph history you need, then delete and recreate those overview graphs. Their existing RRD files do not contain the new rate data sources.
+5. Check the health page and the Cacti log. A template or query file problem is reported there, not silently skipped.
 
 Downgrading to an older plugin version is refused when the database schema is newer than the code; restore the backup taken before the upgrade instead.
 
@@ -89,7 +90,8 @@ To restore, stop the pollers, restore the database and the RRD directory from th
 
 1. Optional: export the registry from Parallel Filesystem Admin.
 2. Disable, then uninstall the plugin in Configuration, Plugins.
-3. Uninstall removes the plugin's hooks and realms and the data query file copies it wrote and that are unchanged. Removing the `poller_bottom` hook stops the reader, so nothing collects node values after uninstall: existing graphs keep their history but stop updating, and their newest values become unknown. The imported templates stay in Cacti, like any imported template, and so do the devices, data sources, and graphs made from them. With **Keep Plugin Tables on Uninstall** checked (the default) the tables stay; clear it to drop them. Devices, data sources, graphs, and RRD files you created stay in Cacti and are yours to remove.
+3. Uninstall removes the plugin's hooks and realms and the data query file copies it wrote and that are unchanged. Removing the `poller_bottom` hook stops the reader, so nothing collects node values after uninstall: existing graphs keep their history but stop updating, and their newest values become unknown. The imported templates stay in Cacti, like any imported template. With **Keep Plugin Tables on Uninstall** checked (the default) the tables stay; clear it to drop them.
+   - **Devices.** By default every device stays, with its data sources and graphs. Check **Delete the Devices This Plugin Created on Uninstall** in Configuration, Settings, Parallel Filesystems (off by default) to have the uninstall delete the devices the plugin created from the admin page, through Cacti's own device delete: their graphs and data sources go with them, and the RRD files are removed only if Cacti's RRD cleanup setting removes them. The plugin records each device it creates, one row per device in `plugin_pfs_created_devices`; an existing device you mapped to a filesystem is never on that record and always stays, with the data queries and overview graphs the mapping added. A filesystem whose device was deleted keeps no mapping to it, so kept tables never point at a deleted device. An uninstall that drops the plugin tables keeps `plugin_pfs_created_devices` while it lists a device that is still in Cacti, so a later reinstall and uninstall can still delete it; drop that table by hand if you keep those devices for good. Devices, data sources, graphs, and RRD files you created yourself are yours to remove.
 4. On each node, remove the reader's `authorized_keys` line, the read script, and the account. Storage nodes are never contacted by the uninstall.
 
 ## Troubleshooting

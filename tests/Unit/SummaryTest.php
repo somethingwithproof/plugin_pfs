@@ -255,6 +255,94 @@ describe('summary', function () {
 	});
 });
 
+describe('rates', function () {
+	/**
+	 * Two OSTs and one MDT read at $at; $add is added to every counter.
+	 *
+	 * @return list<SummaryTarget>
+	 */
+	$fs = fn (int $at, float $add = 0.0, array $reset = []): array => [
+		sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 1000.0 + $add, 500.0 + $add), $at, Presence::Present, Condition::InService, $reset),
+		sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 400.0, 1000.0 + $add, 500.0 + $add), $at),
+		sum_target('scratch-MDT0000', ['kbytes_total' => 100.0, 'kbytes_free' => 50.0, 'kbytes_avail' => 50.0, 'md_open' => 7.0 + $add, 'md_close' => 3.0], $at),
+	];
+
+	it('are the change in each sum over the time between the two reads', function () use ($fs) {
+		$first  = SummaryCalculator::calculate($fs(SUM_T), null, 300, SUM_T);
+		$second = SummaryCalculator::calculate($fs(SUM_T + 300, 3000.0), $first, 300, SUM_T + 300);
+
+		expect($first->value('read_bytes_rate'))->toBeNull()
+			->and($first->counterAt)->toBe(['read_bytes' => SUM_T, 'write_bytes' => SUM_T, 'md_ops' => SUM_T])
+			->and($second->value('read_bytes_rate'))->toBe(20.0)
+			->and($second->value('write_bytes_rate'))->toBe(20.0)
+			->and($second->value('md_ops_rate'))->toBe(10.0);
+	});
+
+	it('are unknown for the three runs a reset makes the sum unknown or unmatched, then resume', function () use ($fs) {
+		// The reset run leaves the target out of the sum, the next run puts
+		// it back (a member change), and the run after has no known previous
+		// sum; the fourth has a rate again.
+		$runs = [SummaryCalculator::calculate($fs(SUM_T), null, 300, SUM_T)];
+
+		foreach ([1, 2, 3, 4] as $i) {
+			$runs[] = SummaryCalculator::calculate($fs(SUM_T + 300 * $i, 3000.0 * $i, $i === 1 ? ['read_bytes'] : []), $runs[$i - 1], 300, SUM_T + 300 * $i);
+		}
+
+		expect(array_map(static fn (Summary $s): ?float => $s->value('read_bytes'), $runs))->toBe([2000.0, null, null, 20000.0, 26000.0])
+			->and(array_map(static fn (Summary $s): ?float => $s->value('read_bytes_rate'), $runs))->toBe([null, null, null, null, 20.0])
+			->and($runs[1]->value('write_bytes_rate'))->toBe(20.0);
+	});
+
+	it('are unknown for two runs when every summed target resets at once', function () {
+		$osts = fn (int $i, bool $reset): array => [
+			sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 1000.0 + 3000.0 * $i), SUM_T + 300 * $i, Presence::Present, Condition::InService, $reset ? ['read_bytes'] : []),
+			sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 400.0, 1000.0 + 3000.0 * $i), SUM_T + 300 * $i, Presence::Present, Condition::InService, $reset ? ['read_bytes'] : []),
+		];
+		$runs = [SummaryCalculator::calculate($osts(0, false), null, 300, SUM_T)];
+
+		foreach ([1, 2, 3] as $i) {
+			$runs[] = SummaryCalculator::calculate($osts($i, $i === 1), $runs[$i - 1], 300, SUM_T + 300 * $i);
+		}
+
+		expect(array_map(static fn (Summary $s): ?float => $s->value('read_bytes_rate'), $runs))->toBe([null, null, null, 20.0]);
+	});
+
+	it('are unknown when the member set changes, the previous read is too old, or the sum went down', function () use ($fs) {
+		$first   = SummaryCalculator::calculate($fs(SUM_T), null, 300, SUM_T);
+		$joined  = SummaryCalculator::calculate(array_merge($fs(SUM_T + 300, 3000.0), [sum_target('scratch-OST0002', sum_ost('scratch-OST0002', 100.0), SUM_T + 300)]), $first, 300, SUM_T + 300);
+		$late    = SummaryCalculator::calculate($fs(SUM_T + 601, 3000.0), $first, 300, SUM_T + 601);
+		$dropped = SummaryCalculator::calculate($fs(SUM_T + 300, -100.0), $first, 300, SUM_T + 300);
+
+		expect($joined->value('read_bytes_rate'))->toBeNull()
+			->and($late->value('read_bytes_rate'))->toBeNull()
+			->and($late->value('md_ops_rate'))->toBeNull()
+			->and($dropped->value('read_bytes_rate'))->toBeNull();
+	});
+
+	it('are unknown when the summed values were read at different times', function () {
+		$first  = SummaryCalculator::calculate([
+			sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0), SUM_T),
+			sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 400.0), SUM_T),
+		], null, 300, SUM_T);
+		$second = SummaryCalculator::calculate([
+			sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0, 4000.0), SUM_T + 300),
+			sum_target('scratch-OST0001', sum_ost('scratch-OST0001', 400.0, 4000.0), SUM_T + 200),
+		], $first, 300, SUM_T + 300);
+
+		expect($second->value('read_bytes'))->toBe(8000.0)
+			->and($second->counterAt['read_bytes'])->toBe(0)
+			->and($second->value('read_bytes_rate'))->toBeNull();
+	});
+
+	it('are served only while the summary is current', function () use ($fs) {
+		$first  = SummaryCalculator::calculate($fs(SUM_T), null, 300, SUM_T);
+		$second = SummaryCalculator::calculate($fs(SUM_T + 300, 3000.0), $first, 300, SUM_T + 300);
+
+		expect(SummaryScript::format($second, 300, new FixedClock(SUM_T + 310)))->toContain('read_bytes_rate:20')->toContain('md_ops_rate:10')
+			->and(SummaryScript::format($second, 300, new FixedClock(SUM_T + 900)))->toContain('read_bytes_rate:U')->toContain('fill_max_pct:40');
+	});
+});
+
 describe('summary input', function () {
 	$summary = fn (int $at): Summary => SummaryCalculator::calculate([sum_target('scratch-OST0000', sum_ost('scratch-OST0000', 200.0), $at)], null, 300, $at);
 
@@ -267,7 +355,7 @@ describe('summary input', function () {
 			$pairs[$name]   = $value;
 		}
 
-		expect(array_keys($pairs))->toBe(array_merge(Summary::GAUGES, Summary::COUNTERS, [Summary::AGE]))
+		expect(array_keys($pairs))->toBe(array_merge(Summary::GAUGES, Summary::COUNTERS, Summary::RATES, [Summary::AGE]))
 			->and($pairs['fill_max_pct'])->toBe('20')
 			->and($pairs['read_bytes'])->toBe('1000')
 			->and($pairs['age'])->toBe('10');
@@ -281,6 +369,19 @@ describe('summary input', function () {
 		expect($delayed)->toContain('fill_max_pct:20')->toContain('read_bytes:U')
 			->and($stale)->toContain('fill_max_pct:U')->toContain('targets_total:U')
 			->and($never)->toContain('fill_max_pct:U')->toContain('age:U');
+	});
+
+	it('serves a rate only while the counter it comes from is current, even when capacity is', function () {
+		$values = array_fill_keys(array_merge(Summary::GAUGES, Summary::COUNTERS, Summary::RATES), 1.0);
+		$at     = ['read_bytes' => SUM_T, 'write_bytes' => SUM_T + 299, 'md_ops' => 0];
+		$answer = SummaryScript::format(new Summary($values, [], SUM_T + 299, SUM_T + 299, $at), 300, new FixedClock(SUM_T + 460));
+
+		// read_bytes was read 460 s ago, past 1.5 intervals, while the
+		// capacity read the summary time comes from is 161 s old.
+		expect($answer)->toContain('fill_max_pct:1')
+			->and($answer)->toContain('read_bytes_rate:U')
+			->and($answer)->toContain('write_bytes_rate:1')
+			->and($answer)->toContain('md_ops_rate:U');
 	});
 
 	it('keeps every summary name a valid RRD data source name', function () {

@@ -43,6 +43,18 @@ namespace Somethingwithproof\Pfs;
  * change publishes unknown for that run. If Cacti misses the poll of that
  * unknown value the change is still drawn as one large interval; that is the
  * sampling alignment limit in the plan.
+ *
+ * Each aggregate counter also has a per-second rate, published as a gauge
+ * for Thold (ADR 0012): the change in the sum since the previous summary,
+ * over the time between the two reads. A rate is known only when both sums
+ * are known, have the same member set, were each read in one run (every
+ * summed value shares its read time), are at most two intervals apart, and
+ * the sum did not go down. So a reset, a missing or stale target, a member
+ * change, and the first read all give unknown, as the DERIVE value does. A
+ * reset of some targets gives three unknown runs: the reset leaves them out
+ * of the sum, the next run puts them back (a member change), and the run
+ * after that has no known previous sum. When every target resets at once
+ * the sum has no members to compare, so it is two.
  */
 final class SummaryCalculator {
 	private const OST_COUNTERS = ['read_bytes', 'write_bytes'];
@@ -107,7 +119,7 @@ final class SummaryCalculator {
 			}
 		}
 
-		$values = array_fill_keys(array_merge(Summary::GAUGES, Summary::COUNTERS), null);
+		$values = array_fill_keys(array_merge(Summary::GAUGES, Summary::COUNTERS, Summary::RATES), null);
 
 		if ($fill !== []) {
 			$values['fill_max_pct']    = max($fill);
@@ -135,6 +147,7 @@ final class SummaryCalculator {
 		}
 
 		$members = [];
+		$at      = [];
 		$summed  = PHP_INT_MAX;
 
 		// ost_contributors counts the OSTs behind every OST counter, so it
@@ -144,6 +157,7 @@ final class SummaryCalculator {
 			$summed = min($summed, $sum['contributors']);
 
 			[$values[$counter], $members[$counter]] = self::guard($sum, $previous?->members[$counter] ?? null);
+			$at[$counter] = $values[$counter] === null ? 0 : (int) $sum['at'];
 		}
 
 		$values['ost_contributors'] = (float) $summed;
@@ -161,8 +175,13 @@ final class SummaryCalculator {
 		$sum                        = self::sum($mdts, array_keys($mdOps), $current);
 		$values['mdt_contributors'] = (float) $sum['contributors'];
 		[$values['md_ops'], $members['md_ops']] = self::guard($sum, $previous?->members['md_ops'] ?? null);
+		$at['md_ops'] = $values['md_ops'] === null ? 0 : (int) $sum['at'];
 
-		return new Summary($values, $members, $oldest, $now);
+		foreach (Summary::COUNTERS as $counter) {
+			$values[$counter . Summary::RATE_SUFFIX] = self::rate($counter, $values[$counter], $members[$counter], $at[$counter], $previous, $interval);
+		}
+
+		return new Summary($values, $members, $oldest, $now, $at);
 	}
 
 	/**
@@ -175,13 +194,14 @@ final class SummaryCalculator {
 	 * @param list<string>                    $metrics
 	 * @param \Closure(?Observation): bool    $current
 	 *
-	 * @return array{value: ?float, members: list<string>, contributors: int}
+	 * @return array{value: ?float, members: list<string>, contributors: int, at: int} at is the read time every summed value shares, or 0
 	 */
 	private static function sum(array $targets, array $metrics, \Closure $current): array {
 		$total        = 0.0;
 		$members      = [];
 		$contributors = 0;
 		$complete     = $targets !== [];
+		$times        = [];
 
 		foreach ($targets as $target) {
 			$counted = false;
@@ -196,6 +216,7 @@ final class SummaryCalculator {
 
 				$total    += $value;
 				$members[] = $target->id->name() . ':' . $metric;
+				$times[$observation->observedAt] = true;
 				$counted   = true;
 			}
 
@@ -218,7 +239,7 @@ final class SummaryCalculator {
 
 		sort($members);
 
-		return ['value' => $complete ? $total : null, 'members' => $members, 'contributors' => $contributors];
+		return ['value' => $complete ? $total : null, 'members' => $members, 'contributors' => $contributors, 'at' => count($times) === 1 ? (int) array_key_first($times) : 0];
 	}
 
 	/**
@@ -247,7 +268,28 @@ final class SummaryCalculator {
 	}
 
 	/**
-	 * @param array{value: ?float, members: list<string>, contributors: int} $sum
+	 * The per-second rate of one aggregate counter since the previous summary,
+	 * or null when it cannot be trusted (see the class comment).
+	 */
+	private static function rate(string $counter, ?float $value, string $members, int $at, ?Summary $previous, int $interval): ?float {
+		$before   = $previous?->value($counter);
+		$beforeAt = $previous?->counterAt[$counter] ?? 0;
+
+		if ($value === null || $before === null || $at <= 0 || $beforeAt <= 0 || $members === '' || ($previous?->members[$counter] ?? '') !== $members) {
+			return null;
+		}
+
+		$elapsed = $at - $beforeAt;
+
+		if ($elapsed <= 0 || $elapsed > 2 * $interval || $value < $before) {
+			return null;
+		}
+
+		return ($value - $before) / $elapsed;
+	}
+
+	/**
+	 * @param array{value: ?float, members: list<string>, contributors: int, at: int} $sum
 	 *
 	 * @return array{0: ?float, 1: string} the value to publish and the member hash to keep
 	 */

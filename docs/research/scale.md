@@ -78,7 +78,7 @@ Readings:
 - The 5 extra data sources and graphs are the overview graphs' summary data sources; each per-target capacity data source has 3 items, so `poller_item` is 3 per OST plus 5.
 - The summary script answers in under 0.1 ms per call at 2,000 targets, against the plan's 50 ms budget for it. The data query `get` stays under 0.4 ms per call once its 30 second cache is filled; the first `index` call, which loads every target, takes about 30 ms.
 - Creating graphs is the largest cost and is Cacti's own: about 0.08 s per graph at 2,000 targets, against 0.05 s at 500. Operators who graph every OST should expect minutes, once.
-- One RRD file of the 2,005 was missing after two polls at 2,000 targets, in both runs, including the isolated one; at 500 targets every file existed. Which data source lacks its file was not recorded, and the cause is not known. Rerun with the file list before relying on the count.
+- **Open item.** One RRD file of the 2,005 was missing after two polls at 2,000 targets, in both runs, including the isolated one; at 500 targets every file existed. A third isolated run named it: data source 935, the capacity data source (`kbytes_total`) of `sc2000-OST01a3`, the 420th OST, with its three poller items in place but no RRD file after two polls. The cause is not known; nothing marks that OST as different from its neighbours.
 - Reader time excludes SSH. With real nodes the reader's time is dominated by the slowest node and the parallelism setting, not by parsing.
 
 ## Limits

@@ -54,6 +54,8 @@ No issue found.
 
 ### File writes into Cacti
 
+- Uninstall deletes devices only when the full-admin setting **Delete the Devices This Plugin Created on Uninstall** is checked (off by default), and only the host ids `DeviceProvisioner::create()` recorded in the `plugin_pfs_created_devices` table that still exist (one row per device, so the record has no size limit; schema migration 3 moves the milestone 4 setting into it); a mapped existing device is never recorded. Deletion goes through Cacti's `api_device_remove_multi()`. Uninstall is a Plugins page action, which needs Cacti's plugin management permission rather than a device permission, so it is not limited by `is_device_allowed()`.
+
 - Install copies two fixed file names into `<path_cacti>/resource/script_server/` and records the SHA-256 of each file it wrote. A file already there with the right content is used but not recorded, so uninstall never removes a copy an administrator made. It never replaces a file it did not write or that changed since, and uninstall removes only recorded files whose hash still matches. No path comes from user input.
 - A symbolic link at either destination, dangling or not, is refused before anything is written. Each file is copied to a temporary file in the same directory, its hash is checked, and it is renamed into place; `rename()` replaces the path itself and does not follow a link. Uninstall does not remove a link. `tests/Unit/QueryFilesTest.php` covers both kinds of link, an administrator's copy, and replacement of the plugin's own copy.
 - Templates are imported through Cacti's own import code from the shipped XML; the export test checks it carries no data source profile and no third-party attribution.
@@ -63,7 +65,7 @@ Residual: an account that can write `resource/script_server/` can still replace 
 
 ### Database access
 
-- SQL is in `Schema` and the `*Repository` classes, plus three statements in `include/unbooted-uninstall.php`, and every statement goes through Cacti's `*_prepared` functions with values bound (checked by search at this review; no test enforces it). Table and column names are constants.
+- SQL is in `Schema` and the `*Repository` classes, plus the statements in `include/unbooted-uninstall.php`, and every statement goes through Cacti's `*_prepared` functions with values bound (checked by search at this review; no test enforces it). Table and column names are constants.
 
 No issue found.
 
