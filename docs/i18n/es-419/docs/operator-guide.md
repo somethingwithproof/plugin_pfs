@@ -1,4 +1,4 @@
-<!-- Source: docs/operator-guide.md; SHA256: 4746b880d75a3ad79ad90f78d91cc2e1909f90f79d3361658e9afa9c614810ea -->
+<!-- Source: docs/operator-guide.md; SHA256: f1babfc435430a6f813558a6afc4530f5eb1d195a2a7a1db6f054f7d10c38417 -->
 
 <a id="operator-guide"></a>
 # Guía del operador
@@ -21,8 +21,8 @@ Estado: la fase 1 tiene el código completo y solo se ha ejecutado con salida de
 ## Instalar
 
 1. Descomprima la versión para que el directorio sea `<path_cacti>/plugins/pfs`. Debe llamarse `pfs`; el archivo fuente de GitHub se extrae como `plugin_pfs-<version>` y hay que renombrarlo.
-2. En Cacti abra Configuración, Plugins, e instale y active Sistemas de archivos paralelos. La instalación crea tablas, registra hooks y dos ámbitos, importa plantillas de dispositivo, datos y gráficos y copia dos archivos de consulta a Cacti (sección siguiente).
-3. Asigne los ámbitos necesarios en Gestión de usuarios: **Parallel Filesystem View** para la página de sistemas y **Parallel Filesystem Admin** para registro y estado. View solo ve inventario y actualidad. Ambos respetan los permisos de dispositivo de Cacti.
+2. En Cacti abra Configuración, Plugins, e instale y active Sistemas de archivos paralelos. La instalación crea tablas, registra hooks y tres ámbitos, importa plantillas de dispositivo, datos y gráficos y copia dos archivos de consulta a Cacti (sección siguiente).
+3. Asigne los ámbitos necesarios en Gestión de usuarios: **Parallel Filesystem View** para inventario y actualidad, **Parallel Filesystem Operator** para la página Operaciones y confirmaciones personales de clasificación, y **Parallel Filesystem Admin** para registro y estado. En cada solicitud, Admin hereda Operator y Operator hereda View, sin añadir concesiones persistentes. Los tres respetan los permisos de dispositivo de Cacti.
 4. Abra Consola, Estado de sistemas de archivos paralelos. Cada aviso indica qué corregir. Una instalación nueva suele indicar que faltan la clave SSH y los hosts conocidos hasta completar los pasos siguientes.
 5. Prepare nodos y sondeador según [node-setup.md](node-setup.md).
 6. En Administración de sistemas de archivos paralelos permita las redes de cada sondeador, agregue el sistema y después sus nodos (endpoint, puerto, nombre de usuario, rol). No se guarda un nodo cuyo endpoint resuelva fuera de las redes permitidas.
@@ -53,8 +53,8 @@ Cada sistema de archivos es un dispositivo Cacti. Sus destinos OST y MDT son ín
 |---|---|---|
 | Ocupación (general) | Máximo, media y mínimo del porcentaje usado OST, diferencia máximo menos mínimo, destinos totales, ausentes y no saludables | Ningún OST tiene lectura actual de capacidad |
 | Capacidad (general) | Kilobytes totales y disponibles del sistema | Falta cualquier OST o está obsoleto, por lo que el total sería parcial |
-| Rendimiento (general) | Bytes leídos y escritos por segundo del sistema | Algún OST falta, está obsoleto, no saludable sin contador o se reinició en el intervalo |
-| Metadatos (general) | Operaciones de metadatos por segundo del sistema, todas las permitidas juntas | Algún MDT falta, está obsoleto o se reinició en el intervalo |
+| Rendimiento (general) | Bytes leídos y escritos por segundo del sistema y gauges de tasa de lectura y escritura para alertas (bajo el gráfico) | Algún OST falta, está obsoleto, no saludable sin contador o se reinició en el intervalo; los gauges de tasa también durante uno o dos sondeos posteriores al reinicio |
+| Metadatos (general) | Operaciones de metadatos por segundo del sistema, todas las permitidas juntas, y gauge de tasa de operaciones para alertas | Algún MDT falta, está obsoleto o se reinició en el intervalo; el gauge de tasa también durante uno o dos sondeos posteriores al reinicio |
 | Antigüedad (general) | Segundos desde la observación más antigua del resumen y número de contribuyentes | Nunca observado |
 | Capacidad, Inodos, Rendimiento OST (por destino) | Usado y disponible, inodos, bytes leídos/escritos y operaciones por segundo | El destino falta, está obsoleto o el nodo no imprimió el valor |
 | Capacidad, Operaciones MDT (por destino) | Usado y disponible, inodos, operaciones por segundo por tipo | Igual |
@@ -64,7 +64,7 @@ Reglas de la tabla:
 - **Porcentaje usado** sigue `lfs df`: usado dividido entre usado más disponible, redondeado hacia arriba.
 - **Desconocido es un hueco, nunca cero.** Un destino ausente, lectura fallida o valor no impreso se dibuja como hueco.
 - Los **contadores** se guardan en bruto como DERIVE con mínimo 0. Un reinicio (disminución, cambio de `start_time`, otro nodo tras conmutación o valor anterior desconocido) hace desconocido exactamente un intervalo.
-- **Actualidad.** Un valor es actual hasta un intervalo y medio, retrasado hasta tres y obsoleto después. Los gauges se sirven actuales o retrasados; los contadores solo actuales, para que una lectura perdida sea un hueco y no una línea plana seguida de una tasa doble.
+- **Actualidad.** Un valor es actual hasta un intervalo y medio, retrasado hasta tres y obsoleto después. Los gauges se sirven actuales o retrasados; los contadores y gauges de tasa del resumen solo actuales, para que una lectura perdida sea un hueco y no una línea plana seguida de una tasa doble.
 - **Destinos inactivos.** Lustre no imprime un contador que nunca contó desde su inicio. Las sumas lo consideran cero si el destino está presente, en servicio y comunicó sus otros valores en esa lectura; el gráfico por destino sigue mostrando un hueco ([ADR 0013](../../../decisions/0013-absent-counter-lines-count-as-zero-in-sums.md)).
 - **Cambios del conjunto de destinos.** Cuando uno entra o sale de una suma, esta es desconocida durante un sondeo para no dibujar todo su historial como un intervalo.
 - Los **destinos ausentes** conservan índice, fuentes e historial hasta que un administrador los ignore en el registro.
@@ -75,7 +75,8 @@ Reglas de la tabla:
 1. Haga primero una copia de seguridad (abajo).
 2. Sustituya `plugins/pfs` por la nueva versión. Mantenga el nombre.
 3. Abra Configuración, Plugins. Cacti muestra la nueva versión; el plugin actualiza esquema, hooks, ámbitos, plantillas y archivos de consulta cuando Cacti vuelve a cargar su configuración (abrir Plugins lo hace). Una actualización interrumpida termina en la próxima carga. El lector no se ejecuta si el esquema está atrasado y registra que debe finalizar la actualización.
-4. Revise Estado y el registro de Cacti. Los problemas de plantilla o consulta se notifican, no se omiten silenciosamente.
+4. Si actualiza desde una versión preliminar anterior a los gauges de tasa, conserve el historial necesario de los gráficos Rendimiento y Metadatos; después elimine y vuelva a crear esos gráficos generales. Sus archivos RRD existentes no contienen las nuevas fuentes de tasa.
+5. Revise Estado y el registro de Cacti. Los problemas de plantilla o consulta se notifican, no se omiten silenciosamente.
 
 Se rechaza volver a una versión anterior si el esquema es más reciente que el código; restaure la copia previa a la actualización.
 
@@ -99,7 +100,8 @@ Para restaurar, detenga sondeadores, restaure base de datos y directorio RRD des
 
 1. Opcional: exporte el registro desde Administración de sistemas de archivos paralelos.
 2. Desactive y desinstale en Configuración, Plugins.
-3. Se eliminan hooks, ámbitos y copias de consulta escritas por el plugin que no hayan cambiado. Quitar `poller_bottom` detiene el lector, por lo que no se recolectan valores tras desinstalar: los gráficos conservan historial pero dejan de actualizarse y sus valores nuevos se vuelven desconocidos. Las plantillas importadas permanecen en Cacti como cualquier plantilla, al igual que dispositivos, fuentes y gráficos creados con ellas. Con **Conservar tablas del plugin al desinstalar** marcado (predeterminado) permanecen las tablas; desmárquelo para borrarlas. Sus dispositivos, fuentes, gráficos y RRD permanecen y le corresponde eliminarlos.
+3. Se eliminan hooks, ámbitos y copias de consulta escritas por el plugin que no hayan cambiado. Quitar `poller_bottom` detiene el lector, por lo que no se recolectan valores tras desinstalar: los gráficos conservan historial pero dejan de actualizarse y sus valores nuevos se vuelven desconocidos. Las plantillas importadas permanecen en Cacti como cualquier plantilla. Con **Conservar tablas del plugin al desinstalar** marcado (predeterminado) permanecen las tablas; desmárquelo para borrarlas.
+   - **Dispositivos.** Por defecto se conserva cada dispositivo con sus fuentes y gráficos. Marque **Eliminar al desinstalar los dispositivos creados por este plugin** en Configuración, Ajustes, Sistemas de archivos paralelos (desactivado por defecto) para que se eliminen los dispositivos creados desde Administración mediante el borrado de dispositivos de Cacti: se eliminan también sus gráficos y fuentes; los RRD solo se borran si lo dispone el ajuste de limpieza RRD de Cacti. El plugin registra cada dispositivo creado, una fila por dispositivo en `plugin_pfs_created_devices`; un dispositivo existente que haya asociado a un sistema nunca figura en ese registro y siempre se conserva, con las consultas y gráficos generales añadidos por la asociación. Un sistema cuyo dispositivo se eliminó pierde esa asociación, para que las tablas conservadas no apunten a dispositivos borrados. Una desinstalación que borra las tablas conserva `plugin_pfs_created_devices` mientras enumere algún dispositivo que siga en Cacti, para poder eliminarlo al reinstalar y desinstalar después; borre esa tabla manualmente si conserva esos dispositivos de forma definitiva. Le corresponde eliminar los dispositivos, fuentes, gráficos y RRD que haya creado usted.
 4. En cada nodo quite la línea `authorized_keys` del lector, el script y la cuenta. La desinstalación nunca contacta con nodos de almacenamiento.
 
 <a id="troubleshooting"></a>

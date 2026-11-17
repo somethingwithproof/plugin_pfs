@@ -721,6 +721,14 @@ msgstr "卸载时保留插件表"
 msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
 msgstr "选中时，卸载会保留文件系统、节点、清单和缓存。取消选中则删除这些内容；请先从并行文件系统管理页面导出注册表。无论哪种情况，都不会连接存储节点。"
 
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "卸载时删除此插件创建的设备"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "勾选后，卸载插件会像在 Cacti 中删除设备一样，删除插件为文件系统创建的设备及其图表和数据源。映射到文件系统的现有设备绝不会删除。RRD 文件仅在 Cacti 自身的 RRD 清理设置要求时删除。取消勾选则保留设备。"
+
 #: lib/TargetsPage.php
 msgid "No filesystem is visible to you."
 msgstr "没有您可查看的文件系统。"

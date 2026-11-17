@@ -721,6 +721,14 @@ msgstr "अनइंस्टॉल पर प्लगइन तालिका
 msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
 msgstr "चयनित होने पर अनइंस्टॉल फ़ाइल सिस्टम, नोड, सूची और कैश रखता है। मिटाने के लिए चयन हटाएँ; पहले Parallel Filesystem Admin पृष्ठ से रजिस्ट्री निर्यात करें। दोनों स्थितियों में स्टोरेज नोड से संपर्क नहीं होता।"
 
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "अनइंस्टॉल पर इस प्लगइन के बनाए डिवाइस हटाएँ"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "चुने जाने पर अनइंस्टॉल फ़ाइल सिस्टम के लिए प्लगइन द्वारा बनाए डिवाइस, उनके ग्राफ़ और डेटा स्रोत Cacti की डिवाइस हटाने की प्रक्रिया की तरह हटाता है। फ़ाइल सिस्टम से मैप किए मौजूदा डिवाइस कभी नहीं हटते। RRD फ़ाइलें केवल Cacti की अपनी RRD सफ़ाई सेटिंग के अनुसार हटती हैं। चयन न हो तो डिवाइस रहते हैं।"
+
 #: lib/TargetsPage.php
 msgid "No filesystem is visible to you."
 msgstr "आपको कोई फ़ाइल सिस्टम दिखाई नहीं देता।"

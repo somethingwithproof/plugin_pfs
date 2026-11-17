@@ -16,8 +16,8 @@ Status: phase 1 is code complete and has run only against fixture node output in
 ## Install
 
 1. Unpack the release so that the plugin directory is `<path_cacti>/plugins/pfs`. The directory must be named `pfs`; a GitHub source archive unpacks as `plugin_pfs-<version>` and has to be renamed.
-2. In Cacti, open Configuration, Plugins, and install and enable Parallel Filesystems. The install creates the plugin tables, registers its hooks and two realms, imports the device, data, and graph templates, and copies the two data query files into Cacti (next section).
-3. Give users the realms they need under User Management: **Parallel Filesystem View** for the filesystem page, **Parallel Filesystem Admin** for the registry and health pages. The view realm sees inventory and freshness only. Both follow Cacti's device permissions.
+2. In Cacti, open Configuration, Plugins, and install and enable Parallel Filesystems. The install creates the plugin tables, registers its hooks and three realms, imports the device, data, and graph templates, and copies the two data query files into Cacti (next section).
+3. Give users the realms they need under User Management: **Parallel Filesystem View** for inventory and freshness, **Parallel Filesystem Operator** for the Operations page and personal triage acknowledgments, and **Parallel Filesystem Admin** for the registry and health pages. Admin inherits Operator access, and Operator inherits View access on each request, without adding persistent grants. All three follow Cacti's device permissions.
 4. Open Console, Parallel Filesystem Health. Every warning there names what to fix. A fresh install normally shows the missing SSH key and known hosts files until the next steps are done.
 5. Prepare the nodes and the poller as in [node-setup.md](node-setup.md).
 6. In Parallel Filesystem Admin, allow the networks each poller may reach, add the filesystem, then its nodes (endpoint, port, login name, role). A node whose endpoint resolves outside the allowed networks is not saved.

@@ -721,6 +721,14 @@ msgstr "Conservar tablas al desinstalar"
 msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
 msgstr "Si está marcado, la desinstalación conserva sistemas de archivos, nodos, inventario y caché. Desmárquelo para eliminarlos; exporte antes el registro desde Administración de sistemas de archivos paralelos. Nunca se contacta con los nodos de almacenamiento."
 
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Eliminar al desinstalar los dispositivos creados por este plugin"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Si se marca, al desinstalar se eliminan los dispositivos creados por el plugin para los sistemas de archivos, junto con sus gráficos y fuentes de datos, como al borrarlos en Cacti. Nunca se eliminan dispositivos existentes asociados a un sistema. Los archivos RRD solo se eliminan si lo dispone el ajuste de limpieza RRD de Cacti. Sin marcar, se conservan los dispositivos."
+
 #: lib/TargetsPage.php
 msgid "No filesystem is visible to you."
 msgstr "No hay sistemas de archivos visibles para usted."

@@ -721,6 +721,14 @@ msgstr "الاحتفاظ بجداول الإضافة عند إلغاء التث�
 msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
 msgstr "عند تحديده، يحتفظ إلغاء التثبيت بأنظمة الملفات والعقد والجرد والذاكرة المؤقتة. ألغِ تحديده لحذفها؛ صدّر السجل أولًا من صفحة إدارة أنظمة الملفات المتوازية. لا يُتصل بعقد التخزين في الحالتين."
 
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "حذف الأجهزة التي أنشأها هذا الملحق عند الإزالة"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "عند التحديد، تحذف إزالة الملحق الأجهزة التي أنشأها لأنظمة الملفات مع رسومها ومصادر بياناتها، كما يحدث عند حذفها في Cacti. لا تُحذف مطلقًا الأجهزة الموجودة التي رُبطت بنظام ملفات. لا تُحذف ملفات RRD إلا إذا نص إعداد تنظيف RRD في Cacti نفسه على ذلك. عند إلغاء التحديد تبقى الأجهزة."
+
 #: lib/TargetsPage.php
 msgid "No filesystem is visible to you."
 msgstr "لا توجد أنظمة ملفات مرئية لك."
