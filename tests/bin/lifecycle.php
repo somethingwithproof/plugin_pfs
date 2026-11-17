@@ -45,7 +45,15 @@ ob_start();
 
 switch ($action) {
 	case 'reset':
-		api_plugin_uninstall('pfs');
+		// A disposable database starts without the plugin tables, but the
+		// cleanup path still runs before every lifecycle scenario. Cacti's
+		// uninstall callback is meaningful only after the plugin schema has
+		// been created; otherwise the mapping lookup correctly fails closed.
+		$filesystemTableExists = (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem'") === 1;
+
+		if ($filesystemTableExists) {
+			api_plugin_uninstall('pfs');
+		}
 
 		// Devices the device actions below made, with their graphs.
 		$hosts = array_map('intval', array_column(db_fetch_assoc("SELECT id FROM host WHERE hostname LIKE '%.pfs.invalid' OR hostname = 'lifecycle.example.invalid'"), 'id'));
