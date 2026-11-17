@@ -1,0 +1,15 @@
+{
+  "locales": [
+    "zh-CN",
+    "hi-IN",
+    "es-ES",
+    "es-419",
+    "ar-SA"
+  ],
+  "sources": [
+    "README.md",
+    "docs/operator-guide.md",
+    "docs/node-setup.md",
+    "docs/alerting.md"
+  ]
+}

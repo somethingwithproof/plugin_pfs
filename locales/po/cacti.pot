@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr ""
+
 #: lib/AccessMethod.php
 msgid "SSH forced command"
 msgstr ""
@@ -24,7 +28,7 @@ msgstr ""
 msgid "Filesystems"
 msgstr ""
 
-#: lib/AdminPage.php
+#: lib/AdminPage.php lib/OperatorPage.php
 msgid "Actions"
 msgstr ""
 
@@ -52,7 +56,7 @@ msgstr ""
 msgid "Poller"
 msgstr ""
 
-#: lib/AdminPage.php
+#: lib/AdminPage.php lib/OperatorPage.php
 msgid "State"
 msgstr ""
 
@@ -287,7 +291,7 @@ msgstr ""
 msgid "Expected Interval: enter whole seconds from %d to %d."
 msgstr ""
 
-#: lib/Format.php
+#: lib/Format.php lib/OperatorPage.php
 msgid "Never"
 msgstr ""
 
@@ -529,6 +533,46 @@ msgstr ""
 
 #: lib/NodeRole.php
 msgid "Client"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr ""
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr ""
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr ""
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
 msgstr ""
 
 #: lib/Pages.php
@@ -803,6 +847,14 @@ msgstr ""
 #: pfs_health.php
 #, php-format
 msgid "The templates could not be installed: %s"
+msgstr ""
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr ""
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
 msgstr ""
 
 #: setup.php

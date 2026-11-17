@@ -206,6 +206,10 @@ switch ($action) {
 		include($config['base_path'] . '/plugins/pfs/tests/bin/reader-restart.php');
 
 		break;
+	case 'operator_roles':
+		include(__DIR__ . '/operator-roles.php');
+
+		break;
 	case 'state':
 		break;
 	default:

@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-17 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: zh-CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "在并行文件系统页面检查目标容量、不均衡和数据时效。节点访问、目标接纳和设备映射请交由管理员处理。"
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH 强制命令"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "文件系统"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "操作"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "后端"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti 设备"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "预期间隔"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "名称"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "节点"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "轮询器"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "状态"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "尚未注册文件系统。"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d 秒"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "删除"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "访问"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "端点"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "文件系统"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "登录名"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "角色"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "尚未注册节点。"
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "请先注册文件系统。"
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "导出"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "在卸载并删除插件表之前，请将注册表（文件系统、节点、网络和目标审核）下载为 JSON。其中不含密钥或凭据。"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "文件系统：%s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "新建文件系统"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "预期间隔（秒）"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "已启用"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "新建节点"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "节点：%s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "端点（主机名或地址）"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH 端口"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "节点必须为此登录名在 authorized_keys 中列出读取器公钥，并通过强制命令运行 pfs-read.sh，例如 restrict,command=\"/usr/local/libexec/pfs-read.sh\" 后接公钥。主机密钥必须以此处填写的端点名称保存在已知主机文件中。"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "文件系统 %s 的 Cacti 设备"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "创建新设备"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "设备"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "显示将添加的内容"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "待添加的对象"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "设备保留自身设置，包括轮询器。不会更改或移除设备上的任何内容。"
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "每个目标的图表可从设备的新建图表页面按需创建。"
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "创建设备"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "映射此设备"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "允许的网络"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "网络"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "尚未允许任何网络。只有在此列出网络后，轮询器才能访问节点。"
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "允许"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "待审核的目标"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "存在状态"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "目标"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "新增的值"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "接纳"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "忽略"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "没有待审核的目标。"
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "添加设备"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "（由轮询器 %d 轮询，而非 %d）"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "取消映射"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "保存"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "尚未安装并行文件系统模板。请从健康页面重新安装。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "名为“%s”的设备，基于 %s 设备模板，由轮询器 %d 轮询，可用性检查关闭。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "数据查询“%s”，列出当前已知的 %d 个目标。它本身不会创建图表。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "图表“%s”。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "每个图表配有一个“%s”数据源，无论目标数量多少，每个数据源每次轮询周期调用脚本服务器一次。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "由并行文件系统插件为文件系统 %s 创建。其值来自插件缓存；主机名是保留名称，永远不会连接。"
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "后端：请选择列出的后端。"
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "名称：请使用节点输出的文件系统名称，例如最多 8 个字母、数字、连字符或下划线组成的 Lustre fsname。"
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "轮询器：请选择列出的轮询器。"
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "预期间隔：请输入 %d 至 %d 之间的整数秒数。"
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "从未"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d 秒前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d 分钟前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d 小时前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d 天前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s 的并行文件系统视图"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "并行文件系统警告"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "无警告。"
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "重新安装模板"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "读取器"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "失败"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "上次完成的运行"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "上次运行"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "未连接"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "读取"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "尚无读取器运行。"
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "持续时间"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "故障"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "上次读取"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "上次成功"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "节点"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "报告的版本"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "响应大小"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "已禁用"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s 秒"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s：节点响应不符合固定读取脚本的封装格式。其密钥可能未限制为运行 pfs-read.sh 的强制命令。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s：节点主机密钥不在已知主机文件中，或已更改。添加前请核实密钥。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s：端点解析到轮询器 %d 允许网络之外，因此不读取。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s：读取脚本输出了插件不读取的 %d 个参数，因此不是随附的 pfs-read.sh。节点可能暴露了超出插件需要的信息。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s：节点输出中的 %d 个目标名称与预期模式或文件系统不匹配，已忽略。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "轮询器 %d 上的读取器在过去 %d 秒内未完成运行。其节点值正逐渐过期。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "安装并行文件系统模板失败：%s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "尚未安装并行文件系统模板，因此无法添加设备。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Cacti 中缺少数据查询文件 resource/script_server/%s，或文件与插件提供的版本不同，因此数据查询无法列出目标。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "文件系统 %s 映射到已不存在的设备 %d。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "文件系统 %s 的设备由轮询器 %d 轮询，但其节点由轮询器 %d 读取；设备的数据源需要后者的缓存。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "此服务器上不存在 SSH 密钥文件 %s。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH 密钥文件 %s 可被所有者以外的用户读取或写入（权限 %s）。请仅允许轮询用户访问。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "此服务器上不存在已知主机文件 %s，因此无法读取任何节点。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "此服务器上不存在 SSH 客户端 %s。"
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "文件系统：请选择已注册的文件系统。"
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "名称：使用 1 至 64 个字母、数字、点、连字符或下划线，以字母或数字开头。"
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "角色：请选择列出的角色。"
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "端口：请输入 1 至 65535 之间的端口号。"
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "登录名：使用最多 32 个字符的小写账户名，以字母或下划线开头。"
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "端点：仅输入主机名或 IP 地址，不包含用户、端口或路径。"
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "端点：此名称无法在本服务器上解析。"
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "端点：解析结果为 %s，不在此轮询器允许的网络内。请先添加网络。"
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "管理服务器（MGS）"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "元数据服务器（MDS）"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "对象存储服务器（OSS）"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "客户端"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "查看下方记录的观测结果。确认记录仅对当前会话中的您有效，在观测结果变化时失效，且不会抑制告警或更改健康状态。"
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "并行文件系统运维"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "调查"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "对象"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "观测时间（UTC）"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "未知或已过期"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "已确认；健康状态未改变。"
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "确认"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "您有权访问的设备暂无观测结果。"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "并行文件系统操作员"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "并行文件系统查看"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "并行文件系统管理"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "并行文件系统"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "并行文件系统注册表"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "并行文件系统健康"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "节点访问的插件设置不完整或不可用"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "端点解析到其轮询器允许网络之外"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "端点名称无法解析"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "无法连接节点"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "节点主机密钥未知或已更改"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "节点拒绝了密钥"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "读取超出时间限制"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "响应超出大小限制"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "读取命令失败"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "节点未使用固定读取脚本响应"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "读取脚本结束前响应已结束"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "节点访问"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "每个读取节点的轮询器上 ssh 客户端的绝对路径。"
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH 客户端"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "每个读取节点的轮询器上的私钥绝对路径。每个节点的 authorized_keys 必须列出对应公钥，并强制运行 pfs-read.sh。只允许轮询用户读取。插件从不创建、复制或输出此文件。"
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH 密钥文件"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "known_hosts 文件的绝对路径，文件以节点端点名称保存每个节点的主机密钥。密钥缺失或更改的节点不会被读取。"
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "已知主机文件"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "连接超时"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "等待节点接受连接的秒数。"
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "读取超时"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "单次节点读取允许的总秒数，超出后停止并记录为失败。"
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "单个节点可返回的 KiB 数。更大的响应会丢弃并记录为失败。"
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "最大响应"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "读取器"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "读取器时间预算"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "读取器每次运行允许的秒数，达到后不再开始新的节点读取。应低于轮询间隔；未读节点留待下次运行。"
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "并发读取"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "一个读取器同时执行的节点读取数。"
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "卸载"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "卸载时保留插件表"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "选中时，卸载会保留文件系统、节点、清单和缓存。取消选中则删除这些内容；请先从并行文件系统管理页面导出注册表。无论哪种情况，都不会连接存储节点。"
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "卸载时删除此插件创建的设备"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "勾选后，卸载插件会像在 Cacti 中删除设备一样，删除插件为文件系统创建的设备及其图表和数据源。映射到文件系统的现有设备绝不会删除。RRD 文件仅在 Cacti 自身的 RRD 清理设置要求时删除。取消勾选则保留设备。"
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "没有您可查看的文件系统。"
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "文件系统 %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "此文件系统的图表"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "状况"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "时效性"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "已知值"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "上次发现"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "恢复"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "审核"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "源节点"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "尚未发现目标。"
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "此记录属于您无权访问的 Cacti 设备。未作任何更改。"
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "名称：此后端的另一个文件系统已使用此名称。"
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "无法保存文件系统。"
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "文件系统已保存。"
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "文件系统、其节点和清单已删除。其 Cacti 设备、数据源和图表已保留。未连接任何节点。"
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "名称：另一个节点已使用此名称。"
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "无法保存节点。"
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "节点已保存。"
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "节点已删除。其报告过的目标保留历史记录。"
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "请输入网络地址和前缀长度，例如 10.20.0.0/16。"
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "未添加设备：文件系统已关联设备，或模板尚未安装。"
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "无法映射设备。它可能已映射到另一个文件系统。"
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "设备已映射，数据查询和概览图表已添加。"
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti 未创建设备。请查看 Cacti 日志。"
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "设备、数据查询及概览图表已创建。"
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "设备已取消映射。设备及其图表已保留；重新映射之前，数据查询不会列出目标。"
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "模板和数据查询文件已安装。"
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "无法安装模板：%s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "监控视图"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "无法读取观测结果。请联系管理员检查插件日志。"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "并行文件系统插件需要 PHP %s 或更高版本。此服务器运行 PHP %s，因此未安装或启用插件。"
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "并行文件系统插件未启用。"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "并行文件系统插件需要 PHP %s 或更高版本。"
+
+#: setup.php
+msgid "Management"
+msgstr "管理"

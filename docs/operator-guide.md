@@ -16,8 +16,8 @@ Status: phase 1 is code complete and has run only against fixture node output in
 ## Install
 
 1. Unpack the release so that the plugin directory is `<path_cacti>/plugins/pfs`. The directory must be named `pfs`; a GitHub source archive unpacks as `plugin_pfs-<version>` and has to be renamed.
-2. In Cacti, open Configuration, Plugins, and install and enable Parallel Filesystems. The install creates the plugin tables, registers its hooks and two realms, imports the device, data, and graph templates, and copies the two data query files into Cacti (next section).
-3. Give users the realms they need under User Management: **Parallel Filesystem View** for the filesystem page, **Parallel Filesystem Admin** for the registry and health pages. The view realm sees inventory and freshness only. Both follow Cacti's device permissions.
+2. In Cacti, open Configuration, Plugins, and install and enable Parallel Filesystems. The install creates the plugin tables, registers its hooks and three realms, imports the device, data, and graph templates, and copies the two data query files into Cacti (next section).
+3. Give users the realms they need under User Management: **Parallel Filesystem View** for inventory and freshness, **Parallel Filesystem Operator** for the Operations page and personal triage acknowledgments, and **Parallel Filesystem Admin** for the registry and health pages. Admin inherits Operator access, and Operator inherits View access on each request, without adding persistent grants. All three follow Cacti's device permissions.
 4. Open Console, Parallel Filesystem Health. Every warning there names what to fix. A fresh install normally shows the missing SSH key and known hosts files until the next steps are done.
 5. Prepare the nodes and the poller as in [node-setup.md](node-setup.md).
 6. In Parallel Filesystem Admin, allow the networks each poller may reach, add the filesystem, then its nodes (endpoint, port, login name, role). A node whose endpoint resolves outside the allowed networks is not saved.
@@ -44,11 +44,11 @@ Each filesystem is one Cacti device. Its targets (OSTs and MDTs) are the indexes
 
 | Graph | Values | Unknown when |
 |---|---|---|
-| Fill (overview) | Maximum, mean, and minimum OST used percentage, spread (maximum minus minimum), targets total, missing, and unhealthy | No OST has a current capacity reading |
+| Fill (overview) | Maximum, mean, and minimum OST used percentage and maximum target inode used percentage; target totals, missing and unhealthy counts, and seconds since the oldest observation behind the summary, printed under this graph | Capacity percentages: no target has a current reading for that metric; data age: never observed |
+| Imbalance (overview) | Spread of OST used percentages (maximum minus minimum) | No OST has a current capacity reading |
 | Capacity (overview) | Filesystem total and available kilobytes | Any OST is missing or stale, so the total would be partial |
-| Throughput (overview) | Filesystem read and write bytes per second, and the read and write rate gauges for alerts (printed under the graph) | Any OST is missing, stale, unhealthy without its counter, or reset in the interval; the rate gauges also for one or two polls after a reset |
-| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together, and the operation rate gauge for alerts | Any MDT is missing, stale, or reset in the interval; the rate gauge also for one or two polls after a reset |
-| Data age (overview) | Seconds since the oldest observation behind the summary, and contributor counts | Never observed |
+| Throughput (overview) | Filesystem read and write bytes per second, and the read and write rate gauges for alerts (printed under the graph) | Any OST is missing, stale, unhealthy without its counter, or reset in the interval; the rate gauges also for two or three polls after a reset |
+| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together, and the operation rate gauge for alerts | Any MDT is missing, stale, or reset in the interval; the rate gauge also for two or three polls after a reset |
 | OST Capacity, Inodes, Throughput (per target) | Used and available, inodes, read and write bytes per second and operations per second | The target is missing, stale, or the node did not print the value |
 | MDT Capacity, Operations (per target) | Used and available, inodes, operations per second by operation | Same |
 

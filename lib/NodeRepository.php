@@ -32,8 +32,13 @@ final class NodeRepository {
 	/**
 	 * @return list<Node>
 	 */
-	public function all(): array {
-		return $this->nodes(Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_node ORDER BY name, id', [], true, $this->connection)));
+	public function all(bool $strict = false): array {
+		$result = db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_node ORDER BY name, id', [], true, $this->connection);
+
+		if ($strict && !is_array($result)) {
+			throw new \RuntimeException('Operator observations could not be read');
+		}
+		return $this->nodes(Row::rows($result));
 	}
 
 	/**

@@ -1,8 +1,34 @@
+<!-- translations:start -->
+[English](README.md) | [简体中文](docs/i18n/zh-CN/README.md) | [हिन्दी](docs/i18n/hi-IN/README.md) | [Español (España)](docs/i18n/es-ES/README.md) | [Español (Latinoamérica)](docs/i18n/es-419/README.md) | [العربية](docs/i18n/ar-SA/README.md)
+<!-- translations:end -->
+
 # plugin_pfs
 
 A Cacti 1.2 plugin that brings parallel filesystem health and load into Cacti: capacity and fill imbalance across targets, per-target throughput, and metadata operation rates. Lustre is the first backend. GPFS (IBM Storage Scale) and BeeGFS follow behind a backend interface. The data lands in ordinary Cacti devices, data sources, and graphs, so Thold and Maint alert on and suppress it unchanged.
 
 > **Status: milestone 4, code complete for phase 1, not released.** Milestones 2 (foundation), 3 (Lustre observation), and 4 (alerting and release preparation) are done on `main` or in review. The plugin installs, upgrades, and uninstalls through Cacti's plugin API and refuses PHP below 8.2. A background reader on each poller reads Lustre servers over SSH through a fixed forced-command script ([node/pfs-read.sh](node/pfs-read.sh)) and caches inventory, condition, capacity, and counters with their freshness. Each filesystem becomes a Cacti device with OST and MDT data queries, five overview graphs, per-target graphs on demand, and a summary data source for Thold. Thold v1.8.2 and Maint v1.3, unchanged, alert on and suppress the summary gauges in the end-to-end run; Thold thresholds on counters are not supported with Thold 1.8.2 ([docs/alerting.md](docs/alerting.md)). Every test so far runs on fixture node output in a disposable Cacti: the plugin has not run against a real Lustre node. Still open before a release: pilots on real filesystems ([pilot plan](docs/pilot-plan.md)), the external security review ([self-review](docs/security-review.md)), and scale measurements on documented hardware ([scale](docs/research/scale.md)). Version 0.1.0 is prepared in `INFO` and [CHANGELOG.md](CHANGELOG.md) but not tagged.
+
+## Access roles
+
+| Realm | Access |
+| --- | --- |
+| Parallel Filesystem View | Existing monitoring pages. |
+| Parallel Filesystem Operator | Monitoring plus the Operations page and personal triage acknowledgments. |
+| Parallel Filesystem Admin | Operator access plus the existing configuration and administrative actions. |
+
+After copying upgrade files, open the Plugins page as an administrator to register
+the new realm. Assign the Operator realm explicitly under **Configuration > Users** or user groups.
+Upgrades retain the existing View and Admin realm IDs and grants. Admin access
+inherits Operator access, and Operator access inherits View access on each request;
+this does not add stored grants to users or groups. Plugin settings also require
+Parallel Filesystem Admin access in addition to Cacti's Settings permission.
+
+Cacti device permissions still limit the rows and actions available to each user; unmapped objects require an administrator.
+Credentials, configuration, mapping, deletion and other administrative changes
+remain in the administrative pages. Acknowledgments last only in the current
+user's session, for at most one hour and only while the same observation remains
+fresh. New or changed observations invalidate them. They never mark a failed
+measurement healthy or suppress alerts.
 
 ## Why
 

@@ -349,7 +349,7 @@ Plugin code is object-oriented wherever Cacti's plugin contract allows it. No ma
 - Classes live under the `Somethingwithproof\Pfs` namespace (provisional: issue #33 names `Cacti\Pfs`; milestone 2 matches plugin_cloud until the owner decides), one class per file, loaded by a small `spl_autoload_register()` loader registered only after the PHP version check. No Composer runtime dependency.
 - Settings use the `config_settings` hook. Logging uses `cacti_log()` with a `PFS` tag. Forms rely on Cacti's csrf-magic.
 - Strings use the `pfs` text domain, with a `locales/` directory and POT file.
-- Realms: two, "Parallel Filesystem View" and "Parallel Filesystem Admin".
+- Realms: three, "Parallel Filesystem View", "Parallel Filesystem Operator" and "Parallel Filesystem Admin".
 
 **Planned classes.** Names are illustrative; milestone 2 settles the final set.
 

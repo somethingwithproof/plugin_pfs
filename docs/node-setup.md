@@ -41,10 +41,10 @@ ls -l /usr/local/libexec/pfs-read.sh         # root-owned, 0755, not writable by
 sshd -T -C user=pfsread,host=cacti,addr=<poller address> | grep -Ei 'permituserenvironment|authorizedkeyscommand|forcecommand'
 ```
 
-From the poller, as the poller user, using the configured key:
+From the poller, as the poller user, using the configured key and node SSH port (replace `<port>` with that port):
 
 ```sh
-ssh -F /dev/null -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
+ssh -F /dev/null -p <port> -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
 ```
 
 The answer must be the framed output of the read script (`#pfs-read 1` ... `#pfs-read end`) and nothing from the requested command. Anything else means the forced command is not in effect; fix it before adding the node to the registry. Check that `PermitUserEnvironment` is `no` and that no `Match` block or `AuthorizedKeysCommand` gives the account another key or command.

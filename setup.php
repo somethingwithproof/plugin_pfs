@@ -100,13 +100,18 @@ function plugin_pfs_check_config(): bool {
 }
 
 /**
- * Common start of every page script, after include/auth.php has authorized
- * the realm. Refuses on an unsupported runtime or a disabled plugin, because
- * Cacti keeps plugin realms registered while a plugin is disabled.
+ * Common start after include/auth.php establishes the user. Recheck the
+ * realm here because cookie and Basic login restore the user after the
+ * alternate-realms hook. Disabled plugins and unsupported runtimes refuse.
  */
 function pfs_page_start(): bool {
 	if (pfs_boot() && api_plugin_is_enabled('pfs')) {
-		return true;
+		if (pfs_page_allowed()) {
+			return true;
+		}
+		http_response_code(403);
+
+		return false;
 	}
 
 	top_header();
@@ -252,12 +257,14 @@ function pfs_setup_hooks(bool $grant = false): void {
 		include_once($config['library_path'] . '/poller.php');
 	}
 
+	$enabled = (new \Somethingwithproof\Pfs\Schema(false))->pluginEnabled();
+
 	foreach (\Somethingwithproof\Pfs\Schema::HOOKS as $hook => $function) {
-		api_plugin_register_hook('pfs', $hook, $function, 'setup.php');
+		api_plugin_register_hook('pfs', $hook, $function, 'setup.php', $enabled);
 	}
 
 	foreach (\Somethingwithproof\Pfs\Pages::realms() as $realm) {
-		api_plugin_register_realm('pfs', implode(',', $realm['files']), $realm['name'], $grant);
+		api_plugin_register_realm('pfs', implode(',', $realm['files']), $realm['name'], $grant && $realm['files'] !== \Somethingwithproof\Pfs\Pages::OPERATOR);
 	}
 }
 
@@ -380,6 +387,10 @@ function pfs_config_arrays(): void {
 function pfs_config_settings(): void {
 	global $tabs, $settings;
 
+	if (PHP_SAPI !== 'cli' && !api_plugin_user_realm_auth('pfs_admin.php')) {
+		return;
+	}
+
 	if (!pfs_boot()) {
 		return;
 	}
@@ -393,8 +404,15 @@ function pfs_config_settings(): void {
  * @return array<string, mixed>
  */
 function pfs_draw_navigation_text($nav) {
+	global $current_user;
+
 	if (!pfs_boot()) {
 		return $nav;
+	}
+
+	// Refresh settings after core restores cookie or Basic authentication.
+	if (get_current_page() === 'settings.php' && (PHP_SAPI === 'cli' || ($current_user['enabled'] ?? '') === 'on')) {
+		pfs_config_settings();
 	}
 
 	return array_merge($nav, \Somethingwithproof\Pfs\Pages::navigation());
@@ -548,4 +566,64 @@ function pfs_reader_with(int $pollerId, \Somethingwithproof\Pfs\NodeSources $sou
 		$clock,
 		$holder !== '' ? $holder : 'poller' . $pollerId . '-' . getmypid() . '-' . bin2hex(random_bytes(4))
 	);
+}
+
+/** Resolve role inheritance against Cacti's current user and group grants. */
+function pfs_auth_alternate_realms(): void {
+	global $user_auth_realm_filenames;
+
+	static $deferred = array();
+
+	foreach ($deferred as $file => $realm) {
+		$user_auth_realm_filenames[$file] = $realm;
+	}
+	$deferred = array();
+
+	if (!api_plugin_is_enabled('pfs')) {
+		return;
+	}
+
+	if (empty($_SESSION['sess_user_id'])) {
+		// Core restores cookie and Basic authentication after this hook. Only
+		// these entrypoints defer the realm check to their post-auth guard.
+		$page = get_current_page();
+
+		if (in_array($page, array('pfs.php', 'pfs_operator.php'), true) && isset($user_auth_realm_filenames[$page])) {
+			$deferred[$page]                  = $user_auth_realm_filenames[$page];
+			$user_auth_realm_filenames[$page] = -1;
+		}
+
+		return;
+	}
+	$operator = 'pfs_operator.php';
+	$admin = 'pfs_admin.php';
+	$files = array('pfs.php');
+	$realm = $user_auth_realm_filenames[$admin] ?? 0;
+	if ($realm > 0 && is_realm_allowed($realm)) {
+		$files[] = $operator;
+	} else {
+		$realm = $user_auth_realm_filenames[$operator] ?? 0;
+		if ($realm <= 0 || !is_realm_allowed($realm)) {
+			return;
+		}
+	}
+	foreach ($files as $file) {
+		$user_auth_realm_filenames[$file] = $realm;
+	}
+}
+
+/** Recheck the authenticated user before a plugin page reads data or acts. */
+function pfs_page_allowed(): bool {
+	global $current_user;
+
+	pfs_auth_alternate_realms();
+	$userId    = $current_user['id'] ?? null;
+	$sessionId = $_SESSION['sess_user_id'] ?? null;
+
+	return (is_int($userId) || (is_string($userId) && ctype_digit($userId)))
+		&& (is_int($sessionId) || (is_string($sessionId) && ctype_digit($sessionId)))
+		&& (int) $userId > 0 && (int) $userId === (int) $sessionId
+		&& api_plugin_is_enabled('pfs')
+		&& ($current_user['enabled'] ?? '') === 'on'
+		&& api_plugin_user_realm_auth(get_current_page());
 }
