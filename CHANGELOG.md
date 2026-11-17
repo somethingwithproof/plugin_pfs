@@ -25,6 +25,7 @@ Phase 1, Lustre observation. Not released: pilots on real filesystems, the exter
 
 ### Fixed
 
+- Upgrade instructions now call out recreating the Throughput and Metadata graphs to add the rate gauges, and preserving any needed history first.
 - A rate gauge was served from a counter read that was no longer current while the capacity read the summary time comes from still was; each rate now also needs its own counter read to be current.
 - A target that a complete read left out serves unknown on its per-target data source at once, instead of its last value until that value went stale.
 - The Fill graph did not draw `age`, so Cacti stored no value for it and Thold could not threshold it.

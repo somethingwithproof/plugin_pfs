@@ -67,7 +67,8 @@ Rules behind the table:
 1. Back up first (below).
 2. Replace the `plugins/pfs` directory with the new release. Keep the directory name.
 3. Open Configuration, Plugins. Cacti shows the new version, and the plugin brings its schema, hooks, realms, templates, and data query files up to date when Cacti next loads its configuration (opening the Plugins page does). An interrupted upgrade finishes on the next load. The reader does not run while the schema is behind; it logs that the upgrade has to be finished.
-4. Check the health page and the Cacti log. A template or query file problem is reported there, not silently skipped.
+4. If you are upgrading from a pre-release version that predates the rate gauges, preserve any Throughput and Metadata graph history you need, then delete and recreate those overview graphs. Their existing RRD files do not contain the new rate data sources.
+5. Check the health page and the Cacti log. A template or query file problem is reported there, not silently skipped.
 
 Downgrading to an older plugin version is refused when the database schema is newer than the code; restore the backup taken before the upgrade instead.
 
