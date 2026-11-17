@@ -32,10 +32,15 @@ final class FilesystemRepository {
 	/**
 	 * @return list<Filesystem>
 	 */
-	public function all(): array {
+	public function all(bool $strict = false): array {
+		$result = db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_filesystem ORDER BY name, id', [], true, $this->connection);
+
+		if ($strict && !is_array($result)) {
+			throw new \RuntimeException('Operator observations could not be read');
+		}
 		$out = [];
 
-		foreach (Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_filesystem ORDER BY name, id', [], true, $this->connection)) as $row) {
+		foreach (Row::rows($result) as $row) {
 			$filesystem = Filesystem::fromRow($row);
 
 			if ($filesystem !== null) {

@@ -1,4 +1,4 @@
-<!-- Source: docs/operator-guide.md; SHA256: f1babfc435430a6f813558a6afc4530f5eb1d195a2a7a1db6f054f7d10c38417 -->
+<!-- Source: docs/operator-guide.md; SHA256: f8ca588089305b99c7c9ce7adbbbf5723b3a94fc9874e3e1c664cc44ecb1ab72 -->
 
 <a id="operator-guide"></a>
 # Guía del operador
@@ -51,11 +51,11 @@ Cada sistema de archivos es un dispositivo Cacti. Sus destinos OST y MDT son ín
 
 | Gráfico | Valores | Desconocido cuando |
 |---|---|---|
-| Ocupación (general) | Máximo, media y mínimo del porcentaje usado OST, diferencia máximo menos mínimo, destinos totales, ausentes y no saludables | Ningún OST tiene lectura actual de capacidad |
+| Ocupación (general) | Máximo, media y mínimo del porcentaje usado OST y máximo del porcentaje usado de inodos por destino; totales de destinos, ausentes, no saludables y segundos desde la observación más antigua del resumen, impresos bajo este gráfico | Porcentajes de capacidad: ningún destino tiene una lectura actual de esa métrica; antigüedad: nunca observado |
+| Desequilibrio (general) | Diferencia entre los porcentajes usados OST máximo y mínimo | Ningún OST tiene lectura actual de capacidad |
 | Capacidad (general) | Kilobytes totales y disponibles del sistema | Falta cualquier OST o está obsoleto, por lo que el total sería parcial |
-| Rendimiento (general) | Bytes leídos y escritos por segundo del sistema y gauges de tasa de lectura y escritura para alertas (bajo el gráfico) | Algún OST falta, está obsoleto, no saludable sin contador o se reinició en el intervalo; los gauges de tasa también durante uno o dos sondeos posteriores al reinicio |
-| Metadatos (general) | Operaciones de metadatos por segundo del sistema, todas las permitidas juntas, y gauge de tasa de operaciones para alertas | Algún MDT falta, está obsoleto o se reinició en el intervalo; el gauge de tasa también durante uno o dos sondeos posteriores al reinicio |
-| Antigüedad (general) | Segundos desde la observación más antigua del resumen y número de contribuyentes | Nunca observado |
+| Rendimiento (general) | Bytes leídos y escritos por segundo del sistema y gauges de tasa de lectura y escritura para alertas (bajo el gráfico) | Algún OST falta, está obsoleto, no saludable sin contador o se reinició en el intervalo; los gauges de tasa también durante dos o tres sondeos posteriores al reinicio |
+| Metadatos (general) | Operaciones de metadatos por segundo del sistema, todas las permitidas juntas, y gauge de tasa de operaciones para alertas | Algún MDT falta, está obsoleto o se reinició en el intervalo; el gauge de tasa también durante dos o tres sondeos posteriores al reinicio |
 | Capacidad, Inodos, Rendimiento OST (por destino) | Usado y disponible, inodos, bytes leídos/escritos y operaciones por segundo | El destino falta, está obsoleto o el nodo no imprimió el valor |
 | Capacidad, Operaciones MDT (por destino) | Usado y disponible, inodos, operaciones por segundo por tipo | Igual |
 

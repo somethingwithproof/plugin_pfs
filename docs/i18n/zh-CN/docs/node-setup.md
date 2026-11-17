@@ -1,4 +1,4 @@
-<!-- Source: docs/node-setup.md; SHA256: c8550f0416a418ce66d9fdcaf77fcd251f23daa25dcc969b8b05ad76a4793b11 -->
+<!-- Source: docs/node-setup.md; SHA256: c09178060de5f4911ee3eb7cdd732eb414dce31c5acb1d2c70b1f15222f1cccc -->
 
 <a id="node-setup"></a>
 # 节点设置
@@ -47,10 +47,10 @@ ls -l /usr/local/libexec/pfs-read.sh         # root-owned, 0755, not writable by
 sshd -T -C user=pfsread,host=cacti,addr=<poller address> | grep -Ei 'permituserenvironment|authorizedkeyscommand|forcecommand'
 ```
 
-从轮询器以轮询器用户身份，使用配置的密钥执行：
+从轮询器以轮询器用户身份，使用配置的密钥和节点 SSH 端口执行（将 `<port>` 替换为该端口）：
 
 ```sh
-ssh -F /dev/null -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
+ssh -F /dev/null -p <port> -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
 ```
 
 响应必须仅为读取脚本带边界标记的输出（`#pfs-read 1` … `#pfs-read end`），不能含所请求命令的任何输出。其他内容表示强制命令未生效；在将节点添加到注册表前修复。检查 `PermitUserEnvironment` 为 `no`，并且没有 `Match` 块或 `AuthorizedKeysCommand` 给账户其他密钥或命令。

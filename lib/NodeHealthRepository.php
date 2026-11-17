@@ -26,10 +26,15 @@ final class NodeHealthRepository {
 	/**
 	 * @return array<int, NodeHealth> node id => last read
 	 */
-	public function all(): array {
+	public function all(bool $strict = false): array {
+		$result = db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_node_health', [], true, $this->connection);
+
+		if ($strict && !is_array($result)) {
+			throw new \RuntimeException('Operator observations could not be read');
+		}
 		$out = [];
 
-		foreach (Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_node_health', [], true, $this->connection)) as $row) {
+		foreach (Row::rows($result) as $row) {
 			$health = NodeHealth::fromRow($row);
 
 			if ($health !== null) {

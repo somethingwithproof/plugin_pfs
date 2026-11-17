@@ -28,14 +28,14 @@ function pfs_operator_rows(): array {
 	$clock       = new SystemClock();
 	$filesystems = [];
 
-	foreach ((new FilesystemRepository(false, $clock))->all() as $fs) {
+	foreach ((new FilesystemRepository(false, $clock))->all(true) as $fs) {
 		if ($fs->hostId > 0 && is_device_allowed($fs->hostId)) {
 			$filesystems[$fs->id] = $fs;
 		}
 	}
-	$health = (new NodeHealthRepository(false))->all();
+	$health = (new NodeHealthRepository(false))->all(true);
 
-	foreach ((new NodeRepository(false, $clock))->all() as $node) {
+	foreach ((new NodeRepository(false, $clock))->all(true) as $node) {
 		if (!isset($filesystems[$node->filesystemId])) {
 			continue;
 		}

@@ -76,3 +76,23 @@ it('ignores malformed session acknowledgments without hiding current health', fu
 	expect(OperatorPage::acknowledge($session, $row, OperatorPage::fingerprint($row), 2, 1000))->toBeTrue()
 		->and($row['state'])->toBe('failed');
 });
+
+it('distinguishes failed operator reads from an empty registry', function () {
+	$original = $GLOBALS['__pfs_db_rows'];
+	$clock = new Somethingwithproof\Pfs\SystemClock();
+	$repositories = [
+		'plugin_pfs_filesystem' => new Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		'plugin_pfs_node' => new Somethingwithproof\Pfs\NodeRepository(false, $clock),
+		'plugin_pfs_node_health' => new Somethingwithproof\Pfs\NodeHealthRepository(false),
+	];
+	try {
+		foreach ($repositories as $table => $repository) {
+			$GLOBALS['__pfs_db_rows'] = [$table => false];
+			expect(fn () => $repository->all(true))->toThrow(RuntimeException::class);
+			$GLOBALS['__pfs_db_rows'] = [$table => []];
+			expect($repository->all(true))->toBe([]);
+		}
+	} finally {
+		$GLOBALS['__pfs_db_rows'] = $original;
+	}
+});

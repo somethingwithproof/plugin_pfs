@@ -1,4 +1,4 @@
-<!-- Source: docs/node-setup.md; SHA256: c8550f0416a418ce66d9fdcaf77fcd251f23daa25dcc969b8b05ad76a4793b11 -->
+<!-- Source: docs/node-setup.md; SHA256: c09178060de5f4911ee3eb7cdd732eb414dce31c5acb1d2c70b1f15222f1cccc -->
 
 <a id="node-setup"></a>
 # Configuración de nodos
@@ -47,10 +47,10 @@ ls -l /usr/local/libexec/pfs-read.sh         # root-owned, 0755, not writable by
 sshd -T -C user=pfsread,host=cacti,addr=<poller address> | grep -Ei 'permituserenvironment|authorizedkeyscommand|forcecommand'
 ```
 
-Desde el sondeador, como su usuario y con la clave configurada:
+Desde el sondeador, como su usuario, con la clave y el puerto SSH del nodo configurados (sustituya `<port>` por dicho puerto):
 
 ```sh
-ssh -F /dev/null -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
+ssh -F /dev/null -p <port> -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
 ```
 
 La respuesta debe ser exclusivamente la salida delimitada del script (`#pfs-read 1` … `#pfs-read end`), sin salida del comando solicitado. Cualquier otra cosa indica que el comando forzado no está activo; corríjalo antes de agregar el nodo al registro. Compruebe que `PermitUserEnvironment` sea `no` y que ningún bloque `Match` ni `AuthorizedKeysCommand` dé otra clave o comando a la cuenta.

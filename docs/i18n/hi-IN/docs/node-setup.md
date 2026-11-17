@@ -1,4 +1,4 @@
-<!-- Source: docs/node-setup.md; SHA256: c8550f0416a418ce66d9fdcaf77fcd251f23daa25dcc969b8b05ad76a4793b11 -->
+<!-- Source: docs/node-setup.md; SHA256: c09178060de5f4911ee3eb7cdd732eb414dce31c5acb1d2c70b1f15222f1cccc -->
 
 <a id="node-setup"></a>
 # नोड सेटअप
@@ -47,10 +47,10 @@ ls -l /usr/local/libexec/pfs-read.sh         # root-owned, 0755, not writable by
 sshd -T -C user=pfsread,host=cacti,addr=<poller address> | grep -Ei 'permituserenvironment|authorizedkeyscommand|forcecommand'
 ```
 
-पोलर से, पोलर उपयोगकर्ता के रूप में, कॉन्फ़िगर की गई कुंजी से:
+पोलर से, पोलर उपयोगकर्ता के रूप में, कॉन्फ़िगर की गई कुंजी और नोड के SSH पोर्ट का उपयोग करें (`<port>` को उस पोर्ट से बदलें):
 
 ```sh
-ssh -F /dev/null -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
+ssh -F /dev/null -p <port> -i /etc/cacti/pfs/id_ed25519 -o UserKnownHostsFile=/etc/cacti/pfs/known_hosts -o HostKeyAlias=<endpoint> pfsread@<address> 'id; cat /etc/shadow'
 ```
 
 उत्तर केवल पढ़ने वाली स्क्रिप्ट का सीमाचिह्न वाला आउटपुट (`#pfs-read 1` … `#pfs-read end`) हो, माँगे गए कमांड का कुछ नहीं। अन्य आउटपुट का अर्थ अनिवार्य कमांड लागू नहीं है; नोड रजिस्ट्री में जोड़ने से पहले ठीक करें। जाँचें कि `PermitUserEnvironment`, `no` हो और कोई `Match` ब्लॉक या `AuthorizedKeysCommand` खाते को दूसरी कुंजी या कमांड न देता हो।

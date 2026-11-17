@@ -44,11 +44,11 @@ Each filesystem is one Cacti device. Its targets (OSTs and MDTs) are the indexes
 
 | Graph | Values | Unknown when |
 |---|---|---|
-| Fill (overview) | Maximum, mean, and minimum OST used percentage, spread (maximum minus minimum), targets total, missing, and unhealthy | No OST has a current capacity reading |
+| Fill (overview) | Maximum, mean, and minimum OST used percentage and maximum target inode used percentage; target totals, missing and unhealthy counts, and seconds since the oldest observation behind the summary, printed under this graph | Capacity percentages: no target has a current reading for that metric; data age: never observed |
+| Imbalance (overview) | Spread of OST used percentages (maximum minus minimum) | No OST has a current capacity reading |
 | Capacity (overview) | Filesystem total and available kilobytes | Any OST is missing or stale, so the total would be partial |
-| Throughput (overview) | Filesystem read and write bytes per second, and the read and write rate gauges for alerts (printed under the graph) | Any OST is missing, stale, unhealthy without its counter, or reset in the interval; the rate gauges also for one or two polls after a reset |
-| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together, and the operation rate gauge for alerts | Any MDT is missing, stale, or reset in the interval; the rate gauge also for one or two polls after a reset |
-| Data age (overview) | Seconds since the oldest observation behind the summary, and contributor counts | Never observed |
+| Throughput (overview) | Filesystem read and write bytes per second, and the read and write rate gauges for alerts (printed under the graph) | Any OST is missing, stale, unhealthy without its counter, or reset in the interval; the rate gauges also for two or three polls after a reset |
+| Metadata (overview) | Filesystem metadata operations per second, all allowlisted operations together, and the operation rate gauge for alerts | Any MDT is missing, stale, or reset in the interval; the rate gauge also for two or three polls after a reset |
 | OST Capacity, Inodes, Throughput (per target) | Used and available, inodes, read and write bytes per second and operations per second | The target is missing, stale, or the node did not print the value |
 | MDT Capacity, Operations (per target) | Used and available, inodes, operations per second by operation | Same |
 
