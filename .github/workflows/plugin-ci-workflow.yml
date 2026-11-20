@@ -63,7 +63,7 @@ jobs:
       run: |
         set -euo pipefail
         php -v
-        for f in *.php include/*.php locales/*.php tests/bin/*.php; do
+        for f in *.php include/*.php locales/*.php scripts/*.php tests/bin/*.php; do
           php -l "$f"
         done
         # The node read script runs under whatever /bin/sh a node has.
@@ -372,7 +372,8 @@ jobs:
         php plugins/pfs/tests/bin/page-check.php http://127.0.0.1:8080/cacti/ \
           index.php host.php graph_view.php graphs.php data_sources.php plugins.php \
           settings.php utilities.php user_admin.php \
-          plugins/pfs/pfs.php plugins/pfs/pfs_admin.php plugins/pfs/pfs_health.php
+          plugins/pfs/pfs.php plugins/pfs/pfs_admin.php plugins/pfs/pfs_health.php \
+          plugins/pfs/pfs_operator.php
         if grep -E "Fatal error|Parse error|Uncaught" "$RUNNER_TEMP/php-server.log"; then
           exit 1
         fi
