@@ -30,6 +30,7 @@ use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeRead;
 use Somethingwithproof\Pfs\NodeSources;
 use Somethingwithproof\Pfs\ReadError;
+use Somethingwithproof\Pfs\Settings;
 
 include_once($config['base_path'] . '/plugins/pfs/setup.php');
 pfs_boot();
@@ -63,7 +64,7 @@ function flow_run(FixedClock $clock, FixtureNodeSource $source, $budget = 240, $
 	$sources->register(AccessMethod::Ssh, $source);
 	$source->reads = array();
 
-	$run = pfs_reader_with($poller, $sources, $clock)->run($poller, $budget, 4);
+	$run = pfs_reader_with($poller, $sources, $clock)->run($poller, $budget, 4, Settings::DEFAULT_TIMEOUT);
 
 	return array('total' => $run->nodesTotal, 'read' => $run->nodesRead, 'failed' => $run->nodesFailed, 'skipped' => $run->nodesSkipped, 'stopped' => $run->stoppedEarly, 'reads' => $source->reads);
 }

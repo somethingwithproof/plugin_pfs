@@ -62,10 +62,16 @@ final class Reader {
 		return $interval - min(self::DUE_SLACK, intdiv($interval, 10));
 	}
 
-	public function run(int $pollerId, int $budgetSeconds, int $concurrency): ReaderRun {
+	/**
+	 * The budget only stops new reads from starting; a read started just
+	 * before it may run for the whole read timeout. The lease covers that,
+	 * plus time to write, so a slow last read does not cost the run its
+	 * results.
+	 */
+	public function run(int $pollerId, int $budgetSeconds, int $concurrency, int $readTimeout): ReaderRun {
 		$started = $this->clock->now();
 
-		if (!$this->runs->acquire($pollerId, $this->holder, $budgetSeconds + 60)) {
+		if (!$this->runs->acquire($pollerId, $this->holder, $budgetSeconds + $readTimeout + 60)) {
 			Log::info(sprintf('Reader on poller %d skipped: another run holds the lease', $pollerId));
 
 			return new ReaderRun($pollerId);
