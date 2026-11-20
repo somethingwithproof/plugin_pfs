@@ -45,9 +45,29 @@ use Somethingwithproof\Pfs\TargetRepository;
 use Somethingwithproof\Pfs\TargetsPage;
 use Somethingwithproof\Pfs\HealthWarnings;
 
-function pfs_targets_page(FixedClock $clock): TargetsPage {
-	return new TargetsPage(new FilesystemRepository(false, $clock), new NodeRepository(false, $clock), new TargetRepository(false), new ObservationRepository(false), new FreshnessEvaluator($clock), $clock);
+function pfs_targets_page(FixedClock $clock, ?DeviceAccess $access = null, bool $admin = true): TargetsPage {
+	return new TargetsPage(new FilesystemRepository(false, $clock), new NodeRepository(false, $clock), new TargetRepository(false), new ObservationRepository(false), new FreshnessEvaluator($clock), $clock, $access ?? new DeviceAccess(fn (int $id): bool => true), $admin);
 }
+
+it('shows an administrator only filesystems on devices Cacti allows, plus unmapped ones', function () {
+	$clock = new FixedClock(10000);
+	$GLOBALS['__pfs_db_rows'] = [
+		'FROM plugin_pfs_filesystem' => [
+			['id' => 1, 'name' => 'allowed', 'backend' => 'lustre', 'poller_id' => 1, 'expected_interval' => 300, 'admin_state' => 'enabled', 'host_id' => 7],
+			['id' => 2, 'name' => 'denied', 'backend' => 'lustre', 'poller_id' => 1, 'expected_interval' => 300, 'admin_state' => 'enabled', 'host_id' => 8],
+			['id' => 3, 'name' => 'unmapped', 'backend' => 'lustre', 'poller_id' => 1, 'expected_interval' => 300, 'admin_state' => 'enabled', 'host_id' => 0],
+		],
+	];
+	$access = new DeviceAccess(fn (int $id): bool => $id === 7);
+	$names  = static fn (TargetsPage $page): array => array_map(static fn (Filesystem $f): string => $f->name, $page->visible());
+
+	$admin  = $names(pfs_targets_page($clock, $access, true));
+	$viewer = $names(pfs_targets_page($clock, $access, false));
+	$GLOBALS['__pfs_db_rows'] = [];
+
+	expect($admin)->toBe(['allowed', 'unmapped'])
+		->and($viewer)->toBe(['allowed']);
+});
 
 it('shows a present target with unknown values as unknown, not zero', function () {
 	$clock  = new FixedClock(10000);
