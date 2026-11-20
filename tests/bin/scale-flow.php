@@ -56,6 +56,7 @@ use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 use Somethingwithproof\Pfs\TemplateInstaller;
 
 $step = isset($argv[1]) ? $argv[1] : '';
@@ -108,7 +109,7 @@ function scale_read($name, array $nodes, $mds, $n, $at) {
 	db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 
 	$start = hrtime(true);
-	$run   = pfs_reader_with(1, $sources, new FixedClock($at))->run(1, 600, 8);
+	$run   = pfs_reader_with(1, $sources, new FixedClock($at))->run(1, 600, 8, Settings::DEFAULT_TIMEOUT);
 
 	return array($run, round((hrtime(true) - $start) / 1e9, 2));
 }

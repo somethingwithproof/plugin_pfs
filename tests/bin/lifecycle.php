@@ -203,6 +203,7 @@ switch ($action) {
 	case 'reader_second':
 	case 'reader_victim':
 	case 'reader_kill':
+	case 'reader_overrun':
 		include($config['base_path'] . '/plugins/pfs/tests/bin/reader-restart.php');
 
 		break;

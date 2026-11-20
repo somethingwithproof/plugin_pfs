@@ -50,6 +50,7 @@ use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 use Somethingwithproof\Pfs\TemplateInstaller;
 
 $stateFile = (string) getenv('PFS_RESTORE_STATE');
@@ -96,7 +97,7 @@ function restore_read($fsName, $write) {
 
 	db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 
-	return pfs_reader_with(1, $sources, new FixedClock(time()))->run(1, 240, 4);
+	return pfs_reader_with(1, $sources, new FixedClock(time()))->run(1, 240, 4, Settings::DEFAULT_TIMEOUT);
 }
 
 /** What a backup must bring back for the device: objects by id and the RRD files. */

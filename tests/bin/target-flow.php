@@ -55,6 +55,7 @@ use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 use Somethingwithproof\Pfs\TemplateInstaller;
 
 if (getenv('PFS_TEST_DATABASE') !== 'disposable' || !isset($argv[1]) || !in_array($argv[1], array('setup', 'remove', 'add', 'return', 'check'), true)) {
@@ -128,7 +129,7 @@ function churn_read(array $used, $at) {
 	churn_settle();
 	db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 
-	$run = pfs_reader_with(1, $sources, new FixedClock($at))->run(1, 240, 4);
+	$run = pfs_reader_with(1, $sources, new FixedClock($at))->run(1, 240, 4, Settings::DEFAULT_TIMEOUT);
 	churn_expect($run->startedAt > 0, 'the fixture read ran, not skipped for a lease another run held');
 
 	return $run;

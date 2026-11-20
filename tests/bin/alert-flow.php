@@ -54,6 +54,7 @@ use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 use Somethingwithproof\Pfs\TemplateInstaller;
 
 const ALERT_STEPS = array('setup', 'warmup', 'baseline', 'burst', 'burst2', 'rated', 'reset', 'rejoined', 'resumed', 'reburst', 'reburst2', 'calm', 'imbalance', 'balanced', 'lost', 'returned', 'silent', 'answering', 'maint', 'maint2', 'unmaint', 'final');
@@ -148,7 +149,7 @@ function alert_read($oss) {
 	// as they are when the next interval starts.
 	db_execute('UPDATE plugin_pfs_node_health SET last_attempt = last_attempt - 3600');
 
-	$run = pfs_reader_with(1, $sources, new FixedClock(time()))->run(1, 240, 4);
+	$run = pfs_reader_with(1, $sources, new FixedClock(time()))->run(1, 240, 4, Settings::DEFAULT_TIMEOUT);
 	alert_expect($run->nodesRead + $run->nodesFailed === 2, 'the reader read both nodes (' . $run->nodesRead . ' answered, ' . $run->nodesFailed . ' failed)');
 
 	return $run;

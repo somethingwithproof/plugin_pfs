@@ -24,6 +24,8 @@
  *                  the next run continues once the lease expires
  *   reader_victim  the run that is killed (started by reader_kill)
  *   reader_second  a second reader start on the same poller exits at once
+ *   reader_overrun a read started at the budget's end that runs to the read
+ *                  timeout still has its results written
  *
  * Sets $result. Must parse on PHP 8.0.
  */
@@ -33,6 +35,7 @@ use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 
 include_once($config['base_path'] . '/plugins/pfs/setup.php');
 pfs_boot();
@@ -53,11 +56,27 @@ final class RestartKillingSource implements NodeSource {
 	}
 }
 
-function restart_reader(FixedClock $clock, NodeSource $source, $holder) {
+/**
+ * Answers from the fixture, then moves the clock on as a read that started
+ * at the deadline and ran to the read timeout would.
+ */
+final class RestartSlowSource implements NodeSource {
+	public function __construct(private FixedClock $clock, private int $seconds, private FixtureNodeSource $inner) {
+	}
+
+	public function readAll(array $nodes, int $concurrency, float $deadline): array {
+		$reads = $this->inner->readAll($nodes, $concurrency, $deadline);
+		$this->clock->advance($this->seconds);
+
+		return $reads;
+	}
+}
+
+function restart_reader(FixedClock $clock, NodeSource $source, $holder, $timeout = Settings::DEFAULT_TIMEOUT) {
 	$sources = new NodeSources();
 	$sources->register(AccessMethod::Ssh, $source);
 
-	$run = pfs_reader_with(1, $sources, $clock, $holder)->run(1, RESTART_BUDGET, 4);
+	$run = pfs_reader_with(1, $sources, $clock, $holder)->run(1, RESTART_BUDGET, 4, $timeout);
 
 	return array('total' => $run->nodesTotal, 'read' => $run->nodesRead, 'skipped' => $run->nodesSkipped);
 }
@@ -80,6 +99,15 @@ function restart_seed() {
 }
 
 switch ($action) {
+	case 'reader_overrun':
+		$node    = restart_seed();
+		$timeout = 120;
+		$clock   = new FixedClock(RESTART_TIME);
+		$source  = new RestartSlowSource($clock, RESTART_BUDGET + $timeout, new FixtureNodeSource(array($node => (string) file_get_contents(dirname(__DIR__) . '/fixtures/lustre/oss-2.15.txt'))));
+
+		$result = array('run' => restart_reader($clock, $source, 'slow', $timeout), 'final' => restart_state(), 'recorded' => (int) db_fetch_cell('SELECT nodes_read FROM plugin_pfs_reader WHERE poller_id = 1'));
+
+		break;
 	case 'reader_second':
 		// A live process holds the reader slot for poller 1. Cacti 1.2.x
 		// treats a slot as held only when the holder runs the same script,

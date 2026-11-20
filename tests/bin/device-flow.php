@@ -61,6 +61,7 @@ use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 use Somethingwithproof\Pfs\TemplateInstaller;
 
 if (getenv('PFS_TEST_DATABASE') !== 'disposable' || !isset($argv[1]) || !in_array($argv[1], array('setup', 'check', 'later'), true)) {
@@ -106,7 +107,7 @@ function flow_read(FixedClock $clock, array $answers) {
 
 	$sources->register(AccessMethod::Ssh, $source);
 
-	return pfs_reader_with(1, $sources, $clock)->run(1, 240, 4);
+	return pfs_reader_with(1, $sources, $clock)->run(1, 240, 4, Settings::DEFAULT_TIMEOUT);
 }
 
 function flow_counts() {

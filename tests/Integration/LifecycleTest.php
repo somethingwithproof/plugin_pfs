@@ -403,6 +403,16 @@ it('leaves no partial result when a run is killed mid-read, and the next run con
 		->and($r['final'])->toMatchArray(['health' => 1, 'targets' => 2, 'observations' => 18]);
 });
 
+it('keeps the lease through a read that runs from the budget\'s end to the read timeout', function () {
+	lifecycle('install');
+
+	$r = lifecycle('reader_overrun')['result'];
+
+	expect($r['run'])->toBe(['total' => 1, 'read' => 1, 'skipped' => 0])
+		->and($r['final'])->toMatchArray(['health' => 1, 'targets' => 2, 'observations' => 18])
+		->and($r['recorded'])->toBe(1);
+});
+
 it('preserves old grants and resolves the three roles through Cacti including groups', function () {
 	lifecycle('install');
 	lifecycle('enable');

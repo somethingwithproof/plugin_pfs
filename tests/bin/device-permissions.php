@@ -47,6 +47,7 @@ use Somethingwithproof\Pfs\AccessMethod;
 use Somethingwithproof\Pfs\FixedClock;
 use Somethingwithproof\Pfs\FixtureNodeSource;
 use Somethingwithproof\Pfs\NodeSources;
+use Somethingwithproof\Pfs\Settings;
 
 if (getenv('PFS_TEST_DATABASE') !== 'disposable' || !isset($argv[1])) {
 	fwrite(STDERR, "Set PFS_TEST_DATABASE=disposable and pass the Cacti URL\n");
@@ -116,7 +117,7 @@ $source  = new FixtureNodeSource(array());
 $sources = new NodeSources();
 $source->answer($nodeId, (string) file_get_contents($config['base_path'] . '/plugins/pfs/tests/fixtures/lustre/oss-2.15.txt'));
 $sources->register(AccessMethod::Ssh, $source);
-pfs_reader_with(1, $sources, new FixedClock(time()))->run(1, 240, 4);
+pfs_reader_with(1, $sources, new FixedClock(time()))->run(1, 240, 4, Settings::DEFAULT_TIMEOUT);
 
 $hostId = pfs_provisioner()->create($repo->find($fsId));
 $graph  = (int) db_fetch_cell_prepared('SELECT id FROM graph_local WHERE host_id = ? ORDER BY id LIMIT 1', array($hostId));

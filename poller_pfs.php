@@ -78,7 +78,7 @@ if (!register_process_start('pfs', 'reader', $pfs_poller, $pfs_settings->readerB
 }
 
 try {
-	$pfs_run = pfs_reader($pfs_poller, $pfs_settings)->run($pfs_poller, $pfs_settings->readerBudget, $pfs_settings->concurrency);
+	$pfs_run = pfs_reader($pfs_poller, $pfs_settings)->run($pfs_poller, $pfs_settings->readerBudget, $pfs_settings->concurrency, $pfs_settings->readTimeout);
 } finally {
 	unregister_process('pfs', 'reader', $pfs_poller);
 }
