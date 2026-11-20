@@ -25,9 +25,10 @@ namespace Somethingwithproof\Pfs;
  * reload is never a measurement (REQ-STATE-006).
  *
  * Visibility follows Cacti, not a plugin permission layer (REQ-SEC-011,
- * REQ-SEC-012): a filesystem mapped to a device is shown to users Cacti
- * allows to see that device, checked on every request; an unmapped
- * filesystem and every node name are shown to administrators only.
+ * REQ-SEC-012): a filesystem mapped to a device is shown only to users Cacti
+ * allows to see that device, administrators included, checked on every
+ * request (DeviceAccess); an unmapped filesystem and every node name are
+ * shown to administrators only.
  */
 final class TargetsPage {
 	public const FILE = 'pfs.php';
@@ -39,8 +40,8 @@ final class TargetsPage {
 		private readonly ObservationRepository $observations,
 		private readonly FreshnessEvaluator $freshness,
 		private readonly Clock $clock,
-		private readonly bool $admin = true,
-		private readonly ?\Closure $deviceAllowed = null,
+		private readonly DeviceAccess $access,
+		private readonly bool $admin = false,
 	) {
 	}
 
@@ -50,7 +51,9 @@ final class TargetsPage {
 	 * @return list<Filesystem>
 	 */
 	public function visible(): array {
-		return array_values(array_filter($this->filesystems->all(), fn (Filesystem $f): bool => $this->admin || ($f->hostId > 0 && $this->deviceAllowed !== null && ($this->deviceAllowed)($f->hostId) === true)));
+		$allowed = $this->access->filesystems($this->filesystems->all());
+
+		return $this->admin ? $allowed : array_values(array_filter($allowed, static fn (Filesystem $f): bool => $f->hostId > 0));
 	}
 
 	public function render(): void {

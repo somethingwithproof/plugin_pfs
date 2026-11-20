@@ -28,8 +28,9 @@
  *   pfsrevoked  View realm, device and graphs denied by Cacti: nothing
  *   pfsnorealm  Console and graphs, no plugin realm: no plugin page or link
  *   pfsadmin2   both realms, but Cacti grants only the "work" filesystem's
- *               device: the registry, export, and health page hide the
- *               other device's records, and every change to them is refused
+ *               device: the view page, registry, export, and health page
+ *               hide the other device's records, and every change to them
+ *               is refused
  *
  * Graph and data source access is Cacti's own; the plugin adds no layer, so
  * this shows that the plugin's objects follow it. Disposable databases only:
@@ -217,6 +218,9 @@ dp_expect(strpos($list, 'action=edit_fs&amp;id=' . $fsId . '"') === false && str
 list(, $export) = dp_http($base . 'pfs_admin.php?action=export', $jar);
 $data = json_decode($export, true);
 dp_expect(is_array($data) && !in_array('scratch', array_column($data['filesystems'], 'name'), true) && $data['nodes'] === array() && $data['targets'] === array(), 'a restricted administrator\'s export leaves out records on denied devices');
+
+list(, $view) = dp_http($base . 'pfs.php', $jar);
+dp_expect(strpos($view, 'Filesystem work') !== false && strpos($view, 'Filesystem orphan') !== false && strpos($view, 'Filesystem scratch') === false && strpos($view, 'oss-probe-name') === false, 'a restricted administrator\'s view page shows only filesystems on allowed devices, and unmapped ones');
 
 list(, $health) = dp_http($base . 'pfs_health.php', $jar);
 dp_expect(strpos($health, 'Parallel Filesystem Warnings') !== false && strpos($health, 'oss-probe-name') === false, 'a restricted administrator\'s health page leaves out nodes on denied devices');
