@@ -312,6 +312,29 @@ it('never logs or prints what a node sent', function () {
 	}
 });
 
+it('runs pfs_page_start() first in every page whose realm check setup.php defers', function () {
+	// Before a session exists, pfs_auth_alternate_realms() sets these pages'
+	// core realm to -1, so core skips its check and the page's own guard is
+	// the only one. Nothing may read data or act before it.
+	expect(preg_match('/in_array\(\$page, array\(([^)]*)\)/', pfs_code('setup.php'), $m))->toBe(1);
+	$pages = array_map(static fn (string $p): string => trim($p, " '"), explode(',', $m[1]));
+
+	expect($pages)->not->toBeEmpty();
+
+	foreach ($pages as $page) {
+		$code  = pfs_code($page);
+		$guard = strpos($code, "if (!pfs_page_start()) {\n\texit;\n}");
+
+		expect($guard)->not->toBeFalse($page);
+
+		// Only the opening tag, use statements, chdir() and the includes
+		// that define pfs_page_start() may come before the guard.
+		$before = preg_replace('/^\s*(<\?php|use [\w\\\\]+;|chdir\(\'[^\']*\'\);|include(_once)?\(\'[^\']*\'\);)\s*$/m', '', substr($code, 0, (int) $guard));
+
+		expect(trim((string) $before))->toBe('', $page);
+	}
+});
+
 it('ships the node read script with its SPDX header after the shebang', function () {
 	$lines = file(pfs_root() . '/node/pfs-read.sh', FILE_IGNORE_NEW_LINES) ?: [];
 

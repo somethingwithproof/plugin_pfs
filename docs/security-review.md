@@ -46,7 +46,10 @@ No issue found.
 
 ### Permissions
 
-- Two realms: **Parallel Filesystem View** (`pfs.php`) and **Parallel Filesystem Admin** (`pfs_admin.php`, `pfs_health.php`). Every page checks its realm, and every page and admin action on a record tied to a device checks `is_device_allowed()` before reading or writing it; lists and the export are filtered the same way. This was tightened in milestone 3 after a coordinator audit, and a restricted-admin case is in the permission suite (`tests/bin/device-permissions.php`).
+- Three realms: **Parallel Filesystem View** (`pfs.php`), **Parallel Filesystem Operator** (`pfs_operator.php`), and **Parallel Filesystem Admin** (`pfs_admin.php`, `pfs_health.php`). The Operator realm is never granted automatically.
+- Inheritance is resolved per request and adds no stored grant: `pfs_auth_alternate_realms()` (setup.php) maps `pfs.php` and `pfs_operator.php` onto the Admin realm id for a user who holds Admin, and `pfs.php` onto the Operator realm id for a user who holds Operator, by rewriting Cacti's `$user_auth_realm_filenames` for that request only.
+- Before a session exists, Cacti runs this hook ahead of cookie and Basic authentication. For `pfs.php` and `pfs_operator.php` only, the hook then sets the page's core realm id to -1, so core skips its realm check, and restores the real id on the next call. The page's own guard does the check instead: `pfs_page_start()` calls `pfs_page_allowed()`, which resolves inheritance again against the now authenticated user and requires `api_plugin_user_realm_auth()` for the page. Every deferred page must call `pfs_page_start()` before it reads data or acts; `tests/Security/SourceRulesTest.php` checks that each page the hook defers does so first.
+- Every page checks its realm, and every page and admin action on a record tied to a device checks `is_device_allowed()` before reading or writing it; lists and the export are filtered the same way. This was tightened in milestone 3 after a coordinator audit, and a restricted-admin case is in the permission suite (`tests/bin/device-permissions.php`).
 - State-changing actions are POST only, behind Cacti's CSRF protection; the page suite checks that GET does not change state.
 - Realms are granted only from the Plugins page (install and `check_config`); a repair triggered by any page load never grants a realm.
 
@@ -80,7 +83,7 @@ None in this pass. The device-permission gap found in milestone 3 was fixed then
 3. Debugfs access: whatever the site does to let the reader read OST `stats` (a debugfs mount option, group, or a privileged helper) and whether it widens access.
 4. `SshNodeSource::argv()` and `ProcRunner`: option injection through any setting or node field, and the child's environment and file descriptors.
 5. `LustreBackend::parse()` with crafted input: memory and time at the size limits.
-6. The permission suite results (`tests/bin/page-permissions.php`, `tests/bin/device-permissions.php`) and the realm and `is_device_allowed()` checks in `pfs.php`, `pfs_admin.php`, and `pfs_health.php`.
+6. The permission suite results (`tests/bin/page-permissions.php`, `tests/bin/device-permissions.php`) and the realm and `is_device_allowed()` checks in `pfs.php`, `pfs_operator.php`, `pfs_admin.php`, and `pfs_health.php`, and the realm deferral in `pfs_auth_alternate_realms()`.
 7. The query file copy and uninstall removal, including the symbolic link refusal and the temporary file and rename.
 8. Remote data collectors are phase 2 and out of scope here; `remote_agent` actions do not exist yet.
 
