@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: he-IL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && n % 10 == 0) ? 2 : 3));\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "בדוק קיבולת יעד, חוסר איזון ועדכניות במערכות קבצים מקביליות. הסלם גישת צמתים, אישור יעדים ומיפוי התקנים למנהל מערכת."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "פקודת SSH כפויה"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "מערכות קבצים"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "פעולות"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "מנוע עורפי"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "התקן Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "מרווח זמן צפוי"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "שם"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "צמתים"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "דוגם"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "מצב"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "טרם נרשמו מערכות קבצים."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d שניות"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "מחק"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "גישה"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "נקודת קצה"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "מערכת קבצים"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "שם התחברות"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "תפקיד"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "טרם נרשמו צמתים."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "יש לרשום מערכת קבצים תחילה."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "ייצוא"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "הורד את הרישום (מערכות קבצים, צמתים, רשתות וסקירת יעדים) כ-JSON לפני הסרת התקנה שמוחקת את טבלאות התוסף. הרישום אינו מכיל מפתחות או פרטי הזדהות."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "מערכת קבצים: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "מערכת קבצים חדשה"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "מרווח צפוי (שניות)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "מופעל"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "צומת חדש"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "צומת: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "נקודת קצה (שם מארח או כתובת)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "יציאת SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "הצומת חייב לכלול את מפתח הקורא בקובץ authorized_keys עבור שם התחברות זה עם פקודה מאולצת המריצה את pfs-read.sh, לדוגמה: restrict,command=\"/usr/local/libexec/pfs-read.sh\" ולאחריו המפתח הציבורי. מפתח המארח חייב להיות בקובץ המארחים המוכרים תחת נקודת הקצה כפי שהיא כתובה כאן."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "התקן Cacti עבור מערכת הקבצים %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "צור התקן חדש"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "התקן"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "הצג מה יתווסף"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "אובייקטים להוספה"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "ההתקן שומר על ההגדרות שלו, כולל הדוגם. דבר אינו משתנה או מוסר בו."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "גרפים לכל יעד נוצרים לפי דרישה מדף הגרפים החדשים של ההתקן."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "צור את ההתקן"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "מפה התקן זה"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "רשתות מורשות"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "רשת"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "טרם הורשו רשתות. דוגם אינו יכול להגיע לאף צומת עד שהרשתות שלו יופיעו כאן."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "אפשר"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "יעדים הממתינים לסקירה"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "נוכחות"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "יעד"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "ערכים שהוא מוסיף"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "קבל"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "התעלם"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "אין יעדים הממתינים לסקירה."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "הוסף התקן"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(נדגם על ידי דוגם %d, לא %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "בטל מיפוי"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "שמור"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "תבניות מערכת הקבצים המקבילית אינן מותקנות. התקן אותן מחדש מדף התקינות."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "התקן \"%s\" מתבנית ההתקן %s, הנדגם על ידי דוגם %d, כאשר בדיקות הזמינות כבויות."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "שאילתת הנתונים \"%s\", המפרטת %d יעדים הידועים כעת. היא אינה יוצרת גרף בפני עצמה."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "הגרף \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "מקור נתונים מסוג \"%s\" עבור כל אחד מאותם גרפים, כל אחד בקריאת שרת סקריפטים אחת למחזור דגימה, ללא תלות במספר היעדים."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "נוצר על ידי תוסף מערכת הקבצים המקבילית עבור מערכת הקבצים %s. הערכים שלו מגיעים ממטמון התוסף; שם המארח הוא שם שמור שלעולם אין יוצרים עמו קשר."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "מנוע עורפי: יש לבחור באחד מהמנועים העורפיים הרשומים."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "שם: השתמש בשם מערכת הקבצים שהצמתים מדפיסים, כגון fsname של Lustre באורך של עד 8 אותיות, ספרות, מקפים או קווים תחתונים."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "דוגם: יש לבחור באחד מהדוגמים הרשומים."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "מרווח צפוי: הזן מספר שלם של שניות בין %d ל-%d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "אף פעם"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "לפני %d שניות"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "לפני %d דקות"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "לפני %d שעות"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "לפני %d ימים"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "תצוגת מערכת קבצים מקבילית של %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "אזהרות מערכת קבצים מקבילית"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "אין אזהרות."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "התקן את התבניות שוב"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "קוראים"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "נכשלו"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "ריצה שהושלמה לאחרונה"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "ריצה אחרונה"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "לא הושג"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "נקרא"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "אף קורא טרם רץ."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "משך"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "כשל"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "קריאה אחרונה"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "הצלחה אחרונה"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "צומת"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "גרסה מדווחת"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "גודל תגובה"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "מושבת"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s שנ'"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: הצומת השיב ללא המסגור הקבוע של סקריפט הקריאה. ייתכן שהמפתח שלו אינו מוגבל לפקודה מאולצת המריצה את pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: מפתח המארח של הצומת אינו נמצא בקובץ המארחים המוכרים, או שהוא השתנה. בדוק את המפתח לפני הוספתו."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: נקודת הקצה מתורגמת לכתובת מחוץ לרשתות המורשות עבור דוגם %d, ולכן היא אינה נקראת."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: סקריפט הקריאה הדפיס %d פרמטרים שהתוסף אינו קורא, ולכן זהו אינו הקובץ pfs-read.sh המסופק. ייתכן שהצומת חושף מידע מעבר לנדרש לתוסף."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d שמות יעדים בפלט הצומת לא תאמו לתבנית או למערכת הקבצים הצפויות, ולכן התוסף התעלם מהם."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "הקורא בדוגם %d לא השלים ריצה ב-%d השניות האחרונות. הערכים מהצמתים שלו מתיישנים."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "התקנת תבניות מערכת הקבצים המקבילית נכשלה: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "תבניות מערכת הקבצים המקבילית אינן מותקנות, ולכן לא ניתן להוסיף התקן."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "קובץ שאילתת הנתונים resource/script_server/%s חסר מ-Cacti או שונה מזה שהתוסף מספק, ולכן שאילתות הנתונים אינן יכולות להציג יעדים."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "מערכת הקבצים %s ממופה להתקן %d, שאינו קיים עוד."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "התקן מערכת הקבצים %s נדגם על ידי דוגם %d, אך הצמתים שלה נקראים על ידי דוגם %d, שאת המטמון שלו צריכים מקורות הנתונים של ההתקן."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "קובץ מפתח ה-SSH %s אינו קיים בשרת זה."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "קובץ מפתח ה-SSH %s ניתן לקריאה או לכתיבה על ידי משתמשים שאינם הבעלים שלו (מצב %s). הגבל אותו למשתמש הדוגם."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "קובץ המארחים המוכרים %s אינו קיים בשרת זה, ולכן לא ניתן לקרוא ממנו אף צומת."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "לקוח ה-SSH %s אינו קיים בשרת זה."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "מערכת קבצים: בחר אחת ממערכות הקבצים הרשומות."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "שם: השתמש ב-1 עד 64 אותיות, ספרות, נקודות, מקפים או קווים תחתונים, המתחילים באות או בספרה."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "תפקיד: בחר אחד מהתפקידים הרשומים."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "יציאה: הזן יציאה בין 1 ל-65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "שם התחברות: השתמש בשם חשבון באותיות קטנות באורך של עד 32 תווים, המתחיל באות או בקו תחתון."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "נקודת קצה: הזן שם מארח או כתובת IP בלבד, ללא משתמש, יציאה או נתיב."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "נקודת קצה: השם אינו מתורגם לכתובת בשרת זה."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "נקודת קצה: השם מתורגם ל-%s, שאינה נמצאת בתוך הרשתות המורשות עבור דוגם זה. הוסף את הרשת תחילה."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "שרת ניהול (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "שרת מטא-נתונים (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "שרת אחסון אובייקטים (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "לקוח"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "עיין בתצפיות המתועדות להלן. אישורי צפייה הם אישיים להפעלה זו, פגים כאשר התצפיות משתנות, ולעולם אינם משתיקים התראות או משנים את מצב התקינות."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "תפעול מערכות קבצים מקביליות"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "חקירה"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "אובייקט"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "נצפה (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "לא ידוע או מיושן"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "אושר; התקינות לא השתנתה."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "אשר"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "אין תצפיות זמינות עבור התקנים שיש לך גישה אליהם."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "מפעיל מערכת קבצים מקבילית"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "תצוגת מערכת קבצים מקבילית"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "ניהול מערכת קבצים מקבילית"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "מערכות קבצים מקביליות"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "רישום מערכות קבצים מקביליות"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "תקינות מערכות קבצים מקביליות"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "הגדרות התוסף לגישה לצמתים אינן שלמות או שאינן שמישות"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "נקודת הקצה מתורגמת לכתובת מחוץ לרשתות המורשות עבור הדוגם שלה"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "שם נקודת הקצה אינו מתורגם לכתובת"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "לא ניתן היה להגיע לצומת"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "מפתח המארח של הצומת אינו מוכר או שהשתנה"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "הצומת דחה את המפתח"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "הקריאה חרגה ממגבלת הזמן שלה"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "התגובה חרגה ממגבלת הגודל"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "פקודת הקריאה נכשלה"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "הצומת לא השיב באמצעות סקריפט הקריאה הקבוע"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "התגובה הסתיימה לפני שסקריפט הקריאה סיים"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "גישה לצמתים"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "נתיב מוחלט אל לקוח ה-ssh בכל דוגם שקורא צמתים."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "לקוח SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "נתיב מוחלט, בכל דוגם שקורא צמתים, אל המפתח הפרטי שחציו הציבורי רשום בכל צומת ב-authorized_keys עם פקודה מאולצת המריצה את pfs-read.sh. קריא רק על ידי משתמש הדוגם. התוסף לעולם אינו יוצר, מעתיק או מדפיס אותו."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "קובץ מפתח SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "נתיב מוחלט אל קובץ known_hosts המחזיק את מפתח המארח של כל צומת תחת שם נקודת הקצה של הצומת. צומת שהמפתח שלו חסר או השתנה אינו נקרא."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "קובץ מארחים מוכרים"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "זמן קצוב לחיבור"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "שניות להמתנה עד שצומת יקבל את החיבור."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "זמן קצוב לקריאה"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "מספר השניות הכולל שקריאת צומת אחת עשויה להימשך לפני שתיעצר ותירשם כנכשלת."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "מספר ה-KiB שצומת אחד רשאי להחזיר. תשובה גדולה יותר נזרקת ונרשמת כנכשלת."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "תגובה מרבית"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "קורא"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "תקציב זמן לקורא"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "מספר השניות שריצת קורא אחת עשויה לצרוך לפני שתפסיק להתחיל קריאות צמתים. שמור על ערך נמוך ממרווח הדוגם; צמתים שלא נקראו ייקראו בריצה הבאה."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "קריאות מקביליות"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "קריאות צמתים שקורא אחד מריץ בו-זמנית."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "הסרת התקנה"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "שמור את טבלאות התוסף בעת הסרת ההתקנה"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "כאשר מסומן, הסרת התקנת התוסף שומרת על מערכות הקבצים, הצמתים, המלאי והמטמון שלו. בטל את הסימון כדי שהסרת ההתקנה תמחק אותם; ייצא תחילה את הרישום מדף ניהול מערכת קבצים מקבילית. בכל מקרה לעולם אין נוצר קשר עם צמתי האחסון."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "מחק את ההתקנים שתוסף זה יצר בעת הסרת ההתקנה"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "כאשר מסומן, הסרת התקנת התוסף מוחקת את ההתקנים שיצר עבור מערכות קבצים, כולל הגרפים ומקורות הנתונים שלהם, כפי שמחיקתם ב-Cacti הייתה עושה. התקנים קיימים שמופו למערכת קבצים לעולם אינם נמחקים. קובצי RRD מוסרים רק אם הגדרת ניקוי ה-RRD של Cacti עצמה מסירה אותם. כאשר אינו מסומן, ההתקנים נשארים."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "אף מערכת קבצים אינה גלויה עבורך."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "מערכת הקבצים %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "גרפים של מערכת קבצים זו"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "מצב"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "עדכניות"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "ערכים ידועים"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "נראה לאחרונה"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "התאוששות"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "סקירה"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "צומת מקור"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "טרם נמצאו יעדים."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "רשומה זו שייכת להתקן Cacti שאין לך הרשאה אליו. דבר לא שונה."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "שם: מערכת קבצים אחרת של מערכת עורפית זו כבר משתמשת בשם זה."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "לא ניתן היה לשמור את מערכת הקבצים."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "מערכת הקבצים נשמרה."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "מערכת הקבצים, הצמתים שלה והמלאי שלה נמחקו. התקן ה-Cacti, מקורות הנתונים והגרפים שלה נשמרו. לא נוצר קשר עם אף צומת."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "שם: צומת אחר כבר משתמש בשם זה."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "לא ניתן היה לשמור את הצומת."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "הצומת נשמר."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "הצומת נמחק. היעדים שדיווח שומרים על ההיסטוריה שלהם."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "הזן רשת ככתובת ואורך קידומת, כגון 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "לא נוסף התקן: למערכת הקבצים כבר יש התקן, או שהתבניות אינן מותקנות."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "לא ניתן היה למפות את ההתקן. ייתכן שהוא ממופה למערכת קבצים אחרת."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "ההתקן מופה ושאילתות הנתונים וגרפי הסקירה נוספו."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti לא יצר את ההתקן. עיין ביומן של Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "ההתקן, שאילתות הנתונים שלו וגרפי הסקירה שלו נוצרו."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "ההתקן אינו ממופה עוד. ההתקן והגרפים שלו נשמרו; שאילתות הנתונים שלו לא יפרטו יעדים עד שימופה שוב."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "התבניות וקובצי שאילתות הנתונים הותקנו."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "לא ניתן היה להתקין את התבניות: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "תצוגת ניטור"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "לא ניתן היה לקרוא תצפיות. בקש ממנהל המערכת לבדוק את יומן התוסף."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "תוסף מערכת הקבצים המקבילית דורש PHP %s ומעלה. שרת זה מריץ PHP %s, ולכן התוסף לא הותקן או הופעל."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "תוסף מערכת הקבצים המקבילית אינו מופעל."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "תוסף מערכת הקבצים המקבילית דורש PHP %s ומעלה."
+
+#: setup.php
+msgid "Management"
+msgstr "ניהול"

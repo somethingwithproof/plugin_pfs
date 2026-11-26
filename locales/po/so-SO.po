@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: so-SO\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Baar awoodda bartilmaameedka, dheelitir-la'aanta iyo cusboonaanta Nidaamyada Faylasha Isbarbar-socda (Parallel Filesystems). U gudbi gelitaanka noodhka, aqbalaadda bartilmaameedka iyo khariidaynta qalabka maamulaha."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Amarka qasabka ah ee SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Nidaamyada Faylasha"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Ficilada"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Qalabka Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Inta u Dhexeysa ee La Filayo"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Magaca"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Noodhadhka"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Xaaladda"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Weli lama diiwaangelin wax nidaamyo fayl ah."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d ilbiriqsi"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Tirtir"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Gelitaan"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Barta Dhammaadka"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Nidaamka faylasha"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Magaca Gelitaanka"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Doorka"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Weli lama diiwaangelin wax noodhyo ah."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Marka hore diiwaangeli nidaam faylal."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Dhoofi"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Soo degso diiwaanka (nidaamyada faylalka, noodhyada, shabakadaha, iyo dib-u-eegista bartilmaameedka) isagoo ah JSON ka hor inta aan la tirtirin rakibaadda taasoo tirtiraysa miisaska plugin-ka. Kuma jiro wax fure ah ama aqoonsi ah."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Nidaamka Faylalka: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Nidaam Faylal Cusub"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Muddada La Filayo (ilbiriqsi)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "La hawlgeliyay"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Noodh Cusub"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Noodh: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Barta Dhamaadka (magaca martigeliyaha ama ciwaanka)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Dekedda SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Noodhku waa inuu ku qoraa furaha akhriyaha gudaha authorized_keys ee gelitaankan isagoo leh amar qasab ah oo wada pfs-read.sh, tusaale ahaan: restrict,command=\"/usr/local/libexec/pfs-read.sh\" oo uu ku xigo furaha guud. Furaha martigeliyaha waa inuu ku jiraa faylka martigeliyayaasha la yaqaan (known hosts) iyadoo la adeegsanayo barta dhamaadka sida halkan ku qoran."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Qalabka Cacti ee Nidaamka Faylalka %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Abuur qalab cusub"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Qalabka"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Muuji Waxa La Kordhin Doono"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Walxaha La Kordhinayo"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Qalabku wuxuu haystaa dejintiisa gaarka ah, oo ay ku jirto poller-ka. Waxba lagama beddelo ama lagama saaro."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Garaafyada bartilmaameed kasta waxaa la abuuraa marka loo baahdo iyadoo laga soo bilaabayo bogga Garaafyada Cusub ee qalabka."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Abuur Qalabka"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Ku Xidh Qalabkan"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Shabakadaha La Oggol Yahay"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Shabakad"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Weli ma jiraan shabakado la oggol yahay. Poller-ku ma gaari karo wax noodh ah ilaa shabakadihiisa halkan lagu qoro."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Oggolow"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Bartilmaameedyada Sugaya Dib-u-eegis"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Joogitaanka"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Bartilmaameed"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Qiimayaasha Uu Ku Daro"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Aqbal"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Iska Dhaaf"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Ma jiraan bartilmaameedyo sugaya dib-u-eegis."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Ku dar qalab"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(waxaa soo ururiya poller %d, ma aha %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Ka Fur Xiriirka"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Kaydi"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Qaab-dhismeedyada Parallel Filesystem lama rakibin. Dib uga soo rakib bogga caafimaadka."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Aalad \"%s\" oo ka timid qaab-dhismeedka aaladda %s, oo uu ururiyo poller %d, iyadoo hubinta helitaanku dansan tahay."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Weydiinta xogta \"%s\", oo taxaysa %d bartilmaameed oo hadda la yaqaan. Keligeed ma abuurto wax garaaf ah."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Garaafka \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Isha xogta \"%s\" ee mid kasta oo ka mid ah garaafyadaas, mid kastaa waa hal wicitaan oo script server ah wareeg kasta oo ururin ah, iyadoon loo eegin tirada bartilmaameedyada."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Waxaa abuuray plugin-ka Parallel Filesystem ee nidaamka faylalka %s. Qiimayaashiisu waxay ka yimaadaan kaydka plugin-ka; magaca martigeliyaha waa magac u gaar ah oo aan waligiis lala xiriirin."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: ka dooro mid ka mid ah backend-yada liiska ku jira."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Magaca: isticmaal magaca nidaamka faylalka ee noodhyadu daabacaan, sida Lustre fsname oo ka kooban ugu badnaan 8 xaraf, tirooyin, jiitin-gaaban, ama hoos-xariiq."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: ka dooro mid ka mid ah poller-rada liiska ku jira."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Muddada La Filayo: geli ilbiriqsiyo dhan laga bilaabo %d ilaa %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Marna"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d ilbiriqsi ka hor"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d daqiiqo ka hor"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d saacadood ka hor"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d maalmood ka hor"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Muuqaalka Parallel Filesystem ee %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Digniinaha Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Digniino ma jiraan."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Mar Kale Rakib Qaab-dhismeedyada"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Akhriyayaasha"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Fashilmay"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Socodkii Ugu Dambeeyay ee Dhammaystirmay"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Socodsiintii Ugu Dambaysay"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Lama Gaarin"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Akhri"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Weli wax akhriye ah ma shaqayn."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Muddada"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Fashil"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Akhriskii Ugu Dambeeyay"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Guushii Ugu Dambeysay"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Noodh"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Nooca La Soo Sheegay"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Cabbirka Jawaabta"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "la joojiyay"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: noodhku wuxuu ku jawaabay qaab aan lahayn qaab-dhismeedka go'an ee qoraalka akhriska. Waxaa laga yaabaa in furihiisu uusan ku xaddidnayn amar qasab ah oo wada pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: furaha martigeliyaha noodhku kuma jiro faylka martigeliyayaasha la yaqaan, ama wuu isbeddelay. Hubi furaha ka hor intaadan ku darin."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: barta dhamaadku waxay u xallismaa meel ka baxsan shabakadaha loo oggol yahay poller %d, sidaas darteed lama akhriyo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: qoraalka akhrisku wuxuu daabacay %d cabbir oo uusan plugin-ku akhriyin, sidaas darteed ma aha pfs-read.sh-kii la soo diray. Waxaa laga yaabaa in noodhku soo bandhigayo wax ka badan inta uu plugin-ku u baahan yahay."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d magac bartilmaameed oo ku jiray soo-saarka noodhka kuma habboonayn qaabka la filayo ama nidaamka faylalka waana la iska dhaafay."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Akhriyaha ku jira poller %d ma dhammaystirin hal socod %d ilbiriqsi ee ugu dambeeyay. Qiimayaasha ka imaanaya noodhyadiisa waxay noqonayaan kuwo duugoobay."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Rakibidda qaab-dhismeedyada Parallel Filesystem way fashilantay: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Qaab-dhismeedyada Parallel Filesystem lama rakibin, sidaas darteed wax qalab ah laguma dari karo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Faylka weydiinta xogta resource/script_server/%s waa ka maqan yahay Cacti ama wuu ka duwan yahay kan uu plugin-kan soo diro, sidaas darteed weydimaha xogtu ma tixi karaan bartilmaameedyada."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Nidaamka faylalka %s wuxuu ku xidhan yahay qalabka %d, kaas oo aan hadda jirin."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Qalabka nidaamka faylalka %s waxaa soo ururiya poller %d, laakiin noodhyadiisa waxaa akhriya poller %d, kaas oo ilaha xogta qalabku u baahan yihiin kaydkiisa."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Faylka furaha SSH %s kama jiro server-kan."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Faylka furaha SSH %s waxaa akhrin kara ama qori kara isticmaalayaal aan ahayn milkiilihiisa (habka %s). Ku xaddid isticmaalaha poller-ka."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Faylka martigeliyayaasha la yaqaan %s kama jiro server-kan, sidaas darteed wax noodh ah lagama akhrin karo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Macmiilka SSH %s kama jiro server-kan."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Nidaamka Faylalka: dooro mid ka mid ah nidaamyada faylalka ee diiwaangashan."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Magaca: isticmaal 1 ilaa 64 xaraf, lambar, dhibic, jiitin, ama xariiq hoose, adigoo ku bilaabaya xaraf ama lambar."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Doorka: dooro mid ka mid ah doorarka ku qoran."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Dekedda: geli deked u dhaxaysa 1 ilaa 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Magaca Gelitaanka: isticmaal magac koonto oo xarfo yaryar ah oo ka kooban ugu badnaan 32 xaraf, kuna bilaabma xaraf ama hoos-xariiq."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Barta Dhamaadka: geli magaca martigeliyaha ama ciwaanka IP oo keliya, iyada oo aan lahayn isticmaale, deked, ama waddo."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Barta Dhamaadka: magacu kuma xallismo server-kan."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Barta Dhamaadka: wuxuu u xallismaa %s, kaas oo aan ku jirin shabakadaha loo oggol yahay poller-kan. Marka hore ku dar shabakadda."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Server-ka maamulka (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Server-ka xogta sare (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Server-ka kaydinta walxaha (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Macmiil"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Dib u eeg kormeerada hoos ku diiwaangashan. Aqoonsiyadu waxay u gaar yihiin fadhigan, waxay dhacaan marka kormeeradu isbeddelaan, marna ma joojiyaan digniinaha mana beddelaan caafimaadka."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Hawlgallada Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Baaritaan"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Shay"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "La Kormeeray (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Aan la garanayn ama duugoobay"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "La qiray; caafimaadku isma beddelin."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Qir"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Ma jiraan kormeero loo heli karo qalabka aad geli karto."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Hawl-wadeenka Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Muuqaalka Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Maamulka Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Nidaamyada Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Diiwaanka Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Caafimaadka Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Dejinta plugin-ka ee gelitaanka noodhka ma dhammaystirna ama lama isticmaali karo"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Barta dhamaadku waxay u xallismaa meel ka baxsan shabakadaha loo oggol yahay poller-keeda"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Magaca barta dhamaadka ma xallismo"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Noodhka lama gaari karin"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Furaha martigeliyaha noodhka lama yaqaan ama wuu isbeddelay"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Noodhku wuu diiday furaha"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Akhrisku wuxuu dhaafay xadka waqtigiisa"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Jawaabtu waxay dhaaftay xadka cabbirka"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Amarkii akhrisku wuu fashilmay"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Noodhku kuma jawaabin qoraalka akhriska ee go'an"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Jawaabtu waxay dhammaatay ka hor inta uusan qoraalka akhrisku dhammaan"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Gelitaanka Noodhka"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Waddada buuxda ee macmiilka ssh ee ku jira poller kasta oo akhriya noodhyada."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Macmiilka SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Waddada buuxda, ee poller kasta oo akhriya noodhyada, ee tagta furaha gaarka ah kaas oo qaybtiisa guud noodh kastaa ku qoro authorized_keys iyadoo leh amar qasab ah oo wada pfs-read.sh. Waxaa akhrin kara oo keliya isticmaalaha poller-ka. Plugin-ku waligiis ma abuuro, ma koobiyeeyo, mana daabaco."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Faylka Furaha SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Waddada buuxda ee tagta faylka known_hosts ee haya furaha martigeliyaha noodh kasta oo hoos yimaada magaca barta dhamaadka noodhka. Noodhka furihiisu maqan yahay ama isbeddelay lama akhriyo."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Faylka Known Hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Waqtiga Dhammaadka Xiriirka"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Ilbiriqsiyada la sugayo inta noodhku aqbalayo xiriirka."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Waqtiga Dhammaadka Akhriska"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Ilbiriqsiyada uu hal akhris noodh qaadan karo guud ahaan ka hor inta aan la joojin oo aan loo diiwaangelin inuu fashilmay."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB ee hal noodh soo celin karo. Jawaab ka weyn waa la tuuraa waxaana loo diiwaangeliyaa inay fashilantay."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Jawaabta Ugu Badan"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Akhriye"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Miisaaniyadda Waqtiga Akhriyaha"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Ilbiriqsiyada uu hal socod oo akhriye ah qaadan karo ka hor inta uusan joojin bilaabista akhriska noodhyada. Ka dhig mid ka hooseeya muddada poller-ka; noodhyada aan la akhrin waxaa la akhriyaa socodka xiga."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Akhrisyada Isbarbar-socda"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Akhrisyada noodhka ee hal akhriye wada wado isku mar."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Ka saar"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Ilaali Jadwalka Plugin-ka Marka La Saarayo"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Marka la calaamadiyo, ka-saarista plugin-ka waxay haynaysaa nidaamyadiisa faylalka, noodhyada, diiwaanka hantida, iyo kaydka. Ka saar calaamadda si ka-saaristu u tirtirto; marka hore ka dhoofi diiwaanka bogga Maamulka Parallel Filesystem. Noodhyada kaydinta waligood lala ma xiriiro si kastaba ha ahaatee."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Tirtir Qalabyada Plugin-kan Abuuray Marka La Saaro"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Marka la calaamadiyo, ka-saarista plugin-ku waxay tirtiraysaa qalabyada uu u abuuray nidaamyada faylalka, iyada oo ay la socdaan garaafyadiisa iyo ilaha xogta, sida ka-tirtiridda Cacti oo kale. Qalabyada jira ee lagu xidhay nidaam faylal waligood lama tirtiro. Faylasha RRD waxaa la saaraa oo keliya haddii dejinta nadiifinta RRD ee Cacti ay saarto. Haddii calaamadda laga saaro, qalabyadu way sii joogayaan."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Ma jiro wax nidaam faylal ah oo kuu muuqda."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Nidaamka Faylalka %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Garaafyada nidaamkan faylalka"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Xaaladda"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Cusboonaanta"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Qiimayaasha La Yaqaan"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Markii Ugu Dambaysay ee La Arkay"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Soo Kabashada"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Dib-u-eegis"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Noodhka Isha"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Weli lama helin wax bartilmaameedyo ah."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Diiwaankaas wuxuu leeyahay qalab Cacti ah oo aadan u lahayn ogolaansho. Waxba lama beddelin."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Magaca: nidaam faylal kale oo ka tirsan backend-kan ayaa horay u isticmaalay magacan."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Nidaamka faylalka lama kaydin karin."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Nidaamka faylalka waa la kaydiyay."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Nidaamka faylalka, noodhyadiisa, iyo diiwaankiisa hantida waa la tirtiray. Qalabkiisa Cacti, ilaha xogta, iyo garaafyada waa la hayay. Wax noodh ah lala ma xiriirin."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Magaca: noodh kale ayaa horay u isticmaalay magacan."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Noodhka lama kaydin karin."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Noodhka waa la kaydiyay."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Noodhka waa la tirtiray. Bartilmaameedyadii uu soo sheegay waxay haystaan taariikhdooda."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Geli shabakad sida ciwaan iyo dhererka horgalaha, sida 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Wax qalab ah laguma darin: nidaamka faylalku horay ayuu mid u lahaa, ama qaab-dhismeedyada lama rakibin."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Qalabka lama xidhi karin. Waxaa laga yaabaa inuu ku xidhan yahay nidaam faylal kale."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Qalabka waa la xidhay waxaana lagu daray weydimaha xogta iyo garaafyada guud."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti ma abuurin qalabka. Eeg diiwaanka Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Qalabka, weydimaha xogtiisa, iyo garaafyadiisa guud waa la abuuray."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Qalabku hadda ma xidhna. Isaga iyo garaafyadiisa waa la hayay; weydimaha xogtiisu ma taxaan wax bartilmaameedyo ah ilaa mar kale la xidho."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Qaab-dhismeedyada iyo faylasha weydiinta xogta waa la rakibay."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Qaab-dhismeedyada lama rakibi karin: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Muuqaalka kormeerka"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Kormeerada lama akhrin karin. Weydiiso maamulaha inuu hubiyo diiwaanka plugin-ka."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Plugin-ka Parallel Filesystem wuxuu u baahan yahay PHP %s ama ka dambeeya. Server-kan wuxuu wadaa PHP %s, sidaas darteed plugin-ka lama rakibin ama lama hawlgelin."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Plugin-ka Parallel Filesystem lama hawlgelin."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Plugin-ka Parallel Filesystem wuxuu u baahan yahay PHP %s ama ka dambeeya."
+
+#: setup.php
+msgid "Management"
+msgstr "Maamulka"

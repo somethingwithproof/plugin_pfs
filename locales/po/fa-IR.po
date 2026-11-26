@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: fa-IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "ظرفیت هدف، عدم تعادل و تازگی را در سیستم‌های فایل موازی بررسی کنید. دسترسی گره، پذیرش هدف و نگاشت دستگاه را به یک مدیر ارجاع دهید."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "دستور اجباری SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "سیستم‌های فایل"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "عملیات"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "بک‌اند"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "دستگاه Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "بازه مورد انتظار"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "نام"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "گره‌ها"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "گردآورنده"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "وضعیت"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "هنوز هیچ سیستم فایلی ثبت نشده است."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d ثانیه"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "حذف"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "دسترسی"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "نقطه پایانی"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "سیستم فایل"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "نام ورود"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "نقش"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "هنوز هیچ گره‌ای ثبت نشده است."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "ابتدا یک فایل‌سیستم ثبت کنید."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "خروجی گرفتن"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "پیش از حذف نصبی که جدول‌های افزونه را پاک می‌کند، دفتر ثبت (فایل‌سیستم‌ها، گره‌ها، شبکه‌ها و بررسی هدف‌ها) را به صورت JSON بارگیری کنید. این فایل هیچ کلید یا اطلاعات احراز هویتی ندارد."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "فایل‌سیستم: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "فایل‌سیستم جدید"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "بازه مورد انتظار (ثانیه)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "فعال"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "گره جدید"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "گره: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "نقطه پایانی (نام میزبان یا نشانی)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "درگاه SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "گره باید کلید خواننده را در فایل authorized_keys برای این نام ورود با یک دستور اجباری برای اجرای pfs-read.sh فهرست کند؛ برای نمونه: restrict,command=\"/usr/local/libexec/pfs-read.sh\" و پس از آن کلید عمومی. کلید میزبان باید در فایل میزبان‌های شناخته‌شده زیر نام نقطه پایانی دقیقا همان‌طور که اینجا نوشته شده قرار داشته باشد."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "دستگاه Cacti برای فایل‌سیستم %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "ایجاد یک دستگاه جدید"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "دستگاه"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "نمایش مواردی که افزوده می‌شوند"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "اشیای مورد نظر برای افزودن"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "دستگاه تنظیمات خود، از جمله گردآورنده را حفظ می‌کند. هیچ چیز روی آن تغییر نمی‌کند یا حذف نمی‌شود."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "نمودارهای مربوط به هر هدف بنا به درخواست از صفحه نمودارهای جدید دستگاه ایجاد می‌شوند."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "ایجاد دستگاه"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "نگاشت این دستگاه"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "شبکه‌های مجاز"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "شبکه"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "هنوز هیچ شبکه‌ای مجاز نشده است. تا زمانی که شبکه‌های یک گردآورنده در اینجا فهرست نشوند، به هیچ گره‌ای دسترسی نخواهد داشت."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "مجاز کردن"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "هدف‌های در انتظار بررسی"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "حضور"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "هدف"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "مقادیری که می‌افزاید"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "پذیرفتن"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "نادیده گرفتن"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "هیچ هدفی در انتظار بررسی نیست."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "افزودن دستگاه"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(جمع‌آوری‌شده توسط گردآورنده %d، نه %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "لغو نگاشت"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "ذخیره"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "قالب‌های فایل‌سیستم موازی نصب نشده‌اند. آن‌ها را از صفحه سلامت دوباره نصب کنید."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "دستگاه «%s» از قالب دستگاه %s، گردآوری‌شده توسط گردآورنده %d، با بررسی‌های دسترس‌پذیری خاموش."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "پرس‌وجوی داده «%s» که %d هدف شناخته‌شده کنونی را فهرست می‌کند. این مورد به‌تنهایی نموداری ایجاد نمی‌کند."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "نمودار «%s»."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "یک منبع داده «%s» برای هر یک از آن نمودارها؛ هر کدام یک فراخوانی سرور اسکریپت در هر چرخه گردآوری، صرف‌نظر از تعداد هدف‌ها."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "ایجادشده توسط افزونه فایل‌سیستم موازی برای فایل‌سیستم %s. مقادیر آن از حافظه نهان افزونه می‌آیند؛ نام میزبان یک نام رزروشده است که هرگز با آن ارتباط برقرار نمی‌شود."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "بک‌اند: یکی از بک‌اندهای فهرست‌شده را انتخاب کنید."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "نام: از نام فایل‌سیستمی که گره‌ها چاپ می‌کنند استفاده کنید، مانند fsname در Lustre با حداکثر ۸ حرف، رقم، خط تیره یا زیرخط."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "جمع‌آوری‌کننده: یکی از جمع‌آوری‌کننده‌های فهرست‌شده را انتخاب کنید."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "بازه مورد انتظار: مقدار را به صورت ثانیه کامل از %d تا %d وارد کنید."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "هرگز"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d ثانیه پیش"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d دقیقه پیش"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d ساعت پیش"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d روز پیش"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "نمای فایل‌سیستم موازی %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "هشدارهای فایل‌سیستم موازی"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "هشداری وجود ندارد."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "نصب دوباره قالب‌ها"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "خواننده‌ها"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "ناموفق"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "آخرین اجرای کامل‌شده"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "آخرین اجرا"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "دسترسی برقرار نشد"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "خواندن"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "هنوز هیچ خواننده‌ای اجرا نشده است."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "مدت زمان"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "خطا"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "آخرین خواندن"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "آخرین موفقیت"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "گره"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "نسخه گزارش‌شده"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "اندازه پاسخ"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "غیرفعال"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s ثانیه"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: گره بدون قالب‌بندی ثابت اسکریپت خواندن پاسخ داد. ممکن است کلید آن به یک دستور اجباری برای اجرای pfs-read.sh محدود نشده باشد."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: کلید میزبان گره در فایل میزبان‌های شناخته‌شده نیست یا تغییر کرده است. پیش از افزودن آن، کلید را بررسی کنید."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: نقطه پایانی به خارج از شبکه‌های مجاز برای گردآورنده %d تفکیک می‌شود، بنابراین خوانده نمی‌شود."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: اسکریپت خواندن %d پارامتر چاپ کرد که افزونه آن‌ها را نمی‌خواند، بنابراین همان pfs-read.sh ارائه‌شده نیست. ممکن است گره اطلاعاتی بیش از نیاز افزونه افشا کند."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d نام هدف در خروجی گره با الگوی مورد انتظار یا فایل‌سیستم مطابقت نداشتند و نادیده گرفته شدند."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "خواننده روی گردآورنده %d در %d ثانیه گذشته هیچ اجرایی را کامل نکرده است. مقادیر گره‌های آن در حال کهنه شدن هستند."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "نصب قالب‌های فایل‌سیستم موازی ناموفق بود: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "قالب‌های فایل‌سیستم موازی نصب نشده‌اند، بنابراین هیچ دستگاهی را نمی‌توان افزود."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "فایل پرس‌وجوی داده resource/script_server/%s در Cacti وجود ندارد یا با فایل ارائه‌شده توسط این افزونه متفاوت است، بنابراین پرس‌وجوهای داده نمی‌توانند هدف‌ها را فهرست کنند."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "فایل‌سیستم %s به دستگاه %d نگاشت شده است که دیگر وجود ندارد."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "دستگاه فایل‌سیستم %s توسط گردآورنده %d گردآوری می‌شود، اما گره‌های آن توسط گردآورنده %d خوانده می‌شوند که منابع داده دستگاه به حافظه نهان آن نیاز دارند."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "فایل کلید SSH به نشانی %s روی این سرور وجود ندارد."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "فایل کلید SSH به نشانی %s توسط کاربرانی غیر از مالک آن قابل خواندن یا نوشتن است (حالت %s). دسترسی آن را به کاربر گردآورنده محدود کنید."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "فایل میزبان‌های شناخته‌شده %s روی این سرور وجود ندارد، بنابراین هیچ گره‌ای از آن قابل خواندن نیست."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "کلاینت SSH به نشانی %s روی این سرور وجود ندارد."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "فایل‌سیستم: یکی از فایل‌سیستم‌های ثبت‌شده را انتخاب کنید."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "نام: از 1 تا 64 حرف، رقم، نقطه، خط تیره یا زیرخط استفاده کنید که با یک حرف یا رقم شروع شود."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "نقش: یکی از نقش‌های فهرست‌شده را انتخاب کنید."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "درگاه: یک درگاه از ۱ تا ۶۵۵۳۵ وارد کنید."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "نام ورود: از یک نام حساب کاربری با حروف کوچک و حداکثر ۳۲ نویسه که با یک حرف یا زیرخط شروع می‌شود استفاده کنید."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "نقطه پایانی: تنها یک نام میزبان یا یک نشانی IP بدون نام کاربر، درگاه یا مسیر وارد کنید."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "نقطه پایانی: نام روی این سرور تفکیک نمی‌شود."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "نقطه پایانی: به %s تفکیک می‌شود که در شبکه‌های مجاز برای این گردآورنده نیست. ابتدا شبکه را بیفزایید."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "سرور مدیریت (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "سرور فراداده (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "سرور ذخیره‌سازی شیء (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "کلاینت"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "مشاهدات ثبت‌شده زیر را بررسی کنید. تاییدیه‌ها مختص این نشست هستند، با تغییر مشاهدات منقضی می‌شوند و هرگز هشدارها را متوقف نمی‌کنند یا وضعیت سلامت را تغییر نمی‌دهند."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "عملیات فایل‌سیستم موازی"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "بررسی"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "شیء"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "زمان مشاهده (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "نامشخص یا قدیمی"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "تایید شد؛ وضعیت سلامت بدون تغییر است."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "تایید"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "هیچ مشاهده‌ای برای دستگاه‌هایی که به آن‌ها دسترسی دارید موجود نیست."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "اپراتور فایل‌سیستم موازی"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "نمای فایل‌سیستم موازی"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "مدیریت فایل‌سیستم موازی"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "فایل‌سیستم‌های موازی"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "دفتر ثبت فایل‌سیستم موازی"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "سلامت فایل‌سیستم موازی"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "تنظیمات افزونه برای دسترسی به گره ناقص یا غیرقابل استفاده است"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "نقطه پایانی به خارج از شبکه‌های مجاز برای گردآورنده آن تفکیک می‌شود"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "نام نقطه پایانی تفکیک نمی‌شود"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "دسترسی به گره برقرار نشد"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "کلید میزبان گره ناشناخته است یا تغییر کرده است"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "گره کلید را رد کرد"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "عملیات خواندن از محدودیت زمانی خود فراتر رفت"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "پاسخ از محدودیت اندازه فراتر رفت"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "دستور خواندن با خطا مواجه شد"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "گره با اسکریپت خواندن ثابت پاسخ نداد"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "پاسخ پیش از پایان اسکریپت خواندن متوقف شد"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "دسترسی به گره"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "مسیر مطلق کلاینت ssh روی هر گردآورنده‌ای که گره‌ها را می‌خواند."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "کلاینت SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "مسیر مطلق، روی هر گردآورنده‌ای که گره‌ها را می‌خواند، به کلید خصوصی که بخش عمومی آن در authorized_keys هر گره با یک دستور اجباری برای اجرای pfs-read.sh فهرست شده است. تنها توسط کاربر گردآورنده قابل خواندن باشد. افزونه هرگز آن را ایجاد، رونوشت یا چاپ نمی‌کند."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "فایل کلید SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "مسیر مطلق فایل known_hosts که کلید میزبان هر گره را زیر نام نقطه پایانی گره نگه می‌دارد. گره‌ای که کلید آن موجود نباشد یا تغییر کرده باشد خوانده نمی‌شود."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "فایل میزبان‌های شناخته‌شده"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "مهلت زمانی اتصال"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "مدت زمان انتظار بر حسب ثانیه برای پذیرش اتصال توسط یک گره."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "مهلت زمانی خواندن"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "مجموع زمان بر حسب ثانیه که خواندن یک گره می‌تواند طول بکشد پیش از آنکه متوقف و به عنوان ناموفق ثبت شود."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "مقدار KiB که یک گره می‌تواند برگرداند. پاسخ بزرگ‌تر دور ریخته شده و به عنوان ناموفق ثبت می‌شود."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "حداکثر اندازه پاسخ"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "خواننده"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "بودجه زمانی خواننده"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "زمان بر حسب ثانیه که یک اجرای خواننده می‌تواند صرف کند پیش از آنکه آغاز خواندن گره‌های جدید را متوقف کند. آن را کمتر از بازه گردآورنده نگه دارید؛ گره‌های خوانده‌نشده در اجرای بعدی خوانده می‌شوند."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "خواندن‌های هم‌زمان"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "تعداد خواندن‌های گره‌ای که یک خواننده به‌طور هم‌زمان اجرا می‌کند."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "حذف نصب"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "نگهداری جدول‌های افزونه هنگام حذف نصب"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "در صورت انتخاب، حذف نصب افزونه فایل‌سیستم‌ها، گره‌ها، فهرست دارایی و حافظه نهان آن را نگه می‌دارد. برای پاک شدن آن‌ها هنگام حذف نصب، این گزینه را بردارید؛ ابتدا دفتر ثبت را از صفحه مدیریت فایل‌سیستم موازی برون‌بری کنید. در هر دو حالت هرگز با گره‌های ذخیره‌سازی ارتباط برقرار نمی‌شود."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "حذف دستگاه‌های ایجادشده توسط این افزونه هنگام حذف نصب"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "در صورت انتخاب، حذف نصب افزونه دستگاه‌هایی را که برای فایل‌سیستم‌ها ایجاد کرده است به همراه نمودارها و منابع داده آن‌ها حذف می‌کند، همان‌طور که حذف آن‌ها در Cacti عمل می‌کند. دستگاه‌های موجودی که به یک فایل‌سیستم نگاشت شده‌اند هرگز حذف نمی‌شوند. فایل‌های RRD تنها در صورتی پاک می‌شوند که تنظیم پاک‌سازی RRD خود Cacti آن‌ها را پاک کند. در صورت برداشتن تیک، دستگاه‌ها باقی می‌مانند."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "هیچ فایل‌سیستمی برای شما قابل مشاهده نیست."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "فایل‌سیستم %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "نمودارهای این فایل‌سیستم"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "وضعیت"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "تازگی"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "مقادیر شناخته‌شده"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "آخرین مشاهده"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "بازیابی"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "بررسی"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "گره مبدأ"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "هنوز هیچ هدفی یافت نشده است."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "این رکورد متعلق به یک دستگاه Cacti است که شما مجوز دسترسی به آن را ندارید. هیچ تغییری انجام نشد."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "نام: یک فایل‌سیستم دیگر از این پس‌زمینه از قبل از این نام استفاده می‌کند."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "ذخیره فایل‌سیستم انجام نشد."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "فایل‌سیستم ذخیره شد."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "فایل‌سیستم، گره‌ها و فهرست دارایی آن حذف شدند. دستگاه Cacti، منابع داده و نمودارهای آن حفظ شدند. با هیچ گره‌ای ارتباط برقرار نشد."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "نام: گره دیگری از قبل از این نام استفاده می‌کند."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "ذخیره گره انجام نشد."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "گره ذخیره شد."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "گره حذف شد. هدف‌هایی که گزارش کرده بود تاریخچه خود را حفظ می‌کنند."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "یک شبکه را به صورت نشانی و طول پیشوند، مانند 10.20.0.0/16 وارد کنید."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "هیچ دستگاهی افزوده نشد: فایل‌سیستم از قبل یک دستگاه دارد، یا قالب‌ها نصب نشده‌اند."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "نگاشت دستگاه انجام نشد. ممکن است به فایل‌سیستم دیگری نگاشت شده باشد."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "دستگاه نگاشت شد و پرس‌وجوهای داده و نمودارهای نمای کلی افزوده شدند."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti دستگاه را ایجاد نکرد. گزارش Cacti را ببینید."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "دستگاه، پرس‌وجوهای داده و نمودارهای نمای کلی آن ایجاد شدند."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "این دستگاه دیگر نگاشت نشده است. خود دستگاه و نمودارهایش حفظ شدند؛ پرس‌وجوهای داده آن تا زمانی که دوباره نگاشت شود هیچ هدفی را فهرست نمی‌کنند."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "قالب‌ها و فایل‌های پرس‌وجوی داده نصب شدند."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "نصب قالب‌ها انجام نشد: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "نمای پایش"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "خواندن مشاهدات امکان‌پذیر نبود. از مدیر سیستم بخواهید گزارش افزونه را بررسی کند."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "افزونه فایل‌سیستم موازی به PHP %s یا جدیدتر نیاز دارد. این سرور از PHP %s استفاده می‌کند، بنابراین افزونه نصب یا فعال نشد."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "افزونه فایل‌سیستم موازی فعال نیست."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "افزونه فایل‌سیستم موازی به PHP %s یا جدیدتر نیاز دارد."
+
+#: setup.php
+msgid "Management"
+msgstr "مدیریت"

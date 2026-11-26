@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: sw-KE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Kagua uwezo wa shabaha, ukosefu wa usawa na usasishaji wa hivi karibuni kwenye Mifumo Sambamba ya Faili. Peleka ufikiaji wa nodi, ukubali wa shabaha na uunganishaji wa kifaa kwa msimamizi."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Amri ya lazima ya SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Mifumo ya Faili"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Vitendo"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Mfumo wa nyuma"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Kifaa cha Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Muda Unaotarajiwa"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Jina"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Nodi"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Kikusanyaji"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Hali"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Hakuna mifumo ya faili iliyosajiliwa bado."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "sekunde %d"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Futa"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Ufikiaji"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Kituo cha Mwisho"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Mfumo wa faili"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Jina la Kuingia"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Wajibu"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Hakuna nodi zilizosajiliwa bado."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Sajili mfumo wa faili kwanza."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Hamisha"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Pakua sajili (mifumo ya faili, nodi, mitandao, na ukaguzi wa malengo) kama JSON kabla ya kuondoa programu-jalizi kunakofuta majedwali yake. Haina ufunguo wala kitambulisho chochote."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Mfumo wa Faili: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Mfumo Mpya wa Faili"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Muda Unaotarajiwa (sekunde)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Imewashwa"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Nodi Mpya"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Nodi: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Ncha (jina la seva pangishi au anwani)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Lango la SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Nodi lazima iorodheshe ufunguo wa kisomaji katika authorized_keys kwa jina hili la kuingia na amri ya lazima inayoendesha pfs-read.sh, kwa mfano: restrict,command=\"/usr/local/libexec/pfs-read.sh\" ikifuatiwa na ufunguo wa umma. Ufunguo wa seva pangishi lazima uwe katika faili ya known hosts chini ya ncha kama ilivyoandikwa hapa."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Kifaa cha Cacti kwa Mfumo wa Faili %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Unda kifaa kipya"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Kifaa"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Onyesha Kitakachoongezwa"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Vipengee vya Kuongeza"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Kifaa kinabaki na mipangilio yake yenyewe, ikiwemo poller. Hakuna kinachobadilishwa au kuondolewa juu yake."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Grafu za kila lengo huundwa unapohitaji kutoka ukurasa wa Grafu Mpya wa kifaa."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Unda Kifaa"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Husianisha Kifaa Hiki"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Mitandao Iliyoruhusiwa"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Mtandao"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Hakuna mitandao iliyoruhusiwa bado. Poller haifikii nodi yoyote hadi mitandao yake iorodheshwe hapa."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Ruhusu"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Malengo Yanayosubiri Ukaguzi"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Uwepo"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Lengo"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Thamani Zinazoongezwa"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Kubali"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Puuza"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Hakuna malengo yanayosubiri ukaguzi."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Ongeza kifaa"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(inakusanywa na poller %d, si %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Tenganisha"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Hifadhi"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Violezo vya Parallel Filesystem havijasakinishwa. Visakinishe tena kutoka ukurasa wa afya."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Kifaa \"%s\" kutoka kwa kiolezo cha kifaa cha %s, kikikusanywa na mkusanyaji %d, huku ukaguzi wa upatikanaji ukiwa umezimwa."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Hoja ya data \"%s\", ikiorodhesha malengo %d yanayojulikana sasa. Haiundi grafu yoyote yenyewe."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Grafu \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Chanzo cha data \"%s\" kwa kila moja ya grafu hizo, kila kimoja kikiwa wito mmoja wa seva ya hati kwa kila mzunguko wa ukusanyaji, bila kujali idadi ya malengo."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Imeundwa na programu-jalizi ya Parallel Filesystem kwa mfumo wa faili %s. Thamani zake zinatoka kwenye kache ya programu-jalizi; jina la seva pangishi ni jina lililotengwa ambalo haliwasiliwi kamwe."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Mfumo wa nyuma: chagua mojawapo ya mifumo ya nyuma iliyoorodheshwa."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Jina: tumia jina la mfumo wa faili ambalo nodi huchapisha, kama vile Lustre fsname lenye herufi, tarakimu, vistari, au mistari ya chini isiyozidi 8."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: chagua mojawapo ya poller zilizoorodheshwa."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Muda Unaotarajiwa: ingiza sekunde kamili kuanzia %d hadi %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Kamwe"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "sekunde %d zilizopita"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "dakika %d zilizopita"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "saa %d zilizopita"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "siku %d zilizopita"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Mwonekano wa Parallel Filesystem wa %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Maonyo ya Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Hakuna maonyo."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Sakinisha Violezo Tena"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Visomaji"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Imeshindwa"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Uendeshaji wa Mwisho Uliokamilika"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Uendeshaji wa Mwisho"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Haikufikiwa"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Soma"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Hakuna kisomaji kilichoendeshwa bado."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Muda"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Kushindwa"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Usomaji wa Mwisho"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Mafanikio ya Mwisho"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Nodi"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Toleo Lililoripotiwa"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Ukubwa wa Jibu"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "imezimwa"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: nodi ilijibu bila mpangilio maalumu wa hati ya usomaji. Huenda ufunguo wake haujawekewa kikomo cha amri ya lazima inayoendesha pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: ufunguo wa seva pangishi wa nodi haupo katika faili ya known hosts, au ulibadilika. Kagua ufunguo kabla ya kuuongeza."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: ncha inatafsirika nje ya mitandao iliyoruhusiwa kwa poller %d, kwa hivyo haisomwi."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: hati ya usomaji ilichapisha vigezo %d ambavyo programu-jalizi haisomi, kwa hivyo si pfs-read.sh iliyotolewa. Huenda nodi inafichua zaidi ya kile programu-jalizi inachohitaji."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: majina %d ya malengo katika matokeo ya nodi hayakulingana na mtindo au mfumo wa faili unaotarajiwa na yakapuuzwa."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Kisomaji kwenye poller %d hakijakamilisha uendeshaji katika sekunde %d zilizopita. Thamani kutoka nodi zake zinakuwa za zamani."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Kusakinisha violezo vya Parallel Filesystem kumeshindwa: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Violezo vya Parallel Filesystem havijasakinishwa, kwa hivyo hakuna kifaa kinachoweza kuongezwa."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Faili ya hoja ya data resource/script_server/%s haipo katika Cacti au inatofautiana na ile inayotolewa na programu-jalizi hii, kwa hivyo hoja za data haziwezi kuorodhesha malengo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Mfumo wa faili %s umehusianishwa na kifaa %d, ambacho hakipo tena."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Kifaa cha mfumo wa faili %s kinakusanywa na poller %d, lakini nodi zake zinasomwa na poller %d, ambaye kache yake inahitajika na vyanzo vya data vya kifaa hicho."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Faili ya ufunguo wa SSH %s haipo kwenye seva hii."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Faili ya ufunguo wa SSH %s inaweza kusomwa au kuandikwa na watumiaji wengine mbali na mmiliki wake (hali %s). Iwekee kikomo kwa mtumiaji wa poller pekee."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Faili ya known hosts %s haipo kwenye seva hii, kwa hivyo hakuna nodi inayoweza kusomwa kutoka kwayo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Programu-teja ya SSH %s haipo kwenye seva hii."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Mfumo wa Faili: chagua mojawapo ya mifumo ya faili iliyosajiliwa."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Jina: tumia herufi 1 hadi 64, tarakimu, nukta, mistari ya kuunga, au mistari chini, ukianza na herufi au tarakimu."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Wajibu: chagua mojawapo ya wajibu ulioorodheshwa."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Lango: ingiza lango kuanzia 1 hadi 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Jina la Kuingia: tumia jina la akaunti la herufi ndogo lisilozidi vibambo 32, likianza na herufi au mstari wa chini."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Ncha: ingiza jina la seva pangishi au anwani ya IP pekee, bila mtumiaji, lango, au njia."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Ncha: jina halitafsiriki kwenye seva hii."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Ncha: inatafsirika kuwa %s, ambayo haipo ndani ya mitandao iliyoruhusiwa kwa poller hii. Ongeza mtandao kwanza."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Seva ya usimamizi (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Seva ya metadata (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Seva ya uhifadhi wa vipengee (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Mteja"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Kagua maangalizo yaliyorekodiwa hapa chini. Utambuzi ni wa kipindi hiki cha mtumiaji pekee, huisha wakati maangalizo yanapobadilika, na kamwe hauzuii arifa au kubadilisha afya."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Shughuli za Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Uchunguzi"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Kipengee"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Ilionekana (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Haijulikani au imepitwa na wakati"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Imetambuliwa; afya haijabadilika."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Tambua"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Hakuna maangalizo yanayopatikana kwa vifaa unavyoweza kufikia."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Mwendeshaji wa Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Mwonekano wa Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Msimamizi wa Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Parallel Filesystems"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Sajili ya Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Afya ya Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Mipangilio ya programu-jalizi ya kufikia nodi haijakamilika au haitumiki"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Ncha inatafsirika nje ya mitandao iliyoruhusiwa kwa poller yake"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Jina la ncha halitafsiriki"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Nodi haikuweza kufikiwa"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Ufunguo wa seva pangishi wa nodi haujulikani au ulibadilika"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Nodi ilikataa ufunguo"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Usomaji ulizidi kikomo chake cha muda"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Jibu lilizidi kikomo cha ukubwa"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Amri ya usomaji ilishindwa"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Nodi haikujibu kwa hati maalumu ya usomaji"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Jibu liliisha kabla hati ya usomaji haijakamilika"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Ufikiaji wa Nodi"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Njia kamili ya programu-teja ya ssh kwenye kila poller inayosoma nodi."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Programu-teja ya SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Njia kamili, kwenye kila poller inayosoma nodi, kuelekea ufunguo wa faragha ambao nusu yake ya umma kila nodi huiorodhesha katika authorized_keys na amri ya lazima inayoendesha pfs-read.sh. Unasomeka na mtumiaji wa poller pekee. Programu-jalizi haiuundi, haiunakili, wala kuuchapisha kamwe."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Faili ya Ufunguo wa SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Njia kamili ya faili ya known_hosts inayoshikilia kila ufunguo wa seva pangishi wa nodi chini ya jina la ncha ya nodi. Nodi ambayo ufunguo wake unakosekana au umebadilika haisomwi."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Faili ya Known Hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Muda wa Mwisho wa Kuunganisha"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Sekunde za kusubiri nodi ikubali muunganisho."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Muda wa Mwisho wa Kusoma"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Sekunde ambazo usomaji mmoja wa nodi unaweza kuchukua kwa jumla kabla haujasimamishwa na kurekodiwa kuwa umeshindwa."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB ambazo nodi moja inaweza kurudisha. Jibu kubwa zaidi hutupwa na kurekodiwa kuwa limeshindwa."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Kiwango cha Juu cha Jibu"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Kisomaji"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Bajeti ya Muda wa Kisomaji"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Sekunde ambazo uendeshaji mmoja wa kisomaji unaweza kutumia kabla haujaacha kuanzisha usomaji wa nodi. Iweke chini ya muda wa mzunguko wa poller; nodi ambazo hazijasomwa husomwa katika uendeshaji unaofuata."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Usomaji wa Pamoja"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Usomaji wa nodi ambao kisomaji kimoja huendesha kwa wakati mmoja."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Sakinusha"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Weka Majedwali ya Programu-jalizi Wakati wa Kusakinusha"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Ikichaguliwa, kuondoa programu-jalizi huhifadhi mifumo yake ya faili, nodi, orodha, na kache. Ondoa alama ili uondoaji uyafute; hamisha sajili kwanza kutoka ukurasa wa Msimamizi wa Parallel Filesystem. Nodi za uhifadhi haziwasiliwi kamwe kwa vyovyote vile."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Futa Vifaa Vilivyoundwa na Programu-jalizi Hii Wakati wa Kuondoa"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Ikichaguliwa, kuondoa programu-jalizi hufuta vifaa ilivyounda kwa mifumo ya faili, pamoja na grafu na vyanzo vyake vya data, kama ambavyo kuvifuta katika Cacti kungefanya. Vifaa vilivyokuwepo ambavyo vilihusianishwa na mfumo wa faili havifutwi kamwe. Faili za RRD huondolewa tu ikiwa mpangilio wa usafishaji wa RRD wa Cacti yenyewe unaziondoa. Alama ikiondolewa, vifaa hubaki."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Hakuna mfumo wa faili unaoonekana kwako."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Mfumo wa Faili %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Grafu za mfumo huu wa faili"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Hali"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Upya"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Thamani Zinazojulikana"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Ilipoonekana Mwisho"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Urejesho"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Kagua"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Nodi Chanzo"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Hakuna malengo yaliyopatikana bado."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Rekodi hiyo ni ya kifaa cha Cacti ambacho huna ruhusa nacho. Hakuna kilichobadilishwa."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Jina: mfumo mwingine wa faili wa sehemu hii ya nyuma tayari unatumia jina hili."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Mfumo wa faili haukuweza kuhifadhiwa."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Mfumo wa faili umehifadhiwa."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Mfumo wa faili, nodi zake, na orodha yake zilifutwa. Kifaa chake cha Cacti, vyanzo vya data, na grafu zilihifadhiwa. Hakuna nodi iliyowasiliwa."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Jina: nodi nyingine tayari inatumia jina hili."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Nodi haikuweza kuhifadhiwa."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Nodi imehifadhiwa."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Nodi ilifutwa. Malengo iliyoripoti yanabaki na historia yake."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Ingiza mtandao kama anwani na urefu wa kiambishi awali, kama vile 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Hakuna kifaa kilichoongezwa: mfumo wa faili tayari una kimoja, au violezo havijasakinishwa."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Kifaa hakikuweza kuhusianishwa. Huenda kimehusianishwa na mfumo mwingine wa faili."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Kifaa kilihusianishwa na hoja za data na grafu za muhtasari ziliongezwa."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti haikuunda kifaa. Tazama kumbukumbu ya Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Kifaa, hoja zake za data, na grafu zake za muhtasari viliundwa."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Kifaa hakijahusianishwa tena. Kifaa hicho na grafu zake vilihifadhiwa; hoja zake za data haziorodheshi malengo yoyote hadi kihusianishwe tena."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Violezo na faili za hoja za data zilisakinishwa."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Violezo havikuweza kusakinishwa: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Mwonekano wa ufuatiliaji"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Maangalizo hayakuweza kusomwa. Mwombe msimamizi aangalie kumbukumbu ya programu-jalizi."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Programu-jalizi ya Parallel Filesystem inahitaji PHP %s au toleo jipya zaidi. Seva hii inaendesha PHP %s, kwa hivyo programu-jalizi haikusakinishwa wala kuwezeshwa."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Programu-jalizi ya Parallel Filesystem haijawezeshwa."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Programu-jalizi ya Parallel Filesystem inahitaji PHP %s au toleo jipya zaidi."
+
+#: setup.php
+msgid "Management"
+msgstr "Usimamizi"

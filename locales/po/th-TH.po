@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: th-TH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "ตรวจสอบความจุเป้าหมาย ความไม่สมดุล และความใหม่ของข้อมูลบน Parallel Filesystems ส่งต่อการเข้าถึงโหนด การยอมรับเป้าหมาย และการแมปอุปกรณ์ไปยังผู้ดูแลระบบ"
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "คำสั่งบังคับ SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "ระบบไฟล์"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "การดำเนินการ"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "แบ็กเอนด์"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "อุปกรณ์ Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "ช่วงเวลาที่คาดหวัง"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "ชื่อ"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "โหนด"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "สถานะ"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "ยังไม่มีระบบไฟล์ที่ลงทะเบียนไว้"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d วินาที"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "ลบ"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "การเข้าถึง"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "ปลายทาง"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "ระบบไฟล์"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "ชื่อเข้าสู่ระบบ"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "บทบาท"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "ยังไม่มีโหนดที่ลงทะเบียน"
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "ลงทะเบียนระบบไฟล์ก่อน"
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "ส่งออก"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "ดาวน์โหลดข้อมูลทะเบียน (ระบบไฟล์ โหนด เครือข่าย และการตรวจสอบเป้าหมาย) เป็น JSON ก่อนถอนการติดตั้งที่จะลบตารางของปลั๊กอิน ไฟล์นี้ไม่มีคีย์หรือข้อมูลรับรอง"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "ระบบไฟล์: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "ระบบไฟล์ใหม่"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "ช่วงเวลาที่คาดหวัง (วินาที)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "เปิดใช้งาน"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "โหนดใหม่"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "โหนด: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "ปลายทาง (ชื่อโฮสต์หรือที่อยู่)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "พอร์ต SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "โหนดต้องระบุคีย์ของตัวอ่านไว้ใน authorized_keys สำหรับชื่อเข้าสู่ระบบนี้พร้อมคำสั่งบังคับให้รัน pfs-read.sh เช่น restrict,command=\"/usr/local/libexec/pfs-read.sh\" ตามด้วยคีย์สาธารณะ และคีย์โฮสต์ต้องอยู่ในไฟล์ known hosts ภายใต้ชื่อปลายทางตามที่ระบุไว้ที่นี่"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "อุปกรณ์ Cacti สำหรับระบบไฟล์ %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "สร้างอุปกรณ์ใหม่"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "อุปกรณ์"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "แสดงสิ่งที่จะถูกเพิ่ม"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "อ็อบเจกต์ที่จะเพิ่ม"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "อุปกรณ์จะยังคงการตั้งค่าเดิมของตนเองไว้ รวมถึง poller ด้วย โดยไม่มีการเปลี่ยนแปลงหรือลบสิ่งใดบนอุปกรณ์นั้น"
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "กราฟรายเป้าหมายจะถูกสร้างเมื่อต้องการจากหน้ากราฟใหม่ของอุปกรณ์"
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "สร้างอุปกรณ์"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "จับคู่อุปกรณ์นี้"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "เครือข่ายที่อนุญาต"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "เครือข่าย"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "ยังไม่มีเครือข่ายที่อนุญาต poller จะไม่สามารถเข้าถึงโหนดใดได้จนกว่าจะระบุเครือข่ายไว้ที่นี่"
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "อนุญาต"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "เป้าหมายที่รอการตรวจสอบ"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "สถานะการมีอยู่"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "เป้าหมาย"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "ค่าที่เพิ่มเข้ามา"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "ยอมรับ"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "ละเว้น"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "ไม่มีเป้าหมายที่รอการตรวจสอบ"
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "เพิ่มอุปกรณ์"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(ดึงข้อมูลโดย poller %d ไม่ใช่ %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "ยกเลิกการแมป"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "บันทึก"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "ยังไม่ได้ติดตั้งเทมเพลต Parallel Filesystem โปรดติดตั้งใหม่อีกครั้งจากหน้าสถานะการทำงาน"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "อุปกรณ์ \"%s\" จากเทมเพลตอุปกรณ์ %s ที่โพลล์โดย poller %d โดยปิดการตรวจสอบสถานะความพร้อมใช้งานไว้"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "data query \"%s\" ซึ่งแสดงรายการเป้าหมายที่ทราบในขณะนี้ %d รายการ โดยตัวมันเองไม่ได้สร้างกราฟ"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "กราฟ \"%s\""
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "แหล่งข้อมูล \"%s\" สำหรับกราฟแต่ละรายการเหล่านั้น โดยเรียก script server หนึ่งครั้งต่อรอบการดึงข้อมูลไม่ว่าจะมีเป้าหมายกี่รายการก็ตาม"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "สร้างโดยปลั๊กอิน Parallel Filesystem สำหรับระบบไฟล์ %s ค่าของระบบไฟล์มาจากแคชของปลั๊กอิน ชื่อโฮสต์เป็นชื่อสงวนที่ไม่เคยถูกติดต่อไปยังเครือข่าย"
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "แบ็กเอนด์: เลือกหนึ่งในแบ็กเอนด์ที่แสดงอยู่"
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "ชื่อ: ใช้ชื่อระบบไฟล์ที่โหนดแสดงออกมา เช่น Lustre fsname ที่ประกอบด้วยตัวอักษร ตัวเลข เครื่องหมายขีดกลาง หรือขีดล่างไม่เกิน 8 ตัวอักษร"
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: เลือกหนึ่งใน poller ที่แสดงอยู่"
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "ช่วงเวลาที่คาดหวัง: ป้อนจำนวนเต็มเป็นวินาทีตั้งแต่ %d ถึง %d"
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "ไม่เคย"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d วินาทีที่แล้ว"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d นาทีที่แล้ว"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d ชั่วโมงที่แล้ว"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d วันที่แล้ว"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "มุมมอง Parallel Filesystem ของ %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "คำเตือนของ Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "ไม่มีคำเตือน"
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "ติดตั้งเทมเพลตอีกครั้ง"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "ตัวอ่าน"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "ล้มเหลว"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "การทำงานที่เสร็จสมบูรณ์ล่าสุด"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "การทำงานล่าสุด"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "ไม่สามารถเข้าถึงได้"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "อ่าน"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "ยังไม่มีตัวอ่านทำงาน"
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "ระยะเวลา"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "ความล้มเหลว"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "การอ่านล่าสุด"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "ความสำเร็จล่าสุด"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "โหนด"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "เวอร์ชันที่รายงาน"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "ขนาดการตอบกลับ"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "ปิดใช้งาน"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s วินาที"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: โหนดตอบกลับโดยไม่มีกรอบข้อมูลของสคริปต์อ่านแบบตายตัว คีย์ของโหนดอาจไม่ได้ถูกจำกัดให้ใช้คำสั่งบังคับเพื่อรัน pfs-read.sh"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: คีย์โฮสต์ของโหนดไม่ได้อยู่ในไฟล์ known hosts หรือมีการเปลี่ยนแปลง โปรดตรวจสอบคีย์ก่อนเพิ่ม"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: ปลายทางแปลงชื่อเป็นที่อยู่นอกเครือข่ายที่อนุญาตสำหรับ poller %d จึงไม่มีการอ่านข้อมูล"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: สคริปต์อ่านได้แสดงพารามิเตอร์ %d รายการที่ปลั๊กอินไม่ได้อ่าน จึงไม่ใช่ไฟล์ pfs-read.sh ที่มาพร้อมปลั๊กอิน โหนดอาจกำลังเปิดเผยข้อมูลเกินกว่าที่ปลั๊กอินต้องการ"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: ชื่อเป้าหมาย %d รายการในผลลัพธ์ของโหนดไม่ตรงกับรูปแบบหรือระบบไฟล์ที่คาดหวัง จึงถูกละเว้น"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "ตัวอ่านบน poller %d ยังไม่ทำงานเสร็จสมบูรณ์ในช่วง %d วินาทีที่ผ่านมา ค่าจากโหนดของตัวอ่านกำลังเริ่มล้าสมัย"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "การติดตั้งเทมเพลต Parallel Filesystem ล้มเหลว: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "ยังไม่ได้ติดตั้งเทมเพลต Parallel Filesystem จึงไม่สามารถเพิ่มอุปกรณ์ได้"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "ไฟล์ data query resource/script_server/%s หายไปจาก Cacti หรือแตกต่างจากไฟล์ที่มาพร้อมปลั๊กอินนี้ ดังนั้น data query จึงไม่สามารถแสดงรายการเป้าหมายได้"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "ระบบไฟล์ %s ถูกจับคู่กับอุปกรณ์ %d ซึ่งไม่มีอยู่อีกต่อไปแล้ว"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "อุปกรณ์ของระบบไฟล์ %s ถูกดึงข้อมูลโดย poller %d แต่โหนดของระบบไฟล์ถูกอ่านโดย poller %d ซึ่งแหล่งข้อมูลของอุปกรณ์จำเป็นต้องใช้แคชจากโหนดนั้น"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "ไม่มีไฟล์คีย์ SSH %s อยู่บนเซิร์ฟเวอร์นี้"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "ไฟล์คีย์ SSH %s สามารถถูกอ่านหรือเขียนโดยผู้ใช้อื่นที่ไม่ใช่เจ้าของได้ (โหมด %s) โปรดจำกัดสิทธิ์ไว้เฉพาะผู้ใช้ poller เท่านั้น"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "ไม่มีไฟล์ known hosts %s อยู่บนเซิร์ฟเวอร์นี้ จึงไม่สามารถอ่านข้อมูลโหนดใดจากไฟล์ดังกล่าวได้"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "ไม่มีไคลเอนต์ SSH %s อยู่บนเซิร์ฟเวอร์นี้"
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "ระบบไฟล์: เลือกระบบไฟล์ที่ลงทะเบียนไว้หนึ่งรายการ"
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "ชื่อ: ใช้ตัวอักษร ตัวเลข จุด เครื่องหมายขีดกลาง หรือขีดล่าง 1 ถึง 64 ตัว โดยขึ้นต้นด้วยตัวอักษรหรือตัวเลข"
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "บทบาท: เลือกบทบาทที่ระบุไว้หนึ่งรายการ"
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "พอร์ต: ป้อนหมายเลขพอร์ตตั้งแต่ 1 ถึง 65535"
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "ชื่อเข้าสู่ระบบ: ใช้ชื่อบัญชีเป็นตัวพิมพ์เล็กความยาวไม่เกิน 32 ตัวอักษร โดยขึ้นต้นด้วยตัวอักษรหรือเครื่องหมายขีดล่าง"
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "ปลายทาง: ป้อนเฉพาะชื่อโฮสต์หรือที่อยู่ IP เท่านั้น โดยไม่ต้องระบุผู้ใช้ พอร์ต หรือเส้นทาง"
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "ปลายทาง: ไม่สามารถแปลงชื่อนี้บนเซิร์ฟเวอร์นี้ได้"
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "ปลายทาง: แปลงชื่อได้เป็นที่อยู่ %s ซึ่งไม่อยู่ในเครือข่ายที่อนุญาตสำหรับ poller นี้ โปรดเพิ่มเครือข่ายก่อน"
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "เซิร์ฟเวอร์จัดการ (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "เซิร์ฟเวอร์เมตาดาตา (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "เซิร์ฟเวอร์จัดเก็บอ็อบเจกต์ (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "ไคลเอนต์"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "ตรวจสอบผลการสังเกตการณ์ที่บันทึกไว้ด้านล่าง การรับทราบมีผลเฉพาะในเซสชันนี้ จะหมดอายุเมื่อผลการสังเกตการณ์เปลี่ยนแปลง และจะไม่ระงับการแจ้งเตือนหรือเปลี่ยนสถานะสุขภาพ"
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "การดำเนินการ Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "การตรวจสอบเชิงลึก"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "ออบเจ็กต์"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "เวลาที่สังเกตการณ์ (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "ไม่ทราบค่าหรือข้อมูลเก่า"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "รับทราบแล้ว สถานะสุขภาพยังคงเดิม"
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "รับทราบ"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "ไม่มีผลการสังเกตการณ์สำหรับอุปกรณ์ที่คุณมีสิทธิ์เข้าถึง"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "ผู้ปฏิบัติงาน Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "มุมมอง Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "ผู้ดูแลระบบ Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "ระบบไฟล์ Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "ทะเบียน Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "สถานะการทำงาน Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "การตั้งค่าปลั๊กอินสำหรับการเข้าถึงโหนดไม่สมบูรณ์หรือไม่สามารถใช้งานได้"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "ปลายทางแปลงชื่อเป็นที่อยู่นอกเครือข่ายที่อนุญาตสำหรับ poller ของตน"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "ไม่สามารถแปลงชื่อปลายทางได้"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "ไม่สามารถเข้าถึงโหนดได้"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "ไม่รู้จักคีย์โฮสต์ของโหนดหรือคีย์มีการเปลี่ยนแปลง"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "โหนดปฏิเสธคีย์"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "การอ่านเกินขีดจำกัดเวลา"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "การตอบกลับเกินขีดจำกัดขนาด"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "คำสั่งอ่านล้มเหลว"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "โหนดไม่ได้ตอบกลับด้วยสคริปต์อ่านแบบตายตัว"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "การตอบกลับสิ้นสุดก่อนที่สคริปต์อ่านจะทำงานเสร็จ"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "การเข้าถึงโหนด"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "เส้นทางแบบเต็มไปยังไคลเอนต์ ssh บนแต่ละ poller ที่ใช้อ่านโหนด"
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "ไคลเอนต์ SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "เส้นทางแบบเต็มบนแต่ละ poller ที่ใช้อ่านโหนด ไปยังคีย์ส่วนตัวซึ่งคีย์สาธารณะคู่กันถูกระบุไว้ใน authorized_keys ของแต่ละโหนดพร้อมคำสั่งบังคับให้รัน pfs-read.sh ต้องอ่านได้เฉพาะผู้ใช้ poller เท่านั้น ปลั๊กอินจะไม่สร้าง คัดลอก หรือแสดงคีย์นี้"
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "ไฟล์คีย์ SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "เส้นทางแบบเต็มไปยังไฟล์ known_hosts ที่เก็บคีย์โฮสต์ของแต่ละโหนดไว้ภายใต้ชื่อปลายทางของโหนด โหนดที่ไม่มีคีย์หรือคีย์เปลี่ยนแปลงจะไม่ถูกอ่าน"
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "ไฟล์ Known Hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "หมดเวลาการเชื่อมต่อ"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "จำนวนวินาทีที่รอให้โหนดตอบรับการเชื่อมต่อ"
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "หมดเวลาการอ่าน"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "จำนวนวินาทีทั้งหมดที่การอ่านโหนดหนึ่งครั้งใช้ได้ ก่อนที่จะถูกหยุดและบันทึกว่าล้มเหลว"
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "จำนวน KiB ที่โหนดหนึ่งสามารถส่งคืนได้ การตอบกลับที่ใหญ่กว่านี้จะถูกละทิ้งและบันทึกว่าล้มเหลว"
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "ขนาดการตอบกลับสูงสุด"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "ตัวอ่าน"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "งบประมาณเวลาของตัวอ่าน"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "จำนวนวินาทีที่การทำงานของตัวอ่านหนึ่งรอบใช้ได้ก่อนที่จะหยุดเริ่มการอ่านโหนดใหม่ ควรตั้งค่าน้อยกว่าช่วงเวลาของ poller โหนดที่ยังไม่ได้อ่านจะถูกอ่านในรอบถัดไป"
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "การอ่านพร้อมกัน"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "จำนวนการอ่านโหนดที่ตัวอ่านหนึ่งตัวรันพร้อมกัน"
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "ถอนการติดตั้ง"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "เก็บตารางของปลั๊กอินไว้เมื่อถอนการติดตั้ง"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "เมื่อเลือกตัวเลือกนี้ การถอนการติดตั้งปลั๊กอินจะยังคงระบบไฟล์ โหนด รายการทรัพยากร และแคชไว้ ยกเลิกการเลือกเพื่อให้การถอนการติดตั้งลบข้อมูลเหล่านี้ทิ้ง โปรดส่งออกทะเบียนจากหน้าผู้ดูแลระบบ Parallel Filesystem ก่อน ไม่ว่ากรณีใดจะไม่มีการติดต่อไปยังโหนดจัดเก็บข้อมูล"
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "ลบอุปกรณ์ที่ปลั๊กอินนี้สร้างขึ้นเมื่อถอนการติดตั้ง"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "เมื่อเลือกตัวเลือกนี้ การถอนการติดตั้งปลั๊กอินจะลบอุปกรณ์ที่สร้างขึ้นสำหรับระบบไฟล์ พร้อมทั้งกราฟและแหล่งข้อมูล เช่นเดียวกับการลบใน Cacti อุปกรณ์ที่มีอยู่เดิมซึ่งถูกจับคู่กับระบบไฟล์จะไม่ถูกลบ ไฟล์ RRD จะถูกลบต่อเมื่อการตั้งค่าล้างไฟล์ RRD ของ Cacti เองกำหนดให้ลบ หากไม่เลือก อุปกรณ์จะยังคงอยู่"
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "ไม่มีระบบไฟล์ที่คุณสามารถมองเห็นได้"
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "ระบบไฟล์ %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "กราฟของระบบไฟล์นี้"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "เงื่อนไข"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "ความใหม่ของข้อมูล"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "ค่าที่ทราบ"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "พบล่าสุด"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "การกู้คืน"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "ตรวจสอบ"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "โหนดต้นทาง"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "ยังไม่พบเป้าหมาย"
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "ระเบียนนั้นเป็นของอุปกรณ์ Cacti ที่คุณไม่มีสิทธิ์เข้าถึง ไม่มีการเปลี่ยนแปลงใดๆ"
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "ชื่อ: มีระบบไฟล์อื่นของแบ็กเอนด์นี้ใช้ชื่อนี้อยู่แล้ว"
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "ไม่สามารถบันทึกระบบไฟล์ได้"
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "บันทึกระบบไฟล์แล้ว"
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "ระบบไฟล์ โหนด และรายการทรัพยากรของระบบไฟล์ถูกลบแล้ว อุปกรณ์ Cacti แหล่งข้อมูล และกราฟยังคงอยู่ ไม่มีการติดต่อไปยังโหนดใด"
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "ชื่อ: มีโหนดอื่นใช้ชื่อนี้อยู่แล้ว"
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "ไม่สามารถบันทึกโหนดได้"
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "บันทึกโหนดแล้ว"
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "ลบโหนดแล้ว เป้าหมายที่โหนดเคยรายงานจะยังคงประวัติไว้"
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "ป้อนเครือข่ายในรูปแบบที่อยู่และความยาวคำนำหน้า เช่น 10.20.0.0/16"
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "ไม่มีการเพิ่มอุปกรณ์: ระบบไฟล์มีอุปกรณ์อยู่แล้ว หรือยังไม่ได้ติดตั้งเทมเพลต"
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "ไม่สามารถจับคู่อุปกรณ์ได้ อุปกรณ์อาจถูกจับคู่กับระบบไฟล์อื่นอยู่แล้ว"
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "จับคู่อุปกรณ์และเพิ่ม data query พร้อมกราฟภาพรวมแล้ว"
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti ไม่ได้สร้างอุปกรณ์ โปรดดูบันทึกของ Cacti"
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "สร้างอุปกรณ์ data query และกราฟภาพรวมแล้ว"
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "ยกเลิกการจับคู่อุปกรณ์แล้ว อุปกรณ์และกราฟยังคงอยู่ data query ของอุปกรณ์จะไม่แสดงรายการเป้าหมายจนกว่าจะมีการจับคู่อีกครั้ง"
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "ติดตั้งเทมเพลตและไฟล์ data query แล้ว"
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "ไม่สามารถติดตั้งเทมเพลตได้: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "มุมมองการติดตามตรวจสอบ"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "ไม่สามารถอ่านผลการสังเกตการณ์ได้ โปรดแจ้งผู้ดูแลระบบให้ตรวจสอบบันทึกของปลั๊กอิน"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "ปลั๊กอิน Parallel Filesystem ต้องใช้ PHP %s หรือใหม่กว่า เซิร์ฟเวอร์นี้ใช้ PHP %s จึงไม่ได้ติดตั้งหรือเปิดใช้งานปลั๊กอิน"
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "ปลั๊กอิน Parallel Filesystem ไม่ได้เปิดใช้งาน"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "ปลั๊กอิน Parallel Filesystem ต้องใช้ PHP %s หรือใหม่กว่า"
+
+#: setup.php
+msgid "Management"
+msgstr "การจัดการ"

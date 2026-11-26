@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: bn-BD\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Parallel Filesystems-এ টার্গেটের ধারণক্ষমতা, ভারসাম্যহীনতা এবং হালনাগাদ অবস্থা পরিদর্শন করুন। নোড অ্যাক্সেস, টার্গেট অনুমোদন এবং ডিভাইস ম্যাপিং প্রশাসকের কাছে পাঠান।"
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH ফোর্সড কমান্ড"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "ফাইলসিস্টেমসমূহ"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "কার্যক্রম"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "ব্যাকএন্ড"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti ডিভাইস"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "প্রত্যাশিত বিরতি"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "নাম"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "নোডসমূহ"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "পোলার"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "অবস্থা"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "এখনো কোনো ফাইলসিস্টেম নিবন্ধিত হয়নি।"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d সেকেন্ড"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "মুছুন"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "অ্যাক্সেস"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "এন্ডপয়েন্ট"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "ফাইলসিস্টেম"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "লগইন নাম"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "ভূমিকা"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "এখনও কোনো নোড নিবন্ধিত হয়নি।"
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "প্রথমে একটি ফাইলসিস্টেম নিবন্ধন করুন।"
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "রপ্তানি করুন"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "প্লাগইন টেবিল মুছে ফেলে এমন আনইনস্টলের আগে রেজিস্ট্রি (ফাইলসিস্টেম, নোড, নেটওয়ার্ক এবং টার্গেট পর্যালোচনা) JSON হিসেবে ডাউনলোড করুন। এতে কোনো কী বা ক্রেডেনশিয়াল থাকে না।"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "ফাইলসিস্টেম: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "নতুন ফাইলসিস্টেম"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "প্রত্যাশিত বিরতি (সেকেন্ড)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "সক্রিয়"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "নতুন নোড"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "নোড: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "এন্ডপয়েন্ট (হোস্ট নাম বা ঠিকানা)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH পোর্ট"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "এই লগইনের জন্য নোডটির authorized_keys-এ বাধ্যতামূলক কমান্ড হিসেবে pfs-read.sh চালানো রিডার কী তালিকাভুক্ত থাকতে হবে, উদাহরণস্বরূপ: restrict,command=\"/usr/local/libexec/pfs-read.sh\" এবং তারপরে পাবলিক কী। এখানে যেভাবে লেখা আছে সেই এন্ডপয়েন্টের অধীনে known hosts ফাইলে হোস্ট কী থাকতে হবে।"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "ফাইলসিস্টেম %s-এর জন্য Cacti ডিভাইস"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "একটি নতুন ডিভাইস তৈরি করুন"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "ডিভাইস"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "কী যোগ করা হবে তা দেখান"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "যোগ করার জন্য অবজেক্ট"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "ডিভাইসটি পোলারসহ তার নিজস্ব সেটিংস বজায় রাখে। এতে কোনো কিছু পরিবর্তন বা অপসারণ করা হয় না।"
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "প্রতি-টার্গেট গ্রাফগুলো ডিভাইসের New Graphs পৃষ্ঠা থেকে চাহিদা অনুযায়ী তৈরি করা হয়।"
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "ডিভাইস তৈরি করুন"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "এই ডিভাইস ম্যাপ করুন"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "অনুমোদিত নেটওয়ার্ক"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "নেটওয়ার্ক"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "এখনও কোনো নেটওয়ার্ক অনুমোদিত নয়। নেটওয়ার্কগুলো এখানে তালিকাভুক্ত না হওয়া পর্যন্ত পোলার কোনো নোডে পৌঁছাতে পারে না।"
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "অনুমতি দিন"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "পর্যালোচনার অপেক্ষায় থাকা টার্গেট"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "উপস্থিতি"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "টার্গেট"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "এটি যে মান যোগ করে"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "গ্রহণ করুন"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "উপেক্ষা করুন"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "কোনো টার্গেট পর্যালোচনার অপেক্ষায় নেই।"
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "একটি ডিভাইস যোগ করুন"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(পোলার %d দ্বারা পোল করা হয়েছে, %d নয়)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "আনম্যাপ করুন"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "সংরক্ষণ করুন"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Parallel Filesystem টেমপ্লেটগুলো ইনস্টল করা নেই। হেলথ পৃষ্ঠা থেকে সেগুলো পুনরায় ইনস্টল করুন।"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "একটি ডিভাইস \"%s\", যা %s ডিভাইস টেমপ্লেট থেকে তৈরি, পোলার %d দ্বারা পোল করা হয় এবং যেখানে উপলব্ধতা পরীক্ষা বন্ধ থাকে।"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "ডেটা কোয়েরি \"%s\", যেখানে বর্তমানে পরিচিত %d-টি টার্গেট তালিকাভুক্ত আছে। এটি নিজে থেকে কোনো গ্রাফ তৈরি করে না।"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "গ্রাফ \"%s\"।"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "এই প্রতিটি গ্রাফের জন্য একটি \"%s\" ডেটা সোর্স, যেখানে টার্গেটের সংখ্যা যাই হোক না কেন প্রতি পোল চক্রে একটি করে স্ক্রিপ্ট সার্ভার কল করা হয়।"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "ফাইলসিস্টেম %s-এর জন্য Parallel Filesystem প্লাগইন দ্বারা তৈরি। এর মানগুলো প্লাগইন ক্যাশ থেকে আসে; হোস্ট নামটি একটি সংরক্ষিত নাম যার সাথে কখনোই যোগাযোগ করা হয় না।"
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "ব্যাকএন্ড: তালিকাভুক্ত ব্যাকএন্ডগুলোর মধ্যে একটি নির্বাচন করুন।"
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "নাম: নোডগুলো যে ফাইলসিস্টেম নাম প্রিন্ট করে তা ব্যবহার করুন, যেমন সর্বোচ্চ 8টি অক্ষর, সংখ্যা, ড্যাশ বা আন্ডারস্কোরের Lustre fsname।"
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "পোলার: তালিকাভুক্ত পোলারগুলোর মধ্যে একটি নির্বাচন করুন।"
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "প্রত্যাশিত বিরতি: %d থেকে %d-এর মধ্যে পূর্ণ সেকেন্ড লিখুন।"
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "কখনো না"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d সেকেন্ড আগে"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d মিনিট আগে"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d ঘণ্টা আগে"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d দিন আগে"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s-এর Parallel Filesystem দৃশ্য"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Parallel Filesystem সতর্কবার্তা"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "কোনো সতর্কতা নেই।"
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "টেমপ্লেটগুলো আবার ইনস্টল করুন"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "রিডার"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "ব্যর্থ"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "সর্বশেষ সম্পন্ন রান"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "সর্বশেষ রান"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "পৌঁছানো যায়নি"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "রিড"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "এখনও কোনো রিডার চালু হয়নি।"
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "সময়কাল"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "ব্যর্থতা"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "সর্বশেষ রিড"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "সর্বশেষ সাফল্য"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "নোড"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "রিপোর্টকৃত সংস্করণ"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "প্রতিক্রিয়ার আকার"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "নিষ্ক্রিয়"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s সে."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: নোডটি নির্ধারিত রিড স্ক্রিপ্ট ফ্রেমিং ছাড়াই উত্তর দিয়েছে। এর কী সম্ভবত pfs-read.sh চালানো বাধ্যতামূলক কমান্ডে সীমাবদ্ধ নয়।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: নোড হোস্ট কীটি known hosts ফাইলে নেই, অথবা এটি পরিবর্তিত হয়েছে। এটি যোগ করার আগে কী-টি যাচাই করুন।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: এন্ডপয়েন্টটি পোলার %d-এর জন্য অনুমোদিত নেটওয়ার্কের বাইরে রিজলভ হয়, তাই এটি রিড করা হয়নি।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: রিড স্ক্রিপ্টটি %d-টি প্যারামিটার প্রিন্ট করেছে যা প্লাগইনটি পড়ে না, তাই এটি সরবরাহকৃত pfs-read.sh নয়। নোডটি প্লাগইনের প্রয়োজনের চেয়ে বেশি তথ্য প্রকাশ করতে পারে।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: নোড আউটপুটে %d-টি টার্গেট নাম প্রত্যাশিত প্যাটার্ন বা ফাইলসিস্টেমের সাথে মেলেনি এবং উপেক্ষা করা হয়েছে।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "পোলার %d-এর রিডারটি গত %d সেকেন্ডে কোনো রান সম্পন্ন করেনি। এর নোডগুলো থেকে প্রাপ্ত মানগুলো পুরোনো হয়ে যাচ্ছে।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Parallel Filesystem টেমপ্লেটগুলো ইনস্টল করা ব্যর্থ হয়েছে: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Parallel Filesystem টেমপ্লেটগুলো ইনস্টল করা নেই, তাই কোনো ডিভাইস যোগ করা যাবে না।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Cacti থেকে resource/script_server/%s ডেটা কোয়েরি ফাইলটি অনুপস্থিত অথবা এই প্লাগইনের সরবরাহকৃত ফাইল থেকে ভিন্ন, তাই ডেটা কোয়েরিগুলো টার্গেট তালিকাভুক্ত করতে পারছে না।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "ফাইলসিস্টেম %s ডিভাইস %d-এর সাথে ম্যাপ করা আছে, যার আর কোনো অস্তিত্ব নেই।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "ফাইলসিস্টেম %s-এর ডিভাইসটি পোলার %d দ্বারা পোল করা হয়, কিন্তু এর নোডগুলো পোলার %d দ্বারা রিড করা হয়, যার ক্যাশ ডিভাইসটির ডেটা সোর্সগুলোর প্রয়োজন।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "এই সার্ভারে SSH কী ফাইল %s-এর অস্তিত্ব নেই।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH কী ফাইল %s-টি এর মালিক ছাড়াও অন্য ব্যবহারকারীরা পড়তে বা লিখতে পারেন (মোড %s)। এটিকে শুধুমাত্র পোলার ব্যবহারকারীর মধ্যে সীমাবদ্ধ করুন।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "এই সার্ভারে known hosts ফাইল %s-এর অস্তিত্ব নেই, তাই এটি থেকে কোনো নোড রিড করা যাবে না।"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "এই সার্ভারে SSH ক্লায়েন্ট %s-এর অস্তিত্ব নেই।"
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "ফাইলসিস্টেম: নিবন্ধিত ফাইলসিস্টেমগুলোর মধ্যে একটি বেছে নিন।"
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "নাম: একটি অক্ষর বা সংখ্যা দিয়ে শুরু করে ১ থেকে ৬৪টি অক্ষর, সংখ্যা, ডট, ড্যাশ বা আন্ডারস্কোর ব্যবহার করুন।"
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "ভূমিকা: তালিকাভুক্ত ভূমিকাগুলোর মধ্যে একটি বেছে নিন।"
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "পোর্ট: 1 থেকে 65535-এর মধ্যে একটি পোর্ট লিখুন।"
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "লগইন নাম: একটি অক্ষর বা আন্ডারস্কোর দিয়ে শুরু হওয়া সর্বোচ্চ 32 অক্ষরের ছোট হাতের অ্যাকাউন্টের নাম ব্যবহার করুন।"
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "এন্ডপয়েন্ট: ব্যবহারকারী, পোর্ট বা পাথ ছাড়া শুধুমাত্র একটি হোস্ট নাম বা IP ঠিকানা লিখুন।"
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "এন্ডপয়েন্ট: এই সার্ভারে নামটি রিজলভ হয় না।"
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "এন্ডপয়েন্ট: এটি %s-এ রিজলভ হয়, যা এই পোলারের জন্য অনুমোদিত নেটওয়ার্কের মধ্যে নয়। প্রথমে নেটওয়ার্কটি যোগ করুন।"
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "ম্যানেজমেন্ট সার্ভার (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "মেটাডেটা সার্ভার (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "অবজেক্ট স্টোরেজ সার্ভার (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "ক্লায়েন্ট"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "নিচে নথিভুক্ত পর্যবেক্ষণগুলো পর্যালোচনা করুন। স্বীকৃতিগুলো এই সেশনের জন্য ব্যক্তিগত, পর্যবেক্ষণ পরিবর্তিত হলে মেয়াদ শেষ হয় এবং কখনোই সতর্কতা দমন করে না বা স্বাস্থ্য অবস্থা পরিবর্তন করে না।"
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Parallel Filesystem অপারেশনস"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "অনুসন্ধান"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "অবজেক্ট"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "পর্যবেক্ষিত (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "অজানা বা পুরনো"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "স্বীকৃত; স্বাস্থ্য অবস্থা অপরিবর্তিত।"
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "স্বীকার করুন"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "আপনার অ্যাক্সেসযোগ্য ডিভাইসগুলোর জন্য কোনো পর্যবেক্ষণ উপলব্ধ নেই।"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Parallel Filesystem অপারেটর"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Parallel Filesystem ভিউ"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Parallel Filesystem অ্যাডমিন"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "প্যারালাল ফাইলসিস্টেমসমূহ"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Parallel Filesystem রেজিস্ট্রি"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Parallel Filesystem হেলথ"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "নোড অ্যাক্সেসের জন্য প্লাগইন সেটিংস অসম্পূর্ণ বা ব্যবহারের অযোগ্য"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "এন্ডপয়েন্টটি এর পোলারের জন্য অনুমোদিত নেটওয়ার্কের বাইরে রিজলভ হয়"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "এন্ডপয়েন্ট নামটি রিজলভ হয় না"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "নোডটিতে পৌঁছানো যায়নি"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "নোড হোস্ট কী-টি অজানা বা পরিবর্তিত হয়েছে"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "নোডটি কী প্রত্যাখ্যান করেছে"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "রিড করার সময়সীমা অতিক্রম করেছে"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "প্রতিক্রিয়া আকারের সীমা অতিক্রম করেছে"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "রিড কমান্ড ব্যর্থ হয়েছে"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "নোডটি নির্ধারিত রিড স্ক্রিপ্টের মাধ্যমে উত্তর দেয়নি"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "রিড স্ক্রিপ্ট শেষ হওয়ার আগেই প্রতিক্রিয়া সমাপ্ত হয়েছে"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "নোড অ্যাক্সেস"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "নোড রিড করে এমন প্রতিটি পোলারে ssh ক্লায়েন্টের সম্পূর্ণ পাথ।"
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH ক্লায়েন্ট"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "নোড রিড করে এমন প্রতিটি পোলারে প্রাইভেট কী-এর সম্পূর্ণ পাথ, যার পাবলিক অংশটি প্রতিটি নোড pfs-read.sh চালানো বাধ্যতামূলক কমান্ডসহ authorized_keys-এ তালিকাভুক্ত করে। শুধুমাত্র পোলার ব্যবহারকারী দ্বারা পাঠযোগ্য। প্লাগইনটি কখনো এটি তৈরি, কপি বা প্রিন্ট করে না।"
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH কী ফাইল"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "নোড এন্ডপয়েন্ট নামের অধীনে প্রতিটি নোড হোস্ট কী ধারণকারী known_hosts ফাইলের সম্পূর্ণ পাথ। যে নোডের কী অনুপস্থিত বা পরিবর্তিত হয়েছে তা রিড করা হয় না।"
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Known Hosts ফাইল"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "সংযোগ টাইমআউট"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "একটি নোড সংযোগ গ্রহণ করা পর্যন্ত যত সেকেন্ড অপেক্ষা করা হবে।"
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "রিড টাইমআউট"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "একটি নোড রিড বন্ধ করে ব্যর্থ হিসেবে রেকর্ড করার আগে মোট যত সেকেন্ড সময় নিতে পারে।"
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "একটি নোড যত KiB ফেরত দিতে পারে। এর চেয়ে বড় উত্তর বাতিল করা হয় এবং ব্যর্থ হিসেবে রেকর্ড করা হয়।"
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "সর্বোচ্চ প্রতিক্রিয়া"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "রিডার"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "রিডার সময় বাজেট"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "নতুন নোড রিড শুরু করা বন্ধ করার আগে একটি রিডার রান যত সেকেন্ড ব্যয় করতে পারে। এটি পোলার বিরতির নিচে রাখুন; না পড়া নোডগুলো পরবর্তী রানে রিড করা হয়।"
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "সমকালীন রিড"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "একটি রিডার একই সময়ে যতগুলো নোড রিড পরিচালনা করে।"
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "আনইনস্টল"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "আনইনস্টলের সময় প্লাগইন টেবিল রাখুন"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "চেক করা থাকলে, প্লাগইনটি আনইনস্টল করলে এর ফাইলসিস্টেম, নোড, ইনভেন্টরি এবং ক্যাশ সংরক্ষিত থাকে। আনইনস্টল করার সময় এগুলো মুছে ফেলতে চাইলে এটি আনচেক করুন; প্রথমে Parallel Filesystem অ্যাডমিন পৃষ্ঠা থেকে রেজিস্ট্রি এক্সপোর্ট করুন। কোনো ক্ষেত্রেই স্টোরেজ নোডগুলোর সাথে যোগাযোগ করা হয় না।"
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "আনইনস্টলের সময় এই প্লাগইন দ্বারা তৈরি ডিভাইসগুলো মুছে ফেলুন"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "চেক করা থাকলে, প্লাগইনটি আনইনস্টল করলে এটি ফাইলসিস্টেমের জন্য যে ডিভাইসগুলো তৈরি করেছে, সেগুলো তাদের গ্রাফ ও ডেটা সোর্সসহ মুছে ফেলে, ঠিক যেমন Cacti-তে মুছে ফেলা হতো। কোনো ফাইলসিস্টেমের সাথে ম্যাপ করা বিদ্যমান ডিভাইসগুলো কখনো মুছে ফেলা হয় না। শুধুমাত্র Cacti-এর নিজস্ব RRD পরিষ্কার করার সেটিংস অপসারণ করলে তবেই RRD ফাইলগুলো সরানো হয়। আনচেক করা থাকলে, ডিভাইসগুলো থেকে যায়।"
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "আপনার জন্য কোনো ফাইলসিস্টেম দৃশ্যমান নয়।"
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "ফাইলসিস্টেম %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "এই ফাইলসিস্টেমের গ্রাফসমূহ"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "অবস্থা"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "হালনাগাদ অবস্থা"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "পরিচিত মান"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "সর্বশেষ দেখা গেছে"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "পুনরুদ্ধার"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "পর্যালোচনা"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "সোর্স নোড"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "এখনও কোনো টার্গেট পাওয়া যায়নি।"
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "এই রেকর্ডটি এমন একটি Cacti ডিভাইসের অন্তর্ভুক্ত যার জন্য আপনার অনুমতি নেই। কোনো কিছু পরিবর্তন করা হয়নি।"
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "নাম: এই ব্যাকএন্ডের অন্য একটি ফাইলসিস্টেম ইতিমধ্যেই এই নামটি ব্যবহার করছে।"
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "ফাইলসিস্টেমটি সংরক্ষণ করা যায়নি।"
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "ফাইলসিস্টেমটি সংরক্ষণ করা হয়েছে।"
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "ফাইলসিস্টেম, এর নোড এবং এর ইনভেন্টরি মুছে ফেলা হয়েছে। এর Cacti ডিভাইস, ডেটা সোর্স এবং গ্রাফগুলো রাখা হয়েছে। কোনো নোডের সাথে যোগাযোগ করা হয়নি।"
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "নাম: অন্য একটি নোড ইতিমধ্যেই এই নামটি ব্যবহার করছে।"
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "নোডটি সংরক্ষণ করা যায়নি।"
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "নোডটি সংরক্ষণ করা হয়েছে।"
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "নোডটি মুছে ফেলা হয়েছে। এটি যে টার্গেটগুলো রিপোর্ট করেছিল সেগুলোর ইতিহাস সংরক্ষিত আছে।"
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "ঠিকানা এবং প্রিফিক্স দৈর্ঘ্য হিসেবে একটি নেটওয়ার্ক লিখুন, যেমন 10.20.0.0/16।"
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "কোনো ডিভাইস যোগ করা হয়নি: ফাইলসিস্টেমটিতে ইতিমধ্যেই একটি ডিভাইস রয়েছে, অথবা টেমপ্লেটগুলো ইনস্টল করা নেই।"
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "ডিভাইসটি ম্যাপ করা যায়নি। এটি সম্ভবত অন্য কোনো ফাইলসিস্টেমের সাথে ম্যাপ করা আছে।"
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "ডিভাইসটি ম্যাপ করা হয়েছে এবং ডেটা কোয়েরি ও ওভারভিউ গ্রাফগুলো যোগ করা হয়েছে।"
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti ডিভাইসটি তৈরি করেনি। Cacti লগ দেখুন।"
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "ডিভাইস, এর ডেটা কোয়েরি এবং এর ওভারভিউ গ্রাফগুলো তৈরি করা হয়েছে।"
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "ডিভাইসটি আর ম্যাপ করা নেই। এটি এবং এর গ্রাফগুলো রাখা হয়েছে; পুনরায় ম্যাপ না করা পর্যন্ত এর ডেটা কোয়েরি কোনো টার্গেট তালিকাভুক্ত করবে না।"
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "টেমপ্লেট এবং ডেটা কোয়েরি ফাইলগুলো ইনস্টল করা হয়েছে।"
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "টেমপ্লেটগুলো ইনস্টল করা যায়নি: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "মনিটরিং ভিউ"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "পর্যবেক্ষণগুলো পড়া যায়নি। প্লাগইন লগ পরীক্ষা করতে একজন প্রশাসককে বলুন।"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Parallel Filesystem প্লাগইনটির জন্য PHP %s বা পরবর্তী সংস্করণ প্রয়োজন। এই সার্ভারে PHP %s চলছে, তাই প্লাগইনটি ইনস্টল বা সক্রিয় করা হয়নি।"
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Parallel Filesystem প্লাগইনটি সক্রিয় করা নেই।"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Parallel Filesystem প্লাগইনটির জন্য PHP %s বা পরবর্তী সংস্করণ প্রয়োজন।"
+
+#: setup.php
+msgid "Management"
+msgstr "ব্যবস্থাপনা"

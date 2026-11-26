@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: te-IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "సమాంతర ఫైల్‌సిస్టమ్‌లలో లక్ష్య సామర్థ్యం, అసమతుల్యత మరియు తాజాదనాన్ని తనిఖీ చేయండి. నోడ్ ప్రాప్యత, లక్ష్య ఆమోదం మరియు పరికర మ్యాపింగ్‌ను నిర్వాహకుడికి పంపండి."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH బలవంతపు ఆదేశం"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "ఫైల్‌సిస్టమ్‌లు"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "చర్యలు"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "బ్యాకెండ్"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti పరికరం"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "ఊహించిన విరామం"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "పేరు"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "నోడ్‌లు"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "పోలర్"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "స్థితి"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "ఇంకా ఫైల్‌సిస్టమ్‌లు ఏవీ నమోదు చేయబడలేదు."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d సెకన్లు"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "తొలగించండి"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "ప్రాప్యత"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "ఎండ్‌పాయింట్"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "ఫైల్‌సిస్టమ్"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "లాగిన్ పేరు"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "పాత్ర"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "ఇంకా ఏ నోడ్‌లు నమోదు చేయబడలేదు."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "ముందుగా ఫైల్‌సిస్టమ్‌ను నమోదు చేయండి."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "ఎగుమతి చేయి"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "ప్లగిన్ టేబుళ్లను తొలగించే అన్‌ఇన్‌స్టాల్‌కు ముందు రిజిస్ట్రీని (ఫైల్‌సిస్టమ్‌లు, నోడ్‌లు, నెట్‌వర్క్‌లు మరియు లక్ష్య సమీక్ష) JSON గా డౌన్‌లోడ్ చేయండి. ఇందులో ఎటువంటి కీ లేదా క్రెడెన్షియల్ ఉండదు."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "ఫైల్‌సిస్టమ్: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "కొత్త ఫైల్‌సిస్టమ్"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "అంచనా విరామం (సెకన్లు)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "ప్రారంభించబడింది"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "కొత్త నోడ్"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "నోడ్: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "ఎండ్‌పాయింట్ (హోస్ట్ పేరు లేదా చిరునామా)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH పోర్ట్"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "pfs-read.sh ను అమలు చేసే ఫోర్స్‌డ్ కమాండ్‌తో ఈ లాగిన్ కోసం authorized_keys లో రీడర్ కీని నోడ్ తప్పనిసరిగా జాబితా చేయాలి, ఉదాహరణకు: restrict,command=\"/usr/local/libexec/pfs-read.sh\" తర్వాత పబ్లిక్ కీ ఉండాలి. ఇక్కడ వ్రాసిన ఎండ్‌పాయింట్ కింద known hosts ఫైల్‌లో హోస్ట్ కీ తప్పనిసరిగా ఉండాలి."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "ఫైల్‌సిస్టమ్ %s కోసం Cacti పరికరం"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "కొత్త పరికరాన్ని సృష్టించండి"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "పరికరం"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "ఏమి జోడించబడుతుందో చూపించు"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "జోడించాల్సిన ఆబ్జెక్టులు"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "పరికరం తన స్వంత సెట్టింగ్లను, పోలర్‌తో సహా ఉంచుకుంటుంది. దానిపై ఏదీ మార్చబడదు లేదా తీసివేయబడదు."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "ప్రతి లక్ష్యానికి సంబంధించిన గ్రాఫ్‌లు పరికరం యొక్క కొత్త గ్రాఫ్‌ల పేజీ నుండి అవసరాన్ని బట్టి సృష్టించబడతాయి."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "పరికరాన్ని సృష్టించండి"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "ఈ పరికరాన్ని మ్యాప్ చేయండి"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "అనుమతించబడిన నెట్‌వర్క్‌లు"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "నెట్‌వర్క్"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "ఇంకా ఏ నెట్‌వర్క్‌లకు అనుమతి ఇవ్వబడలేదు. దాని నెట్‌వర్క్‌లను ఇక్కడ జాబితా చేసే వరకు పోలర్ ఏ నోడ్‌ను చేరుకోదు."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "అనుమతించు"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "సమీక్ష కోసం వేచి ఉన్న లక్ష్యాలు"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "ఉనికి"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "లక్ష్యం"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "అది జోడించే విలువలు"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "ఆమోదించు"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "విస్మరించు"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "సమీక్ష కోసం ఏ లక్ష్యాలూ వేచి లేవు."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "పరికరాన్ని జోడించండి"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(పోలర్ %d ద్వారా పోల్ చేయబడింది, %d కాదు)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "అన్‌మ్యాప్ చేయండి"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "సేవ్ చేయండి"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ టెంప్లేట్లు ఇన్‌స్టాల్ చేయబడలేదు. ఆరోగ్య పేజీ నుండి వాటిని మళ్లీ ఇన్‌స్టాల్ చేయండి."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "\"%s\" పరికరం (%s పరికర టెంప్లేట్ నుండి), లభ్యత తనిఖీలు ఆఫ్‌లో ఉండి పోలర్ %d ద్వారా పోల్ చేయబడుతుంది."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "డేటా క్వెరీ \"%s\", ఇప్పుడు తెలిసిన %d లక్ష్యాలను జాబితా చేస్తోంది. ఇది దానంతట అదే ఏ గ్రాఫ్‌ను సృష్టించదు."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "గ్రాఫ్ \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "ఆ ప్రతి గ్రాఫ్ కోసం ఒక \"%s\" డేటా సోర్స్, లక్ష్యాల సంఖ్యతో సంబంధం లేకుండా ప్రతి పోల్ సైకిల్‌కు ఒక్కొక్క స్క్రిప్ట్ సర్వర్ కాల్."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "ఫైల్‌సిస్టమ్ %s కోసం పారలల్ ఫైల్‌సిస్టమ్ ప్లగిన్ ద్వారా సృష్టించబడింది. దీని విలువలు ప్లగిన్ క్యాష్ నుండి వస్తాయి; హోస్ట్ పేరు అనేది ఎప్పుడూ సంప్రదించని రిజర్వ్ చేయబడిన పేరు."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "బ్యాకెండ్: జాబితా చేసిన బ్యాకెండ్‌లలో ఒకదాన్ని ఎంచుకోండి."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "పేరు: నోడ్‌లు ప్రింట్ చేసే ఫైల్‌సిస్టమ్ పేరును ఉపయోగించండి, ఉదాహరణకు గరిష్టంగా 8 అక్షరాలు, అంకెలు, డాష్‌లు లేదా అండర్‌స్కోర్‌లతో కూడిన Lustre fsname."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "పోలర్: జాబితా చేసిన పోలర్‌లలో ఒకదాన్ని ఎంచుకోండి."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "అంచనా విరామం: %d నుండి %d వరకు పూర్ణ సెకన్లను నమోదు చేయండి."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "ఎప్పుడూ లేదు"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d సెకన్ల క్రితం"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d నిమిషాల క్రితం"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d గంటల క్రితం"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d రోజుల క్రితం"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s యొక్క పారలల్ ఫైల్‌సిస్టమ్ వీక్షణ"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ హెచ్చరికలు"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "హెచ్చరికలు లేవు."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "టెంప్లేట్లను మళ్లీ ఇన్‌స్టాల్ చేయండి"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "రీడర్లు"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "విఫలమైంది"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "చివరిగా పూర్తయిన రన్"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "చివరి రన్"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "చేరుకోలేదు"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "చదవడం"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "ఇంకా ఏ రీడర్ రన్ కాలేదు."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "వ్యవధి"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "వైఫల్యం"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "చివరి రీడ్"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "చివరి విజయం"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "నోడ్"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "నివేదించబడిన వెర్షన్"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "ప్రతిస్పందన పరిమాణం"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "నిలిపివేయబడింది"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s సె"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: నోడ్ స్థిర రీడ్ స్క్రిప్ట్ ఫ్రేమింగ్ లేకుండా సమాధానమిచ్చింది. దాని కీ pfs-read.sh ను అమలు చేసే ఫోర్స్‌డ్ కమాండ్‌కు పరిమితం చేయబడకపోవచ్చు."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: నోడ్ హోస్ట్ కీ known hosts ఫైల్‌లో లేదు, లేదా అది మారింది. దాన్ని జోడించే ముందు కీని తనిఖీ చేయండి."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: ఎండ్‌పాయింట్ పోలర్ %d కోసం అనుమతించబడిన నెట్‌వర్క్‌ల వెలుపల రిజాల్వ్ అవుతుంది, కాబట్టి అది చదవబడదు."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: ప్లగిన్ చదవని %d పారామీటర్లను రీడ్ స్క్రిప్ట్ ప్రింట్ చేసింది, కాబట్టి ఇది పంపిణీ చేయబడిన pfs-read.sh కాదు. ప్లగిన్‌కు అవసరమైన దానికంటే ఎక్కువ సమాచారాన్ని నోడ్ బహిర్గతం చేస్తూ ఉండవచ్చు."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: నోడ్ అవుట్‌పుట్‌లోని %d లక్ష్య పేర్లు అంచనా వేసిన నమూనా లేదా ఫైల్‌సిస్టమ్‌తో సరిపోలలేదు మరియు విస్మరించబడ్డాయి."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "పోలర్ %d లోని రీడర్ గత %d సెకన్లలో ఒక రన్ కూడా పూర్తి చేయలేదు. దాని నోడ్‌ల నుండి వచ్చే విలువలు పాతబడిపోతున్నాయి."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ టెంప్లేట్లను ఇన్‌స్టాల్ చేయడం విఫలమైంది: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ టెంప్లేట్లు ఇన్‌స్టాల్ చేయబడలేదు, కాబట్టి ఏ పరికరాన్ని జోడించలేము."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "డేటా క్వెరీ ఫైల్ resource/script_server/%s Cacti లో లేదు లేదా ఈ ప్లగిన్ పంపిణీ చేసే దానికంటే భిన్నంగా ఉంది, కాబట్టి డేటా క్వెరీలు లక్ష్యాలను జాబితా చేయలేవు."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "ఫైల్‌సిస్టమ్ %s పరికరం %d కు మ్యాప్ చేయబడింది, అది ఇప్పుడు ఉనికిలో లేదు."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "ఫైల్‌సిస్టమ్ %s యొక్క పరికరం పోలర్ %d ద్వారా పోల్ చేయబడుతుంది, కానీ దాని నోడ్‌లు పోలర్ %d ద్వారా చదవబడతాయి, దాని క్యాష్ పరికరం యొక్క డేటా సోర్సులకు అవసరం."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "SSH కీ ఫైల్ %s ఈ సర్వర్‌లో ఉనికిలో లేదు."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH కీ ఫైల్ %s ను దాని యజమాని కాకుండా ఇతర వినియోగదారులు చదవగలరు లేదా వ్రాయగలరు (మోడ్ %s). దానిని పోలర్ వినియోగదారుకు మాత్రమే పరిమితం చేయండి."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "known hosts ఫైల్ %s ఈ సర్వర్‌లో ఉనికిలో లేదు, కాబట్టి దాని నుండి ఏ నోడ్‌ను చదవలేము."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSH క్లయింట్ %s ఈ సర్వర్‌లో ఉనికిలో లేదు."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "ఫైల్‌సిస్టమ్: నమోదు చేయబడిన ఫైల్‌సిస్టమ్‌లలో ఒకదాన్ని ఎంచుకోండి."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "పేరు: అక్షరం లేదా అంకెతో ప్రారంభమయ్యే 1 నుండి 64 అక్షరాలు, అంకెలు, చుక్కలు, డాష్‌లు లేదా అండర్‌స్కోర్‌లను ఉపయోగించండి."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "పాత్ర: జాబితా చేయబడిన పాత్రలలో ఒకదాన్ని ఎంచుకోండి."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "పోర్ట్: 1 నుండి 65535 వరకు ఒక పోర్ట్‌ను నమోదు చేయండి."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "లాగిన్ పేరు: అక్షరం లేదా అండర్‌స్కోర్‌తో ప్రారంభమయ్యే, గరిష్టంగా 32 అక్షరాల లోయర్-కేస్ ఖాతా పేరును ఉపయోగించండి."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "ఎండ్‌పాయింట్: వినియోగదారు, పోర్ట్ లేదా పాత్ లేకుండా కేవలం హోస్ట్ పేరు లేదా IP చిరునామాను మాత్రమే నమోదు చేయండి."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "ఎండ్‌పాయింట్: ఈ సర్వర్‌లో పేరు రిజాల్వ్ కావడం లేదు."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "ఎండ్‌పాయింట్: ఇది %s కు రిజాల్వ్ అవుతుంది, ఇది ఈ పోలర్ కోసం అనుమతించబడిన నెట్‌వర్క్‌ల లోపల లేదు. ముందుగా నెట్‌వర్క్‌ను జోడించండి."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "నిర్వహణ సర్వర్ (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "మెటాడేటా సర్వర్ (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "ఆబ్జెక్ట్ స్టోరేజ్ సర్వర్ (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "క్లయింట్"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "దిగువ నమోదు చేసిన పరిశీలనలను సమీక్షించండి. అంగీకారాలు ఈ సెషన్‌కు వ్యక్తిగతమైనవి, పరిశీలనలు మారినప్పుడు గడువు ముగుస్తాయి మరియు హెచ్చరికలను ఎప్పుడూ అణచివేయవు లేదా ఆరోగ్యాన్ని మార్చవు."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ కార్యకలాపాలు"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "పరిశోధన"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "ఆబ్జెక్ట్"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "పరిశీలించబడింది (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "తెలియనిది లేదా పాతది"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "అంగీకరించబడింది; ఆరోగ్యం మారలేదు."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "అంగీకరించండి"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "మీరు యాక్సెస్ చేయగల పరికరాలకు ఎటువంటి పరిశీలనలు అందుబాటులో లేవు."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ ఆపరేటర్"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ వీక్షణ"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ నిర్వాహకుడు"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్‌లు"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ రిజిస్ట్రీ"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ ఆరోగ్యం"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "నోడ్ యాక్సెస్ కోసం ప్లగిన్ సెట్టింగ్లు అసంపూర్ణంగా ఉన్నాయి లేదా ఉపయోగించలేని విధంగా ఉన్నాయి"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "ఎండ్‌పాయింట్ దాని పోలర్ కోసం అనుమతించబడిన నెట్‌వర్క్‌ల వెలుపల రిజాల్వ్ అవుతుంది"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "ఎండ్‌పాయింట్ పేరు రిజాల్వ్ కావడం లేదు"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "నోడ్‌ను చేరుకోవడం సాధ్యం కాలేదు"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "నోడ్ హోస్ట్ కీ తెలియదు లేదా మారింది"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "నోడ్ కీని తిరస్కరించింది"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "రీడ్ దాని సమయ పరిమితిని మించిపోయింది"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "ప్రతిస్పందన పరిమాణ పరిమితిని మించిపోయింది"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "రీడ్ కమాండ్ విఫలమైంది"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "నోడ్ స్థిర రీడ్ స్క్రిప్ట్‌తో సమాధానం ఇవ్వలేదు"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "రీడ్ స్క్రిప్ట్ పూర్తి కావడానికి ముందే ప్రతిస్పందన ముగిసింది"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "నోడ్ యాక్సెస్"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "నోడ్‌లను చదివే ప్రతి పోలర్‌లో ssh క్లయింట్‌కు పూర్తి పాత్."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH క్లయింట్"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "నోడ్‌లను చదివే ప్రతి పోలర్‌లో, ప్రైవేట్ కీకి పూర్తి పాత్; దీని పబ్లిక్ భాగాన్ని ప్రతి నోడ్ pfs-read.sh ను అమలు చేసే ఫోర్స్‌డ్ కమాండ్‌తో authorized_keys లో జాబితా చేస్తుంది. పోలర్ వినియోగదారు మాత్రమే చదవగలరు. ప్లగిన్ దీనిని ఎప్పుడూ సృష్టించదు, కాపీ చేయదు లేదా ప్రింట్ చేయదు."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH కీ ఫైల్"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "నోడ్ ఎండ్‌పాయింట్ పేరు కింద ప్రతి నోడ్ హోస్ట్ కీని కలిగి ఉన్న known_hosts ఫైల్‌కు పూర్తి పాత్. కీ లేని లేదా మారిన నోడ్ చదవబడదు."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Known Hosts ఫైల్"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "కనెక్ట్ టైమ్‌అవుట్"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "నోడ్ కనెక్షన్‌ను ఆమోదించడానికి వేచి ఉండాల్సిన సెకన్లు."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "రీడ్ టైమ్‌అవుట్"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "ఒక నోడ్ రీడ్ ఆపివేయబడి విఫలమైనట్లు నమోదు చేయబడటానికి ముందు మొత్తంగా తీసుకోగల సెకన్లు."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "ఒక నోడ్ తిరిగి ఇవ్వగల KiB. అంతకంటే పెద్ద సమాధానం విస్మరించబడి విఫలమైనట్లు నమోదు చేయబడుతుంది."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "గరిష్ట ప్రతిస్పందన"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "రీడర్"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "రీడర్ సమయ బడ్జెట్"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "నోడ్ రీడ్‌లను ప్రారంభించడాన్ని ఆపివేయడానికి ముందు ఒక రీడర్ రన్ ఖర్చు చేయగల సెకన్లు. దీనిని పోలర్ విరామం కంటే తక్కువగా ఉంచండి; చదవని నోడ్‌లు తదుపరి రన్‌లో చదవబడతాయి."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "ఏకకాల రీడ్‌లు"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "ఒక రీడర్ ఒకే సమయంలో అమలు చేసే నోడ్ రీడ్‌లు."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "అన్‌ఇన్‌స్టాల్ చేయండి"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "అన్‌ఇన్‌స్టాల్ చేసినప్పుడు ప్లగిన్ పట్టికలను ఉంచండి"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "ఎంచుకున్నప్పుడు, ప్లగిన్‌ను అన్‌ఇన్‌స్టాల్ చేయడం వలన దాని ఫైల్‌సిస్టమ్‌లు, నోడ్‌లు, ఇన్వెంటరీ మరియు క్యాష్ ఉంచబడతాయి. అన్‌ఇన్‌స్టాల్ చేసినప్పుడు వాటిని తొలగించడానికి దీన్ని క్లియర్ చేయండి; ముందుగా పారలల్ ఫైల్‌సిస్టమ్ నిర్వాహకుడు పేజీ నుండి రిజిస్ట్రీని ఎగుమతి చేయండి. ఏ విధంగానూ స్టోరేజ్ నోడ్‌లను ఎప్పుడూ సంప్రదించరు."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "అన్‌ఇన్‌స్టాల్ చేసేటప్పుడు ఈ ప్లగిన్ సృష్టించిన పరికరాలను తొలగించు"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "ఎంచుకున్నప్పుడు, Cacti లో తొలగించినట్లుగానే ప్లగిన్‌ను అన్‌ఇన్‌స్టాల్ చేయడం వలన ఫైల్‌సిస్టమ్‌ల కోసం అది సృష్టించిన పరికరాలు, వాటి గ్రాఫ్‌లు మరియు డేటా సోర్సులతో సహా తొలగించబడతాయి. ఫైల్‌సిస్టమ్‌కు మ్యాప్ చేయబడిన ప్రస్తుత పరికరాలు ఎప్పుడూ తొలగించబడవు. Cacti యొక్క స్వంత RRD క్లీనప్ సెట్టింగ్ వాటిని తీసివేస్తేనే RRD ఫైల్‌లు తీసివేయబడతాయి. క్లియర్ చేసినప్పుడు, పరికరాలు అలాగే ఉంటాయి."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "మీకు ఏ ఫైల్‌సిస్టమ్ కనిపించడం లేదు."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "ఫైల్‌సిస్టమ్ %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "ఈ ఫైల్‌సిస్టమ్ యొక్క గ్రాఫ్‌లు"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "పరిస్థితి"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "తాజాదనం"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "తెలిసిన విలువలు"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "చివరిగా కనిపించింది"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "పునరుద్ధరణ"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "సమీక్ష"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "మూల నోడ్"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "ఇంకా ఏ లక్ష్యాలు కనుగొనబడలేదు."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "ఆ రికార్డు మీకు అనుమతి లేని Cacti పరికరానికి చెందినది. ఏదీ మార్చబడలేదు."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "పేరు: ఈ బ్యాకెండ్‌లోని మరొక ఫైల్‌సిస్టమ్ ఇప్పటికే ఈ పేరును ఉపయోగిస్తోంది."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "ఫైల్‌సిస్టమ్ సేవ్ చేయబడలేదు."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "ఫైల్‌సిస్టమ్ సేవ్ చేయబడింది."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "ఫైల్‌సిస్టమ్, దాని నోడ్‌లు మరియు దాని ఇన్వెంటరీ తొలగించబడ్డాయి. దాని Cacti పరికరం, డేటా సోర్సులు మరియు గ్రాఫ్‌లు ఉంచబడ్డాయి. ఏ నోడ్‌నూ సంప్రదించలేదు."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "పేరు: మరొక నోడ్ ఇప్పటికే ఈ పేరును ఉపయోగిస్తోంది."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "నోడ్ సేవ్ చేయబడలేదు."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "నోడ్ సేవ్ చేయబడింది."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "నోడ్ తొలగించబడింది. అది నివేదించిన లక్ష్యాలు వాటి చరిత్రను ఉంచుకుంటాయి."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "10.20.0.0/16 వంటి చిరునామా మరియు ప్రిఫిక్స్ పొడవుగా నెట్‌వర్క్‌ను నమోదు చేయండి."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "ఏ పరికరం జోడించబడలేదు: ఫైల్‌సిస్టమ్‌కు ఇప్పటికే ఒకటి ఉంది, లేదా టెంప్లేట్లు ఇన్‌స్టాల్ చేయబడలేదు."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "పరికరాన్ని మ్యాప్ చేయడం సాధ్యం కాలేదు. ఇది మరొక ఫైల్‌సిస్టమ్‌కు మ్యాప్ చేయబడి ఉండవచ్చు."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "పరికరం మ్యాప్ చేయబడింది మరియు డేటా క్వెరీలు మరియు స్థూలదృష్టి గ్రాఫ్‌లు జోడించబడ్డాయి."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti పరికరాన్ని సృష్టించలేదు. Cacti లాగ్‌ను చూడండి."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "పరికరం, దాని డేటా క్వెరీలు మరియు దాని స్థూలదృష్టి గ్రాఫ్‌లు సృష్టించబడ్డాయి."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "పరికరం ఇకపై మ్యాప్ చేయబడలేదు. అది మరియు దాని గ్రాఫ్‌లు ఉంచబడ్డాయి; ఇది మళ్లీ మ్యాప్ చేయబడే వరకు దాని డేటా క్వెరీలు ఏ లక్ష్యాలను జాబితా చేయవు."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "టెంప్లేట్లు మరియు డేటా క్వెరీ ఫైల్‌లు ఇన్‌స్టాల్ చేయబడ్డాయి."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "టెంప్లేట్లు ఇన్‌స్టాల్ చేయబడలేదు: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "పర్యవేక్షణ వీక్షణ"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "పరిశీలనలను చదవలేకపోయాము. ప్లగిన్ లాగ్‌ను తనిఖీ చేయమని నిర్వాహకుడిని అడగండి."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ ప్లగిన్‌కు PHP %s లేదా ఆ తర్వాతి వెర్షన్ అవసరం. ఈ సర్వర్ PHP %s ను నడుపుతోంది, కాబట్టి ప్లగిన్ ఇన్‌స్టాల్ చేయబడలేదు లేదా ప్రారంభించబడలేదు."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ ప్లగిన్ ప్రారంభించబడలేదు."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "పారలల్ ఫైల్‌సిస్టమ్ ప్లగిన్‌కు PHP %s లేదా ఆ తర్వాతి వెర్షన్ అవసరం."
+
+#: setup.php
+msgid "Management"
+msgstr "నిర్వహణ"

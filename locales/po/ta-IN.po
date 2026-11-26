@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: ta-IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "இணை கோப்பு முறைமைகளில் இலக்குத் திறன், சமநிலையின்மை மற்றும் புதுமைத்தன்மையை ஆய்வு செய்யவும். கணு அணுகல், இலக்கு ஏற்பு மற்றும் சாதனப் பொருத்தத்தை நிர்வாகிக்கு மேல்முறையீடு செய்யவும்."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH கட்டாயக் கட்டளை"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "கோப்பு முறைமைகள்"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "செயல்கள்"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "பின்தளம்"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti சாதனம்"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "எதிர்பார்க்கப்படும் இடைவெளி"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "பெயர்"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "முனைகள்"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "நிலை"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "கோப்பு முறைமைகள் எதுவும் இன்னும் பதிவு செய்யப்படவில்லை."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d வினாடிகள்"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "நீக்கு"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "அணுகல்"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "முனையம்"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "கோப்பு முறைமை"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "உள்நுழைவுப் பெயர்"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "பங்கு"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "இதுவரை எந்த முனைகளும் பதிவு செய்யப்படவில்லை."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "முதலில் ஒரு கோப்பு முறைமையைப் பதிவு செய்யவும்."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "ஏற்றுமதி"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "செருகுநிரல் அட்டவணைகளை நீக்கும் நிறுவல் நீக்கத்திற்கு முன் பதிவகத்தை (கோப்பு முறைமைகள், முனைகள், பிணையங்கள் மற்றும் இலக்கு மதிப்பாய்வு) JSON ஆகப் பதிவிறக்கவும். இதில் எந்த விசையும் அல்லது நற்சான்றிதழும் இல்லை."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "கோப்பு முறைமை: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "புதிய கோப்பு முறைமை"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "எதிர்பார்க்கப்படும் இடைவெளி (விநாடிகள்)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "இயக்கப்பட்டது"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "புதிய முனை"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "முனை: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "முனையம் (புரவலன் பெயர் அல்லது முகவரி)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH துறை"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "pfs-read.sh இயக்கும் கட்டாயக் கட்டளையுடன் இந்த உள்நுழைவிற்கான authorized_keys இல் வாசிப்பான் விசையை முனை பட்டியலிட வேண்டும், எடுத்துக்காட்டாக: restrict,command=\"/usr/local/libexec/pfs-read.sh\" தொடர்ந்து பொது விசை. இங்கு எழுதப்பட்டுள்ள முனையத்தின் கீழ் புரவலன் விசை known hosts கோப்பில் இருக்க வேண்டும்."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "%s கோப்பு முறைமைக்கான Cacti சாதனம்"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "புதிய சாதனத்தை உருவாக்கவும்"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "சாதனம்"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "சேர்க்கப்பட உள்ளதைக் காட்டு"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "சேர்க்க வேண்டிய பொருள்கள்"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "சாதனம் போலர் உட்பட அதன் சொந்த அமைப்புகளைத் தக்கவைத்துக் கொள்ளும். அதில் எதுவும் மாற்றப்படாது அல்லது அகற்றப்படாது."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "சாதனத்தின் புதிய வரைபடங்கள் பக்கத்திலிருந்து தேவைக்கேற்ப இலக்கு-வாரியான வரைபடங்கள் உருவாக்கப்படுகின்றன."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "சாதனத்தை உருவாக்கவும்"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "இந்தச் சாதனத்தை இணைக்கவும்"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "அனுமதிக்கப்பட்ட பிணையங்கள்"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "பிணையம்"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "இதுவரை எந்தப் பிணையமும் அனுமதிக்கப்படவில்லை. ஒரு போலரின் பிணையங்கள் இங்கு பட்டியலிடப்படும் வரை அது எந்த முனையையும் அடையாது."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "அனுமதி"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "மதிப்பாய்விற்காகக் காத்திருக்கும் இலக்குகள்"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "இருப்பு"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "இலக்கு"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "அது சேர்க்கும் மதிப்புகள்"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "ஏற்கவும்"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "புறக்கணிக்கவும்"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "மதிப்பாய்விற்காக எந்த இலக்கும் காத்திருக்கவில்லை."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "சாதனத்தைச் சேர்க்கவும்"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(போலர் %d ஆல் வாக்கெடுக்கப்பட்டது, %d ஆல் அல்ல)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "இணைப்பை நீக்கு"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "சேமி"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "இணை கோப்பு முறைமை வார்ப்புருக்கள் நிறுவப்படவில்லை. நலன் பக்கத்திலிருந்து அவற்றை மீண்டும் நிறுவவும்."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "சாதனம் \"%s\" (%s சாதன வார்ப்புருவிலிருந்து), வாக்கெடுப்பி %d மூலம் வாக்கெடுக்கப்பட்டு, கிடைக்கும் தன்மைச் சோதனைகள் முடக்கப்பட்டிருக்கும்."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "தரவு வினவல் \"%s\", இப்போது அறியப்பட்ட %d இலக்குகளைப் பட்டியலிடுகிறது. இது தானாக எந்த வரைபடத்தையும் உருவாக்காது."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "\"%s\" வரைபடம்."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "அந்த வரைபடங்கள் ஒவ்வொன்றிற்கும் ஒரு \"%s\" தரவு மூலம், இலக்குகளின் எண்ணிக்கை எதுவாக இருந்தாலும், ஒரு வாக்கெடுப்புச் சுழற்சிக்கு தலா ஒரு ஸ்கிரிப்ட் சேவையக அழைப்பு."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "%s கோப்பு முறைமைக்காக இணை கோப்பு முறைமை செருகுநிரலால் உருவாக்கப்பட்டது. இதன் மதிப்புகள் செருகுநிரல் இடைமாற்றகத்திலிருந்து வருகின்றன; புரவலன் பெயர் ஒரு ஒதுக்கப்பட்ட பெயராகும், அது ஒருபோதும் தொடர்பு கொள்ளப்படாது."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "பின்தளம்: பட்டியலிடப்பட்ட பின்தளங்களில் ஒன்றைத் தேர்ந்தெடுக்கவும்."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "பெயர்: முனைகள் அச்சிடும் கோப்பு முறைமைப் பெயரைப் பயன்படுத்தவும், அதாவது அதிகபட்சம் 8 எழுத்துகள், இலக்கங்கள், இடைக்கோடுகள் அல்லது அடிக்கோடுகளைக் கொண்ட Lustre fsname போன்றது."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "போலர்: பட்டியலிடப்பட்ட போலர்களில் ஒன்றைத் தேர்ந்தெடுக்கவும்."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "எதிர்பார்க்கப்படும் இடைவெளி: %d முதல் %d வரையிலான முழு விநாடிகளை உள்ளிடவும்."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "ஒருபோதும் இல்லை"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d விநாடிகளுக்கு முன்"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d நிமிடங்களுக்கு முன்"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d மணிநேரங்களுக்கு முன்"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d நாட்களுக்கு முன்"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s இன் இணை கோப்பு முறைமைக் காட்சி"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "இணை கோப்பு முறைமை எச்சரிக்கைகள்"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "எச்சரிக்கைகள் இல்லை."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "வார்ப்புருக்களை மீண்டும் நிறுவவும்"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "வாசிப்பான்கள்"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "தோல்வியடைந்தது"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "கடைசியாக முடிந்த இயக்கம்"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "கடைசி இயக்கம்"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "அடையப்படவில்லை"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "வாசிப்பு"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "இதுவரை எந்த வாசிப்பானும் இயங்கவில்லை."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "கால அளவு"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "தோல்வி"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "கடைசி வாசிப்பு"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "கடைசி வெற்றி"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "முனை"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "அறிவிக்கப்பட்ட பதிப்பு"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "பதிலளிப்பு அளவு"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "முடக்கப்பட்டது"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s வி"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: நிலையான வாசிப்பு ஸ்கிரிப்ட் கட்டமைப்பு இல்லாமல் முனை பதிலளித்தது. அதன் விசை pfs-read.sh இயக்கும் கட்டாயக் கட்டளைக்கு மட்டுப்படுத்தப்படாமல் இருக்கலாம்."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: முனை புரவலன் விசை known hosts கோப்பில் இல்லை, அல்லது அது மாறிவிட்டது. அதைச் சேர்ப்பதற்கு முன் விசையைச் சரிபார்க்கவும்."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: போலர் %d க்கு அனுமதிக்கப்பட்ட பிணையங்களுக்கு வெளியே முனையம் தீர்க்கப்படுகிறது, எனவே அது வாசிக்கப்படவில்லை."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: செருகுநிரல் வாசிக்காத %d அளவுருக்களை வாசிப்பு ஸ்கிரிப்ட் அச்சிட்டது, எனவே இது வழங்கப்பட்ட pfs-read.sh அல்ல. செருகுநிரலுக்குத் தேவையானதை விட அதிகமாக முனை வெளிப்படுத்தக்கூடும்."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: முனை வெளியீட்டில் உள்ள %d இலக்குப் பெயர்கள் எதிர்பார்க்கப்படும் வடிவத்துடன் அல்லது கோப்பு முறைமையுடன் பொருந்தவில்லை, எனவே அவை புறக்கணிக்கப்பட்டன."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "போலர் %d இல் உள்ள வாசிப்பான் கடந்த %d விநாடிகளில் ஒரு இயக்கத்தை முடிக்கவில்லை. அதன் முனைகளிலிருந்து வரும் மதிப்புகள் பழையதாகின்றன."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "இணை கோப்பு முறைமை வார்ப்புருக்களை நிறுவுவது தோல்வியடைந்தது: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "இணை கோப்பு முறைமை வார்ப்புருக்கள் நிறுவப்படவில்லை, எனவே எந்தச் சாதனத்தையும் சேர்க்க முடியாது."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "தரவு வினவல் கோப்பு resource/script_server/%s Cacti இல் காணவில்லை அல்லது இந்தச் செருகுநிரல் வழங்கும் கோப்பிலிருந்து வேறுபடுகிறது, எனவே தரவு வினவல்களால் இலக்குகளைப் பட்டியலிட முடியாது."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "கோப்பு முறைமை %s சாதனம் %d உடன் இணைக்கப்பட்டுள்ளது, ஆனால் அது இப்போது இல்லை."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "கோப்பு முறைமை %s இன் சாதனம் போலர் %d ஆல் வாக்கெடுக்கப்படுகிறது, ஆனால் அதன் முனைகள் போலர் %d ஆல் வாசிக்கப்படுகின்றன, அதன் இடைமாற்றகம் சாதனத்தின் தரவு மூலங்களுக்குத் தேவைப்படுகிறது."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "SSH விசைக் கோப்பு %s இந்தச் சேவையகத்தில் இல்லை."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH விசைக் கோப்பு %s அதன் உரிமையாளரைத் தவிர மற்ற பயனர்களால் வாசிக்கப்படலாம் அல்லது எழுதப்படலாம் (பயன்முறை %s). அதைப் போலர் பயனருக்கு மட்டும் வரம்பிடவும்."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "known hosts கோப்பு %s இந்தச் சேவையகத்தில் இல்லை, எனவே அதிலிருந்து எந்த முனையையும் வாசிக்க முடியாது."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSH கிளையன்ட் %s இந்தச் சேவையகத்தில் இல்லை."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "கோப்பு முறைமை: பதிவுசெய்யப்பட்ட கோப்பு முறைமைகளில் ஒன்றைத் தேர்ந்தெடுக்கவும்."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "பெயர்: ஓர் எழுத்து அல்லது இலக்கத்துடன் தொடங்கி, 1 முதல் 64 எழுத்துகள், இலக்கங்கள், புள்ளிகள், இடைக்கோடுகள் அல்லது அடிக்கோடுகளைப் பயன்படுத்தவும்."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "பங்கு: பட்டியலிடப்பட்ட பங்குகளில் ஒன்றைத் தேர்ந்தெடுக்கவும்."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "துறை: 1 முதல் 65535 வரையிலான ஒரு துறையை உள்ளிடவும்."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "உள்நுழைவுப் பெயர்: எழுத்து அல்லது அடிக்கோட்டில் தொடங்கும், அதிகபட்சம் 32 எழுத்துகள் கொண்ட சிற்றெழுத்துக் கணக்குப் பெயரைப் பயன்படுத்தவும்."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "முனையம்: பயனர், துறை அல்லது பாதை இல்லாமல் புரவலன் பெயர் அல்லது IP முகவரியை மட்டும் உள்ளிடவும்."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "முனையம்: இந்தச் சேவையகத்தில் பெயர் தீர்க்கப்படவில்லை."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "முனையம்: இது %s ஆகத் தீர்க்கப்படுகிறது, இது இந்தப் போலருக்கு அனுமதிக்கப்பட்ட பிணையங்களுக்குள் இல்லை. முதலில் பிணையத்தைச் சேர்க்கவும்."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "மேலாண்மைச் சேவையகம் (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "மீத்தரவுச் சேவையகம் (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "பொருள் சேமிப்பகச் சேவையகம் (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "கிளையன்ட்"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "கீழே பதிவுசெய்யப்பட்ட அவதானிப்புகளை மதிப்பாய்வு செய்யவும். ஒப்புதல்கள் இந்த அமர்வுக்குத் தனிப்பட்டவை, அவதானிப்புகள் மாறும்போது காலாவதியாகும், மேலும் எச்சரிக்கைகளைத் தடுக்கவோ நலநிலையை மாற்றவோ செய்யாது."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "இணை கோப்பு முறைமை செயல்பாடுகள்"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "ஆய்வு"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "பொருள்"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "அவதானிக்கப்பட்டது (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "தெரியாதது அல்லது பழமையானது"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "ஒப்புக்கொள்ளப்பட்டது; நலநிலை மாறவில்லை."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "ஒப்புக்கொள்"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "நீங்கள் அணுகக்கூடிய சாதனங்களுக்கு அவதானிப்புகள் எதுவும் இல்லை."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "இணை கோப்பு முறைமை இயக்குநர்"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "இணை கோப்பு முறைமைக் காட்சி"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "இணை கோப்பு முறைமை நிர்வாகம்"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "இணை கோப்பு முறைமைகள்"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "இணை கோப்பு முறைமைப் பதிவகம்"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "இணை கோப்பு முறைமை நலன்"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "முனை அணுகலுக்கான செருகுநிரல் அமைப்புகள் முழுமையற்றவை அல்லது பயன்படுத்த முடியாதவை"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "அதன் போலருக்கு அனுமதிக்கப்பட்ட பிணையங்களுக்கு வெளியே முனையம் தீர்க்கப்படுகிறது"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "முனையப் பெயர் தீர்க்கப்படவில்லை"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "முனையை அடைய முடியவில்லை"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "முனை புரவலன் விசை அறியப்படாதது அல்லது மாறிவிட்டது"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "முனை விசையை மறுத்தது"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "வாசிப்பு அதன் நேர வரம்பை மீறியது"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "பதிலளிப்பு அளவு வரம்பை மீறியது"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "வாசிப்புக் கட்டளை தோல்வியடைந்தது"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "நிலையான வாசிப்பு ஸ்கிரிப்ட் மூலம் முனை பதிலளிக்கவில்லை"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "வாசிப்பு ஸ்கிரிப்ட் முடிவதற்குள் பதிலளிப்பு முடிவடைந்தது"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "முனை அணுகல்"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "முனைகளை வாசிக்கும் ஒவ்வொரு போலரிலும் உள்ள ssh கிளையன்ட்டுக்கான முழுமையான பாதை."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH கிளையன்ட்"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "முனைகளை வாசிக்கும் ஒவ்வொரு போலரிலும் உள்ள தனிப்பட்ட விசைக்கான முழுமையான பாதை; இதன் பொதுப் பாதியை ஒவ்வொரு முனையும் pfs-read.sh இயக்கும் கட்டாயக் கட்டளையுடன் authorized_keys இல் பட்டியலிடுகிறது. போலர் பயனரால் மட்டுமே வாசிக்கக்கூடியது. செருகுநிரல் இதை ஒருபோதும் உருவாக்காது, நகலெடுக்காது அல்லது அச்சிடாது."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH விசைக் கோப்பு"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "முனை முனையப் பெயரின் கீழ் ஒவ்வொரு முனை புரவலன் விசையையும் வைத்திருக்கும் known_hosts கோப்பிற்கான முழுமையான பாதை. விசை காணாமல் போன அல்லது மாறிய முனை வாசிக்கப்படாது."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Known Hosts கோப்பு"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "இணைப்பு காலாவதி"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "இணைப்பை முனை ஏற்கும் வரை காத்திருக்க வேண்டிய விநாடிகள்."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "வாசிப்பு காலாவதி"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "ஒரு முனை வாசிப்பு நிறுத்தப்பட்டு தோல்வியடைந்ததாகப் பதிவு செய்யப்படுவதற்கு முன் மொத்தமாக எடுக்கக்கூடிய விநாடிகள்."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "ஒரு முனை திருப்பியளிக்கக்கூடிய KiB. பெரிய பதில் நிராகரிக்கப்பட்டு தோல்வியடைந்ததாகப் பதிவு செய்யப்படும்."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "அதிகபட்ச பதிலளிப்பு"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "வாசிப்பான்"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "வாசிப்பான் நேர வரம்பு"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "முனை வாசிப்புகளைத் தொடங்குவதை நிறுத்துவதற்கு முன் ஒரு வாசிப்பான் இயக்கம் செலவிடக்கூடிய விநாடிகள். இதை போலர் இடைவெளிக்குக் கீழே வைத்திருக்கவும்; வாசிக்கப்படாத முனைகள் அடுத்த இயக்கத்தில் வாசிக்கப்படும்."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "ஒரேநேர வாசிப்புகள்"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "ஒரு வாசிப்பான் ஒரே நேரத்தில் இயக்கும் முனை வாசிப்புகள்."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "நிறுவல் நீக்கு"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "நிறுவல் நீக்கும்போது செருகுநிரல் அட்டவணைகளை வைத்திரு"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "தேர்வுசெய்யப்படும்போது, செருகுநிரலை நிறுவல் நீக்குவது அதன் கோப்பு முறைமைகள், முனைகள், சரக்கு மற்றும் இடைமாற்றகத்தைத் தக்கவைக்கும். நிறுவல் நீக்கம் அவற்றை நீக்க இதைத் தேர்வுநீக்கவும்; முதலில் இணை கோப்பு முறைமை நிர்வாகம் பக்கத்திலிருந்து பதிவகத்தை ஏற்றுமதி செய்யவும். எந்த வழியிலும் சேமிப்பக முனைகள் தொடர்பு கொள்ளப்படாது."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "நிறுவல் நீக்கத்தின் போது இந்தச் செருகுநிரல் உருவாக்கிய சாதனங்களை நீக்கவும்"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "தேர்வுசெய்யப்படும்போது, Cacti இல் நீக்குவது போலவே, கோப்பு முறைமைகளுக்காகச் செருகுநிரல் உருவாக்கிய சாதனங்களை அவற்றின் வரைபடங்கள் மற்றும் தரவு மூலங்களுடன் நிறுவல் நீக்கம் நீக்கும். ஒரு கோப்பு முறைமையுடன் இணைக்கப்பட்ட ஏற்கனவே உள்ள சாதனங்கள் ஒருபோதும் நீக்கப்படாது. Cacti இன் சொந்த RRD சுத்திகரிப்பு அமைப்பு அவற்றை அகற்றினால் மட்டுமே RRD கோப்புகள் அகற்றப்படும். தேர்வுநீக்கப்பட்டால், சாதனங்கள் இருக்கும்."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "எந்தக் கோப்பு முறைமையும் உங்களுக்குத் தெரியவில்லை."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "கோப்பு முறைமை %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "இந்தக் கோப்பு முறைமையின் வரைபடங்கள்"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "நிலை"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "புதுமை"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "அறியப்பட்ட மதிப்புகள்"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "கடைசியாகப் பார்க்கப்பட்டது"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "மீட்பு"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "மதிப்பாய்வு"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "மூல முனை"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "இதுவரை எந்த இலக்குகளும் கண்டறியப்படவில்லை."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "அந்தப் பதிவு உங்களுக்கு அனுமதி இல்லாத Cacti சாதனத்திற்கு உரியது. எதுவும் மாற்றப்படவில்லை."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "பெயர்: இந்தப் பின்னணியின் மற்றொரு கோப்பு முறைமை ஏற்கனவே இந்தப் பெயரைப் பயன்படுத்துகிறது."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "கோப்பு முறைமையைச் சேமிக்க முடியவில்லை."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "கோப்பு முறைமை சேமிக்கப்பட்டது."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "கோப்பு முறைமை, அதன் முனைகள் மற்றும் அதன் சரக்கு நீக்கப்பட்டன. அதன் Cacti சாதனம், தரவு மூலங்கள் மற்றும் வரைபடங்கள் தக்கவைக்கப்பட்டன. எந்த முனையும் தொடர்பு கொள்ளப்படவில்லை."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "பெயர்: மற்றொரு முனை ஏற்கனவே இந்தப் பெயரைப் பயன்படுத்துகிறது."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "முனையைச் சேமிக்க முடியவில்லை."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "முனை சேமிக்கப்பட்டது."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "முனை நீக்கப்பட்டது. அது அறிவித்த இலக்குகள் அவற்றின் வரலாற்றைத் தக்கவைத்துக்கொள்ளும்."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "பிணையத்தை முகவரி மற்றும் முன்னொட்டு நீளமாக உள்ளிடவும், எ.கா. 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "சாதனம் எதுவும் சேர்க்கப்படவில்லை: கோப்பு முறைமையில் ஏற்கனவே ஒன்று உள்ளது, அல்லது வார்ப்புருக்கள் நிறுவப்படவில்லை."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "சாதனத்தை இணைக்க முடியவில்லை. இது வேறொரு கோப்பு முறைமையுடன் இணைக்கப்பட்டிருக்கலாம்."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "சாதனம் இணைக்கப்பட்டு, தரவு வினவல்கள் மற்றும் மேலோட்ட வரைபடங்கள் சேர்க்கப்பட்டன."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti சாதனத்தை உருவாக்கவில்லை. Cacti பதிவைப் பார்க்கவும்."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "சாதனம், அதன் தரவு வினவல்கள் மற்றும் அதன் மேலோட்ட வரைபடங்கள் உருவாக்கப்பட்டன."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "சாதனம் இனி இணைக்கப்படவில்லை. அதுவும் அதன் வரைபடங்களும் தக்கவைக்கப்பட்டன; அது மீண்டும் இணைக்கப்படும் வரை அதன் தரவு வினவல்கள் எந்த இலக்குகளையும் பட்டியலிடாது."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "வார்ப்புருக்கள் மற்றும் தரவு வினவல் கோப்புகள் நிறுவப்பட்டன."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "வார்ப்புருக்களை நிறுவ முடியவில்லை: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "கண்காணிப்புப் பார்வை"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "அவதானிப்புகளைப் படிக்க முடியவில்லை. செருகுநிரல் பதிவைச் சரிபார்க்க நிர்வாகியிடம் கேளுங்கள்."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "இணை கோப்பு முறைமை செருகுநிரலுக்கு PHP %s அல்லது அதற்குப் பிந்தைய பதிப்பு தேவை. இந்தச் சேவையகம் PHP %s ஐ இயக்குகிறது, எனவே செருகுநிரல் நிறுவப்படவில்லை அல்லது இயக்கப்படவில்லை."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "இணை கோப்பு முறைமை செருகுநிரல் இயக்கப்படவில்லை."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "இணை கோப்பு முறைமை செருகுநிரலுக்கு PHP %s அல்லது அதற்குப் பிந்தைய பதிப்பு தேவை."
+
+#: setup.php
+msgid "Management"
+msgstr "மேலாண்மை"

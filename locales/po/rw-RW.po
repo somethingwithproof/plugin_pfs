@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: rw-RW\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Genzura ubushobozi bw'intego, ubusumbane n'igihe amakuru aherukira kuvugururwa kuri Parallel Filesystems. Ohereza ku muyobozi ibijyanye n'uburenganzira bwa nodi, kwemera intego no guhuza ibikoresho."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Ibwiriza rihatirwa rya SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Sisitemu z'amadosiye"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Ibikorwa"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Igikoresho cya Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Intera yitezwe"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Izina"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Nodi"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Imiterere"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Nta sisitemu z'amadosiye zirandikwa kugeza ubu."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "amasegonda %d"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Siba"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Uburenganzira bwo kugera"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Ahantu ho guhurira"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Sisitemu ya dosiye"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Izina ryo kwinjira"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Uruhare"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Nta mahuriro arandikwa kugeza ubu."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Banza wandike sisitemu y'amadosiye."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Ohereza hanze"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Kuramo rejisitiri (sisitemu z'amadosiye, amahuriro, imiyoboro, n'isuzuma ry'intego) nka JSON mbere yo gukuramo umugereka usiba imbonerahamwe zawo. Ntibitse urufunguzo cyangwa ibyangombwa byo kwinjira."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Sisitemu y'amadosiye: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Sisitemu y'amadosiye nshya"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Intera iteganyijwe (amasegonda)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Byafunguwe"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Nodi nshya"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Ihuriro: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Aderesi y'ihuriro (izina rya host cyangwa aderesi)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Umuyoboro wa SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Ihuriro rigomba gushyira urufunguzo rw'umusomyi muri authorized_keys ku izina ryo kwinjira hamwe n'itegeko ryahatirijwe ritangiza pfs-read.sh, urugero: restrict,command=\"/usr/local/libexec/pfs-read.sh\" ikurikiwe n'urufunguzo rusange. Urufunguzo rwa host rugomba kuba muri dosiye ya known_hosts munsi y'aderesi y'ihuriro nk'uko yanditswe hano."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Igikoresho cya Cacti cya sisitemu y'amadosiye %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Hanga igikoresho gishya"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Igikoresho"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Erekana ibizongerwamo"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Ibintu byo kongeramo"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Igikoresho kigumana igenamiterere ryacyo, harimo na poller. Nta na kimwe gihindurwa cyangwa ngo kivanwemo."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Ibishushanyo bya buri ntego bikorwa igihe bisabwe binyuze ku rupapuro rwa New Graphs rw'igikoresho."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Hanga igikoresho"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Huza iki gikoresho"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Imiyoboro yemewe"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Umuyoboro"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Nta miyoboro iremerwa kugeza ubu. Poller nta huriro ishobora kugeraho kugeza igihe imiyoboro yayo ishyizwe kuri uru rutonde."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Emerera"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Intego zitegereje isuzuma"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Ukuhaba"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Intego"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Indangagaciro cyongeramo"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Emeza"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Inyura ku ruhande"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Nta ntego zitegereje isuzuma."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Ongeramo igikoresho"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(isomwa na poller %d, si %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Tandukanya"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Bika"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Inyandikorugero za Parallel Filesystem ntizashyizwemo. Ongera uzishyiremo uvuye ku rupapuro rw'ubuzima."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Igikoresho \"%s\" kivuye ku cyitegererezo cy'igikoresho %s, gikusanywa n'umukusanyamakuru %d, igenzura ryo kuboneka ryafunzwe."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Ishakisha ry'amakuru \"%s\", ririmo intego %d zizwi ubu. Ntiryikora igishushanyo ubwaryo."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Igishushanyo \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Inkomoko y'amakuru ya \"%s\" kuri buri kimwe muri ibyo bishushanyo, aho buri imwe ikora ihamagara rimwe rya script server kuri buri gikorwa cyo gusoma, uko umubare w'intego waba ungana kose."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Byakozwe n'umugereka wa Parallel Filesystem kuri sisitemu y'amadosiye %s. Indangagaciro zacyo ziva mu bubiko bw'agateganyo bw'umugereka; izina rya host ni izina ryabikiwe ikoreshwa ritajya rihamagarwa."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: hitamo imwe muri backend zatanzwe ku rutonde."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Izina: koresha izina rya sisitemu y'amadosiye amahuriro agaragaza, nka Lustre fsname igizwe n'inyuguti, imibare, uturongo duto cyangwa uturongo two hasi bitarenze 8."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: hitamo imwe muri poller zatanzwe ku rutonde."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Intera iteganyijwe: andika amasegonda yuzuye kuva kuri %d kugeza kuri %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Nta na rimwe"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "hashize amasegonda %d"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "hashize iminota %d"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "hashize amasaha %d"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "hashize iminsi %d"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Imigaragarire ya Parallel Filesystem ya %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Imiburo ya Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Nta miburo."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Ongera ushyiremo inyandikorugero"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Abasomyi"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Byananiranye"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Igikorwa giheruka kirangiye"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Inshuro iheruka"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Ntiyagezweho"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Gusoma"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Nta musomyi urakora kugeza ubu."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Igihe byamaze"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Ikosa"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Isoma riheruka"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Iheruka kugenda neza"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Nodi"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Verisiyo yatanzwe"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Ingano y'igisubizo"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "yahagaritswe"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: ihuriro ryashubije nta miterere yagenwe ya script yo gusoma. Urufunguzo rwaryo rushobora kuba rutabujijwe gukora gusa itegeko ryahatirijwe ritangiza pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: urufunguzo rwa host rw'ihuriro ntiruri muri dosiye ya known_hosts, cyangwa rwahindutse. Suzuma urufunguzo mbere yo kurwongeramo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: aderesi y'ihuriro ihindukira hanze y'imiyoboro yemewe kuri poller %d, bityo ntirisomwa."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: script yo gusoma yatanze ibipimo %d umugereka udasoma, bityo si pfs-read.sh yatanzwe. Ihuriro rishobora kuba rishyira ahagaragara ibirenze ibyo umugereka ukeneye."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: amazina y'intego %d mu bisubizo by'ihuriro ntiyahuye n'imiterere iteganyijwe cyangwa sisitemu y'amadosiye maze ararengagizwa."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Umusomyi uri kuri poller %d ntarangije igikorwa mu masegonda %d ashize. Indangagaciro ziva ku mahuriro ye ziri gushira igihe."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Gushyiramo inyandikorugero za Parallel Filesystem byanze: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Inyandikorugero za Parallel Filesystem ntizashyizwemo, bityo nta gikoresho gishobora kongerwamo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Dosiye y'ishakisha ry'amakuru resource/script_server/%s ibuze muri Cacti cyangwa itandukanye n'iyo uyu mugereka utanga, bityo ishakisha ry'amakuru ntirishobora gutondekanya intego."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Sisitemu y'amadosiye %s ihujwe n'igikoresho %d, kitakibaho."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Igikoresho cya sisitemu y'amadosiye %s gisomwa na poller %d, ariko amahuriro yacyo asomwa na poller %d, ufite ububiko bw'agateganyo inkomoko z'amakuru z'igikoresho zikeneye."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Dosiye y'urufunguzo rwa SSH %s ntibaho kuri iyi seriveri."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Dosiye y'urufunguzo rwa SSH %s ishobora gusomwa cyangwa kwandikwaho n'abandi bakoresha batari nyirayo (mode %s). Yigabanyirize umukoresha wa poller gusa."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Dosiye ya known_hosts %s ntibaho kuri iyi seriveri, bityo nta huriro rishobora gusomwa riyiturukamo."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Porogaramu ikoresha SSH %s ntibaho kuri iyi seriveri."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Sisitemu y'amadosiye: hitamo imwe muri sisitemu z'amadosiye zanditswe."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Izina: koresha kuva ku nyuguti 1 kugeza kuri 64, imibare, utudomo, uturongo tugufi, cyangwa uturongo two munsi, utangirira ku nyuguti cyangwa umubare."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Uruhare: hitamo rumwe mu ruhare ruri ku rutonde."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Umuyoboro: andika umuyoboro kuva kuri 1 kugeza kuri 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Izina ryo kwinjira: koresha izina rya konti riri mu nyuguti nto ritarengeje inyuguti 32, ritangirwa n'inyuguti cyangwa akarongo ko hasi."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Aderesi y'ihuriro: andika izina rya host cyangwa aderesi ya IP gusa, utashyizeho umukoresha, umuyoboro cyangwa inzira."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Aderesi y'ihuriro: izina ntirihindukira kuri iyi seriveri."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Aderesi y'ihuriro: ihindukira kuri %s, itari mu miyoboro yemewe kuri iyi poller. Banza wongeremo umuyoboro."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Seriveri yo gucunga (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Seriveri ya metadata (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Seriveri yo kubika ibintu (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Umukiriya"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Suzuma ibyagaragaye byanditswe hasi aha. Kwemeza ko wabibonye ni umwihariko w'iki gikorwa cyo kwinjira, birarangira iyo ibyagaragaye bihindutse, kandi ntibihagarika na rimwe impuruza cyangwa ngo bihindure ubuzima bwa sisitemu."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Ibikorwa bya Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Iperereza"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Ikintu"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Byagaragaye (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Ntibizwi cyangwa byashaje"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Byemejwe ko byabonywe; ubuzima ntibwahindutse."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Emeza ko wabibonye"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Nta byagaragaye biboneka ku bikoresho ufite uburenganzira bwo kugeraho."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Ukoresha Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Imigaragarire ya Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Ubuyobozi bwa Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Sisitemu za Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Rejisitiri ya Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Ubuzima bwa Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Igenamiterere ry'umugereka ryo kugera ku mahuriro ntiryuzuye cyangwa ntirikoreshwa"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Aderesi y'ihuriro ihindukira hanze y'imiyoboro yemewe kuri poller yayo"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Izina ry'aderesi y'ihuriro ntirihindukira"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Ihuriro ntiryashoboye kugerwaho"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Urufunguzo rwa host rw'ihuriro ntiruzwi cyangwa rwahindutse"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Ihuriro ryanze urufunguzo"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Gusoma byarengeje igihe ntarengwa"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Igisubizo cyarengeje ingano ntarengwa"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Itegeko ryo gusoma ryaranze"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Ihuriro ntiryashubije hakoreshejwe script yo gusoma yagenwe"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Igisubizo cyarangiye mbere y'uko script yo gusoma irangira"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Uburenganzira ku mahuriro"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Inzira yuzuye igana kuri ssh client kuri buri poller isoma amahuriro."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Porogaramu ya SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Inzira yuzuye, kuri buri poller isoma amahuriro, igana ku rufunguzo rw'ibanga aho igice cyarwo rusange buri huriro rishyira muri authorized_keys hamwe n'itegeko ryahatirijwe ritangiza pfs-read.sh. Rusomwa gusa n'umukoresha wa poller. Umugereka ntuzigera uruhanga, urukopera cyangwa ngo urucape."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Dosiye y'urufunguzo rwa SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Inzira yuzuye igana kuri dosiye ya known_hosts ibitse urufunguzo rwa host rwa buri huriro munsi y'izina ry'aderesi y'ihuriro. Ihuriro urufunguzo rwaryo rubuze cyangwa rwahindutse ntirisomwa."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Dosiye ya known_hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Igihe ntarengwa cyo kwihuza"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Amasegonda yo gutegereza ko ihuriro ryemera kwihuza."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Igihe ntarengwa cyo gusoma"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Amasegonda igikorwa kimwe cyo gusoma ihuriro gishobora kumara yose hamwe mbere y'uko gihagarikwa kandi kikandikwa nk'icyanze."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB ihuriro rimwe rishobora kugarura. Igisubizo kinini kirajugunywa kandi kikandikwa nk'icyanze."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Igisubizo ntarengwa"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Umusomyi"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Igihe cyagenewe umusomyi"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Amasegonda igikorwa kimwe cy'umusomyi gishobora kumara mbere y'uko gihagarika gutangiza isoma ry'amahuriro. Kigumane munsi y'intera ya poller; amahuriro atasomwe asomwa mu gikorwa gikurikira."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Isoma ribangikanye"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Isoma ry'amahuriro umusomyi umwe akorera rimwe."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Kura muri sisitemu"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Gumisha imbonerahamwe z'umugereka igihe ukurwa muri sisitemu"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Iyo bishyizweho akamenyetso, gukuramo umugereka bigumana sisitemu z'amadosiye zawo, amahuriro, urutonde rw'ibikoresho, n'ububiko bw'agateganyo. Kura akamenyetso kugira ngo gukuramo bibisibe; banza wohereze hanze rejisitiri uvuye ku rupapuro rwa Parallel Filesystem Admin. Amahuriro yo kubika ntajya ahamagarwa mu buryo bwose."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Siba ibikoresho uyu mugereka wahanze igihe ukuwemo"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Iyo bishyizweho akamenyetso, gukuramo umugereka bisiba ibikoresho wahanze kuri sisitemu z'amadosiye, hamwe n'ibishushanyo n'inkomoko z'amakuru byabyo, nk'uko kubisiba muri Cacti byagenda. Ibikoresho bisanzwe bihujwe na sisitemu y'amadosiye ntibijya bisibwa. Amadosiye ya RRD akurwaho gusa niba igenamiterere ryo gusukura RRD rya Cacti ubwaryo riyakuraho. Iyo akamenyetso kakuweho, ibikoresho biraguma."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Nta sisitemu y'amadosiye igaragara kuri wowe."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Sisitemu y'amadosiye %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Ibishushanyo by'iyi sisitemu y'amadosiye"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Imiterere"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Ubushyashya bw'amakuru"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Indangagaciro zizwi"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Biheruka kugaragara"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Igarura"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Isuzuma"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Ihuriro ry'inkomoko"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Nta ntego ziraboneka kugeza ubu."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Iyo nyandiko ni iy'igikoresho cya Cacti udafitiye uburenganzira. Nta cyahindutse."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Izina: indi sisitemu y'amadosiye y'iyi backend isanzwe ikoresha iri zina."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Sisitemu y'amadosiye ntiyashoboye kubikwa."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Sisitemu y'amadosiye yabitswe."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Sisitemu y'amadosiye, amahuriro yayo, n'urutonde rw'ibikoresho byayo byasibwe. Igikoresho cyayo cya Cacti, inkomoko z'amakuru, n'ibishushanyo byagumishijweho. Nta huriro ryahamagawe."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Izina: irindi huriro risanzwe rikoresha iri zina."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Ihuriro ntiryashoboye kubikwa."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Ihuriro ryabitswe."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Ihuriro ryasibwe. Intego ryatanze zigumana amateka yazo."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Andika umuyoboro nk'aderesi n'uburebure bw'imbanziriza, nka 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Nta gikoresho cyongeweho: sisitemu y'amadosiye isanzwe igifite, cyangwa inyandikorugero ntizashyizwemo."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Igikoresho nticyashoboye guhuzwa. Gishobora kuba gihujwe n'indi sisitemu y'amadosiye."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Igikoresho cyahujwe kandi ishakisha ry'amakuru n'ibishushanyo bigaragaza incamake byongeweho."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti ntiyahanze igikoresho. Reba inyandiko-mvugo ya Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Igikoresho, ishakisha ry'amakuru ryacyo, n'ibishushanyo byacyo bigaragaza incamake byahanzwe."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Igikoresho ntigikihujwe. Cyo n'ibishushanyo byacyo byagumishijweho; ishakisha ry'amakuru ryacyo ntirigaragaza intego kugeza igihe cyongeye guhuzwa."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Inyandikorugero n'amadosiye y'ishakisha ry'amakuru byashyizwemo."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Inyandikorugero ntizashoboye gushyirwamo: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Imboni y'ikurikirana"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Ibyagaragaye ntibyashoboye gusomwa. Saba umuyobozi kugenzura inyandiko-mvugo y'umugereka."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Umugereka wa Parallel Filesystem usaba PHP %s cyangwa irenga. Iyi seriveri ikoresha PHP %s, bityo umugereka ntiwashyizwemo cyangwa ngo wemezwe."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Umugereka wa Parallel Filesystem ntiwemejwe."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Umugereka wa Parallel Filesystem usaba PHP %s cyangwa irenga."
+
+#: setup.php
+msgid "Management"
+msgstr "Imicungire"
