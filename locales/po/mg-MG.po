@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: mg-MG\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Jereo ny fahafahan'ny lasibatra, ny tsy fifandanjana ary ny havaozin'ny angona amin'ny Rafitra Rakitra Mifanindry. Ampiakaro any amin'ny mpitantana ny fahazoan-dalana hidirana amin'ny singa, ny fanekena lasibatra ary ny fampifandraisana fitaovana."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Baiko SSH an-tery"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Rafitra rakitra"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Hetsika"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Fitaovana Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Elanelam-potoana andrasana"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Anarana"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Ireo node"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Toetra"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Tsy mbola misy rafitra rakitra voasoratra."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d segondra"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Fafao"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Fidirana"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Teboka fiafarana"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Rafitra rakitra"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Anaran'ny kaonty fidirana"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Andraikitra"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Tsy mbola misy teboka voasoratra anarana."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Manorata rafitra rakitra iray aloha."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Aondrana"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Alaivo amin'ny endrika JSON ny firaketana (rafitra rakitra, teboka, tambajotra, ary famerenana ny tanjona) alohan'ny fanesorana izay mamafa ny tabilao amin'ny plugin. Tsy misy fanalahidy na mari-pahazoan-dalana ao anatiny."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Rafitra rakitra: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Rafitra rakitra vaovao"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Elanelam-potoana andrasana (segondra)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Alefa"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Node vaovao"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Teboka: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Teboka fiafarana (anaran'ny mpampiantrano na adiresy)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Seranana SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Ny teboka dia tsy maintsy mitanisa ny fanalahidin'ny mpamaky ao amin'ny authorized_keys ho an'ity fidirana ity miaraka amin'ny baiko voatery mandefa ny pfs-read.sh, ohatra: restrict,command=\"/usr/local/libexec/pfs-read.sh\" arahin'ny fanalahidy imasom-bahoaka. Ny fanalahidin'ny mpampiantrano dia tsy maintsy ao amin'ny rakitra known_hosts eo ambanin'ny teboka fiafarana araka izay nosoratana eto."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Fitaovana Cacti ho an'ny rafitra rakitra %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Mamorona fitaovana vaovao"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Fitaovana"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Asehoy izay hampiana"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Zavatra hampiana"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Mitazona ny fikirakirana azy manokana ny fitaovana, anisan'izany ny mpanangona. Tsy misy ovaina na esorina ao aminy."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Ny kisary isaky ny tanjona dia foronina araka ny fangatahana avy amin'ny pejy Kisary Vaovao an'ny fitaovana."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Forony ny fitaovana"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Ampifandraiso ity fitaovana ity"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Tambajotra nahazoana alalana"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Tambajotra"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Tsy mbola misy tambajotra nahazoana alalana. Tsy mahatratra teboka na iray aza ny mpanangona raha tsy voatanisa eto ny tambajotrany."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Omeo alalana"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Tanjona miandry famerenana"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Fisiana"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Tanjona"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Sanda ampiany"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Ekeo"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Avelao"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Tsy misy tanjona miandry famerenana."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Manampia fitaovana"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(angonin'ny mpanangona %d, fa tsy %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Tapaho ny fifandraisana"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Tehirizo"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Tsy tafapetraka ny lasitra Rafitra rakitra mirazotra. Avereno apetraka avy amin'ny pejin'ny fahasalamana izy ireo."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Fitaovana \"%s\" avy amin'ny modely fitaovana %s, angonin'ny poller %d, miaraka amin'ny fanamarinana fahafahana miasa tsy alefa."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Ny fangatahana angona \"%s\", mitanisa tanjona %d fantatra ankehitriny. Tsy mamorona kisary ho azy izy io."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Ny kisary \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Loharanon'angona \"%s\" iray ho an'ny tsirairay amin'ireo kisary ireo, antso iray amin'ny mpizara baikon-tsoratra isaky ny tsingerin'ny fanangonana, na firy na firy ny isan'ny tanjona."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Noforonin'ny plugin Rafitra rakitra mirazotra ho an'ny rafitra rakitra %s. Avy amin'ny tahiry vonjimaikan'ny plugin ny sandany; anarana voatokana izay tsy ifandraisana velively ny anaran'ny mpampiantrano."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: mifidiana iray amin'ireo backend voatanisa."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Anarana: ampiasao ny anaran'ny rafitra rakitra avoakan'ny teboka, toy ny fsname Lustre misy litera, isa, tsipika kely, na tsipika ambany tsy mihoatra ny 8."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: mifidiana iray amin'ireo poller voatanisa."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Elanelam-potoana andrasana: ampidiro ny segondra feno manomboka amin'ny %d ka hatramin'ny %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Tsy mbola nisy"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d segondra lasa izay"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d minitra lasa izay"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d ora lasa izay"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d andro lasa izay"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Fijerena ny rafitra rakitra mirazotra an'ny %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Fampitandremana momba ny Rafitra rakitra mirazotra"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Tsy misy fampitandremana."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Avereno apetraka ny lasitra"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Mpamaky"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Tsy nahomby"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Fandehanana vita farany"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Fampandehanana farany"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Tsy tratra"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Voavaky"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Tsy mbola nisy mpamaky nandeha."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Faharetany"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Tsy fahombiazana"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Famakiana farany"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Fahombiazana farany"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Node"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Kinova notaterina"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Haben'ny valinteny"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "tsy mandeha"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: namaly tsy nisy ny rafitry ny baikon-tsoratra famakiana raikitra ny teboka. Mety tsy voafetra ho amin'ny baiko voatery mandefa ny pfs-read.sh ny fanalahidiny."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: tsy ao amin'ny rakitra known_hosts ny fanalahidin'ny mpampiantranon'ny teboka, na niova izany. Hamarino ny fanalahidy alohan'ny hanampiana azy."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: ivelan'ny tambajotra nahazoana alalana ho an'ny mpanangona %d ny adiresy vahaolana amin'ny teboka fiafarana, ka tsy vakina izy."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: namoaka mari-pamantarana %d izay tsy vakin'ny plugin ny baikon-tsoratra famakiana, ka tsy ilay pfs-read.sh natolotra izy io. Mety mamoaka mihoatra noho izay ilain'ny plugin ny teboka."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: anarana tanjona %d tao amin'ny vokatra avy amin'ny teboka no tsy nifanaraka tamin'ny lamina na rafitra rakitra andrasana ka tsy noraharahaina."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Ny mpamaky ao amin'ny mpanangona %d dia tsy nahavita fandehanana tao anatin'ny %d segondra farany. Mihamanjary lany daty ny sanda avy amin'ny tebony."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Tsy nahomby ny fametrahana ny lasitra Rafitra rakitra mirazotra: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Tsy tafapetraka ny lasitra Rafitra rakitra mirazotra, ka tsy misy fitaovana azo ampiana."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Tsy hita ao amin'ny Cacti ny rakitra fangatahana angona resource/script_server/%s na tsy mitovy amin'ilay natolotr'ity plugin ity, ka tsy afaka mitanisa tanjona ny fangatahana angona."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Ny rafitra rakitra %s dia mifandray amin'ny fitaovana %d, izay tsy misy intsony."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Ny fitaovan'ny rafitra rakitra %s dia angonin'ny mpanangona %d, nefa vakin'ny mpanangona %d ny tebony, izay ilain'ny loharanon'angon'ny fitaovana ny tahiriny vonjimaika."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Tsy misy ato amin'ity mpizara ity ny rakitra fanalahidy SSH %s."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Ny rakitra fanalahidy SSH %s dia azon'ny mpampiasa hafa ankoatra ny tompony vakina na soratana (maody %s). Fero ho an'ny mpampiasa mpanangona ihany izany."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Tsy misy ato amin'ity mpizara ity ny rakitra known_hosts %s, ka tsy misy teboka azo vakina avy aminy."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Tsy misy ato amin'ity mpizara ity ny mpanjifa SSH %s."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Rafitra rakitra: misafidiana iray amin'ireo rafitra rakitra voasoratra anarana."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Anarana: mampiasà litera, isa, teboka, tsipika kely, na tsipika ambany miisa 1 ka hatramin'ny 64, manomboka amin'ny litera na isa."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Andraikitra: misafidiana iray amin'ireo andraikitra voatanisa."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Seranana: ampidiro ny seranana manomboka amin'ny 1 ka hatramin'ny 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Anaran'ny kaonty fidirana: ampiasao ny anaran'ny kaonty soratra madinika tsy mihoatra ny 32 tarehin-tsoratra, manomboka amin'ny litera na tsipika ambany."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Teboka fiafarana: ampidiro ny anaran'ny mpampiantrano na adiresy IP ihany, tsy misy mpampiasa, seranana, na lalana."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Teboka fiafarana: tsy mahita adiresy ho an'ny anarana ity mpizara ity."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Teboka fiafarana: mitondra mankany amin'ny %s izany, izay tsy ao anatin'ny tambajotra nahazoana alalana ho an'ity mpanangona ity. Ampio aloha ny tambajotra."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Mpizara fitantanana (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Mpizara metadata (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Mpizara fitahirizana zavatra (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Mpanjifa"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Jereo eto ambany ny fandinihana voarakitra. Ny fanekena dia manokana ho an'ity fivoriana ity, lany daty rehefa miova ny fandinihana, ary tsy manafoana fampitandremana na manova ny fahasalamana velively."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Fampandehanana ny Rafitra rakitra mirazotra"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Fanadihadiana"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Singa"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Voamarika (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Tsy fantatra na efa antitra"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Voamarika ho ekena; tsy niova ny fahasalamana."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Ekeo"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Tsy misy fandinihana azo jerena ho an'ny fitaovana azonao idirana."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Mpandraharaha Rafitra rakitra mirazotra"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Fijerena Rafitra rakitra mirazotra"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Fitantanana Rafitra rakitra mirazotra"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Rafitra rakitra mirazotra"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Firaketana Rafitra rakitra mirazotra"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Fahasalaman'ny Rafitra rakitra mirazotra"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Tsy feno na tsy azo ampiasaina ny fikirakirana ny plugin ho an'ny fidirana amin'ny teboka"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Mivoaka ivelan'ny tambajotra nahazoana alalana ho an'ny mpanangonany ny adiresin'ny teboka fiafarana"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Tsy mahita adiresy ny anaran'ny teboka fiafarana"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Tsy azo nidirana ny teboka"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Tsy fantatra na niova ny fanalahidin'ny mpampiantranon'ny teboka"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Nolavin'ny teboka ny fanalahidy"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Nihoatra ny fetram-potoany ny famakiana"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Nihoatra ny fetran'ny habeny ny valinteny"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Tsy nahomby ny baiko famakiana"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Tsy namaly tamin'ny baikon-tsoratra famakiana raikitra ny teboka"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Nifarana alohan'ny nahavitan'ny baikon-tsoratra famakiana ny valinteny"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Fidirana amin'ny teboka"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Lalana feno mankany amin'ny mpanjifa ssh eo amin'ny mpanangona tsirairay izay mamaky teboka."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Mpanjifa SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Lalana feno, eo amin'ny mpanangona tsirairay mamaky teboka, mankany amin'ny fanalahidy manokana izay ny antsasany imasom-bahoaka dia voatanisan'ny teboka tsirairay ao amin'ny authorized_keys miaraka amin'ny baiko voatery mandefa ny pfs-read.sh. Ny mpampiasa mpanangona ihany no mahavaky azy. Tsy mamorona, mandika, na manonta azy velively ny plugin."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Rakitra fanalahidy SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Lalana feno mankany amin'ny rakitra known_hosts mitahiry ny fanalahidin'ny mpampiantranon'ny teboka tsirairay eo ambanin'ny anaran'ny teboka fiafarana. Tsy vakina ny teboka izay tsy misy na niova ny fanalahidiny."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Rakitra known_hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Fetram-potoana fifandraisana"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Segondra andrasana mba hanaiky ny fifandraisana ny teboka."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Fetram-potoana famakiana"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Segondra azon'ny famakiana teboka iray alaina amin'ny fitambarany alohan'ny hanajanona azy sy hiraketana azy ho tsy nahomby."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB azon'ny teboka iray averina. Ariany sy raketiny ho tsy nahomby ny valinteny lehibe kokoa."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Valinteny lehibe indrindra"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Mpamaky"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Fetram-potoana ho an'ny mpamaky"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Segondra azon'ny fandehanana mpamaky iray laniana alohan'ny hitsaharany tsy hanomboka famakiana teboka. Ataovy latsaky ny elanelam-potoanan'ny mpanangona izany; vakina amin'ny fandehanana manaraka ireo teboka tsy voavaky."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Famakiana miaraka"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Famakiana teboka alefan'ny mpamaky iray miaraka amin'ny fotoana iray."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Fanesorana"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Tazomy ny tabilaon'ny plugin rehefa manaisotra"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Rehefa voamarika, ny fanesorana ny plugin dia mitazona ny rafitra rakitrany, ny tebony, ny lisitry ny fananana, ary ny tahiry vonjimaika. Esory ny marika mba hamafan'ny fanesorana azy ireo; aondrano aloha ny firaketana avy amin'ny pejy Fitantanana Rafitra rakitra mirazotra. Tsy ifandraisana velively ny teboka fitahirizana na ahoana na ahoana."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Fafao ireo fitaovana noforonin'ity plugin ity rehefa esorina"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Rehefa voamarika, ny fanesorana ny plugin dia mamafa ireo fitaovana noforoniny ho an'ny rafitra rakitra, miaraka amin'ny kisariny sy ny loharanon'angony, toy ny famafana azy ao amin'ny Cacti. Tsy voafafa velively ireo fitaovana efa nisy izay nampifandraisina tamin'ny rafitra rakitra iray. Ny rakitra RRD dia tsy esorina raha tsy ny fikirakirana fanadiovana RRD an'i Cacti mihitsy no mamafa azy. Raha tsy voamarika dia mijanona ny fitaovana."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Tsy misy rafitra rakitra hitanao."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Rafitra rakitra %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Kisarin'ity rafitra rakitra ity"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Toe-javatra"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Fahavaozana"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Sanda fantatra"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Hita Farany"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Fanarenana"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Famerenana"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Teboka loharano"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Tsy mbola nisy tanjona hita."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "An'ny fitaovana Cacti izay tsy anananao fahazoan-dalana io firaketana io. Tsy nisy novaina."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Anarana: efa mampiasa ity anarana ity ny rafitra rakitra hafa amin'ity rafitra aoriana ity."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Tsy voatahiry ny rafitra rakitra."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Voatahiry ny rafitra rakitra."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Voafafa ny rafitra rakitra, ny tebony, ary ny lisitry ny fananana. Notazonina ny fitaovana Cacti, ny loharanon'angona, ary ny kisariny. Tsy nisy teboka nifandraisana."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Anarana: efa mampiasa ity anarana ity ny teboka hafa."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Tsy voatahiry ny teboka."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Voatahiry ny teboka."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Voafafa ny teboka. Mitazona ny tantarany ireo tanjona notateriny."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Ampidiro ny tambajotra amin'ny alalan'ny adiresy sy ny halavan'ny tovana aloha, toy ny 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Tsy nisy fitaovana nampiana: efa manana iray ny rafitra rakitra, na tsy tafapetraka ny lasitra."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Tsy afaka nampifandraisina ny fitaovana. Mety efa mifandray amin'ny rafitra rakitra hafa izy io."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Nampifandraisina ny fitaovana ary nampiana ny fangatahana angona sy ny kisary famintinana."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Tsy namorona ny fitaovana i Cacti. Jereo ny firaketan'i Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Noforonina ny fitaovana, ny fangatahana angona, ary ny kisary famintinana."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Tsy mifandray intsony ny fitaovana. Notazonina izy sy ny kisariny; tsy mitanisa tanjona ny fangatahana angonany raha tsy mifandray indray."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Tafapetraka ny lasitra sy ny rakitra fangatahana angona."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Tsy tafapetraka ny lasitra: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Fomba fijery fanaraha-maso"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Tsy azo novakiana ny fandinihana. Angataho ny mpitantana hanamarina ny firaketana ny plugin."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Mitaky PHP %s na vaovao kokoa ny plugin Rafitra rakitra mirazotra. Mampiasa PHP %s ity mpizara ity, ka tsy napetraka na nalefa ny plugin."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Tsy mandeha ny plugin Rafitra rakitra mirazotra."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Mitaky PHP %s na vaovao kokoa ny plugin Rafitra rakitra mirazotra."
+
+#: setup.php
+msgid "Management"
+msgstr "Fitantanana"

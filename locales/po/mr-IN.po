@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: mr-IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "पॅरलल फाइलसिस्टम्सवरील लक्ष्य क्षमता, असंतुलन आणि ताजेपणा तपासा. नोड प्रवेश, लक्ष्य स्वीकृती आणि डिव्हाइस मॅपिंग प्रशासकाकडे पाठवा."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH सक्तीची कमांड"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "फाइलसिस्टम्स"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "क्रिया"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "बॅकएंड"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti डिव्हाइस"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "अपेक्षित अंतराल"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "नाव"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "नोड्स"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "स्थिती"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "अद्याप कोणतीही फाइलसिस्टम नोंदणीकृत नाही."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d सेकंद"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "हटवा"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "प्रवेश"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "एंडपॉइंट"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "फाइल सिस्टम"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "लॉगिन नाव"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "भूमिका"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "अद्याप कोणतेही नोड नोंदवलेले नाहीत."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "प्रथम फाइलसिस्टम नोंदवा."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "निर्यात करा"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "प्लगइन सारण्या काढून टाकणारे अनइंस्टॉल करण्यापूर्वी रजिस्ट्री (फाइलसिस्टम, नोड्स, नेटवर्क आणि लक्ष्य पुनरावलोकन) JSON म्हणून डाउनलोड करा. यात कोणतीही की किंवा क्रेडेन्शियल नसते."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "फाइलसिस्टम: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "नवीन फाइलसिस्टम"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "अपेक्षित अंतराल (सेकंद)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "सक्षम"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "नवीन नोड"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "नोड: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "एंडपॉइंट (होस्ट नाव किंवा पत्ता)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH पोर्ट"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "नोडने या लॉगिनसाठी authorized_keys मध्ये pfs-read.sh चालवणाऱ्या सक्तीच्या कमांडसह रीडर की सूचीबद्ध केलेली असणे आवश्यक आहे, उदाहरणार्थ: restrict,command=\"/usr/local/libexec/pfs-read.sh\" आणि त्यानंतर सार्वजनिक की. येथे लिहिलेल्या एंडपॉइंट अंतर्गत होस्ट की known hosts फाइलमध्ये असणे आवश्यक आहे."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "फाइलसिस्टम %s साठी Cacti डिव्हाइस"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "नवीन डिव्हाइस तयार करा"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "डिव्हाइस"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "काय जोडले जाईल ते दाखवा"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "जोडायचे घटक"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "डिव्हाइस स्वतःच्या सेटिंग्ज, पोलरसह, कायम ठेवते. त्यावरील काहीही बदलले किंवा काढले जात नाही."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "प्रति-लक्ष्य आलेख डिव्हाइसच्या नवीन आलेख पृष्ठावरून मागणीनुसार तयार केले जातात."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "डिव्हाइस तयार करा"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "हे डिव्हाइस मॅप करा"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "परवानगी असलेले नेटवर्क"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "नेटवर्क"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "अद्याप कोणत्याही नेटवर्कला परवानगी नाही. पोलरचे नेटवर्क येथे सूचीबद्ध करेपर्यंत तो कोणत्याही नोडपर्यंत पोहोचू शकत नाही."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "परवानगी द्या"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "पुनरावलोकनाच्या प्रतीक्षेत असलेली लक्ष्ये"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "उपस्थिती"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "लक्ष्य"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "ती जोडत असलेली मूल्ये"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "स्वीकारा"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "दुर्लक्ष करा"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "कोणतेही लक्ष्य पुनरावलोकनाच्या प्रतीक्षेत नाही."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "डिव्हाइस जोडा"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(पोलर %d द्वारे पोल केलेले, %d द्वारे नाही)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "अनमॅप करा"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "जतन करा"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "समांतर फाइलसिस्टम टेम्पलेट्स इन्स्टॉल केलेले नाहीत. आरोग्य पृष्ठावरून ते पुन्हा इन्स्टॉल करा."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "डिव्हाइस \"%s\" (%s डिव्हाइस टेम्पलेटमधून), पोलर %d द्वारे पोल केलेले, उपलब्धता तपासणी बंद असलेले."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "डेटा क्वेरी \"%s\", जी सध्या ज्ञात %d लक्ष्यांची यादी देते. ती स्वतःहून कोणताही आलेख तयार करत नाही."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "\"%s\" आलेख."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "त्या प्रत्येक आलेखासाठी एक \"%s\" डेटा स्रोत, लक्ष्यांची संख्या कितीही असली तरी प्रति पोल चक्रासाठी एक स्क्रिप्ट सर्व्हर कॉल."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "फाइलसिस्टम %s साठी समांतर फाइलसिस्टम प्लगइनद्वारे तयार केलेले. याची मूल्ये प्लगइन कॅशेमधून येतात; होस्ट नाव हे आरक्षित नाव आहे ज्याशी कधीही संपर्क साधला जात नाही."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "बॅकएंड: सूचीबद्ध केलेल्या बॅकएंडपैकी एक निवडा."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "नाव: नोड्स प्रिंट करतात ते फाइलसिस्टम नाव वापरा, जसे की कमाल 8 अक्षरे, अंक, डॅश किंवा अंडरस्कोर असलेले Lustre fsname."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "पोलर: सूचीबद्ध केलेल्या पोलर्सपैकी एक निवडा."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "अपेक्षित अंतराल: %d ते %d दरम्यानचे पूर्ण सेकंद प्रविष्ट करा."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "कधीही नाही"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d सेकंदांपूर्वी"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d मिनिटांपूर्वी"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d तासांपूर्वी"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d दिवसांपूर्वी"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s चे समांतर फाइलसिस्टम दृश्य"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "समांतर फाइलसिस्टम चेतावण्या"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "कोणतेही इशारे नाहीत."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "टेम्पलेट्स पुन्हा इन्स्टॉल करा"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "रीडर्स"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "अयशस्वी"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "शेवटची पूर्ण झालेली प्रक्रिया"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "शेवटचा रन"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "पोहोचले नाही"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "वाचलेले"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "अद्याप कोणताही रीडर चाललेला नाही."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "कालावधी"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "अपयश"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "शेवटचे वाचन"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "शेवटचे यश"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "नोड"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "नोंदवलेली आवृत्ती"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "प्रतिसाद आकार"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "अक्षम"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s से"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: नोडने निश्चित रीड स्क्रिप्ट फ्रेमिंगशिवाय उत्तर दिले. त्याची की pfs-read.sh चालवणाऱ्या सक्तीच्या कमांडपुरती मर्यादित नसू शकते."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: नोड होस्ट की known hosts फाइलमध्ये नाही, किंवा ती बदलली आहे. ती जोडण्यापूर्वी की तपासा."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: एंडपॉइंट पोलर %d साठी परवानगी असलेल्या नेटवर्कबाहेर रिझॉल्व्ह होतो, त्यामुळे तो वाचला जात नाही."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: रीड स्क्रिप्टने %d पॅरामीटर्स प्रिंट केले जे प्लगइन वाचत नाही, त्यामुळे ती सोबत दिलेली pfs-read.sh नाही. नोड प्लगइनला आवश्यक असलेल्यापेक्षा जास्त माहिती उघड करत असू शकतो."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: नोड आउटपुटमधील %d लक्ष्य नावे अपेक्षित नमुन्याशी किंवा फाइलसिस्टमशी जुळली नाहीत आणि दुर्लक्षित केली गेली."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "पोलर %d वरील रीडरने मागील %d सेकंदांत कोणतीही प्रक्रिया पूर्ण केलेली नाही. त्याच्या नोड्सवरील मूल्ये जुनी होत आहेत."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "समांतर फाइलसिस्टम टेम्पलेट्स इन्स्टॉल करणे अयशस्वी झाले: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "समांतर फाइलसिस्टम टेम्पलेट्स इन्स्टॉल केलेले नाहीत, त्यामुळे कोणतेही डिव्हाइस जोडता येत नाही."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "डेटा क्वेरी फाइल resource/script_server/%s Cacti मधून गहाळ आहे किंवा या प्लगइनसोबत असलेल्या फाइलपेक्षा वेगळी आहे, त्यामुळे डेटा क्वेरी लक्ष्यांची यादी देऊ शकत नाहीत."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "फाइलसिस्टम %s डिव्हाइस %d शी मॅप केलेली आहे, जे आता अस्तित्वात नाही."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "फाइलसिस्टम %s चे डिव्हाइस पोलर %d द्वारे पोल केले जाते, परंतु त्याचे नोड्स पोलर %d द्वारे वाचले जातात, ज्याच्या कॅशेची डिव्हाइसच्या डेटा स्रोतांना आवश्यकता असते."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "SSH की फाइल %s या सर्व्हरवर अस्तित्वात नाही."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH की फाइल %s तिच्या मालकाव्यतिरिक्त इतर वापरकर्त्यांद्वारे वाचली किंवा लिहिली जाऊ शकते (मोड %s). ती पोलर वापरकर्त्यापुरती मर्यादित ठेवा."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "known hosts फाइल %s या सर्व्हरवर अस्तित्वात नाही, त्यामुळे त्यातून कोणताही नोड वाचता येत नाही."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSH क्लायंट %s या सर्व्हरवर अस्तित्वात नाही."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "फाइलसिस्टम: नोंदवलेल्या फाइलसिस्टमपैकी एक निवडा."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "नाव: अक्षर किंवा अंकाने सुरू होणारी 1 ते 64 अक्षरे, अंक, टिंब, डॅश किंवा अंडरस्कोअर वापरा."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "भूमिका: सूचीबद्ध भूमिकांपैकी एक निवडा."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "पोर्ट: 1 ते 65535 दरम्यानचा पोर्ट प्रविष्ट करा."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "लॉगिन नाव: अक्षर किंवा अंडरस्कोरने सुरू होणारे, कमाल 32 वर्णांचे लोअर-केस खाते नाव वापरा."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "एंडपॉइंट: वापरकर्ता, पोर्ट किंवा मार्गाशिवाय फक्त होस्ट नाव किंवा IP पत्ता प्रविष्ट करा."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "एंडपॉइंट: या सर्व्हरवर नाव रिझॉल्व्ह होत नाही."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "एंडपॉइंट: ते %s वर रिझॉल्व्ह होते, जे या पोलरसाठी परवानगी असलेल्या नेटवर्कमध्ये नाही. प्रथम नेटवर्क जोडा."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "व्यवस्थापन सर्व्हर (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "मेटाडेटा सर्व्हर (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "ऑब्जेक्ट स्टोरेज सर्व्हर (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "क्लायंट"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "खाली नोंदवलेल्या निरीक्षणांचे पुनरावलोकन करा. पोचपावत्या या सत्रासाठी वैयक्तिक आहेत, निरीक्षणे बदलल्यावर कालबाह्य होतात आणि कधीही सूचना दाबत नाहीत किंवा स्थिती बदलत नाहीत."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "समांतर फाइलसिस्टम ऑपरेशन्स"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "तपास"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "ऑब्जेक्ट"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "निरीक्षित (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "अज्ञात किंवा जुने"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "पोचपावती दिली; आरोग्य स्थिती अपरिवर्तित."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "पोचपावती द्या"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "तुम्ही प्रवेश करू शकता अशा डिव्हाइसेससाठी कोणतीही निरीक्षणे उपलब्ध नाहीत."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "समांतर फाइलसिस्टम ऑपरेटर"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "समांतर फाइलसिस्टम दृश्य"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "समांतर फाइलसिस्टम प्रशासक"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "समांतर फाइलसिस्टम्स"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "समांतर फाइलसिस्टम रजिस्ट्री"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "समांतर फाइलसिस्टम आरोग्य"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "नोड प्रवेशासाठी प्लगइन सेटिंग्ज अपूर्ण किंवा निरुपयोगी आहेत"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "एंडपॉइंट त्याच्या पोलरसाठी परवानगी असलेल्या नेटवर्कबाहेर रिझॉल्व्ह होतो"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "एंडपॉइंट नाव रिझॉल्व्ह होत नाही"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "नोडपर्यंत पोहोचता आले नाही"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "नोड होस्ट की अज्ञात आहे किंवा बदलली आहे"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "नोडने की नाकारली"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "वाचनाने वेळेची मर्यादा ओलांडली"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "प्रतिसादाने आकाराची मर्यादा ओलांडली"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "वाचन कमांड अयशस्वी झाली"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "नोडने निश्चित वाचन स्क्रिप्टद्वारे उत्तर दिले नाही"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "वाचन स्क्रिप्ट पूर्ण होण्यापूर्वीच प्रतिसाद समाप्त झाला"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "नोड प्रवेश"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "नोड्स वाचणाऱ्या प्रत्येक पोलरवरील ssh क्लायंटचा परिपूर्ण मार्ग."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH क्लायंट"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "नोड्स वाचणाऱ्या प्रत्येक पोलरवरील खाजगी कीचा परिपूर्ण मार्ग, जिचा सार्वजनिक भाग प्रत्येक नोड authorized_keys मध्ये pfs-read.sh चालवणाऱ्या सक्तीच्या कमांडसह सूचीबद्ध करतो. फक्त पोलर वापरकर्त्याद्वारे वाचण्यायोग्य. प्लगइन ती कधीही तयार, कॉपी किंवा प्रिंट करत नाही."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH की फाइल"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "नोड एंडपॉइंट नावाखाली प्रत्येक नोड होस्ट की असलेल्या known_hosts फाइलचा परिपूर्ण मार्ग. ज्या नोडची की गहाळ आहे किंवा बदलली आहे तो नोड वाचला जात नाही."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "नोन होस्ट्स फाइल"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "कनेक्ट कालबाह्य"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "नोडने कनेक्शन स्वीकारण्यासाठी प्रतीक्षा करण्याचे सेकंद."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "वाचन कालबाह्य"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "एक नोड वाचन थांबवले जाण्यापूर्वी आणि अयशस्वी म्हणून नोंदवले जाण्यापूर्वी एकूण किती सेकंद घेऊ शकते."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "एक नोड परत करू शकणारे KiB. यापेक्षा मोठे उत्तर टाकून दिले जाते आणि अयशस्वी म्हणून नोंदवले जाते."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "कमाल प्रतिसाद"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "रीडर"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "रीडर वेळ मर्यादा"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "नवीन नोड वाचन सुरू करणे थांबवण्यापूर्वी एक रीडर प्रक्रिया किती सेकंद खर्च करू शकते. हे पोलर अंतरालापेक्षा कमी ठेवा; न वाचलेले नोड्स पुढील प्रक्रियेत वाचले जातात."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "समवर्ती वाचने"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "एक रीडर एकाच वेळी चालवत असलेली नोड वाचने."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "अनइंस्टॉल करा"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "अनइंस्टॉल करताना प्लगइन सारण्या ठेवा"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "निवडलेले असताना, प्लगइन अनइंस्टॉल केल्याने त्याच्या फाइलसिस्टम्स, नोड्स, यादी आणि कॅशे जतन राहतात. अनइंस्टॉल करताना ते काढून टाकण्यासाठी निवड काढा; प्रथम समांतर फाइलसिस्टम प्रशासक पृष्ठावरून रजिस्ट्री एक्सपोर्ट करा. दोन्ही परिस्थितीत स्टोरेज नोड्सशी कधीही संपर्क साधला जात नाही."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "अनइंस्टॉल करताना या प्लगइनने तयार केलेली डिव्हाइसेस हटवा"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "निवडलेले असताना, प्लगइन अनइंस्टॉल केल्याने त्याने फाइलसिस्टम्ससाठी तयार केलेली डिव्हाइसेस त्यांच्या आलेख आणि डेटा स्रोतांसह हटवली जातात, जसे Cacti मध्ये हटवल्यास होते. फाइलसिस्टमशी मॅप केलेली विद्यमान डिव्हाइसेस कधीही हटवली जात नाहीत. Cacti ची स्वतःची RRD साफसफाई सेटिंग त्यांना काढून टाकत असेल तरच RRD फाइल्स काढल्या जातात. निवड काढल्यास, डिव्हाइसेस राहतात."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "तुम्हाला कोणतीही फाइलसिस्टम दिसत नाही."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "फाइलसिस्टम %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "या फाइलसिस्टमचे आलेख"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "स्थिती"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "अद्ययावतपणा"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "ज्ञात मूल्ये"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "शेवटचे पाहिलेले"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "पुनर्प्राप्ती"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "पुनरावलोकन"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "स्रोत नोड"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "अद्याप कोणतेही लक्ष्य सापडले नाही."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "ती नोंद अशा Cacti डिव्हाइसची आहे ज्याची तुम्हाला परवानगी नाही. काहीही बदलले गेले नाही."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "नाव: या बॅकएंडची दुसरी फाइलसिस्टम आधीच हे नाव वापरत आहे."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "फाइलसिस्टम जतन करता आली नाही."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "फाइलसिस्टम जतन केली गेली."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "फाइलसिस्टम, तिचे नोड्स आणि तिची यादी हटवली गेली. तिचे Cacti डिव्हाइस, डेटा स्रोत आणि आलेख जतन ठेवले गेले. कोणत्याही नोडशी संपर्क साधला गेला नाही."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "नाव: दुसरा नोड आधीच हे नाव वापरत आहे."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "नोड जतन करता आला नाही."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "नोड जतन केला गेला."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "नोड हटवला गेला. त्याने नोंदवलेल्या लक्ष्यांचा इतिहास जतन राहतो."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "नेटवर्क पत्ता आणि उपसर्ग लांबी म्हणून प्रविष्ट करा, जसे की 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "कोणतेही डिव्हाइस जोडले गेले नाही: फाइलसिस्टमकडे आधीच एक आहे, किंवा टेम्पलेट्स इन्स्टॉल केलेले नाहीत."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "डिव्हाइस मॅप करता आले नाही. ते दुसऱ्या फाइलसिस्टमशी मॅप केलेले असू शकते."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "डिव्हाइस मॅप केले गेले आणि डेटा क्वेरी तसेच विहंगावलोकन आलेख जोडले गेले."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti ने डिव्हाइस तयार केले नाही. Cacti लॉग पहा."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "डिव्हाइस, त्याच्या डेटा क्वेरी आणि त्याचे विहंगावलोकन आलेख तयार केले गेले."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "डिव्हाइस आता मॅप केलेले नाही. ते आणि त्याचे आलेख जतन ठेवले गेले; ते पुन्हा मॅप करेपर्यंत त्याच्या डेटा क्वेरी कोणतेही लक्ष्य सूचीबद्ध करत नाहीत."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "टेम्पलेट्स आणि डेटा क्वेरी फाइल्स इन्स्टॉल केल्या गेल्या."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "टेम्पलेट्स इन्स्टॉल करता आले नाहीत: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "निरीक्षण दृश्य"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "निरीक्षणे वाचता आली नाहीत. प्रशासकाला प्लगइन लॉग तपासण्यास सांगा."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "समांतर फाइलसिस्टम प्लगइनसाठी PHP %s किंवा त्यापुढील आवृत्ती आवश्यक आहे. या सर्व्हरवर PHP %s चालत आहे, त्यामुळे प्लगइन इन्स्टॉल किंवा सक्षम केले गेले नाही."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "समांतर फाइलसिस्टम प्लगइन सक्षम केलेले नाही."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "समांतर फाइलसिस्टम प्लगइनसाठी PHP %s किंवा त्यापुढील आवृत्ती आवश्यक आहे."
+
+#: setup.php
+msgid "Management"
+msgstr "व्यवस्थापन"

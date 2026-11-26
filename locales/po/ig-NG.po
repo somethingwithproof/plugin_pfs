@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: ig-NG\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Nyochaa ikike ebumnuche, enweghị nhata na ịdị ọhụrụ na Sistemụ Faịlụ Yiri. Nyeghachi nweta nọdụ, nnabata ebumnuche na nhazi ngwaọrụ nye onye nchịkwa."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Iwu amanye SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Sistemụ faịlụ"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Omume"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Ngwaọrụ Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Oge Atụrụ Anya"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Aha"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Nodes"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Ọnọdụ"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Enweghị sistemụ faịlụ edenyere aha ka ọ dị ugbu a."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "sekọnd %d"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Hichapụ"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Nweta"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Ebe njedebe"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Sistemụ faịlụ"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Aha Nbanye"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Ọrụ"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Enwebeghị nọdụ e debanyere aha."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Debanye aha sistemụ faịlụ mbụ."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Bupụ"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Budata ndekọ aha (sistemụ faịlụ, nọdụ, netwọk, na nlele ebumnuche) dị ka JSON tupu iwepụ ngwa mgbakwunye na-ehichapụ tebụl ngwa mgbakwunye ahụ. O nweghị igodo ma ọ bụ nzere ọ bụla."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Sistemụ Faịlụ: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Sistemụ Faịlụ Ọhụrụ"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Oge A Tụrụ Anya (sekọnd)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Agbanyere"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Node Ọhụrụ"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Nọdụ: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Ebe Nkwụsị (aha host ma ọ bụ adreesị)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Pọtụ SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Nọdụ ahụ ga-edepụta igodo ọgụgụ n'ime authorized_keys maka nbanye a yana iwu mmanye nke na-agba pfs-read.sh, dịka ọmụmaatụ: restrict,command=\"/usr/local/libexec/pfs-read.sh\" nke igodo ọha sochiri. Igodo host ga-adị n'ime faịlụ known hosts n'okpuru ebe nkwụsị dị ka e dere ya ebe a."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Ngwaọrụ Cacti maka Sistemụ Faịlụ %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Mepụta ngwaọrụ ọhụrụ"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Ngwaọrụ"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Gosi Ihe A Ga-agbakwunye"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Ihe A Ga-agbakwunye"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Ngwaọrụ ahụ na-edobe ntọala nke ya, tinyere poller. E nweghị ihe a gbanwere ma ọ bụ wepụrụ na ya."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "A na-emepụta eserese nke ebumnuche nke ọ bụla mgbe a chọrọ ya site na ibe Eserese Ọhụrụ nke ngwaọrụ ahụ."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Mepụta Ngwaọrụ Ahụ"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Jikọọ Ngwaọrụ A"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Netwọk E Kwere"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Netwọk"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Enwebeghị netwọk e kwere. Poller anaghị eru nọdụ ọ bụla ruo mgbe e depụtara netwọk ya ebe a."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Kwe"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Ebumnuche Na-eche Nlele"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Ọnụnọ"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Ebumnuche"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Uru Ọ Na-agbakwunye"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Nabata"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Leghara Anya"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Enweghị ebumnuche na-eche nlele."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Tinye ngwaọrụ"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(poller %d na-enyocha ya, ọ bụghị %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Wepụ Njikọ"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Chekwaa"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Etinyebeghị template Parallel Filesystem. Tinyegharịa ha site na ibe ahụike."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Ngwaọrụ \"%s\" site na ndebiri ngwaọrụ %s, nke poller %d na-enyocha, na nyocha nnweta gbanyụrụ."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Ajụjụ data \"%s\", nke na-edepụta ebumnuche %d a maara ugbu a. Ọ naghị emepụta eserese n'onwe ya."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Eserese \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Isi iyi data \"%s\" maka nke ọ bụla n'ime eserese ndị ahụ, nke ọ bụla bụ otu oku sava edemede n'otu okirikiri nyocha, n'agbanyeghị ọnụọgụ ebumnuche."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Ngwa mgbakwunye Parallel Filesystem mepụtara ya maka sistemụ faịlụ %s. Uru ya sitere na cache nke ngwa mgbakwunye; aha host bụ aha e chekwara nke a na-adịghị akpọtụrụ ma ọlị."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: họrọ otu n'ime backend ndị e depụtara."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Aha: jiri aha sistemụ faịlụ nke nọdụ na-ebipụta, dị ka fsname nke Lustre nke na-akarịghị mkpụrụedemede, ọnụọgụgụ, dash, ma ọ bụ underscore 8."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: họrọ otu n'ime poller ndị e depụtara."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Oge A Tụrụ Anya: tinye sekọnd zuru ezu site na %d ruo %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Ọ dịtụbeghị"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "sekọnd %d gara aga"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "nkeji %d gara aga"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "elekere %d gara aga"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "ụbọchị %d gara aga"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Nlele Parallel Filesystem nke %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Ịdọ Aka Ná Ntị Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Enweghị ịdọ aka ná ntị."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Tinyegharịa Template Ndị Ahụ"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Ngwa Ọgụgụ"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Dara"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Ọsọ E Mechara Nke Ikpeazụ"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Ọrụ Ikpeazụ"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "E Rughị Ya"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Ọgụgụ"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Ọ dịbeghị ngwa ọgụgụ gbara ọsọ."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Ogologo oge"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Ọdịda"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Ọgụgụ Ikpeazụ"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Ọganihu Ikpeazụ"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Node"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Ụdị A Kọrọ"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Ogo Azịza"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "agbanyụrụ"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: nọdụ ahụ zara n'enweghị nhazi edemede ọgụgụ e debere. O nwere ike ịbụ na igodo ya ejighị iwu mmanye nke na-agba pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: igodo host nke nọdụ ahụ adịghị n'ime faịlụ known hosts, ma ọ bụ na ọ gbanwere. Lelee igodo ahụ tupu itinye ya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: ebe nkwụsị ahụ na-edozi n'èzí netwọk e kwere maka poller %d, ya mere a naghị agụ ya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: edemede ọgụgụ ahụ bipụtara paramita %d nke ngwa mgbakwunye anaghị agụ, ya mere ọ bụghị pfs-read.sh e zitere. Nọdụ ahụ nwere ike ịna-ekpughe ihe karịrị nke ngwa mgbakwunye chọrọ."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: aha ebumnuche %d n'ime ihe nọdụ wepụtara ekwekọghị n'ụkpụrụ ma ọ bụ sistemụ faịlụ a tụrụ anya ya ma leghara ha anya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Ngwa ọgụgụ dị na poller %d emechabeghị ọsọ n'ime sekọnd %d gara aga. Uru sitere na nọdụ ya na-akawanye ochie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Ịwụnye template Parallel Filesystem kụrụ afọ n'ala: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Etinyebeghị template Parallel Filesystem, ya mere enweghị ngwaọrụ a ga-etinye."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Faịlụ ajụjụ data resource/script_server/%s efuola na Cacti ma ọ bụ dị iche na nke ngwa mgbakwunye a na-eziga, ya mere ajụjụ data enweghị ike ịdepụta ebumnuche."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "E jikọtara sistemụ faịlụ %s na ngwaọrụ %d, nke na-adịghịzi."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Ngwaọrụ nke sistemụ faịlụ %s bụ nke poller %d na-enyocha, mana poller %d na-agụ nọdụ ya, nke isi iyi data ngwaọrụ ahụ chọrọ cache ya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Faịlụ igodo SSH %s adịghị na sava a."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Ndị ọrụ ndị ọzọ na-abụghị onye nwe ya nwere ike ịgụ ma ọ bụ dee faịlụ igodo SSH %s (ọnọdụ %s). Kpachibidoro ya naanị onye ọrụ poller."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Faịlụ known hosts %s adịghị na sava a, ya mere enweghị nọdụ a ga-agụ site na ya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Klaiyentị SSH %s adịghị na sava a."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Sistemụ Faịlụ: họrọ otu n'ime sistemụ faịlụ e debanyere aha."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Aha: jiri mkpụrụedemede, ọnụọgụ, ntụpọ, akara uhie, ma ọ bụ akara ala site na 1 ruo 64, malite na mkpụrụedemede ma ọ bụ ọnụọgụ."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Ọrụ: họrọ otu n'ime ọrụ e depụtara."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Pọtụ: tinye pọtụ site na 1 ruo 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Aha Nbanye: jiri aha akaụntụ obere mkpụrụedemede nke na-akarịghị mkpụrụedemede 32, nke malitere na mkpụrụedemede ma ọ bụ akara okpuru."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Ebe Nkwụsị: tinye naanị aha host ma ọ bụ adreesị IP, n'enweghị onye ọrụ, pọtụ, ma ọ bụ ụzọ."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Ebe Nkwụsị: aha ahụ anaghị edozi na sava a."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Ebe Nkwụsị: ọ na-edozi gaa na %s, nke na-adịghị n'ime netwọk e kwere maka poller a. Tinye netwọk ahụ mbụ."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Sava njikwa (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Sava metadata (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Sava nchekwa ihe (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Klaiyentị"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Nyochaa nchọpụta edere n'okpuru ebe a. Nkweta bụ maka oge nnọkọ a naanị, ha na-agwụ mgbe nchọpụta gbanwere, ma ha anaghị egbochi ọkwa ịdọ aka ná ntị ma ọ bụ gbanwee ahụike."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Ọrụ Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Nnyocha"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Ihe"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Achọpụtara (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Amaghị ma ọ bụ ochie"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Ekwetala; ahụike agbanweghị."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Kweta"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Enweghị nchọpụta dị maka ngwaọrụ ndị ị nwere ike ịnweta."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Onye Ọrụ Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Nlele Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Nchịkwa Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Sistemụ Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Ndekọ Aha Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Ahụike Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Ntọala ngwa mgbakwunye maka ịnweta nọdụ ezughị oke ma ọ bụ enweghị ike iji ya"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Ebe nkwụsị ahụ na-edozi n'èzí netwọk e kwere maka poller ya"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Aha ebe nkwụsị ahụ anaghị edozi"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Enweghị ike iru nọdụ ahụ"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "A maghị igodo host nke nọdụ ahụ ma ọ bụ ọ gbanwere"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Nọdụ ahụ jụrụ igodo ahụ"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Ọgụgụ ahụ gafere oke oge ya"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Azịza ahụ gafere oke ogo ya"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Iwu ọgụgụ ahụ kụrụ afọ n'ala"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Nọdụ ahụ ejighị edemede ọgụgụ e debere zaa"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Azịza ahụ kwụsịrị tupu edemede ọgụgụ agwụchaa"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Ịnweta Nọdụ"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Ụzọ zuru oke gaa na klaiyentị ssh na poller ọ bụla na-agụ nọdụ."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Klaiyentị SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Ụzọ zuru oke, na poller ọ bụla na-agụ nọdụ, gaa na igodo nzuzo nke nọdụ ọ bụla depụtara akụkụ ọha ya na authorized_keys yana iwu mmanye nke na-agba pfs-read.sh. Naanị onye ọrụ poller nwere ike ịgụ ya. Ngwa mgbakwunye anaghị emepụta, depụtaghachi, ma ọ bụ bipụta ya ma ọlị."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Faịlụ Igodo SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Ụzọ zuru oke gaa na faịlụ known_hosts nke ji igodo host nke nọdụ ọ bụla n'okpuru aha ebe nkwụsị nọdụ ahụ. A naghị agụ nọdụ nke igodo ya furu efu ma ọ bụ gbanwere."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Faịlụ Known Hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Oke Oge Njikọ"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Sekọnd a ga-eche ka nọdụ nabata njikọ ahụ."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Oke Oge Ọgụgụ"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Sekọnd otu ọgụgụ nọdụ nwere ike iwere na mkpokọta tupu a kwụsị ya ma dekọọ ya dị ka nke kụrụ afọ n'ala."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB otu nọdụ nwere ike iweghachi. A na-atụfu azịza buru ibu karịa ma dekọọ ya dị ka nke kụrụ afọ n'ala."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Azịza Kachasị"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Ngwa Ọgụgụ"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Oke Oge Ngwa Ọgụgụ"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Sekọnd otu ọsọ ngwa ọgụgụ nwere ike iji tupu ọ kwụsị ịmalite ọgụgụ nọdụ. Debe ya n'okpuru oge poller; a ga-agụ nọdụ a na-agụghị n'ọsọ na-esote."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Ọgụgụ N'otu Oge"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Ọgụgụ nọdụ nke otu ngwa ọgụgụ na-agba n'otu oge."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Wepụ"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Debe Tebụl Mgbakwunye Mgbe A Na-ewepụ"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Mgbe a kanyere ya akara, iwepụ ngwa mgbakwunye na-edobe sistemụ faịlụ ya, nọdụ, ndepụta ngwa, na cache. Hichapụ akara ahụ ka iwepụ ahụ wepụ ha; buru ụzọ zipụta ndekọ aha site na ibe Nchịkwa Parallel Filesystem. A naghị akpọtụrụ nọdụ nchekwa n'ụzọ ọ bụla."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Hichapụ Ngwaọrụ Ngwa Mgbakwunye A Mepụtara Mgbe A Na-ewepụ Ya"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Mgbe a kanyere ya akara, iwepụ ngwa mgbakwunye na-ehichapụ ngwaọrụ o mepụtara maka sistemụ faịlụ, yana eserese ha na isi iyi data ha, dị ka ihichapụ ha na Cacti ga-eme. A naghị ehichapụ ngwaọrụ dị adị e jikọtara na sistemụ faịlụ ma ọlị. A na-ewepụ faịlụ RRD naanị ma ọ bụrụ na ntọala nhicha RRD nke Cacti n'onwe ya wepụ ha. Ọ bụrụ na e wepụrụ akara ahụ, ngwaọrụ ndị ahụ ga-adịgide."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Ọ dịghị sistemụ faịlụ pụtara ìhè nye gị."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Sistemụ Faịlụ %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Eserese nke sistemụ faịlụ a"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Ọnọdụ"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Ịdị Ọhụrụ"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Uru A Maara"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Mgbe Ikpeazụ A Hụrụ Ya"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Mgbake"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Nlele"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Nọdụ Isi Iyi"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Ahụbeghị ebumnuche ọ bụla."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Ndekọ ahụ bụ nke ngwaọrụ Cacti ị na-enweghị ikike maka ya. E nweghị ihe a gbanwere."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Aha: sistemụ faịlụ ọzọ nke backend a na-ejilarị aha a."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Enweghị ike ịchekwa sistemụ faịlụ ahụ."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "E chekwara sistemụ faịlụ ahụ."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "E hichapụrụ sistemụ faịlụ ahụ, nọdụ ya, na ndepụta ngwa ya. E debere ngwaọrụ Cacti ya, isi iyi data ya, na eserese ya. A kpọtụghị nọdụ ọ bụla."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Aha: nọdụ ọzọ na-ejilarị aha a."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Enweghị ike ịchekwa nọdụ ahụ."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "E chekwara nọdụ ahụ."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "E hichapụrụ nọdụ ahụ. Ebumnuche ọ kọrọ na-edobe akụkọ ihe mere eme ha."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Tinye netwọk dị ka adreesị na ogologo prefix, dị ka 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "E tinyeghị ngwaọrụ ọ bụla: sistemụ faịlụ ahụ enweelarị otu, ma ọ bụ etinyebeghị template ndị ahụ."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Enweghị ike ijikọ ngwaọrụ ahụ. O nwere ike ịbụ na e jikọtara ya na sistemụ faịlụ ọzọ."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "E jikọtara ngwaọrụ ahụ ma tinye ajụjụ data na eserese nchịkọta."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti emepụtaghị ngwaọrụ ahụ. Lelee ndekọ Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "E mepụtara ngwaọrụ ahụ, ajụjụ data ya, na eserese nchịkọta ya."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "E jikọtaghịzi ngwaọrụ ahụ. E debere ya na eserese ya; ajụjụ data ya anaghị edepụta ebumnuche ruo mgbe e jikọtara ya ọzọ."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "E tinyere template ndị ahụ na faịlụ ajụjụ data."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Enweghị ike itinye template ndị ahụ: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Nlere nleba anya"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Enweghị ike ịgụ nchọpụta ndị ahụ. Gwa onye nchịkwa ka ọ lelee ndekọ mgbakwunye ahụ."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Ngwa mgbakwunye Parallel Filesystem chọrọ PHP %s ma ọ bụ karịa. Sava a na-agba PHP %s, ya mere etinyeghị ma ọ bụ kwe ka ngwa mgbakwunye ahụ rụọ ọrụ."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "E kweghị ka ngwa mgbakwunye Parallel Filesystem rụọ ọrụ."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Ngwa mgbakwunye Parallel Filesystem chọrọ PHP %s ma ọ bụ karịa."
+
+#: setup.php
+msgid "Management"
+msgstr "Njikwa"

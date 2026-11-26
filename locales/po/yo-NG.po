@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: yo-NG\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Ṣàyẹ̀wò agbára ìfojúsùn, àìdọ́gba àti ìtuntun lórí Àwọn Ètò Fáìlì Aláfẹ̀gbẹ́. Gbé wíwọlé nóòdù, ìtẹ́wọ́gbà ìfojúsùn àti ìṣàpẹẹrẹ ẹ̀rọ sókè sí alámòójútó."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Àṣẹ àfipáṣẹ SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Àwọn Ètò Fáìlì"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Àwọn Ìgbésẹ̀"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Ìpìlẹ̀ Ìṣiṣẹ́ (Backend)"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Ẹ̀rọ Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Ààlà Àkókò Tí A Retí"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Orúkọ"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Àwọn Nóòdù"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Ipò"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Kò sí àwọn ètò fáìlì tí a ti forúkọ sílẹ̀ síbẹ̀."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "ìṣẹ́jú-àáyá %d"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Pa rẹ́"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Ìráyèsí"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Ojú-ìbásọ̀rọ̀"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Ètò fáìlì"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Orúkọ Ìwọlé"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Ipa"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Kò sí nóòdù kankan tí a tíì forúkọ sílẹ̀."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Forúkọ ètò fáìlì sílẹ̀ kọ́kọ́."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Kó jáde"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Ṣe ìgbasílẹ̀ àkọsílẹ̀ ìforúkọsílẹ̀ (àwọn ètò fáìlì, àwọn nóòdù, àwọn nẹ́tíwọ́ọ̀kì, àti àyẹ̀wò ibi àfojúsùn) bíi JSON kí o tó yọ àfikún kúrò tí yóò pa àwọn tábìlì àfikún rẹ́. Kò ní kọ́kọ́rọ́ tàbí ìwé-ẹ̀rí kankan."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Ètò Fáìlì: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Ètò Fáìlì Tuntun"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Àlàfo Àkókò Tí A Retí (ìṣẹ́jú-àáyá)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Ṣíṣiṣẹ́"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Nóòdù Tuntun"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Nóòdù: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Ìparí Ìsopọ̀ (orúkọ olùgbàlejò tàbí àdírẹ́sì)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Èbúté SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Nóòdù náà gbọ́dọ̀ to kọ́kọ́rọ́ olùka sínú authorized_keys fún ìwọlé yìí pẹ̀lú àṣẹ dandan tí ó ń ṣiṣẹ́ pfs-read.sh, fún àpẹẹrẹ: restrict,command=\"/usr/local/libexec/pfs-read.sh\" tí kọ́kọ́rọ́ gbogbogbòò tẹ̀ lé. Kọ́kọ́rọ́ olùgbàlejò gbọ́dọ̀ wà nínú fáìlì àwọn olùgbàlejò tí a mọ̀ lábẹ́ ìparí ìsopọ̀ bí a ṣe kọ ọ́ síbí."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Ẹ̀rọ Cacti fún Ètò Fáìlì %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Ṣẹ̀dá ẹ̀rọ tuntun"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Ẹ̀rọ"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Fi Ohun Tí A Óò Fikún Hàn"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Àwọn Ohun Tí A Óò Fikún"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Ẹ̀rọ náà ń pa àwọn ètò rẹ̀ mọ́, pẹ̀lú olùwádìí. Kò sí ohun tí a yí padà tàbí yọ kúrò lórí rẹ̀."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "A máa ń ṣẹ̀dá àwọn àwòrán fún ibi àfojúsùn kọ̀ọ̀kan lórí ìbéèrè láti ojú-ewé Àwọn Àwòrán Tuntun ti ẹ̀rọ náà."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Ṣẹ̀dá Ẹ̀rọ Náà"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "So Ẹ̀rọ Yìí Pọ̀"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Àwọn Nẹ́tíwọ́ọ̀kì Tí A Gbà Láàyè"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Nẹ́tíwọ́ọ̀kì"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Kò sí nẹ́tíwọ́ọ̀kì kankan tí a tíì gbà láàyè. Olùwádìí kò ní dé ọ̀dọ̀ nóòdù kankan títí a ó fi to àwọn nẹ́tíwọ́ọ̀kì rẹ̀ síbí."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Gbà láàyè"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Àwọn Ibi Àfojúsùn Tí Ń Retí Àyẹ̀wò"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Wíwà Níbẹ̀"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Ibi Àfojúsùn"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Àwọn Iye Tí Ó Fikún"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Gbà"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Kọ̀ sílẹ̀"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Kò sí ibi àfojúsùn kankan tí ń retí àyẹ̀wò."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Fi ẹ̀rọ kún un"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(olùwádìí %d ló ń wádìí rẹ̀, kì í ṣe %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Yọ Ìsopọ̀ Kúrò"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Fi pamọ́"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "A kò tíì fi àwọn àdàkọ Parallel Filesystem sí i. Tún wọn fi sí i láti ojú-ewé ìlera."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Ẹ̀rọ \"%s\" láti inú àwòkọ ẹ̀rọ %s, tí olùkójọ %d ń kójọ, pẹ̀lú àyẹ̀wò wíwà ní àìṣiṣẹ́."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Ìbéèrè dátà \"%s\", tí ó to %d ibi àfojúsùn tí a mọ̀ báyìí. Kò ṣẹ̀dá àwòrán kankan fúnra rẹ̀."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Àwòrán \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Orísun dátà \"%s\" fún ọ̀kọ̀ọ̀kan àwọn àwòrán wọ̀nyẹn, ìpè olùpèsè ìwé-àṣẹ kan fún ìyípo ìwádìí kọ̀ọ̀kan, láìka iye àwọn ibi àfojúsùn sí."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Àfikún Parallel Filesystem ló ṣẹ̀dá rẹ̀ fún ètò fáìlì %s. Àwọn iye rẹ̀ ti inú àpamọ́ àfikún wá; orúkọ olùgbàlejò jẹ́ orúkọ tí a pa mọ́ tí a kì í kàn sí láé."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: yan ọ̀kan nínú àwọn backend tí a tò sílẹ̀."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Orúkọ: lo orúkọ ètò fáìlì tí àwọn nóòdù ń tẹ̀ jáde, bíi fsname Lustre tí kò ju lẹ́tà, nọ́ńbà, ìlà àárín, tàbí ìlà abẹ́ 8 lọ."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: yan ọ̀kan nínú àwọn poller tí a tò sílẹ̀."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Àlàfo Àkókò Tí A Retí: tẹ odidi ìṣẹ́jú-àáyá láti %d sí %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Láéláé"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "ìṣẹ́jú-àáyá %d sẹ́yìn"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "ìṣẹ́jú %d sẹ́yìn"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "wákàtí %d sẹ́yìn"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "ọjọ́ %d sẹ́yìn"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Ìwòye Parallel Filesystem ti %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Àwọn Ìkìlọ̀ Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Kò sí ìkìlọ̀ kankan."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Tún Àwọn Àdàkọ Fi Sí I"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Àwọn Olùka"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Kùnà"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Ìṣiṣẹ́ Tí Ó Parí Kẹ́yìn"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Ìṣiṣẹ́ Tí Ó Kẹ́yìn"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Kò Dé Ọ̀dọ̀ Rẹ̀"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Kà"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Kò sí olùka kankan tí ó tíì ṣiṣẹ́."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Àkókò Tí Ó Gbà"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Ìkùnà"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Ìkà Kẹ́yìn"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Àṣeyọrí Tó Kẹ́yìn"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Nóòdù"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Ẹ̀yà Tí A Ròyìn"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Ìwọ̀n Ìdáhùn"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "tí a pa tì"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: nóòdù dáhùn láìsí ìṣètò ìwé-àṣẹ kíkà tí a yàn. Kọ́kọ́rọ́ rẹ̀ lè má ní ìdíwọ́ sí àṣẹ dandan tí ń ṣiṣẹ́ pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: kọ́kọ́rọ́ olùgbàlejò nóòdù kò sí nínú fáìlì àwọn olùgbàlejò tí a mọ̀, tàbí ó yí padà. Ṣàyẹ̀wò kọ́kọ́rọ́ náà kí o tó fi kún un."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: ìparí ìsopọ̀ yanjú síta àwọn nẹ́tíwọ́ọ̀kì tí a gbà láàyè fún olùwádìí %d, nítorí náà a kò kà á."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: ìwé-àṣẹ kíkà tẹ %d àwọn pàrámítà jáde tí àfikún kò kà, nítorí náà kì í ṣe pfs-read.sh tí a fi ránṣẹ́. Nóòdù náà lè máa ṣí ohun tí ó pọ̀ ju èyí tí àfikún nílò sílẹ̀."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d àwọn orúkọ ibi àfojúsùn nínú àbájáde nóòdù kò bá àpẹẹrẹ tàbí ètò fáìlì tí a retí mu, a sì kọ̀ wọ́n sílẹ̀."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Olùka lórí olùwádìí %d kò tíì parí ìṣiṣẹ́ kan láàárín %d ìṣẹ́jú-àáyá sẹ́yìn. Àwọn iye láti àwọn nóòdù rẹ̀ ń di àtijọ́."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Fífi àwọn àdàkọ Parallel Filesystem sí i kùnà: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "A kò fi àwọn àdàkọ Parallel Filesystem sí i, nítorí náà a kò lè fi ẹ̀rọ kankan kún un."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Fáìlì ìbéèrè dátà resource/script_server/%s sọnù kúrò nínú Cacti tàbí ó yàtọ̀ sí èyí tí àfikún yìí fi ránṣẹ́, nítorí náà àwọn ìbéèrè dátà kò lè to àwọn ibi àfojúsùn."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Ètò fáìlì %s wà ní ìsopọ̀ pẹ̀lú ẹ̀rọ %d, tí kò sí mọ́."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Ẹ̀rọ ti ètò fáìlì %s wà lábẹ́ ìwádìí olùwádìí %d, ṣùgbọ́n olùwádìí %d ló ń ka àwọn nóòdù rẹ̀, tí àwọn orísun dátà ẹ̀rọ náà nílò àpamọ́ rẹ̀."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Fáìlì kọ́kọ́rọ́ SSH %s kò sí lórí olùpèsè yìí."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Àwọn olùṣàmúlò mìíràn yàtọ̀ sí oní rẹ̀ lè ka tàbí kọ sínú fáìlì kọ́kọ́rọ́ SSH %s (ipò %s). Dín i kù sí olùṣàmúlò olùwádìí nìkan."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Fáìlì àwọn olùgbàlejò tí a mọ̀ %s kò sí lórí olùpèsè yìí, nítorí náà a kò lè ka nóòdù kankan láti inú rẹ̀."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Oníbàárà SSH %s kò sí lórí olùpèsè yìí."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Ètò Fáìlì: yan ọ̀kan lára àwọn ètò fáìlì tí a forúkọ sílẹ̀."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Orúkọ: lo lẹ́tà, nọ́ńbà, àmì ìdádúró, ìlà àárín, tàbí ìlà ìsàlẹ̀ 1 sí 64, kí ó sì bẹ̀rẹ̀ pẹ̀lú lẹ́tà tàbí nọ́ńbà."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Ipa: yan ọ̀kan lára àwọn ipa tí a tò sílẹ̀."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Èbúté: tẹ èbúté láti 1 sí 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Orúkọ Ìwọlé: lo orúkọ àkọọ́lẹ̀ lẹ́tà kékeré tí kò ju lẹ́tà 32 lọ, tí ó bẹ̀rẹ̀ pẹ̀lú lẹ́tà tàbí ìlà abẹ́."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Ìparí Ìsopọ̀: tẹ orúkọ olùgbàlejò tàbí àdírẹ́sì IP nìkan, láìsí olùṣàmúlò, èbúté, tàbí ipa-ọ̀nà."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Ìparí Ìsopọ̀: orúkọ náà kò yanjú lórí olùpèsè yìí."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Ìparí Ìsopọ̀: ó yanjú sí %s, tí kò sí nínú àwọn nẹ́tíwọ́ọ̀kì tí a gbà láàyè fún olùwádìí yìí. Fi nẹ́tíwọ́ọ̀kì kún un kọ́kọ́."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Olùpèsè ìṣàkóso (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Olùpèsè dátà-àlàyé (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Olùpèsè ìpamọ́ ohun (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Oníbàárà"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Ṣàyẹ̀wò àwọn àkíyèsí tí a kọ sílẹ̀ ní ìsàlẹ̀ yìí. Àwọn ìjẹ́rìísí wà fún ìgbà ìpàdé yìí nìkan, wọ́n ń dópin nígbà tí àwọn àkíyèsí bá yí padà, wọn kì í sì í dín àwọn ìtanijí kù tàbí yí ìlera padà."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Àwọn Iṣẹ́ Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Ìwádìí"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Ohun"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Àkíyèsí (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Àìmọ̀ tàbí ó ti pẹ́"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "A ti jẹ́rìí sí i; ìlera kò yí padà."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Jẹ́rìí sí i"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Kò sí àkíyèsí kankan fún àwọn ẹ̀rọ tí o ní ààyè sí."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Olùṣiṣẹ́ Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Ìwòye Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Alákòóso Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Àwọn Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Ìforúkọsílẹ̀ Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Ìlera Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Àwọn ètò àfikún fún ìwọlé nóòdù kò pé tàbí kò ṣeé lò"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Ìparí ìsopọ̀ yanjú síta àwọn nẹ́tíwọ́ọ̀kì tí a gbà láàyè fún olùwádìí rẹ̀"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Orúkọ ìparí ìsopọ̀ kò yanjú"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "A kò lè dé ọ̀dọ̀ nóòdù náà"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Kọ́kọ́rọ́ olùgbàlejò nóòdù kò sí nínú àkọsílẹ̀ tàbí ó yí padà"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Nóòdù kọ̀ láti gba kọ́kọ́rọ́ náà"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Ìkà náà kọjá òpin àkókò rẹ̀"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Ìdáhùn náà kọjá òpin ìwọ̀n rẹ̀"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Àṣẹ kíkà náà kùnà"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Nóòdù kò dáhùn pẹ̀lú ìwé-àṣẹ kíkà tí a yàn"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Ìdáhùn náà parí kí ìwé-àṣẹ kíkà tó parí"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Ìwọlé Nóòdù"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Ipa-ọ̀nà kíkún sí oníbàárà ssh lórí olùwádìí kọ̀ọ̀kan tí ń ka àwọn nóòdù."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Oníbàárà SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Ipa-ọ̀nà kíkún, lórí olùwádìí kọ̀ọ̀kan tí ń ka àwọn nóòdù, sí kọ́kọ́rọ́ àdáni tí nóòdù kọ̀ọ̀kan to apá gbogbogbòò rẹ̀ sínú authorized_keys pẹ̀lú àṣẹ dandan tí ń ṣiṣẹ́ pfs-read.sh. Olùṣàmúlò olùwádìí nìkan ló lè kà á. Àfikún náà kì í ṣẹ̀dá, ṣe ẹ̀dà, tàbí tẹ̀ ẹ́ jáde láé."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Fáìlì Kọ́kọ́rọ́ SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Ipa-ọ̀nà kíkún sí fáìlì known_hosts tí ó di kọ́kọ́rọ́ olùgbàlejò nóòdù kọ̀ọ̀kan mú lábẹ́ orúkọ ìparí ìsopọ̀ nóòdù. A kì í ka nóòdù tí kọ́kọ́rọ́ rẹ̀ sọnù tàbí yí padà."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Fáìlì Àwọn Olùgbàlejò Tí A Mọ̀"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Àkókò Ìdádúró Ìsopọ̀"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Àwọn ìṣẹ́jú-àáyá láti dúró de nóòdù láti gba ìsopọ̀ náà."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Àkókò Ìdádúró Kíkà"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Àwọn ìṣẹ́jú-àáyá tí kíkà nóòdù kan lè gbà lápapọ̀ kí a tó dá a dúró kí a sì kọ ọ́ sílẹ̀ bíi ìkùnà."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB tí nóòdù kan lè dá padà. A máa ń ju ìdáhùn tí ó tóbi jù nù kí a sì kọ ọ́ sílẹ̀ bíi ìkùnà."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Ìdáhùn Púpọ̀ Jù Lọ"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Olùka"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Ìṣúná Àkókò Olùka"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Àwọn ìṣẹ́jú-àáyá tí ìṣiṣẹ́ olùka kan lè lò kí ó tó dá bẹ̀rẹ̀ àwọn kíkà nóòdù dúró. Jẹ́ kí ó wà ní ìsàlẹ̀ àlàfo olùwádìí; a ó ka àwọn nóòdù tí a kò kà ní ìṣiṣẹ́ tókàn."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Àwọn Kíkà Lẹ́ẹ̀kan Náà"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Àwọn kíkà nóòdù tí olùka kan ń ṣiṣẹ́ ní àkókò kan náà."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Yọ kúrò"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Pa Àwọn Tábìlì Àfikún Mọ́ Nígbà Yíyọ Kúrò"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Nígbà tí a bá yàn án, yíyọ àfikún kúrò yóò pa àwọn ètò fáìlì, àwọn nóòdù, àkójọpọ̀, àti àpamọ́ rẹ̀ mọ́. Kó o kúrò láti jẹ́ kí yíyọ kúrò pa wọ́n rẹ́; kó ìforúkọsílẹ̀ jáde kọ́kọ́ láti ojú-ewé Alákòóso Parallel Filesystem. A kì í kàn sí àwọn nóòdù ìpamọ́ láé lọ́nà méjèèjì."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Pa Àwọn Ẹ̀rọ Tí Àfikún Yìí Ṣẹ̀dá Rẹ́ Nígbà Yíyọ Kúrò"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Nígbà tí a bá yàn án, yíyọ àfikún kúrò yóò pa àwọn ẹ̀rọ tí ó ṣẹ̀dá fún àwọn ètò fáìlì rẹ́, pẹ̀lú àwọn àwòrán àti orísun dátà wọn, bí pípa wọ́n rẹ́ nínú Cacti yóò ti rí. A kì í pa àwọn ẹ̀rọ tí ó ti wà tẹ́lẹ̀ tí a so pọ̀ mọ́ ètò fáìlì rẹ́ láé. A máa ń yọ àwọn fáìlì RRD kúrò nìkan bí ètò ìfọ̀mọ́ RRD ti Cacti fúnra rẹ̀ bá yọ wọ́n kúrò. Tí a kò bá yàn án, àwọn ẹ̀rọ náà yóò wà."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Kò sí ètò fáìlì kankan tí ó hàn fún ọ."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Ètò Fáìlì %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Àwọn àwòrán ti ètò fáìlì yìí"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Ipò"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Ìtuntun"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Àwọn Iye Tí A Mọ̀"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Ìgbà Tí A Rí I Kẹ́yìn"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Ìgbàpadà"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Àyẹ̀wò"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Nóòdù Orísun"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "A kò tíì rí ibi àfojúsùn kankan."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Àkọsílẹ̀ yẹn jẹ́ ti ẹ̀rọ Cacti kan tí o kò ní àṣẹ fún. Kò sí ohun tí a yí padà."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Orúkọ: ètò fáìlì mìíràn ti ẹ̀yìn yìí ti ń lo orúkọ yìí."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "A kò lè fi ètò fáìlì náà pamọ́."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "A ti fi ètò fáìlì náà pamọ́."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "A ti pa ètò fáìlì, àwọn nóòdù rẹ̀, àti àkójọpọ̀ rẹ̀ rẹ́. A pa ẹ̀rọ Cacti rẹ̀, àwọn orísun dátà, àti àwọn àwòrán rẹ̀ mọ́. A kò kàn sí nóòdù kankan."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Orúkọ: nóòdù mìíràn ti ń lo orúkọ yìí."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "A kò lè fi nóòdù náà pamọ́."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "A ti fi nóòdù náà pamọ́."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "A ti pa nóòdù náà rẹ́. Àwọn ibi àfojúsùn tí ó ròyìn pa ìtàn wọn mọ́."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Tẹ nẹ́tíwọ́ọ̀kì sí i bíi àdírẹ́sì àti gígùn ààlà iwájú, bíi 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "A kò fi ẹ̀rọ kankan kún un: ètò fáìlì ti ní ọ̀kan tẹ́lẹ̀, tàbí a kò fi àwọn àdàkọ sí i."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "A kò lè so ẹ̀rọ náà pọ̀. Ó lè ti wà ní ìsopọ̀ pẹ̀lú ètò fáìlì mìíràn."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "A ti so ẹ̀rọ náà pọ̀, a sì ti fi àwọn ìbéèrè dátà àti àwọn àwòrán àkópọ̀ kún un."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti kò ṣẹ̀dá ẹ̀rọ náà. Wo àkọsílẹ̀ Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "A ti ṣẹ̀dá ẹ̀rọ náà, àwọn ìbéèrè dátà rẹ̀, àti àwọn àwòrán àkópọ̀ rẹ̀."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Ẹ̀rọ náà kò sí ní ìsopọ̀ mọ́. A pa òun àti àwọn àwòrán rẹ̀ mọ́; àwọn ìbéèrè dátà rẹ̀ kò to ibi àfojúsùn kankan títí a ó fi tún un so pọ̀."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "A ti fi àwọn àdàkọ àti àwọn fáìlì ìbéèrè dátà sí i."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "A kò lè fi àwọn àdàkọ sí i: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Ìwòran àbójútó"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "A kò le ka àwọn àkíyèsí. Béèrè lọ́wọ́ alákòóso láti ṣàyẹ̀wò àkọsílẹ̀ àfikún náà."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Àfikún Parallel Filesystem nílò PHP %s tàbí tuntun jù bẹ́ẹ̀ lọ. Olùpèsè yìí ń lo PHP %s, nítorí náà a kò fi àfikún náà sí i tàbí mú un ṣiṣẹ́."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "A kò mú àfikún Parallel Filesystem ṣiṣẹ́."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Àfikún Parallel Filesystem nílò PHP %s tàbí tuntun jù bẹ́ẹ̀ lọ."
+
+#: setup.php
+msgid "Management"
+msgstr "Ìṣàkóso"

@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: ar-MA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "فحص سعة الهدف وعدم التوازن وحداثة البيانات في أنظمة الملفات المتوازية. تصعيد صلاحيات الوصول إلى العقد وقبول الأهداف وتعيين الأجهزة إلى المدير."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "أمر SSH المفروض"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "أنظمة الملفات"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "الإجراءات"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "الواجهة الخلفية"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "جهاز Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "الفاصل الزمني المتوقع"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "الاسم"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "العقد"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "المُستطلع"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "الحالة"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "لم يتم تسجيل أي أنظمة ملفات بعد."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d ثانية"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "حذف"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "الوصول"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "نقطة النهاية"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "نظام الملفات"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "اسم الولوج"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "الدور"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "لا توجد أي عقد مسجلة بعد."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "سجل نظام ملفات أولاً."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "تصدير"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "قم بتحميل السجل (أنظمة الملفات والعقد والشبكات ومراجعة الأهداف) بصيغة JSON قبل إلغاء التثبيت الذي يحذف جداول الإضافة. لا يحتوي على أي مفتاح أو بيانات اعتماد."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "نظام الملفات: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "نظام ملفات جديد"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "الفاصل الزمني المتوقع (بالثواني)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "مفعل"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "عقدة جديدة"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "العقدة: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "نقطة النهاية (اسم المضيف أو العنوان)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "منفذ SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "يجب أن تدرج العقدة مفتاح القارئ في authorized_keys لهذا الولوج مع أمر إجباري يشغّل pfs-read.sh، مثلاً: restrict,command=\"/usr/local/libexec/pfs-read.sh\" متبوعاً بالمفتاح العمومي. يجب أن يكون مفتاح المضيف في ملف المضيفين المعروفين تحت نقطة النهاية كما هي مكتوبة هنا."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "جهاز Cacti لنظام الملفات %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "إنشاء جهاز جديد"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "الجهاز"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "عرض ما ستتم إضافته"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "العناصر المراد إضافتها"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "يحتفظ الجهاز بإعداداته الخاصة، بما في ذلك المجمّع (poller). لا يتم تغيير أو حذف أي شيء فيه."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "يتم إنشاء الرسوم البيانية لكل هدف عند الطلب من صفحة الرسوم البيانية الجديدة الخاصة بالجهاز."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "إنشاء الجهاز"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "ربط هذا الجهاز"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "الشبكات المسموح بها"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "الشبكة"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "لا توجد شبكات مسموح بها بعد. لا يمكن للمجمّع الوصول إلى أي عقدة حتى يتم إدراج شبكاتها هنا."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "سماح"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "الأهداف التي تنتظر المراجعة"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "التواجد"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "الهدف"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "القيم التي يضيفها"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "قبول"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "تجاهل"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "لا توجد أهداف تنتظر المراجعة."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "إضافة جهاز"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(تم جمعه بواسطة المجمّع %d، وليس %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "فك الربط"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "حفظ"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "قوالب Parallel Filesystem غير مثبتة. أعد تثبيتها من صفحة الحالة الصحية."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "جهاز \"%s\" من قالب الجهاز %s، يجمعه المجمّع %d، مع تعطيل فحوصات التوفر."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "استعلام البيانات \"%s\"، الذي يسرد %d أهداف معروفة حالياً. لا ينشئ أي رسم بياني من تلقاء نفسه."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "الرسم البياني \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "مصدر بيانات \"%s\" لكل رسم بياني من تلك الرسوم، بمعدل استدعاء واحد لخادم السكربتات في كل دورة جمع، مهما كان عدد الأهداف."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "تم إنشاؤه بواسطة إضافة Parallel Filesystem لنظام الملفات %s. تأتي قيمه من ذاكرة التخزين المؤقت للإضافة؛ اسم المضيف هو اسم محجوز لا يتم الاتصال به أبداً."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "الواجهة الخلفية: اختر إحدى الواجهات الخلفية المدرجة."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "الاسم: استعمل اسم نظام الملفات الذي تطبعه العقد، مثل اسم fsname في Lustre المكون من 8 أحرف أو أرقام أو شرطات أو شرطات سفلية على الأكثر."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "المستطلع: اختر أحد المستطلعات المدرجة."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "الفاصل الزمني المتوقع: أدخل عدداً صحيحاً من الثواني من %d إلى %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "أبداً"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "منذ %d ثوانٍ"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "منذ %d دقائق"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "منذ %d ساعات"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "منذ %d أيام"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "عرض Parallel Filesystem لـ %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "تحذيرات Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "لا توجد تحذيرات."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "إعادة تثبيت القوالب"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "القارئات"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "فاشل"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "آخر تشغيل مكتمل"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "آخر تشغيل"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "تعذر الوصول"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "قراءة"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "لم يشتغل أي قارئ بعد."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "المدة"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "الفشل"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "آخر قراءة"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "آخر نجاح"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "العقدة"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "الإصدار المُبلّغ عنه"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "حجم الاستجابة"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "معطل"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s ث"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: استجابت العقدة بدون تأطير سكربت القراءة الثابت. قد لا يكون مفتاحها مقيداً بأمر إجباري يشغّل pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: مفتاح مضيف العقدة غير موجود في ملف المضيفين المعروفين، أو أنه تغير. تحقق من المفتاح قبل إضافته."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: يتم تحليل نقطة النهاية خارج الشبكات المسموح بها للمجمّع %d، لذا لا تتم قراءتها."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: طبع سكربت القراءة %d معامِلات لا تقرؤها الإضافة، لذا فهو ليس ملف pfs-read.sh المرفق. قد تكون العقدة تكشف أكثر مما تحتاجه الإضافة."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: لم تتطابق %d أسماء أهداف في مخرجات العقدة مع النمط المتوقع أو نظام الملفات وتم تجاهلها."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "لم يُكمل القارئ على المجمّع %d أي تشغيل خلال آخر %d ثانية. بدأت القيم الواردة من عقده تصبح قديمة."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "فشل تثبيت قوالب Parallel Filesystem: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "قوالب Parallel Filesystem غير مثبتة، لذا لا يمكن إضافة أي جهاز."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "ملف استعلام البيانات resource/script_server/%s مفقود من Cacti أو يختلف عن الملف الذي توفره هذه الإضافة، لذا لا يمكن لاستعلامات البيانات سرد الأهداف."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "نظام الملفات %s مربوط بالجهاز %d، الذي لم يعد موجوداً."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "يتم جمع بيانات جهاز نظام الملفات %s بواسطة المجمّع %d، لكن عقده تُقرأ بواسطة المجمّع %d، الذي تحتاج مصادر بيانات الجهاز إلى ذاكرته المؤقتة."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "ملف مفتاح SSH %s غير موجود على هذا المخدم."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "يمكن قراءة ملف مفتاح SSH %s أو الكتابة فيه من قبل مستخدمين غير مالكه (الوضع %s). قصِر صلاحياته على مستخدم المجمّع."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "ملف المضيفين المعروفين %s غير موجود على هذا المخدم، لذا لا يمكن قراءة أي عقدة منه."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "عميل SSH %s غير موجود على هذا المخدم."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "نظام الملفات: اختر أحد أنظمة الملفات المسجلة."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "الاسم: استعمل من 1 إلى 64 حرفاً أو رقماً أو نقطة أو شرطة أو شرطة سفلية، على أن يبدأ بحرف أو رقم."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "الدور: اختر أحد الأدوار المدرجة."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "المنفذ: أدخل منفذاً من 1 إلى 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "اسم الولوج: استعمل اسم حساب بأحرف صغيرة من 32 محرفاً على الأكثر، يبدأ بحرف أو شرطة سفلية."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "نقطة النهاية: أدخل اسم مضيف أو عنوان IP فقط، بدون مستخدم أو منفذ أو مسار."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "نقطة النهاية: لا يتم تحليل الاسم على هذا المخدم."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "نقطة النهاية: يتم تحليلها إلى %s، وهو غير موجود ضمن الشبكات المسموح بها لهذا المجمّع. أضف الشبكة أولاً."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "مخدم الإدارة (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "مخدم البيانات الوصفية (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "مخدم تخزين الكائنات (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "العميل"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "راجع الملاحظات المسجلة أدناه. الإقرارات شخصية لهذه الجلسة، وتنتهي صلاحيتها عند تغير الملاحظات، ولا تكتم التنبيهات أبداً ولا تغير الحالة الصحية."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "عمليات Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "التحقيق"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "الكائن"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "تاريخ الرصد (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "غير معروف أو قديم"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "تم الإقرار؛ الحالة الصحية لم تتغير."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "إقرار"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "لا تتوفر ملاحظات للأجهزة التي يحق لك الوصول إليها."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "مشغّل Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "عرض Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "إدارة Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "أنظمة Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "سجل Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "الحالة الصحية لـ Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "إعدادات الإضافة للوصول إلى العقد غير مكتملة أو غير صالحة للاستعمال"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "يتم تحليل نقطة النهاية خارج الشبكات المسموح بها لمجمّعها"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "لا يتم تحليل اسم نقطة النهاية"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "تعذر الوصول إلى العقدة"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "مفتاح مضيف العقدة غير معروف أو تغير"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "رفضت العقدة المفتاح"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "تجاوزت القراءة حدها الزمني"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "تجاوزت الاستجابة الحد الأقصى للحجم"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "فشل أمر القراءة"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "لم تستجب العقدة بسكربت القراءة الثابت"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "انتهت الاستجابة قبل انتهاء سكربت القراءة"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "الولوج إلى العقد"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "المسار المطلق لعميل ssh على كل مجمّع يقرأ العقد."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "عميل SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "المسار المطلق، على كل مجمّع يقرأ العقد، إلى المفتاح الخاص الذي تدرج كل عقدة نصفه العمومي في authorized_keys مع أمر إجباري يشغّل pfs-read.sh. قابل للقراءة فقط من طرف مستخدم المجمّع. لا تقوم الإضافة بإنشائه أو نسخه أو طباعته أبداً."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "ملف مفتاح SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "المسار المطلق لملف known_hosts الذي يحتوي على مفتاح مضيف كل عقدة تحت اسم نقطة نهاية العقدة. لا تتم قراءة العقدة التي يكون مفتاحها مفقوداً أو متغيراً."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "ملف known_hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "مهلة الاتصال"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "عدد الثواني للانتظار حتى تقبل العقدة الاتصال."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "مهلة القراءة"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "عدد الثواني التي قد تستغرقها قراءة عقدة واحدة إجمالاً قبل إيقافها وتسجيلها كفاشلة."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "عدد KiB التي قد تُرجعها عقدة واحدة. يتم تجاهل الاستجابة الأكبر وتسجيلها كفاشلة."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "الحد الأقصى للاستجابة"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "القارئ"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "الميزانية الزمنية للقارئ"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "عدد الثواني التي قد يقضيها تشغيل قارئ واحد قبل أن يتوقف عن بدء قراءات العقد. أبقِها أقل من الفاصل الزمني للمجمّع؛ تتم قراءة العقد غير المقروءة في التشغيل التالي."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "القراءات المتزامنة"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "قراءات العقد التي يشغّلها قارئ واحد في نفس الوقت."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "إلغاء التثبيت"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "الاحتفاظ بجداول الملحق عند إلغاء التثبيت"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "عند تحديده، يحتفظ إلغاء تثبيت الإضافة بأنظمة الملفات والعقد والجرد والذاكرة المؤقتة الخاصة بها. أزل التحديد ليقوم إلغاء التثبيت بحذفها؛ صدّر السجل أولاً من صفحة إدارة Parallel Filesystem. لا يتم الاتصال بعقد التخزين في كلتا الحالتين."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "حذف الأجهزة التي أنشأتها هذه الإضافة عند إلغاء التثبيت"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "عند تحديده، يحذف إلغاء تثبيت الإضافة الأجهزة التي أنشأتها لأنظمة الملفات، مع رسومها البيانية ومصادر بياناتها، كما يفعل حذفها في Cacti. لا يتم أبداً حذف الأجهزة الموجودة مسبقاً التي تم ربطها بنظام ملفات. تُحذف ملفات RRD فقط إذا كانت إعدادات تنظيف RRD الخاصة بـ Cacti تحذفها. عند إزالة التحديد، تبقى الأجهزة."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "لا يوجد أي نظام ملفات مرئي لك."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "نظام الملفات %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "الرسوم البيانية لنظام الملفات هذا"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "الحالة"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "الحداثة"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "القيم المعروفة"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "آخر ظهور"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "الاسترداد"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "مراجعة"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "العقدة المصدر"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "لم يتم العثور على أي أهداف بعد."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "ينتمي هذا السجل إلى جهاز Cacti ليس لديك صلاحية عليه. لم يتم تغيير أي شيء."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "الاسم: نظام ملفات آخر من هذا الخادم الخلفي يستعمل هذا الاسم بالفعل."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "تعذر حفظ نظام الملفات."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "تم حفظ نظام الملفات."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "تم حذف نظام الملفات وعقده وجرده. تم الاحتفاظ بجهاز Cacti ومصادر بياناته ورسومه البيانية. لم يتم الاتصال بأي عقدة."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "الاسم: عقدة أخرى تستعمل هذا الاسم بالفعل."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "تعذر حفظ العقدة."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "تم حفظ العقدة."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "تم حذف العقدة. تحتفظ الأهداف التي أبلغت عنها بسجلها التاريخي."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "أدخل شبكة كعنوان وطول بادئة، مثل 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "لم تتم إضافة أي جهاز: نظام الملفات لديه جهاز بالفعل، أو أن القوالب غير مثبتة."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "تعذر ربط الجهاز. قد يكون مربوطاً بنظام ملفات آخر."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "تم ربط الجهاز وإضافة استعلامات البيانات والرسوم البيانية العامة."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "لم ينشئ Cacti الجهاز. راجع سجل Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "تم إنشاء الجهاز واستعلامات البيانات والرسوم البيانية العامة الخاصة به."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "لم يعد الجهاز مربوطاً. تم الاحتفاظ به وبرسومه البيانية؛ لا تسرد استعلامات بياناته أي أهداف حتى يتم ربطه مرة أخرى."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "تم تثبيت القوالب وملفات استعلامات البيانات."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "تعذر تثبيت القوالب: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "عرض المراقبة"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "تعذرت قراءة الملاحظات. اطلب من المسؤول فحص سجل الملحق."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "تتطلب إضافة Parallel Filesystem إصدار PHP %s أو أحدث. يشغّل هذا المخدم PHP %s، لذا لم يتم تثبيت الإضافة أو تفعيلها."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "إضافة Parallel Filesystem غير مفعّلة."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "تتطلب إضافة Parallel Filesystem إصدار PHP %s أو أحدث."
+
+#: setup.php
+msgid "Management"
+msgstr "الإدارة"

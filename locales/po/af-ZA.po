@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: af-ZA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Inspekteer teikenkapasiteit, wanbalans en varsheid op Parallel Filesystems. Eskaleer nodustoegang, teikenaanvaarding en toestelkartering na 'n administrateur."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Geforseerde SSH-opdrag"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Lêerstelsels"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Aksies"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Agterend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti-toestel"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Verwagte interval"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Naam"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Nodusse"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Toestand"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Geen lêerstelsels is nog geregistreer nie."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekondes"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Skrap"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Toegang"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Eindpunt"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Lêerstelsel"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Aanmeldnaam"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Rol"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Geen nodusse is nog geregistreer nie."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Registreer eers 'n lêerstelsel."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Voer uit"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Laai die register (lêerstelsels, nodusse, netwerke en teikenbeoordeling) as JSON af voor 'n deïnstallasie wat die inproptabelle verwyder. Dit bevat geen sleutel of aanmeldbesonderhede nie."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Lêerstelsel: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Nuwe lêerstelsel"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Verwagte interval (sekondes)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Geaktiveer"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Nuwe nodus"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Nodus: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Eindpunt (gasheernaam of adres)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH-poort"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Die nodus moet die lesersleutel in authorized_keys vir hierdie aanmelding lys met 'n gedwonge opdrag wat pfs-read.sh uitvoer, byvoorbeeld: restrict,command=\"/usr/local/libexec/pfs-read.sh\" gevolg deur die openbare sleutel. Die gasheersleutel moet in die bekende-gashere-lêer wees onder die eindpunt soos hier geskryf."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Cacti-toestel vir lêerstelsel %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Skep 'n nuwe toestel"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Toestel"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Wys wat bygevoeg sal word"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Objekte om by te voeg"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Die toestel behou sy eie instellings, poller ingesluit. Niks daarop word verander of verwyder nie."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Grafieke per teiken word op aanvraag geskep vanaf die toestel se Nuwe grafieke-bladsy."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Skep die toestel"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Koppel hierdie toestel"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Toegelate netwerke"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Netwerk"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Geen netwerke is nog toegelaat nie. 'n Poller bereik geen nodus totdat sy netwerke hier gelys is nie."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Laat toe"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Teikens wat op beoordeling wag"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Aanwesigheid"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Teiken"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Waardes wat dit byvoeg"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Aanvaar"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Ignoreer"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Geen teikens wag op beoordeling nie."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Voeg 'n toestel by"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(gepol deur poller %d, nie %d nie)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Ontkoppel"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Stoor"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Die Parallel Filesystem-sjablone is nie geïnstalleer nie. Herinstalleer dit vanaf die gesondheidsbladsy."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "'n Toestel \"%s\" vanaf die %s-toestelsjabloon, gepol deur poller %d, met beskikbaarheidskontroles af."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Die datanavraag \"%s\", wat %d tans bekende teikens lys. Dit skep nie self 'n grafiek nie."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Die grafiek \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "'n \"%s\"-databron vir elkeen van daardie grafieke, elk een skripbedieneroproep per polsiklus, ongeag die aantal teikens."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Geskep deur die Parallel Filesystem-inprop vir lêerstelsel %s. Die waardes kom uit die inpropkas; die gasheernaam is 'n gereserveerde naam wat nooit gekontak word nie."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Agterend: kies een van die gelyste agterende."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Naam: gebruik die lêerstelselnaam wat die nodusse druk, soos die Lustre fsname van hoogstens 8 letters, syfers, koppeltekens of onderstrepe."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: kies een van die gelyste pollers."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Verwagte interval: voer heel sekondes van %d tot %d in."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Nooit"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d sekondes gelede"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d minute gelede"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d ure gelede"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d dae gelede"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Parallel Filesystem-aansig van %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Parallel Filesystem-waarskuwings"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Geen waarskuwings nie."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Installeer die sjablone weer"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Lesers"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Misluk"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Laaste voltooide lopie"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Laaste lopie"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Nie bereik nie"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Lees"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Geen leser het nog geloop nie."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Duur"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Mislukking"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Laas gelees"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Laaste sukses"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Nodus"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Gerapporteerde weergawe"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Antwoordgrootte"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "gedeaktiveer"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: die nodus het sonder die vaste leesskripraamwerk geantwoord. Sy sleutel is moontlik nie beperk tot 'n gedwonge opdrag wat pfs-read.sh uitvoer nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: die nodus se gasheersleutel is nie in die bekende-gashere-lêer nie, of dit het verander. Kontroleer die sleutel voordat dit bygevoeg word."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: die eindpunt los op buite die netwerke wat vir poller %d toegelaat word, dus word dit nie gelees nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: die leesskrip het %d parameters gedruk wat die inprop nie lees nie, dus is dit nie die meegeleverde pfs-read.sh nie. Die nodus stel moontlik meer bloot as wat die inprop nodig het."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d teikenname in die nodusafvoer het nie met die verwagte patroon of lêerstelsel ooreengestem nie en is geïgnoreer."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Die leser op poller %d het nie in die laaste %d sekondes 'n lopie voltooi nie. Waardes vanaf sy nodusse raak verouderd."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Die installering van die Parallel Filesystem-sjablone het misluk: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Die Parallel Filesystem-sjablone is nie geïnstalleer nie, dus kan geen toestel bygevoeg word nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Die datanavraaglêer resource/script_server/%s ontbreek in Cacti of verskil van die een wat hierdie inprop meelewer, dus kan die datanavrae nie teikens lys nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Lêerstelsel %s is gekoppel aan toestel %d, wat nie meer bestaan nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Die toestel van lêerstelsel %s word deur poller %d gepol, maar sy nodusse word deur poller %d gelees, wie se kas die toestel se databronne nodig het."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Die SSH-sleutellêer %s bestaan nie op hierdie bediener nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Die SSH-sleutellêer %s kan deur ander gebruikers as die eienaar gelees of geskryf word (modus %s). Beperk dit tot die poller-gebruiker."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Die bekende-gashere-lêer %s bestaan nie op hierdie bediener nie, dus kan geen nodus daaruit gelees word nie."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Die SSH-kliënt %s bestaan nie op hierdie bediener nie."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Lêerstelsel: kies een van die geregistreerde lêerstelsels."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Naam: gebruik 1 tot 64 letters, syfers, punte, koppeltekens of onderstrepe, beginnende met 'n letter of syfer."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Rol: kies een van die gelyste rolle."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Poort: voer 'n poort van 1 tot 65535 in."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Aanmeldnaam: gebruik 'n kleinletter-rekeningnaam van hoogstens 32 karakters, wat met 'n letter of onderstreep begin."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Eindpunt: voer slegs 'n gasheernaam of 'n IP-adres in, sonder 'n gebruiker, poort of pad."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Eindpunt: die naam los nie op hierdie bediener op nie."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Eindpunt: dit los op na %s, wat nie binne die netwerke is wat vir hierdie poller toegelaat word nie. Voeg eers die netwerk by."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Bestuursbediener (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Metadatabediener (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Objekstoorbediener (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Kliënt"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Hersien die aangetekende waarnemings hieronder. Erkennings is persoonlik tot hierdie sessie, verval wanneer waarnemings verander, en onderdruk nooit waarskuwings of verander gesondheid nie."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Parallel Filesystem-bedrywighede"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Ondersoek"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Objek"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Waargeneem (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Onbekend of verouderd"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Erken; gesondheid onveranderd."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Erken"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Geen waarnemings is beskikbaar vir toestelle waartoe jy toegang het nie."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Parallel Filesystem-operateur"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Parallel Filesystem-aansig"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Parallel Filesystem-admin"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Parallelle lêerstelsels"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Parallel Filesystem-register"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Parallel Filesystem-gesondheid"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Die inpropinstellings vir nodustoegang is onvolledig of onbruikbaar"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Die eindpunt los op buite die netwerke wat vir sy poller toegelaat word"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Die eindpuntnaam los nie op nie"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Die nodus kon nie bereik word nie"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Die nodus se gasheersleutel is onbekend of het verander"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Die nodus het die sleutel geweier"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Die leesbewerking het sy tydsbeperking oorskry"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Die antwoord het die groottebeperking oorskry"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Die leesopdrag het misluk"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Die nodus het nie met die vaste leesskrip geantwoord nie"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Die antwoord het geëindig voordat die leesskrip voltooi het"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Nodustoegang"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Absolute pad na die ssh-kliënt op elke poller wat nodusse lees."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH-kliënt"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Absolute pad, op elke poller wat nodusse lees, na die privaat sleutel waarvan elke nodus die openbare helfte in authorized_keys lys met 'n gedwonge opdrag wat pfs-read.sh uitvoer. Slegs leesbaar deur die poller-gebruiker. Die inprop skep, kopieer of druk dit nooit nie."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH-sleutellêer"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Absolute pad na die known_hosts-lêer wat elke nodus se gasheersleutel onder die nodus se eindpuntnaam hou. 'n Nodus waarvan die sleutel ontbreek of verander het, word nie gelees nie."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Bekende-gashere-lêer"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Verbindingstydlimiet"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Sekondes om te wag vir 'n nodus om die verbinding te aanvaar."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Leestydlimiet"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Sekondes wat een noduslees in totaal mag neem voordat dit gestop en as misluk aangeteken word."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB wat een nodus mag terugstuur. 'n Groter antwoord word weggegooi en as misluk aangeteken."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Maksimum antwoord"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Leser"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Lesertydbegroting"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Sekondes wat een leserlopie mag bestee voordat dit ophou om noduslesings te begin. Hou dit onder die poller-interval; ongeleesde nodusse word tydens die volgende lopie gelees."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Gelyktydige lesings"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Noduslesings wat een leser gelyktydig uitvoer."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Deïnstalleer"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Behou inproptabelle by deïnstallasie"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Wanneer gemerk, behou die deïnstallering van die inprop sy lêerstelsels, nodusse, voorraad en kas. Maak dit skoon sodat die deïnstallering dit verwyder; voer die register eers uit vanaf die Parallel Filesystem Admin-bladsy. Bergingsnodusse word in elk geval nooit gekontak nie."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Skrap die toestelle wat hierdie inprop geskep het tydens deïnstallering"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Wanneer gemerk, skrap die deïnstallering van die inprop die toestelle wat dit vir lêerstelsels geskep het, saam met hul grafieke en databronne, net soos om dit in Cacti te skrap. Bestaande toestelle wat aan 'n lêerstelsel gekoppel is, word nooit geskrap nie. RRD-lêers word slegs verwyder as Cacti se eie RRD-opruimingsinstelling dit verwyder. Wanneer ongemerk, bly die toestelle."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Geen lêerstelsel is vir jou sigbaar nie."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Lêerstelsel %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Grafieke van hierdie lêerstelsel"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Toestand"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Varsheid"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Bekende waardes"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Laas gesien"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Herstel"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Beoordeling"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Bronnodus"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Geen teikens is nog gevind nie."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Daardie rekord behoort aan 'n Cacti-toestel waarvoor jy nie toestemming het nie. Niks is verander nie."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Naam: 'n ander lêerstelsel van hierdie agterkant gebruik reeds hierdie naam."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Die lêerstelsel kon nie gestoor word nie."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Die lêerstelsel is gestoor."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Die lêerstelsel, sy nodusse en sy voorraad is geskrap. Sy Cacti-toestel, databronne en grafieke is behou. Geen nodus is gekontak nie."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Naam: 'n ander nodus gebruik reeds hierdie naam."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Die nodus kon nie gestoor word nie."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Die nodus is gestoor."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Die nodus is geskrap. Teikens wat dit gerapporteer het, behou hul geskiedenis."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Voer 'n netwerk as 'n adres en voorvoegsellengte in, soos 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Geen toestel is bygevoeg nie: die lêerstelsel het reeds een, of die sjablone is nie geïnstalleer nie."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Die toestel kon nie gekoppel word nie. Dit is moontlik aan 'n ander lêerstelsel gekoppel."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Die toestel is gekoppel en die datanavrae en oorsiggrafieke is bygevoeg."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti het nie die toestel geskep nie. Sien die Cacti-logboek."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Die toestel, sy datanavrae en sy oorsiggrafieke is geskep."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Die toestel is nie meer gekoppel nie. Dit en sy grafieke is behou; sy datanavrae lys geen teikens totdat dit weer gekoppel word nie."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Die sjablone en datanavraaglêers is geïnstalleer."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Die sjablone kon nie geïnstalleer word nie: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Moniteringsaansig"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Waarnemings kon nie gelees word nie. Vra 'n administrateur om die inproplogboek na te gaan."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Die Parallel Filesystem-inprop vereis PHP %s of nuwer. Hierdie bediener loop PHP %s, dus is die inprop nie geïnstalleer of geaktiveer nie."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Die Parallel Filesystem-inprop is nie geaktiveer nie."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Die Parallel Filesystem-inprop vereis PHP %s of nuwer."
+
+#: setup.php
+msgid "Management"
+msgstr "Bestuur"
