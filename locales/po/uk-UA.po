@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: uk-UA\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Перевіряйте ємність цілей, дисбаланс та актуальність даних у паралельних файлових системах. Ескалюйте доступ до вузлів, приймання цілей та зіставлення пристроїв адміністратору."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Примусова команда SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Файлові системи"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Дії"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Бекенд"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Пристрій Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Очікуваний інтервал"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Назва"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Вузли"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Опитувач"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Стан"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Файлові системи ще не зареєстровано."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d с"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Видалити"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Доступ"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Кінцева точка"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Файлова система"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Ім'я входу"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Роль"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Вузли ще не зареєстровано."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Спочатку зареєструйте файлову систему."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Експорт"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Завантажте реєстр (файлові системи, вузли, мережі та результати перевірки цілей) у форматі JSON перед видаленням плагіна, яке знищить таблиці плагіна. Він не містить ключів або облікових даних."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Файлова система: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Нова файлова система"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Очікуваний інтервал (секунди)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Увімкнено"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Новий вузол"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Вузол: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Кінцева точка (ім'я хоста або адреса)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Порт SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Вузол повинен містити ключ зчитувача у файлі authorized_keys для цього імені входу з примусовою командою запуску pfs-read.sh, наприклад: restrict,command=\"/usr/local/libexec/pfs-read.sh\", після чого йде відкритий ключ. Ключ хоста повинен бути у файлі відомих хостів під кінцевою точкою, вказаною тут."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Пристрій Cacti для файлової системи %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Створити новий пристрій"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Пристрій"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Показати, що буде додано"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Об'єкти для додавання"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Пристрій зберігає власні налаштування, включно з опитувачем. Нічого на ньому не змінюється і не видаляється."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Графіки для окремих цілей створюються за вимогою зі сторінки «Нові графіки» пристрою."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Створити пристрій"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Прив'язати цей пристрій"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Дозволені мережі"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Мережа"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Дозволених мереж ще немає. Опитувач не зможе звернутися до жодного вузла, доки його мережі не будуть перелічені тут."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Дозволити"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Цілі, що очікують перевірки"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Присутність"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Ціль"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Значення, які вона додає"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Прийняти"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Ігнорувати"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Немає цілей, що очікують перевірки."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Додати пристрій"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(опитується опитувачем %d, а не %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Скасувати прив'язку"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Зберегти"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Шаблони Паралельної файлової системи не встановлено. Перевстановіть їх зі сторінки стану."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Пристрій «%s» із шаблону пристрою %s, опитуваний опитувачем %d, із вимкненими перевірками доступності."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Запит даних \"%s\", що містить %d відомих наразі цілей. Сам по собі він не створює графіків."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Графік \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Джерело даних \"%s\" для кожного з цих графіків — по одному виклику сервера скриптів за цикл опитування, незалежно від кількості цілей."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Створено плагіном Паралельної файлової системи для файлової системи %s. Його значення надходять із кешу плагіна; ім'я хоста є зарезервованим і до нього ніколи не здійснюється підключення."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Бекенд: виберіть один із перелічених бекендів."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Назва: використовуйте назву файлової системи, яку виводять вузли, наприклад fsname у Lustre довжиною не більше 8 літер, цифр, дефісів або символів підкреслення."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Опитувач: виберіть один із перелічених опитувачів."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Очікуваний інтервал: введіть ціле число секунд від %d до %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Ніколи"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d секунд тому"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d хвилин тому"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d годин тому"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d днів тому"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d Б"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s КіБ"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s МіБ"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Подання Паралельної файлової системи %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Попередження Паралельної файлової системи"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Попереджень немає."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Встановити шаблони повторно"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Зчитувачі"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "З помилкою"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Останній завершений запуск"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Останній запуск"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Не досягнуто"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Зчитано"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Жоден зчитувач ще не запускався."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Тривалість"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Збій"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Останнє зчитування"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Останній успіх"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Вузол"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Повідомлена версія"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Розмір відповіді"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "вимкнено"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s с"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: вузол відповів без фіксованого обрамлення скрипту зчитування. Можливо, його ключ не обмежений примусовою командою запуску pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: ключ хоста вузла відсутній у файлі відомих хостів або змінився. Перевірте ключ перед додаванням."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: кінцева точка розпізнається за межами мереж, дозволених для опитувача %d, тому вона не зчитується."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: скрипт зчитування вивів %d параметрів, які плагін не читає, отже це не штатний pfs-read.sh. Вузол може розкривати більше даних, ніж потрібно плагіну."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d назв цілей у виводі вузла не відповідали очікуваному шаблону або файловій системі та були проігноровані."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Зчитувач на опитувачі %d не завершував запуск протягом останніх %d секунд. Значення з його вузлів застарівають."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Помилка встановлення шаблонів Паралельної файлової системи: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Шаблони Паралельної файлової системи не встановлено, тому неможливо додати пристрій."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Файл запиту даних resource/script_server/%s відсутній у Cacti або відрізняється від файлу з комплекту цього плагіна, тому запити даних не можуть вивести список цілей."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Файлова система %s прив'язана до пристрою %d, якого більше не існує."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Пристрій файлової системи %s опитується опитувачем %d, але її вузли зчитуються опитувачем %d, кеш якого потрібен джерелам даних пристрою."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Файл ключа SSH %s не існує на цьому сервері."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Файл ключа SSH %s може читатися або змінюватися іншими користувачами, крім власника (права %s). Обмежте доступ лише користувачем опитувача."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Файл відомих хостів %s не існує на цьому сервері, тому жоден вузол не може бути зчитаний із нього."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Клієнт SSH %s не існує на цьому сервері."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Файлова система: виберіть одну із зареєстрованих файлових систем."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Назва: використовуйте від 1 до 64 літер, цифр, крапок, дефісів або символів підкреслення, починаючи з літери чи цифри."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Роль: виберіть одну з перелічених ролей."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Порт: введіть номер порту від 1 до 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Ім'я входу: використовуйте ім'я облікового запису в нижньому регістрі довжиною не більше 32 символів, що починається з літери або символу підкреслення."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Кінцева точка: введіть лише ім'я хоста або IP-адресу, без користувача, порту чи шляху."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Кінцева точка: ім'я не розпізнається на цьому сервері."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Кінцева точка: вона розпізнається як %s, що не входить до мереж, дозволених для цього опитувача. Спочатку додайте мережу."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Сервер керування (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Сервер метаданих (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Сервер об'єктного сховища (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Клієнт"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Перегляньте зафіксовані спостереження нижче. Підтвердження стосуються лише цього сеансу, втрачають чинність після зміни спостережень і ніколи не приглушують сповіщення та не змінюють стан здоров'я."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Операції з паралельними файловими системами"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Розслідування"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Об'єкт"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Зафіксовано (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Невідомо або застаріло"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Підтверджено; стан не змінено."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Підтвердити"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Немає доступних спостережень для пристроїв, до яких ви маєте доступ."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Оператор паралельної файлової системи"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Перегляд паралельної файлової системи"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Адміністрування паралельної файлової системи"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Паралельні файлові системи"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Реєстр паралельних файлових систем"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Стан паралельних файлових систем"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Налаштування плагіна для доступу до вузлів неповні або непридатні"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Кінцева точка розпізнається за межами мереж, дозволених для її опитувача"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Ім'я кінцевої точки не розпізнається"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Не вдалося звернутися до вузла"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Ключ хоста вузла невідомий або змінився"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Вузол відхилив ключ"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Зчитування перевищило обмеження часу"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Відповідь перевищила обмеження розміру"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Команда зчитування завершилася з помилкою"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Вузол не відповів через фіксований скрипт зчитування"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Відповідь завершилася до завершення роботи скрипту зчитування"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Доступ до вузлів"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Абсолютний шлях до клієнта ssh на кожному опитувачі, який зчитує вузли."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Клієнт SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Абсолютний шлях на кожному опитувачі, який зчитує вузли, до закритого ключа, відкрита частина якого вказана на кожному вузлі в authorized_keys із примусовою командою запуску pfs-read.sh. Доступний для читання лише користувачеві опитувача. Плагін ніколи не створює, не копіює і не виводить його."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Файл ключа SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Абсолютний шлях до файлу known_hosts, що містить ключ хоста кожного вузла під ім'ям кінцевої точки вузла. Вузол, ключ якого відсутній або змінився, не зчитується."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Файл відомих хостів"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Час очікування з'єднання"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Кількість секунд очікування прийняття з'єднання вузлом."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Час очікування читання"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Максимальна загальна тривалість одного зчитування вузла в секундах, після якої воно зупиняється та фіксується як невдале."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "Максимальний обсяг у КіБ, який може повернути один вузол. Більша відповідь відкидається та фіксується як невдала."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Максимальний розмір відповіді"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Зчитувач"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Бюджет часу зчитувача"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Кількість секунд, яку може витратити один запуск зчитувача, перш ніж припинити запуск зчитування вузлів. Вказуйте значення менше за інтервал опитувача; незчитані вузли буде зчитано під час наступного запуску."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Одночасні зчитування"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Кількість зчитувань вузлів, які один зчитувач виконує одночасно."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Видалення"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Зберігати таблиці плагіна під час видалення"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Якщо позначено, видалення плагіна зберігає його файлові системи, вузли, інвентар та кеш. Зніміть позначку, щоб видалення знищило їх; спочатку експортуйте реєстр зі сторінки «Адміністрування паралельної файлової системи». До вузлів зберігання в жодному разі не здійснюється підключення."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Видаляти пристрої, створені цим плагіном, під час видалення плагіна"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Якщо позначено, видалення плагіна видаляє створені ним пристрої для файлових систем разом із їхніми графіками та джерелами даних, подібно до видалення в Cacti. Наявні пристрої, які були прив'язані до файлової системи, ніколи не видаляються. Файли RRD видаляються лише тоді, коли їх видаляє власне налаштування очищення RRD у Cacti. Якщо позначку знято, пристрої залишаються."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Вам не доступна жодна файлова система."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Файлова система %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Графіки цієї файлової системи"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Стан"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Актуальність"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Відомі значення"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Востаннє виявлено"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Відновлення"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Перевірка"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Вузол-джерело"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Цілей ще не знайдено."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Цей запис належить пристрою Cacti, на який у вас немає дозволу. Нічого не змінено."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Назва: інша файлова система цього бекенду вже використовує цю назву."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Не вдалося зберегти файлову систему."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Файлову систему збережено."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Файлову систему, її вузли та інвентар видалено. Її пристрій Cacti, джерела даних і графіки збережено. До жодного вузла не здійснювалося підключення."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Назва: інший вузол вже використовує цю назву."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Не вдалося зберегти вузол."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Вузол збережено."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Вузол видалено. Цілі, про які він повідомляв, зберігають свою історію."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Введіть мережу як адресу та довжину префікса, наприклад 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Пристрій не додано: файлова система вже має пристрій або шаблони не встановлено."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Не вдалося прив'язати пристрій. Можливо, його вже прив'язано до іншої файлової системи."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Пристрій прив'язано, а запити даних та оглядові графіки додано."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti не створив пристрій. Перегляньте журнал Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Пристрій, його запити даних та оглядові графіки створено."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Пристрій більше не прив'язано. Його самого та його графіки збережено; його запити даних не міститимуть цілей, доки його не прив'яжуть знову."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Шаблони та файли запитів даних встановлено."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Не вдалося встановити шаблони: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Перегляд моніторингу"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Не вдалося прочитати спостереження. Попросіть адміністратора перевірити журнал плагіна."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Плагін Паралельної файлової системи потребує PHP %s або новішої версії. На цьому сервері використовується PHP %s, тому плагін не було встановлено або увімкнено."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Плагін Паралельної файлової системи не увімкнено."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Плагін Паралельної файлової системи потребує PHP %s або новішої версії."
+
+#: setup.php
+msgid "Management"
+msgstr "Керування"

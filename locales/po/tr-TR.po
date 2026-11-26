@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: tr-TR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Paralel Dosya Sistemlerindeki hedef kapasiteyi, dengesizliği ve güncelliği inceleyin. Düğüm erişimi, hedef kabulü ve cihaz eşleme işlemlerini bir yöneticiye iletin."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH zorunlu komutu"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Dosya Sistemleri"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Eylemler"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Arka Uç"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti Cihazı"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Beklenen Aralık"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Ad"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Düğümler"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Durum"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Henüz kayıtlı dosya sistemi yok."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d saniye"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Sil"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Erişim"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Uç Nokta"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Dosya sistemi"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Oturum Açma Adı"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Rol"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Henüz kayıtlı düğüm yok."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Önce bir dosya sistemi kaydedin."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Dışa Aktar"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Eklenti tablolarını kaldıran bir kaldırma işleminden önce kayıt defterini (dosya sistemleri, düğümler, ağlar ve hedef incelemesi) JSON olarak indirin. Herhangi bir anahtar veya kimlik bilgisi içermez."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Dosya Sistemi: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Yeni Dosya Sistemi"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Beklenen Aralık (saniye)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Etkin"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Yeni Düğüm"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Düğüm: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Uç Nokta (ana bilgisayar adı veya adres)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH Bağlantı Noktası"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Düğüm, bu oturum açma adı için authorized_keys dosyasında okuyucu anahtarını pfs-read.sh çalıştıran zorunlu bir komutla listelemelidir; örneğin: restrict,command=\"/usr/local/libexec/pfs-read.sh\" ve ardından genel anahtar. Ana bilgisayar anahtarı, bilinen ana bilgisayarlar dosyasında burada yazıldığı şekilde uç nokta adı altında bulunmalıdır."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "%s Dosya Sistemi için Cacti Cihazı"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Yeni bir cihaz oluştur"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Cihaz"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Eklenecekleri Göster"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Eklenecek Nesneler"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Cihaz, yoklayıcı (poller) dahil kendi ayarlarını korur. Üzerindeki hiçbir şey değiştirilmez veya kaldırılmaz."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Hedef başına grafikler, cihazın Yeni Grafikler sayfasından isteğe bağlı olarak oluşturulur."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Cihazı Oluştur"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Bu Cihazı Eşle"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "İzin Verilen Ağlar"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Ağ"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Henüz izin verilen ağ yok. Bir yoklayıcı, ağları burada listelenene kadar hiçbir düğüme ulaşamaz."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "İzin Ver"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "İnceleme Bekleyen Hedefler"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Varlık Durumu"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Hedef"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Eklediği Değerler"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Kabul Et"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Yoksay"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "İnceleme bekleyen hedef yok."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Cihaz ekle"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(yoklayıcı %d tarafından yoklanır, %d değil)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Eşlemeyi Kaldır"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Kaydet"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Paralel Dosya Sistemi şablonları yüklü değil. Bunları sağlık sayfasından yeniden yükleyin."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "\"%s\" adlı bir cihaz (%s cihaz şablonundan, %d numaralı yoklayıcı tarafından yoklanan, erişilebilirlik denetimleri kapalı)."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "\"%s\" veri sorgusu, şu anda bilinen %d hedefi listeler. Tek başına grafik oluşturmaz."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "\"%s\" grafiği."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Bu grafiklerin her biri için bir \"%s\" veri kaynağı; hedef sayısı ne olursa olsun her biri yoklama döngüsü başına bir betik sunucusu çağrısı yapar."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "%s dosya sistemi için Paralel Dosya Sistemi eklentisi tarafından oluşturuldu. Değerleri eklenti önbelleğinden gelir; ana bilgisayar adı hiçbir zaman iletişim kurulmayan ayrılmış bir addır."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Arka Uç: Listelenen arka uçlardan birini seçin."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Ad: düğümlerin yazdırdığı dosya sistemi adını kullanın; örneğin en fazla 8 harf, rakam, tire veya alt çizgiden oluşan Lustre fsname."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Yoklayıcı: Listelenen yoklayıcılardan birini seçin."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Beklenen Aralık: %d ile %d arasında tam saniye değeri girin."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Hiçbir zaman"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d saniye önce"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d dakika önce"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d saat önce"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d gün önce"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s için Paralel Dosya Sistemi görünümü"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Paralel Dosya Sistemi Uyarıları"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Uyarı yok."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Şablonları Yeniden Yükle"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Okuyucular"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Başarısız"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Son Tamamlanan Çalıştırma"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Son Çalıştırma"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Ulaşılamadı"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Okundu"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Henüz hiçbir okuyucu çalışmadı."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Süre"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Hata"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Son Okuma"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Son Başarı"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Düğüm"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Bildirilen Sürüm"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Yanıt Boyutu"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "devre dışı"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s sn"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: düğüm, sabit okuma betiği çerçevelemesi olmadan yanıt verdi. Anahtarı, pfs-read.sh çalıştıran zorunlu bir komutla sınırlandırılmamış olabilir."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: düğümün ana bilgisayar anahtarı bilinen ana bilgisayarlar dosyasında değil veya değişmiş. Eklemeden önce anahtarı denetleyin."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: uç nokta, yoklayıcı %d için izin verilen ağların dışına çözümleniyor; bu nedenle okunmuyor."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: okuma betiği eklentinin okumadığı %d parametre yazdırdı; bu nedenle paketle gelen pfs-read.sh değil. Düğüm, eklentinin ihtiyaç duyduğundan fazlasını açığa çıkarıyor olabilir."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: düğüm çıktısındaki %d hedef adı beklenen desen veya dosya sistemiyle eşleşmedi ve yoksayıldı."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Yoklayıcı %d üzerindeki okuyucu son %d saniye içinde bir çalıştırmayı tamamlamadı. Düğümlerinden gelen değerler güncelliğini yitiriyor."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Paralel Dosya Sistemi şablonları yüklenemedi: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Paralel Dosya Sistemi şablonları yüklü olmadığı için cihaz eklenemez."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "resource/script_server/%s veri sorgu dosyası Cacti'de eksik veya bu eklentiyle gelen dosyadan farklı; bu nedenle veri sorguları hedefleri listeleyemiyor."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "%s dosya sistemi, artık mevcut olmayan %d cihazıyla eşlenmiş."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "%s dosya sisteminin cihazı yoklayıcı %d tarafından yoklanıyor, ancak düğümleri cihazın veri kaynaklarının önbelleğine ihtiyaç duyduğu yoklayıcı %d tarafından okunuyor."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "%s SSH anahtar dosyası bu sunucuda yok."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "%s SSH anahtar dosyası sahibi dışındaki kullanıcılar tarafından okunabilir veya yazılabilir (kip %s). Erişimi yoklayıcı kullanıcısıyla sınırlandırın."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "%s bilinen ana bilgisayarlar dosyası bu sunucuda yok; bu nedenle buradan hiçbir düğüm okunamıyor."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "%s SSH istemcisi bu sunucuda yok."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Dosya Sistemi: kayıtlı dosya sistemlerinden birini seçin."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Ad: Bir harf veya rakamla başlayarak 1 ila 64 harf, rakam, nokta, tire veya alt çizgi kullanın."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Rol: listelenen rollerden birini seçin."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Bağlantı Noktası: 1 ile 65535 arasında bir bağlantı noktası girin."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Oturum Açma Adı: bir harf veya alt çizgiyle başlayan, en fazla 32 karakterlik küçük harfli bir hesap adı kullanın."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Uç Nokta: kullanıcı, bağlantı noktası veya yol olmadan yalnızca bir ana bilgisayar adı veya IP adresi girin."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Uç Nokta: ad bu sunucuda çözümlenmiyor."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Uç Nokta: %s adresine çözümleniyor ve bu adres bu yoklayıcı için izin verilen ağların içinde değil. Önce ağı ekleyin."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Yönetim sunucusu (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Üst veri sunucusu (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Nesne depolama sunucusu (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "İstemci"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Aşağıdaki kayıtlı gözlemleri inceleyin. Onaylar bu oturuma özeldir, gözlemler değiştiğinde sona erer ve hiçbir zaman uyarıları bastırmaz veya sağlık durumunu değiştirmez."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Paralel Dosya Sistemi İşlemleri"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "İnceleme"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Nesne"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Gözlemlenen (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Bilinmiyor veya güncel değil"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Onaylandı; sağlık durumu değişmedi."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Onayla"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Erişebileceğiniz cihazlar için kullanılabilir gözlem yok."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Paralel Dosya Sistemi Operatörü"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Paralel Dosya Sistemi Görünümü"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Paralel Dosya Sistemi Yöneticisi"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Paralel Dosya Sistemleri"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Paralel Dosya Sistemi Kayıt Defteri"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Paralel Dosya Sistemi Sağlığı"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Düğüm erişimi için eklenti ayarları eksik veya kullanılamaz durumda"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Uç nokta, yoklayıcısı için izin verilen ağların dışına çözümleniyor"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Uç nokta adı çözümlenmiyor"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Düğüme ulaşılamadı"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Düğüm ana bilgisayar anahtarı bilinmiyor veya değişmiş"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Düğüm anahtarı reddetti"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Okuma işlemi zaman sınırını aştı"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Yanıt boyut sınırını aştı"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Okuma komutu başarısız oldu"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Düğüm sabit okuma betiği ile yanıt vermedi"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Yanıt, okuma betiği tamamlanmadan sona erdi"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Düğüm Erişimi"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Düğümleri okuyan her yoklayıcıdaki ssh istemcisinin mutlak yolu."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH İstemcisi"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Düğümleri okuyan her yoklayıcıda, genel bölümü her düğümün authorized_keys dosyasında pfs-read.sh çalıştıran zorunlu bir komutla listelediği özel anahtarın mutlak yolu. Yalnızca yoklayıcı kullanıcısı tarafından okunabilir. Eklenti bunu hiçbir zaman oluşturmaz, kopyalamaz veya yazdırmaz."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH Anahtar Dosyası"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Her düğümün ana bilgisayar anahtarını düğüm uç nokta adı altında tutan known_hosts dosyasının mutlak yolu. Anahtarı eksik veya değişmiş bir düğüm okunmaz."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Bilinen Ana Bilgisayarlar Dosyası"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Bağlantı Zaman Aşımı"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Bir düğümün bağlantıyı kabul etmesi için beklenecek saniye sayısı."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Okuma Zaman Aşımı"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Bir düğüm okumasının durdurulup başarısız olarak kaydedilmeden önce toplamda sürebileceği saniye sayısı."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "Bir düğümün döndürebileceği KiB miktarı. Daha büyük bir yanıt atılır ve başarısız olarak kaydedilir."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Maksimum Yanıt"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Okuyucu"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Okuyucu Zaman Bütçesi"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Bir okuyucu çalıştırmasının yeni düğüm okumaları başlatmayı durdurmadan önce harcayabileceği saniye sayısı. Bunu yoklayıcı aralığının altında tutun; okunmayan düğümler bir sonraki çalıştırmada okunur."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Eşzamanlı Okumalar"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Bir okuyucunun aynı anda çalıştırdığı düğüm okuması sayısı."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Kaldır"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Kaldırırken Eklenti Tablolarını Koru"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "İşaretlendiğinde, eklentiyi kaldırmak dosya sistemlerini, düğümlerini, envanterini ve önbelleğini korur. Kaldırma işleminin bunları silmesi için işareti kaldırın; önce Paralel Dosya Sistemi Yöneticisi sayfasından kayıt defterini dışa aktarın. Her iki durumda da depolama düğümleriyle hiçbir zaman iletişim kurulmaz."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Kaldırma Sırasında Bu Eklentinin Oluşturduğu Cihazları Sil"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "İşaretlendiğinde, eklentiyi kaldırmak dosya sistemleri için oluşturduğu cihazları, Cacti'de silinmiş gibi grafikleri ve veri kaynaklarıyla birlikte siler. Bir dosya sistemiyle eşlenmiş mevcut cihazlar hiçbir zaman silinmez. RRD dosyaları yalnızca Cacti'nin kendi RRD temizleme ayarı bunları kaldırıyorsa silinir. İşaret kaldırıldığında cihazlar kalır."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Görüntüleyebileceğiniz hiçbir dosya sistemi yok."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Dosya Sistemi %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Bu dosya sisteminin grafikleri"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Durum"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Güncellik"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Bilinen Değerler"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Son Görülme"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Kurtarma"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "İnceleme"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Kaynak Düğüm"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Henüz hedef bulunamadı."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Bu kayıt, izninizin olmadığı bir Cacti cihazına ait. Hiçbir şey değiştirilmedi."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Ad: bu arka ucun başka bir dosya sistemi bu adı zaten kullanıyor."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Dosya sistemi kaydedilemedi."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Dosya sistemi kaydedildi."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Dosya sistemi, düğümleri ve envanteri silindi. Cacti cihazı, veri kaynakları ve grafikleri korundu. Hiçbir düğümle iletişim kurulmadı."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Ad: başka bir düğüm bu adı zaten kullanıyor."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Düğüm kaydedilemedi."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Düğüm kaydedildi."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Düğüm silindi. Bildirdiği hedefler geçmişlerini korur."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Ağı 10.20.0.0/16 gibi bir adres ve önek uzunluğu olarak girin."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Cihaz eklenmedi: dosya sisteminin zaten bir cihazı var veya şablonlar yüklü değil."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Cihaz eşlenemedi. Başka bir dosya sistemiyle eşlenmiş olabilir."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Cihaz eşlendi; veri sorguları ve genel bakış grafikleri eklendi."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti cihazı oluşturmadı. Cacti günlüğüne bakın."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Cihaz, veri sorguları ve genel bakış grafikleri oluşturuldu."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Cihaz artık eşlenmemiş durumda. Kendisi ve grafikleri korundu; veri sorguları yeniden eşlenene kadar hedef listelemez."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Şablonlar ve veri sorgu dosyaları yüklendi."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Şablonlar yüklenemedi: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "İzleme görünümü"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Gözlemler okunamadı. Bir yöneticiden eklenti günlüğünü kontrol etmesini isteyin."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Paralel Dosya Sistemi eklentisi PHP %s veya üzerini gerektirir. Bu sunucuda PHP %s çalışıyor; bu nedenle eklenti yüklenmedi veya etkinleştirilmedi."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Paralel Dosya Sistemi eklentisi etkin değil."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Paralel Dosya Sistemi eklentisi PHP %s veya üzerini gerektirir."
+
+#: setup.php
+msgid "Management"
+msgstr "Yönetim"
