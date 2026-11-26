@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: sv-SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Granska målkapacitet, obalans och aktualitet i parallella filsystem. Eskalera nodåtkomst, målacceptans och enhetsmappning till en administratör."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Tvingat SSH-kommando"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Filsystem"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Åtgärder"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti-enhet"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Förväntat intervall"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Namn"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Noder"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Tillstånd"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Inga filsystem registrerade ännu."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekunder"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Ta bort"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Åtkomst"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Slutpunkt"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Filsystem"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Inloggningsnamn"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Roll"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Inga noder registrerade ännu."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Registrera ett filsystem först."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Exportera"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Ladda ned registret (filsystem, noder, nätverk och målgranskning) som JSON före en avinstallation som tar bort insticksprogrammets tabeller. Det innehåller inga nycklar eller inloggningsuppgifter."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Filsystem: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Nytt filsystem"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Förväntat intervall (sekunder)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Aktiverad"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Ny nod"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Nod: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Slutpunkt (värdnamn eller adress)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH-port"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Noden måste ange läsarnyckeln i authorized_keys för den här inloggningen med ett tvingat kommando som kör pfs-read.sh, till exempel: restrict,command=\"/usr/local/libexec/pfs-read.sh\" följt av den publika nyckeln. Värdnyckeln måste finnas i filen för kända värdar under slutpunkten exakt som den skrivs här."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Cacti-enhet för filsystemet %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Skapa en ny enhet"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Enhet"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Visa vad som kommer att läggas till"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Objekt att lägga till"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Enheten behåller sina egna inställningar, inklusive poller. Ingenting på den ändras eller tas bort."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Grafer per mål skapas vid behov från enhetens sida Nya grafer."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Skapa enheten"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Koppla denna enhet"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Tillåtna nätverk"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Nätverk"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Inga nätverk tillåtna ännu. En poller når inga noder förrän dess nätverk listas här."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Tillåt"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Mål som väntar på granskning"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Närvaro"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Mål"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Värden som läggs till"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Godkänn"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Ignorera"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Inga mål väntar på granskning."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Lägg till en enhet"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(pollad av poller %d, inte %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Ta bort mappning"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Spara"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Mallarna för Parallel Filesystem är inte installerade. Installera om dem från hälsosidan."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "En enhet \"%s\" från enhetsmallen %s, pollad av poller %d, med tillgänglighetskontroller avstängda."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Datafrågan \"%s\", som listar %d kända mål just nu. Den skapar ingen graf i sig."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Grafen \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "En datakälla av typen \"%s\" för var och en av dessa grafer, med ett script server-anrop per pollcykel oavsett antal mål."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Skapad av insticksprogrammet Parallel Filesystem för filsystemet %s. Dess värden kommer från insticksprogrammets cache; värdnamnet är ett reserverat namn som aldrig kontaktas."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: välj en av de listade backenderna."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Namn: använd det filsystemsnamn som noderna skriver ut, såsom Lustre fsname med högst 8 bokstäver, siffror, bindestreck eller understreck."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: välj en av de listade pollrarna."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Förväntat intervall: ange hela sekunder från %d till %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Aldrig"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d sekunder sedan"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d minuter sedan"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d timmar sedan"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d dagar sedan"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Parallel Filesystem-vy över %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Varningar för Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Inga varningar."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Installera mallarna igen"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Läsare"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Misslyckade"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Senast slutförda körning"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Senaste körning"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Inte nådd"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Läst"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Ingen läsare har körts ännu."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Varaktighet"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Fel"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Senaste läsning"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Senast lyckad"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Nod"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Rapporterad version"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Svarsstorlek"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "inaktiverad"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: noden svarade utan den fasta inramningen från lässkriptet. Dess nyckel kanske inte är begränsad till ett tvingat kommando som kör pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: nodens värdnyckel finns inte i filen för kända värdar, eller så har den ändrats. Kontrollera nyckeln innan du lägger till den."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: slutpunkten slås upp utanför de nätverk som tillåts för poller %d, så den läses inte."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: lässkriptet skrev ut %d parametrar som insticksprogrammet inte läser, så det är inte den medföljande pfs-read.sh. Noden kan exponera mer än vad insticksprogrammet behöver."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d målnamn i nodens utdata matchade inte det förväntade mönstret eller filsystemet och ignorerades."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Läsaren på poller %d har inte slutfört någon körning under de senaste %d sekunderna. Värden från dess noder börjar bli inaktuella."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Installationen av mallarna för Parallel Filesystem misslyckades: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Mallarna för Parallel Filesystem är inte installerade, så ingen enhet kan läggas till."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Datafrågefilen resource/script_server/%s saknas i Cacti eller skiljer sig från den som detta insticksprogram levererar, så datafrågorna kan inte lista mål."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Filsystemet %s är kopplat till enhet %d, som inte längre finns."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Enheten för filsystemet %s pollas av poller %d, men dess noder läses av poller %d, vars cache enhetens datakällor behöver."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "SSH-nyckelfilen %s finns inte på denna server."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH-nyckelfilen %s kan läsas eller skrivas av andra användare än dess ägare (rättighetsläge %s). Begränsa den till poller-användaren."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Filen för kända värdar %s finns inte på denna server, så ingen nod kan läsas från den."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSH-klienten %s finns inte på denna server."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Filsystem: välj ett av de registrerade filsystemen."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Namn: använd 1 till 64 bokstäver, siffror, punkter, bindestreck eller understreck, och börja med en bokstav eller siffra."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Roll: välj en av de listade rollerna."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Port: ange en port från 1 till 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Inloggningsnamn: använd ett kontonamn med gemener på högst 32 tecken som börjar med en bokstav eller ett understreck."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Slutpunkt: ange endast ett värdnamn eller en IP-adress, utan användare, port eller sökväg."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Slutpunkt: namnet kan inte slås upp på denna server."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Slutpunkt: det slås upp till %s, som inte ligger inom de nätverk som tillåts för denna poller. Lägg till nätverket först."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Hanteringsserver (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Metadataserver (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Objektlagringsserver (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Klient"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Granska de registrerade observationerna nedan. Kvitteringar är personliga för denna session, upphör att gälla när observationer ändras och undertrycker aldrig larm eller ändrar hälsostatus."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Drift för Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Utredning"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Objekt"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Observerad (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Okänd eller inaktuell"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Kvitterad; hälsostatus oförändrad."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Kvittera"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Inga observationer är tillgängliga för enheter som du har åtkomst till."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Operatör för Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Vy för Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Administration av Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Parallella filsystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Register för Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Hälsa för Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Insticksprogrammets inställningar för nodåtkomst är ofullständiga eller oanvändbara"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Slutpunkten slås upp utanför de nätverk som tillåts för dess poller"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Slutpunktsnamnet kan inte slås upp"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Noden kunde inte nås"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Nodens värdnyckel är okänd eller har ändrats"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Noden avvisade nyckeln"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Läsningen överskred sin tidsgräns"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Svaret överskred storleksgränsen"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Läskommandot misslyckades"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Noden svarade inte med det fasta lässkriptet"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Svaret avbröts innan lässkriptet hann slutföras"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Nodåtkomst"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Absolut sökväg till ssh-klienten på varje poller som läser noder."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH-klient"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Absolut sökväg, på varje poller som läser noder, till den privata nyckel vars publika del varje nod anger i authorized_keys med ett tvingat kommando som kör pfs-read.sh. Endast läsbar för poller-användaren. Insticksprogrammet skapar, kopierar eller skriver aldrig ut den."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH-nyckelfil"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Absolut sökväg till known_hosts-filen som innehåller varje nods värdnyckel under nodens slutpunktsnamn. En nod vars nyckel saknas eller har ändrats läses inte."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Fil för kända värdar"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Tidsgräns för anslutning"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Sekunder att vänta på att en nod ska acceptera anslutningen."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Tidsgräns för läsning"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Sekunder som en nodläsning får ta totalt innan den stoppas och registreras som misslyckad."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB som en nod får returnera. Ett större svar kasseras och registreras som misslyckat."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Maximalt svar"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Läsare"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Tidsbudget för läsare"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Sekunder som en läsarkörning får använda innan den slutar starta nodläsningar. Håll den under poller-intervallet; olästa noder läses vid nästa körning."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Samtidiga läsningar"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Nodläsningar som en läsare kör samtidigt."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Avinstallera"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Behåll tilläggstabeller vid avinstallation"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "När detta är markerat behåller en avinstallation av insticksprogrammet dess filsystem, noder, inventering och cache. Avmarkera för att låta avinstallationen ta bort dem; exportera registret först från sidan Administration av Parallel Filesystem. Lagringsnoder kontaktas aldrig oavsett val."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Ta bort enheterna som detta insticksprogram skapade vid avinstallation"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "När detta är markerat tar en avinstallation av insticksprogrammet bort de enheter det skapade för filsystem, tillsammans med deras grafer och datakällor, på samma sätt som om de togs bort i Cacti. Befintliga enheter som kopplats till ett filsystem tas aldrig bort. RRD-filer tas endast bort om Cactis egen inställning för RRD-rensning tar bort dem. När det är avmarkerat behålls enheterna."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Inget filsystem är synligt för dig."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Filsystem %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Grafer för detta filsystem"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Tillstånd"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Aktualitet"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Kända värden"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Senast sedd"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Återställning"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Granskning"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Källnod"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Inga mål hittades ännu."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Den posten tillhör en Cacti-enhet som du inte har behörighet till. Ingenting ändrades."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Namn: ett annat filsystem i denna backend använder redan detta namn."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Filsystemet kunde inte sparas."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Filsystemet sparades."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Filsystemet, dess noder och dess inventering togs bort. Dess Cacti-enhet, datakällor och grafer behölls. Ingen nod kontaktades."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Namn: en annan nod använder redan detta namn."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Noden kunde inte sparas."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Noden sparades."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Noden togs bort. Mål som den rapporterat behåller sin historik."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Ange ett nätverk som en adress och prefixlängd, till exempel 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Ingen enhet lades till: filsystemet har redan en, eller så är mallarna inte installerade."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Enheten kunde inte kopplas. Den kan redan vara kopplad till ett annat filsystem."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Enheten kopplades och datafrågorna samt översiktsgraferna lades till."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti skapade inte enheten. Se Cacti-loggen."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Enheten, dess datafrågor och dess översiktsgrafer skapades."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Enheten är inte längre kopplad. Den och dess grafer behölls; dess datafrågor listar inga mål förrän den kopplas igen."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Mallarna och datafrågefilerna installerades."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Mallarna kunde inte installeras: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Övervakningsvy"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Observationer kunde inte läsas. Be en administratör att kontrollera tilläggets logg."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Insticksprogrammet Parallel Filesystem kräver PHP %s eller senare. Denna server kör PHP %s, så insticksprogrammet installerades eller aktiverades inte."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Insticksprogrammet Parallel Filesystem är inte aktiverat."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Insticksprogrammet Parallel Filesystem kräver PHP %s eller senare."
+
+#: setup.php
+msgid "Management"
+msgstr "Hantering"

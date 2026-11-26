@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: vi-VN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Kiểm tra dung lượng mục tiêu, độ mất cân bằng và độ mới dữ liệu trên Hệ thống tệp song song. Chuyển quyền truy cập nút, chấp nhận mục tiêu và ánh xạ thiết bị lên quản trị viên."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Lệnh SSH cưỡng bức"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Hệ thống tệp"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Thao tác"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Thiết bị Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Khoảng thời gian dự kiến"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Tên"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Các nút"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Trạng thái"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Chưa có hệ thống tệp nào được đăng ký."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d giây"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Xóa"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Truy cập"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Điểm cuối"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Hệ thống tệp"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Tên đăng nhập"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Vai trò"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Chưa có nút nào được đăng ký."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Hãy đăng ký một hệ thống tệp trước."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Xuất"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Tải xuống sổ đăng ký (hệ thống tệp, nút, mạng và mục tiêu cần xem xét) dưới dạng JSON trước khi gỡ cài đặt làm xóa các bảng của plugin. Tệp này không chứa khóa hay thông tin xác thực nào."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Hệ thống tệp: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Hệ thống tệp mới"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Chu kỳ dự kiến (giây)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Đã bật"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Nút mới"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Nút: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Điểm cuối (tên máy chủ hoặc địa chỉ)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Cổng SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Nút phải liệt kê khóa trình đọc trong authorized_keys cho tên đăng nhập này với lệnh bắt buộc chạy pfs-read.sh, ví dụ: restrict,command=\"/usr/local/libexec/pfs-read.sh\" theo sau là khóa công khai. Khóa máy chủ phải có trong tệp known_hosts dưới tên điểm cuối đúng như được ghi tại đây."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Thiết bị Cacti cho hệ thống tệp %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Tạo thiết bị mới"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Thiết bị"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Hiển thị những gì sẽ được thêm"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Đối tượng sẽ thêm"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Thiết bị giữ nguyên các thiết lập riêng của nó, bao gồm cả trình thu thập (poller). Không có gì trên thiết bị bị thay đổi hoặc xóa."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Biểu đồ theo từng mục tiêu được tạo theo nhu cầu từ trang Biểu đồ mới (New Graphs) của thiết bị."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Tạo thiết bị"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Ánh xạ thiết bị này"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Mạng được phép"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Mạng"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Chưa có mạng nào được phép. Trình thu thập sẽ không thể truy cập bất kỳ nút nào cho đến khi mạng của nó được liệt kê tại đây."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Cho phép"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Mục tiêu đang chờ xem xét"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Hiện diện"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Mục tiêu"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Giá trị được thêm vào"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Chấp nhận"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Bỏ qua"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Không có mục tiêu nào đang chờ xem xét."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Thêm thiết bị"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(được thu thập bởi poller %d, không phải %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Hủy ánh xạ"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Lưu"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Các mẫu Hệ thống tệp song song chưa được cài đặt. Hãy cài đặt lại chúng từ trang tình trạng."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Một thiết bị \"%s\" từ mẫu thiết bị %s, được thăm dò bởi trình thăm dò %d, với kiểm tra tính khả dụng đã tắt."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Truy vấn dữ liệu \"%s\", liệt kê %d mục tiêu hiện đã biết. Bản thân nó không tạo biểu đồ nào."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Biểu đồ \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Một nguồn dữ liệu \"%s\" cho mỗi biểu đồ đó, mỗi nguồn thực hiện một lần gọi máy chủ tập lệnh (script server) trong mỗi chu kỳ thu thập, bất kể số lượng mục tiêu."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Được tạo bởi plugin Hệ thống tệp song song cho hệ thống tệp %s. Các giá trị của nó lấy từ bộ nhớ đệm của plugin; tên máy chủ là tên dành riêng không bao giờ được kết nối tới."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: chọn một trong các backend được liệt kê."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Tên: sử dụng tên hệ thống tệp mà các nút in ra, chẳng hạn như fsname của Lustre gồm tối đa 8 chữ cái, chữ số, dấu gạch ngang hoặc dấu gạch dưới."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: chọn một trong các poller được liệt kê."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Chu kỳ dự kiến: nhập số giây nguyên từ %d đến %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Chưa bao giờ"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d giây trước"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d phút trước"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d giờ trước"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d ngày trước"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Chế độ xem Hệ thống tệp song song của %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Cảnh báo Hệ thống tệp song song"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Không có cảnh báo."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Cài đặt lại các mẫu"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Trình đọc"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Thất bại"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Lần chạy hoàn tất gần nhất"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Lần chạy cuối"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Không thể truy cập"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Đọc"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Chưa có trình đọc nào chạy."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Thời lượng"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Lỗi"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Lần đọc gần nhất"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Lần thành công cuối"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Nút"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Phiên bản được báo cáo"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Kích thước phản hồi"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "đã tắt"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s giây"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: nút đã trả lời mà không có khung định dạng cố định của tập lệnh đọc. Khóa của nút có thể chưa được giới hạn vào lệnh bắt buộc chạy pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: khóa máy chủ của nút không có trong tệp known_hosts hoặc đã thay đổi. Hãy kiểm tra khóa trước khi thêm."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: điểm cuối phân giải ra ngoài các mạng được phép cho poller %d nên không được đọc."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: tập lệnh đọc đã in ra %d tham số mà plugin không đọc, do đó đây không phải là pfs-read.sh đi kèm. Nút có thể đang lộ nhiều thông tin hơn mức plugin cần."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d tên mục tiêu trong đầu ra của nút không khớp với mẫu hoặc hệ thống tệp dự kiến và đã bị bỏ qua."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Trình đọc trên poller %d đã không hoàn tất lần chạy nào trong %d giây qua. Dữ liệu từ các nút của nó đang trở nên cũ."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Cài đặt các mẫu Hệ thống tệp song song thất bại: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Các mẫu Hệ thống tệp song song chưa được cài đặt, nên không thể thêm thiết bị nào."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Tệp truy vấn dữ liệu resource/script_server/%s bị thiếu khỏi Cacti hoặc khác với tệp đi kèm plugin này, nên các truy vấn dữ liệu không thể liệt kê mục tiêu."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Hệ thống tệp %s được ánh xạ tới thiết bị %d, nhưng thiết bị này không còn tồn tại."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Thiết bị của hệ thống tệp %s được thu thập bởi poller %d, nhưng các nút của nó được đọc bởi poller %d, nơi chứa bộ nhớ đệm mà các nguồn dữ liệu của thiết bị cần."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Tệp khóa SSH %s không tồn tại trên máy chủ này."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Tệp khóa SSH %s có thể bị đọc hoặc ghi bởi người dùng khác ngoài chủ sở hữu (chế độ %s). Hãy giới hạn quyền chỉ cho người dùng poller."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Tệp known_hosts %s không tồn tại trên máy chủ này, nên không thể đọc nút nào từ đó."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Ứng dụng khách SSH %s không tồn tại trên máy chủ này."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Hệ thống tệp: chọn một trong các hệ thống tệp đã đăng ký."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Tên: sử dụng từ 1 đến 64 chữ cái, chữ số, dấu chấm, dấu gạch ngang hoặc dấu gạch dưới, bắt đầu bằng chữ cái hoặc chữ số."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Vai trò: chọn một trong các vai trò được liệt kê."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Cổng: nhập cổng từ 1 đến 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Tên đăng nhập: sử dụng tên tài khoản chữ thường dài tối đa 32 ký tự, bắt đầu bằng chữ cái hoặc dấu gạch dưới."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Điểm cuối: chỉ nhập tên máy chủ hoặc địa chỉ IP, không kèm người dùng, cổng hoặc đường dẫn."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Điểm cuối: tên không phân giải được trên máy chủ này."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Điểm cuối: tên phân giải thành %s, không nằm trong các mạng được phép cho poller này. Hãy thêm mạng trước."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Máy chủ quản lý (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Máy chủ siêu dữ liệu (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Máy chủ lưu trữ đối tượng (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Máy khách"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Xem lại các quan sát đã ghi nhận bên dưới. Xác nhận chỉ áp dụng riêng cho phiên này, hết hạn khi các quan sát thay đổi và không bao giờ ẩn cảnh báo hay thay đổi tình trạng."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Vận hành Hệ thống tệp song song"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Điều tra"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Đối tượng"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Quan sát lúc (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Không xác định hoặc cũ"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Đã xác nhận; tình trạng không thay đổi."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Xác nhận"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Không có quan sát nào cho các thiết bị bạn có quyền truy cập."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Người vận hành Hệ thống tệp song song"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Xem Hệ thống tệp song song"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Quản trị Hệ thống tệp song song"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Hệ thống tệp song song"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Sổ đăng ký Hệ thống tệp song song"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Tình trạng Hệ thống tệp song song"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Thiết lập plugin cho quyền truy cập nút chưa đầy đủ hoặc không thể sử dụng"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Điểm cuối phân giải ra ngoài các mạng được phép cho poller của nó"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Tên điểm cuối không phân giải được"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Không thể kết nối tới nút"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Khóa máy chủ của nút không xác định hoặc đã thay đổi"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Nút đã từ chối khóa"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Lần đọc đã vượt quá giới hạn thời gian"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Phản hồi đã vượt quá giới hạn kích thước"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Lệnh đọc thất bại"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Nút không trả lời bằng tập lệnh đọc cố định"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Phản hồi kết thúc trước khi tập lệnh đọc hoàn tất"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Truy cập nút"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Đường dẫn tuyệt đối đến ứng dụng khách ssh trên mỗi poller thực hiện đọc nút."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Ứng dụng khách SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Đường dẫn tuyệt đối, trên mỗi poller đọc nút, đến khóa riêng tư mà phần khóa công khai của nó được mỗi nút liệt kê trong authorized_keys với lệnh bắt buộc chạy pfs-read.sh. Chỉ người dùng poller mới có quyền đọc. Plugin không bao giờ tạo, sao chép hoặc in khóa này."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Tệp khóa SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Đường dẫn tuyệt đối đến tệp known_hosts lưu khóa máy chủ của từng nút theo tên điểm cuối của nút. Nút có khóa bị thiếu hoặc đã thay đổi sẽ không được đọc."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Tệp Known Hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Thời gian chờ kết nối"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Số giây chờ nút chấp nhận kết nối."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Thời gian chờ đọc"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Tổng số giây tối đa cho một lần đọc nút trước khi bị dừng và ghi nhận là thất bại."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "Số KiB tối đa một nút có thể trả về. Phản hồi lớn hơn sẽ bị hủy bỏ và ghi nhận là thất bại."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Phản hồi tối đa"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Trình đọc"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Quỹ thời gian trình đọc"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Số giây một lần chạy trình đọc có thể sử dụng trước khi ngừng bắt đầu đọc nút mới. Giữ giá trị này thấp hơn chu kỳ poller; các nút chưa đọc sẽ được đọc ở lần chạy tiếp theo."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Số lượt đọc đồng thời"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Số lượt đọc nút mà một trình đọc thực hiện cùng lúc."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Gỡ cài đặt"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Giữ các bảng của plugin khi gỡ cài đặt"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Khi được chọn, việc gỡ cài đặt plugin sẽ giữ lại các hệ thống tệp, nút, danh mục và bộ nhớ đệm của nó. Bỏ chọn để quá trình gỡ cài đặt xóa bỏ chúng; hãy xuất sổ đăng ký trước từ trang Quản trị Hệ thống tệp song song. Dù chọn cách nào thì các nút lưu trữ cũng không bao giờ bị kết nối tới."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Xóa các thiết bị do plugin này tạo khi gỡ cài đặt"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Khi được chọn, việc gỡ cài đặt plugin sẽ xóa các thiết bị mà nó đã tạo cho hệ thống tệp, cùng với biểu đồ và nguồn dữ liệu của chúng, giống như cách xóa trong Cacti. Các thiết bị hiện có đã được ánh xạ tới hệ thống tệp sẽ không bao giờ bị xóa. Các tệp RRD chỉ bị xóa nếu thiết lập dọn dẹp RRD riêng của Cacti xóa chúng. Nếu bỏ chọn, các thiết bị sẽ được giữ lại."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Không có hệ thống tệp nào hiển thị với bạn."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Hệ thống tệp %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Biểu đồ của hệ thống tệp này"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Điều kiện"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Độ mới"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Giá trị đã biết"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Thấy lần cuối"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Khôi phục"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Xem xét"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Nút nguồn"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Chưa tìm thấy mục tiêu nào."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Bản ghi đó thuộc về một thiết bị Cacti mà bạn không có quyền truy cập. Không có gì thay đổi."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Tên: một hệ thống tệp khác của phần phụ trợ này đã sử dụng tên này."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Không thể lưu hệ thống tệp."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Đã lưu hệ thống tệp."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Hệ thống tệp, các nút và danh mục của nó đã bị xóa. Thiết bị Cacti, nguồn dữ liệu và biểu đồ của nó được giữ lại. Không có nút nào bị kết nối tới."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Tên: một nút khác đã sử dụng tên này."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Không thể lưu nút."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Đã lưu nút."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Đã xóa nút. Các mục tiêu do nút báo cáo vẫn giữ lại lịch sử của chúng."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Nhập mạng dưới dạng địa chỉ và độ dài tiền tố, chẳng hạn như 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Không có thiết bị nào được thêm: hệ thống tệp đã có một thiết bị hoặc các mẫu chưa được cài đặt."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Không thể ánh xạ thiết bị. Thiết bị có thể đã được ánh xạ tới một hệ thống tệp khác."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Đã ánh xạ thiết bị và thêm các truy vấn dữ liệu cùng biểu đồ tổng quan."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti không tạo được thiết bị. Hãy xem nhật ký Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Đã tạo thiết bị, các truy vấn dữ liệu và biểu đồ tổng quan của nó."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Thiết bị không còn được ánh xạ nữa. Thiết bị và các biểu đồ của nó được giữ lại; các truy vấn dữ liệu của nó sẽ không liệt kê mục tiêu nào cho đến khi được ánh xạ lại."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Đã cài đặt các mẫu và tệp truy vấn dữ liệu."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Không thể cài đặt các mẫu: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Chế độ xem giám sát"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Không thể đọc các quan sát. Hãy yêu cầu quản trị viên kiểm tra nhật ký plugin."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Plugin Hệ thống tệp song song yêu cầu PHP %s trở lên. Máy chủ này đang chạy PHP %s, nên plugin chưa được cài đặt hoặc bật."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Plugin Hệ thống tệp song song chưa được bật."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Plugin Hệ thống tệp song song yêu cầu PHP %s trở lên."
+
+#: setup.php
+msgid "Management"
+msgstr "Quản lý"

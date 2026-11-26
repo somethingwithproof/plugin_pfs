@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: pl-PL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Sprawdzaj pojemność celów, nierównowagę oraz aktualność w równoległych systemach plików. Zgłaszaj administratorowi dostęp do węzłów, akceptację celów i mapowanie urządzeń."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Wymuszone polecenie SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Systemy plików"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Akcje"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Urządzenie Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Oczekiwany interwał"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Nazwa"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Węzły"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Stan"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Nie zarejestrowano jeszcze żadnych systemów plików."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d sek."
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Usuń"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Dostęp"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Punkt końcowy"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "System plików"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Nazwa logowania"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Rola"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Nie zarejestrowano jeszcze żadnych węzłów."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Najpierw zarejestruj system plików."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Eksportuj"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Pobierz rejestr (systemy plików, węzły, sieci i przegląd celów) w formacie JSON przed odinstalowaniem, które usuwa tabele wtyczki. Nie zawiera on żadnych kluczy ani poświadczeń."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "System plików: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Nowy system plików"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Oczekiwany interwał (sekundy)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Włączone"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Nowy węzeł"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Węzeł: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Punkt końcowy (nazwa hosta lub adres)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Port SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Węzeł musi zawierać klucz czytnika w pliku authorized_keys dla tego loginu z wymuszonym poleceniem uruchamiającym pfs-read.sh, na przykład: restrict,command=\"/usr/local/libexec/pfs-read.sh\", a następnie klucz publiczny. Klucz hosta musi znajdować się w pliku znanych hostów pod punktem końcowym zapisanym w tej samej postaci."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Urządzenie Cacti dla systemu plików %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Utwórz nowe urządzenie"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Urządzenie"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Pokaż, co zostanie dodane"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Obiekty do dodania"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Urządzenie zachowuje własne ustawienia, w tym poller. Nic na nim nie jest zmieniane ani usuwane."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Wykresy dla poszczególnych celów są tworzone na żądanie ze strony Nowe wykresy urządzenia."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Utwórz urządzenie"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Mapuj to urządzenie"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Dozwolone sieci"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Sieć"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Nie zezwolono jeszcze na żadne sieci. Poller nie osiągnie żadnego węzła, dopóki jego sieci nie zostaną tutaj wymienione."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Zezwól"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Cele oczekujące na przegląd"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Obecność"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Cel"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Dodawane wartości"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Akceptuj"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Ignoruj"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Żadne cele nie oczekują na przegląd."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Dodaj urządzenie"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(odpytywane przez poller %d, a nie %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Usuń powiązanie"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Zapisz"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Szablony równoległego systemu plików nie są zainstalowane. Zainstaluj je ponownie ze strony stanu."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Urządzenie „%s” z szablonu urządzenia %s, odpytywane przez poller %d, z wyłączonym sprawdzaniem dostępności."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Zapytanie danych „%s”, zawierające listę %d obecnie znanych celów. Samo w sobie nie tworzy ono żadnego wykresu."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Wykres „%s”."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Źródło danych „%s” dla każdego z tych wykresów, po jednym wywołaniu serwera skryptów na cykl odpytywania, niezależnie od liczby celów."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Utworzone przez wtyczkę równoległego systemu plików dla systemu plików %s. Jego wartości pochodzą z pamięci podręcznej wtyczki; nazwa hosta jest nazwą zastrzeżoną, z którą nigdy nie nawiązuje się połączenia."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: wybierz jeden z wymienionych backendów."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Nazwa: użyj nazwy systemu plików wypisywanej przez węzły, takiej jak nazwa fsname Lustre składająca się z maksymalnie 8 liter, cyfr, myślników lub podkreśleń."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: wybierz jeden z wymienionych pollerów."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Oczekiwany interwał: wprowadź całkowitą liczbę sekund od %d do %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Nigdy"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d s temu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d min temu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d godz. temu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d dni temu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Widok równoległego systemu plików %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Ostrzeżenia równoległego systemu plików"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Brak ostrzeżeń."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Zainstaluj szablony ponownie"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Czytniki"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Niepowodzenia"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Ostatnie ukończone uruchomienie"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Ostatnie uruchomienie"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Nieosiągalny"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Odczyt"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Żaden czytnik nie został jeszcze uruchomiony."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Czas trwania"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Błąd"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Ostatni odczyt"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Ostatnie powodzenie"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Węzeł"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Zgłoszona wersja"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Rozmiar odpowiedzi"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "wyłączony"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: węzeł odpowiedział bez ustalonej ramki skryptu odczytu. Jego klucz może nie być ograniczony do wymuszonego polecenia uruchamiającego pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: klucz hosta węzła nie znajduje się w pliku znanych hostów lub uległ zmianie. Sprawdź klucz przed jego dodaniem."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: nazwa punktu końcowego jest rozwiązywana na adres spoza sieci dozwolonych dla pollera %d, dlatego nie jest odczytywany."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: skrypt odczytu wypisał %d parametrów, których wtyczka nie odczytuje, więc nie jest to dostarczony pfs-read.sh. Węzeł może ujawniać więcej danych, niż wtyczka potrzebuje."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d nazw celów w danych wyjściowych węzła nie pasowało do oczekiwanego wzorca lub systemu plików i zostało zignorowanych."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Czytnik na pollerze %d nie ukończył uruchomienia w ciągu ostatnich %d sekund. Wartości z jego węzłów stają się nieaktualne."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Instalacja szablonów równoległego systemu plików nie powiodła się: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Szablony równoległego systemu plików nie są zainstalowane, więc nie można dodać żadnego urządzenia."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Plik zapytania danych resource/script_server/%s nie istnieje w Cacti lub różni się od pliku dostarczonego przez tę wtyczkę, więc zapytania danych nie mogą wyświetlić listy celów."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "System plików %s jest zmapowany do urządzenia %d, które już nie istnieje."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Urządzenie systemu plików %s jest odpytywane przez poller %d, ale jego węzły są odczytywane przez poller %d, którego pamięci podręcznej potrzebują źródła danych tego urządzenia."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Plik klucza SSH %s nie istnieje na tym serwerze."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Plik klucza SSH %s może być odczytywany lub zapisywany przez użytkowników innych niż jego właściciel (uprawnienia %s). Ogranicz dostęp wyłącznie do użytkownika pollera."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Plik znanych hostów %s nie istnieje na tym serwerze, więc żaden węzeł nie może zostać z niego odczytany."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Klient SSH %s nie istnieje na tym serwerze."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "System plików: wybierz jeden z zarejestrowanych systemów plików."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Nazwa: użyj od 1 do 64 liter, cyfr, kropek, myślników lub podkreśleń, zaczynając od litery lub cyfry."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Rola: wybierz jedną z wymienionych ról."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Port: wprowadź port z zakresu od 1 do 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Nazwa logowania: użyj nazwy konta pisanej małymi literami o długości maksymalnie 32 znaków, zaczynającej się od litery lub podkreślenia."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Punkt końcowy: wprowadź wyłącznie nazwę hosta lub adres IP, bez użytkownika, portu ani ścieżki."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Punkt końcowy: nazwa nie jest rozwiązywana na tym serwerze."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Punkt końcowy: nazwa jest rozwiązywana na adres %s, który nie należy do sieci dozwolonych dla tego pollera. Najpierw dodaj tę sieć."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Serwer zarządzania (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Serwer metadanych (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Serwer pamięci obiektowej (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Klient"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Przejrzyj poniższe zarejestrowane obserwacje. Potwierdzenia dotyczą wyłącznie tej sesji, wygasają po zmianie obserwacji i nigdy nie wyciszają alertów ani nie zmieniają stanu."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Operacje równoległego systemu plików"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Analiza"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Obiekt"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Zaobserwowano (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Nieznane lub nieaktualne"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Potwierdzono; stan bez zmian."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Potwierdź"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Brak dostępnych obserwacji dla urządzeń, do których masz dostęp."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Operator równoległego systemu plików"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Widok równoległego systemu plików"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Administracja równoległym systemem plików"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Równoległe systemy plików"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Rejestr równoległych systemów plików"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Stan równoległego systemu plików"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Ustawienia wtyczki dotyczące dostępu do węzłów są niekompletne lub bezużyteczne"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Punkt końcowy jest rozwiązywany poza sieciami dozwolonymi dla jego pollera"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Nazwa punktu końcowego nie jest rozwiązywana"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Nie udało się osiągnąć węzła"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Klucz hosta węzła jest nieznany lub uległ zmianie"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Węzeł odrzucił klucz"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Odczyt przekroczył limit czasu"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Odpowiedź przekroczyła limit rozmiaru"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Polecenie odczytu nie powiodło się"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Węzeł nie odpowiedział za pomocą ustalonego skryptu odczytu"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Odpowiedź zakończyła się przed ukończeniem skryptu odczytu"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Dostęp do węzłów"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Ścieżka bezwzględna do klienta ssh na każdym pollerze, który odczytuje węzły."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Klient SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Ścieżka bezwzględna na każdym pollerze odczytującym węzły do klucza prywatnego, którego część publiczną każdy węzeł zawiera w pliku authorized_keys z wymuszonym poleceniem uruchamiającym pfs-read.sh. Czytelna tylko dla użytkownika pollera. Wtyczka nigdy go nie tworzy, nie kopiuje ani nie wypisuje."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Plik klucza SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Ścieżka bezwzględna do pliku known_hosts przechowującego klucz hosta każdego węzła pod nazwą punktu końcowego węzła. Węzeł, którego klucza brakuje lub którego klucz uległ zmianie, nie jest odczytywany."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Plik znanych hostów"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Limit czasu połączenia"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Liczba sekund oczekiwania na zaakceptowanie połączenia przez węzeł."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Limit czasu odczytu"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Łączna liczba sekund, jaką może zająć jeden odczyt węzła, zanim zostanie przerwany i zapisany jako nieudany."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "Liczba KiB, jaką może zwrócić jeden węzeł. Większa odpowiedź jest odrzucana i zapisywana jako nieudana."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Maksymalna odpowiedź"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Czytnik"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Budżet czasu czytnika"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Liczba sekund, jaką może trwać jedno uruchomienie czytnika, zanim przestanie rozpoczynać odczyty węzłów. Należy utrzymywać ją poniżej interwału pollera; nieodczytane węzły są odczytywane podczas następnego uruchomienia."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Równoczesne odczyty"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Liczba odczytów węzłów uruchamianych jednocześnie przez jeden czytnik."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Odinstalowanie"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Zachowaj tabele wtyczki przy odinstalowaniu"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Gdy zaznaczone, odinstalowanie wtyczki zachowuje jej systemy plików, węzły, zasoby i pamięć podręczną. Odznacz, aby odinstalowanie je usunęło; najpierw wyeksportuj rejestr ze strony Administracja równoległym systemem plików. W obu przypadkach z węzłami pamięci masowej nigdy nie nawiązuje się połączenia."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Usuń urządzenia utworzone przez tę wtyczkę podczas odinstalowywania"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Gdy zaznaczone, odinstalowanie wtyczki usuwa urządzenia utworzone przez nią dla systemów plików wraz z ich wykresami i źródłami danych, tak jak usunięcie ich w Cacti. Istniejące urządzenia, które zostały zmapowane do systemu plików, nigdy nie są usuwane. Pliki RRD są usuwane tylko wtedy, gdy usuwa je własne ustawienie czyszczenia RRD w Cacti. Gdy odznaczone, urządzenia pozostają."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Żaden system plików nie jest dla Ciebie widoczny."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "System plików %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Wykresy tego systemu plików"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Stan"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Świeżość"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Znane wartości"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Ostatnio widziany"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Odzyskiwanie"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Przegląd"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Węzeł źródłowy"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Nie znaleziono jeszcze żadnych celów."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Ten rekord należy do urządzenia Cacti, do którego nie masz uprawnień. Nic nie zostało zmienione."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Nazwa: inny system plików tego zaplecza używa już tej nazwy."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Nie udało się zapisać systemu plików."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "System plików został zapisany."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "System plików, jego węzły i zasoby zostały usunięte. Jego urządzenie Cacti, źródła danych i wykresy zostały zachowane. Nie nawiązano połączenia z żadnym węzłem."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Nazwa: inny węzeł używa już tej nazwy."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Nie udało się zapisać węzła."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Węzeł został zapisany."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Węzeł został usunięty. Zgłoszone przez niego cele zachowują swoją historię."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Wprowadź sieć jako adres i długość prefiksu, na przykład 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Nie dodano żadnego urządzenia: system plików ma już urządzenie lub szablony nie są zainstalowane."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Nie udało się zmapować urządzenia. Może być ono zmapowane do innego systemu plików."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Urządzenie zostało zmapowane, a zapytania danych i wykresy przeglądowe zostały dodane."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti nie utworzyło urządzenia. Sprawdź dziennik Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Urządzenie, jego zapytania danych i wykresy przeglądowe zostały utworzone."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Urządzenie nie jest już zmapowane. Urządzenie i jego wykresy zostały zachowane; jego zapytania danych nie wyświetlają żadnych celów, dopóki nie zostanie ponownie zmapowane."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Szablony i pliki zapytań danych zostały zainstalowane."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Nie udało się zainstalować szablonów: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Widok monitorowania"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Nie można odczytać obserwacji. Poproś administratora o sprawdzenie dziennika wtyczki."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Wtyczka równoległego systemu plików wymaga PHP %s lub nowszego. Na tym serwerze działa PHP %s, więc wtyczka nie została zainstalowana ani włączona."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Wtyczka równoległego systemu plików nie jest włączona."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Wtyczka równoległego systemu plików wymaga PHP %s lub nowszego."
+
+#: setup.php
+msgid "Management"
+msgstr "Zarządzanie"

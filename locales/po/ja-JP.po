@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: ja-JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Parallel Filesystem上のターゲット容量、不均衡、鮮度を確認します。ノードアクセス、ターゲット承認、デバイスマッピングについては管理者にエスカレーションしてください。"
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH強制コマンド"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "ファイルシステム"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "操作"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "バックエンド"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti デバイス"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "想定間隔"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "名前"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "ノード"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "ポーラー"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "状態"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "ファイルシステムはまだ登録されていません。"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d 秒"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "削除"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "アクセス"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "エンドポイント"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "ファイルシステム"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "ログイン名"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "ロール"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "ノードはまだ登録されていません。"
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "先にファイルシステムを登録してください。"
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "エクスポート"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "プラグインテーブルを削除するアンインストールの前に、レジストリ（ファイルシステム、ノード、ネットワーク、ターゲットレビュー）をJSONとしてダウンロードしてください。鍵や認証情報は含まれません。"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "ファイルシステム: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "新規ファイルシステム"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "想定間隔 (秒)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "有効"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "新規ノード"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "ノード: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "エンドポイント (ホスト名またはアドレス)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSHポート"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "ノード側では、このログインのauthorized_keysにpfs-read.shを実行する強制コマンドを指定してリーダー鍵を登録する必要があります（例: restrict,command=\"/usr/local/libexec/pfs-read.sh\" の後に公開鍵を記述）。また、ホスト鍵はここに記載したエンドポイント名でknown_hostsファイルに登録されている必要があります。"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "ファイルシステム %s のCactiデバイス"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "新しいデバイスを作成"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "デバイス"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "追加対象を表示"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "追加するオブジェクト"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "デバイスはポーラーを含む独自の設定を保持します。デバイス上の設定が変更または削除されることはありません。"
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "ターゲットごとのグラフは、デバイスの「新しいグラフ」ページから必要に応じて作成されます。"
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "デバイスを作成"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "このデバイスをマッピング"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "許可ネットワーク"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "ネットワーク"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "許可されたネットワークはまだありません。ポーラーのネットワークがここに登録されるまで、ノードには到達できません。"
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "許可"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "レビュー待ちのターゲット"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "存在状態"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "ターゲット"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "追加される値"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "承認"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "無視"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "レビュー待ちのターゲットはありません。"
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "デバイスを追加"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(ポーラー %d でポーリング、%d ではありません)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "マッピング解除"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "保存"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Parallel Filesystemテンプレートがインストールされていません。ヘルスページから再インストールしてください。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "デバイス「%s」（%s デバイステンプレートから作成、ポーラー %d でポーリング、可用性チェックオフ）。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "データクエリ \"%s\"（現在認識されている %d 個のターゲットを一覧表示）。これ自体ではグラフを作成しません。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "グラフ \"%s\"。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "各グラフに対応する \"%s\" データソース。ターゲット数にかかわらず、ポーリングサイクルごとに1回のスクリプトサーバー呼び出しを行います。"
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "ファイルシステム %s 用にParallel Filesystemプラグインによって作成されました。値はプラグインキャッシュから取得され、ホスト名は通信対象外の予約名です。"
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "バックエンド: 一覧にあるバックエンドのいずれかを選択してください。"
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "名前: ノードが出力するファイルシステム名（英字、数字、ハイフン、アンダースコアからなる最大8文字のLustreのfsnameなど）を使用してください。"
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "ポーラー: 一覧にあるポーラーのいずれかを選択してください。"
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "想定間隔: %d から %d までの整数（秒）を入力してください。"
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "未実施"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d 秒前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d 分前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d 時間前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d 日前"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "%s のParallel Filesystemビュー"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Parallel Filesystemの警告"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "警告はありません。"
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "テンプレートを再インストール"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "リーダー"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "失敗"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "最終完了実行"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "最終実行"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "未到達"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "読み取り"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "リーダーはまだ実行されていません。"
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "所要時間"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "失敗"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "最終読み取り"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "最終成功"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "ノード"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "報告されたバージョン"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "レスポンスサイズ"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "無効"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s 秒"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: ノードが固定の読み取りスクリプトのフレーミングなしで応答しました。鍵がpfs-read.shを実行する強制コマンドに制限されていない可能性があります。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: ノードのホスト鍵がknown hostsファイルにないか、変更されています。追加する前に鍵を確認してください。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: エンドポイントがポーラー %d に許可されたネットワーク外に解決されるため、読み取られません。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: 読み取りスクリプトがプラグインの読み取らない %d 個のパラメーターを出力したため、同梱のpfs-read.shではありません。ノードがプラグインに不要な情報まで公開している可能性があります。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: ノード出力内の %d 個のターゲット名が想定パターンまたはファイルシステムに一致しなかったため無視されました。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "ポーラー %d のリーダーは過去 %d 秒間に実行を完了していません。ノードからの値が古くなっています。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Parallel Filesystemテンプレートのインストールに失敗しました: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Parallel Filesystemテンプレートがインストールされていないため、デバイスを追加できません。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "データクエリファイル resource/script_server/%s がCactiに存在しないか、このプラグインに同梱されているものと異なるため、データクエリでターゲットを一覧表示できません。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "ファイルシステム %s はデバイス %d にマッピングされていますが、そのデバイスはすでに存在しません。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "ファイルシステム %s のデバイスはポーラー %d によってポーリングされていますが、そのノードはポーラー %d によって読み取られており、デバイスのデータソースには後者のキャッシュが必要です。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "SSH鍵ファイル %s はこのサーバーに存在しません。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH鍵ファイル %s は所有者以外のユーザーから読み取りまたは書き込みが可能です（モード %s）。ポーラーユーザーのみに制限してください。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "known hostsファイル %s はこのサーバーに存在しないため、ノードを読み取ることができません。"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSHクライアント %s はこのサーバーに存在しません。"
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "ファイルシステム: 登録済みのファイルシステムのいずれかを選択してください。"
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "名前: 先頭が英数字で、1〜64 文字の英数字、ドット、ハイフン、アンダースコアを使用してください。"
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "ロール: 一覧にあるロールのいずれかを選択してください。"
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "ポート: 1から65535の間のポート番号を入力してください。"
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "ログイン名: 英字またはアンダースコアで始まる、32文字以下の小文字のアカウント名を使用してください。"
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "エンドポイント: ユーザー、ポート、パスを含めず、ホスト名またはIPアドレスのみを入力してください。"
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "エンドポイント: このサーバー上で名前を解決できません。"
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "エンドポイント: %s に解決されますが、このポーラーに許可されたネットワーク内ではありません。先にネットワークを追加してください。"
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "管理サーバー (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "メタデータサーバー (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "オブジェクトストレージサーバー (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "クライアント"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "以下に記録された観測結果を確認してください。確認済みの記録はこのセッションの自分だけに適用され、観測結果が変わると失効します。アラートの抑制や健全性の変更は行いません。"
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Parallel Filesystem操作"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "調査"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "対象"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "観測日時 (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "不明または古い情報"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "確認済み。健全性に変更はありません。"
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "確認済みにする"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "アクセス権のあるデバイスの観測結果はありません。"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Parallel Filesystemオペレーター"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "並列ファイルシステムビュー"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "並列ファイルシステム管理"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "並列ファイルシステム"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "並列ファイルシステムレジストリ"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "並列ファイルシステムヘルス"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "ノードアクセス用のプラグイン設定が不完全または使用できません"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "エンドポイントがポーラーに許可されたネットワーク外に名前解決されました"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "エンドポイント名を名前解決できません"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "ノードに到達できませんでした"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "ノードのホスト鍵が不明または変更されています"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "ノードが鍵を拒否しました"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "読み取りが制限時間を超過しました"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "応答がサイズ上限を超過しました"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "読み取りコマンドが失敗しました"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "ノードが固定読み取りスクリプトで応答しませんでした"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "読み取りスクリプトの完了前に応答が終了しました"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "ノードアクセス"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "ノードを読み取る各ポーラー上の ssh クライアントの絶対パスです。"
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH クライアント"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "ノードを読み取る各ポーラー上の秘密鍵への絶対パスです。対応する公開鍵は、pfs-read.sh を実行する強制コマンド付きで各ノードの authorized_keys に記載する必要があります。ポーラーユーザーのみが読み取り可能にしてください。プラグインがこの鍵を作成、コピー、または出力することはありません。"
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH 鍵ファイル"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "ノードエンドポイント名で各ノードのホスト鍵を保持する known_hosts ファイルへの絶対パスです。鍵が不足している、または変更されたノードは読み取られません。"
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Known Hosts ファイル"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "接続タイムアウト"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "ノードが接続を受け入れるまで待機する秒数です。"
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "読み取りタイムアウト"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "1 回のノード読み取りが停止され失敗として記録されるまでにかかる合計秒数です。"
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "1 台のノードが返せるデータ量 (KiB) です。これを超える応答は破棄され、失敗として記録されます。"
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "最大応答サイズ"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "リーダー"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "リーダーの時間予算"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "1 回のリーダー実行で新しいノード読み取りの開始を停止するまでの秒数です。ポーラー間隔より短い値に設定してください。未読のノードは次回の実行時に読み取られます。"
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "同時読み取り数"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "1 つのリーダーが同時に実行するノード読み取り数です。"
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "アンインストール"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "アンインストール時にプラグインのテーブルを保持"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "チェックを入れると、プラグインのアンインストール時にファイルシステム、ノード、インベントリ、キャッシュが保持されます。アンインストール時にこれらを削除する場合はチェックを外してください。その場合は先に並列ファイルシステム管理ページからレジストリをエクスポートしてください。いずれの場合もストレージノードへの通信は行われません。"
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "アンインストール時にこのプラグインが作成したデバイスを削除"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "チェックを入れると、プラグインのアンインストール時にファイルシステム用に作成されたデバイスが、Cacti で削除する場合と同様にグラフおよびデータソースとともに削除されます。ファイルシステムにマッピングされた既存のデバイスが削除されることはありません。RRD ファイルは、Cacti 自身の RRD クリーンアップ設定によって削除される場合にのみ削除されます。チェックを外すと、デバイスは残ります。"
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "表示可能なファイルシステムがありません。"
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "ファイルシステム %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "このファイルシステムのグラフ"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "状況"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "鮮度"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "既知の値"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "最終確認"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "リカバリ"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "確認"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "ソースノード"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "ターゲットはまだ見つかっていません。"
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "そのレコードは権限のない Cacti デバイスに属しています。変更は行われませんでした。"
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "名前: このバックエンドの別のファイルシステムがすでにこの名前を使用しています。"
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "ファイルシステムを保存できませんでした。"
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "ファイルシステムを保存しました。"
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "ファイルシステム、そのノード、およびインベントリを削除しました。関連する Cacti デバイス、データソース、グラフは保持されました。ノードへの通信は行われていません。"
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "名前: 別のノードがすでにこの名前を使用しています。"
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "ノードを保存できませんでした。"
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "ノードを保存しました。"
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "ノードを削除しました。このノードが報告したターゲットの履歴は保持されます。"
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "10.20.0.0/16 のように、アドレスとプレフィックス長でネットワークを入力してください。"
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "デバイスは追加されませんでした: ファイルシステムにすでにデバイスがあるか、テンプレートがインストールされていません。"
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "デバイスをマッピングできませんでした。別のファイルシステムにマッピングされている可能性があります。"
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "デバイスをマッピングし、データクエリと概要グラフを追加しました。"
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti がデバイスを作成しませんでした。Cacti ログを確認してください。"
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "デバイス、そのデータクエリ、および概要グラフを作成しました。"
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "デバイスのマッピングが解除されました。デバイスとそのグラフは保持されましたが、再びマッピングされるまでデータクエリにターゲットは表示されません。"
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "テンプレートとデータクエリファイルをインストールしました。"
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "テンプレートをインストールできませんでした: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "監視ビュー"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "観測結果を読み取れませんでした。管理者にプラグインのログを確認するよう依頼してください。"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Parallel Filesystem プラグインには PHP %s 以降が必要です。このサーバーは PHP %s を実行しているため、プラグインはインストールまたは有効化されませんでした。"
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Parallel Filesystem プラグインは有効になっていません。"
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Parallel Filesystem プラグインには PHP %s 以降が必要です。"
+
+#: setup.php
+msgid "Management"
+msgstr "管理"

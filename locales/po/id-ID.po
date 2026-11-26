@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: id-ID\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Periksa kapasitas target, ketidakseimbangan, dan kesegaran pada Sistem File Paralel. Eskalasikan akses node, penerimaan target, dan pemetaan perangkat ke administrator."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Perintah paksa SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Sistem File"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Tindakan"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Backend"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Perangkat Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Interval yang Diharapkan"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Nama"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Node"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Status"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Belum ada sistem file yang terdaftar."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d detik"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Hapus"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Akses"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Titik Akhir"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Sistem File"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Nama Login"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Peran"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Belum ada simpul yang terdaftar."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Daftarkan sistem berkas terlebih dahulu."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Ekspor"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Unduh registri (sistem berkas, simpul, jaringan, dan peninjauan target) sebagai JSON sebelum pencopotan pemasangan yang menghapus tabel plugin. Registri ini tidak menyimpan kunci maupun kredensial."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Sistem Berkas: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Sistem Berkas Baru"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Interval yang Diharapkan (detik)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Diaktifkan"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Node Baru"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Simpul: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Titik Akhir (nama host atau alamat)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Port SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Simpul harus mencantumkan kunci pembaca di authorized_keys untuk login ini dengan perintah paksa yang menjalankan pfs-read.sh, misalnya: restrict,command=\"/usr/local/libexec/pfs-read.sh\" diikuti dengan kunci publik. Kunci host harus berada di berkas known hosts di bawah titik akhir sebagaimana ditulis di sini."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Perangkat Cacti untuk Sistem Berkas %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Buat perangkat baru"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Perangkat"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Tampilkan yang Akan Ditambahkan"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Objek yang Akan Ditambahkan"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Perangkat tetap mempertahankan pengaturannya sendiri, termasuk poller. Tidak ada yang diubah atau dihapus pada perangkat tersebut."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Grafik per target dibuat sesuai permintaan dari halaman Grafik Baru perangkat."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Buat Perangkat"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Petakan Perangkat Ini"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Jaringan yang Diizinkan"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Jaringan"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Belum ada jaringan yang diizinkan. Poller tidak dapat menjangkau simpul mana pun hingga jaringannya tercantum di sini."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Izinkan"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Target Menunggu Peninjauan"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Kehadiran"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Target"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Nilai yang Ditambahkan"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Terima"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Abaikan"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Tidak ada target yang menunggu peninjauan."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Tambahkan perangkat"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(di-poll oleh poller %d, bukan %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Lepas Pemetaan"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Simpan"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Templat Parallel Filesystem belum terpasang. Pasang ulang templat tersebut dari halaman kesehatan."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Perangkat \"%s\" dari templat perangkat %s, dilakukan polling oleh poller %d, dengan pemeriksaan ketersediaan dimatikan."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Kueri data \"%s\", yang mencantumkan %d target yang diketahui saat ini. Kueri ini tidak membuat grafik secara otomatis."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Grafik \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Satu sumber data \"%s\" untuk setiap grafik tersebut, masing-masing berupa satu panggilan server skrip per siklus poll, berapa pun jumlah targetnya."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Dibuat oleh plugin Parallel Filesystem untuk sistem berkas %s. Nilainya berasal dari cache plugin; nama host merupakan nama khusus yang tidak pernah dihubungi."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Backend: pilih salah satu backend yang tercantum."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Nama: gunakan nama sistem berkas yang dicetak oleh simpul, seperti fsname Lustre dengan panjang maksimal 8 huruf, angka, tanda hubung, atau garis bawah."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: pilih salah satu poller yang tercantum."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Interval yang Diharapkan: masukkan bilangan bulat detik dari %d hingga %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Tidak pernah"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "%d detik yang lalu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "%d menit yang lalu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "%d jam yang lalu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "%d hari yang lalu"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Tampilan Parallel Filesystem untuk %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Peringatan Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Tidak ada peringatan."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Pasang Ulang Templat"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Pembaca"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Gagal"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Eksekusi Selesai Terakhir"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Terakhir Dijalankan"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Tidak Terjangkau"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Baca"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Belum ada pembaca yang berjalan."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Durasi"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Kegagalan"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Pembacaan Terakhir"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Keberhasilan Terakhir"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Node"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Versi yang Dilaporkan"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Ukuran Respons"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "dinonaktifkan"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s dtk"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: simpul menjawab tanpa pembingkaian skrip baca tetap. Kuncinya mungkin tidak dibatasi pada perintah paksa yang menjalankan pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: kunci host simpul tidak ada di berkas known hosts, atau telah berubah. Periksa kunci tersebut sebelum menambahkannya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: titik akhir diresolusi ke luar jaringan yang diizinkan untuk poller %d, sehingga tidak dibaca."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: skrip baca mencetak %d parameter yang tidak dibaca oleh plugin, sehingga skrip tersebut bukan pfs-read.sh bawaan. Simpul mungkin mengekspos lebih dari yang dibutuhkan plugin."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d nama target dalam keluaran simpul tidak cocok dengan pola atau sistem berkas yang diharapkan dan diabaikan."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Pembaca pada poller %d belum menyelesaikan satu eksekusi pun dalam %d detik terakhir. Nilai dari simpulnya mulai usang."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Pemasangan templat Parallel Filesystem gagal: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Templat Parallel Filesystem belum terpasang, sehingga tidak ada perangkat yang dapat ditambahkan."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Berkas kueri data resource/script_server/%s tidak ada di Cacti atau berbeda dari berkas yang disertakan plugin ini, sehingga kueri data tidak dapat mencantumkan target."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Sistem berkas %s dipetakan ke perangkat %d, yang sudah tidak ada."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Perangkat sistem berkas %s di-poll oleh poller %d, tetapi simpulnya dibaca oleh poller %d, yang cache-nya dibutuhkan oleh sumber data perangkat tersebut."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Berkas kunci SSH %s tidak ada di server ini."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Berkas kunci SSH %s dapat dibaca atau ditulis oleh pengguna selain pemiliknya (mode %s). Batasi aksesnya hanya untuk pengguna poller."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Berkas known hosts %s tidak ada di server ini, sehingga tidak ada simpul yang dapat dibaca darinya."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Klien SSH %s tidak ada di server ini."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Sistem Berkas: pilih salah satu sistem berkas yang terdaftar."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Nama: gunakan 1 hingga 64 huruf, angka, titik, tanda hubung, atau garis bawah, dimulai dengan huruf atau angka."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Peran: pilih salah satu peran yang tercantum."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Port: masukkan port dari 1 hingga 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Nama Login: gunakan nama akun huruf kecil dengan panjang maksimal 32 karakter, diawali dengan huruf atau garis bawah."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Titik Akhir: masukkan nama host atau alamat IP saja, tanpa pengguna, port, atau jalur."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Titik Akhir: nama tidak dapat diresolusi di server ini."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Titik Akhir: nama diresolusi ke %s, yang tidak berada di dalam jaringan yang diizinkan untuk poller ini. Tambahkan jaringannya terlebih dahulu."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Server manajemen (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Server metadata (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Server penyimpanan objek (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Klien"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Tinjau observasi yang tercatat di bawah ini. Pengakuan bersifat pribadi untuk sesi ini, kedaluwarsa saat observasi berubah, dan tidak pernah menekan peringatan atau mengubah status kesehatan."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Operasi Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Investigasi"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Objek"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Diamati (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Tidak diketahui atau usang"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Diakui; status kesehatan tidak berubah."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Akui"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Tidak ada observasi yang tersedia untuk perangkat yang dapat Anda akses."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Operator Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Tampilan Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Admin Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Registri Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Kesehatan Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Pengaturan plugin untuk akses simpul tidak lengkap atau tidak dapat digunakan"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Titik akhir diresolusi ke luar jaringan yang diizinkan untuk poller-nya"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Nama titik akhir tidak dapat diresolusi"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Simpul tidak dapat dijangkau"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Kunci host simpul tidak dikenal atau berubah"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Simpul menolak kunci"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Pembacaan melebihi batas waktunya"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Respons melebihi batas ukuran"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Perintah baca gagal"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Simpul tidak menjawab dengan skrip baca tetap"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Respons berakhir sebelum skrip baca selesai"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Akses Simpul"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Jalur absolut ke klien ssh pada setiap poller yang membaca simpul."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Klien SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Jalur absolut, pada setiap poller yang membaca simpul, ke kunci privat yang separuh publiknya dicantumkan setiap simpul di authorized_keys dengan perintah paksa yang menjalankan pfs-read.sh. Hanya dapat dibaca oleh pengguna poller. Plugin tidak pernah membuat, menyalin, atau mencetaknya."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Berkas Kunci SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Jalur absolut ke berkas known_hosts yang menyimpan setiap kunci host simpul di bawah nama titik akhir simpul. Simpul yang kuncinya hilang atau berubah tidak akan dibaca."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Berkas Known Hosts"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Batas Waktu Koneksi"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Detik waktu tunggu agar simpul menerima koneksi."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Batas Waktu Baca"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Total detik yang diperbolehkan untuk satu pembacaan simpul sebelum dihentikan dan dicatat sebagai gagal."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB yang dapat dikembalikan oleh satu simpul. Jawaban yang lebih besar akan dibuang dan dicatat sebagai gagal."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Respons Maksimum"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Pembaca"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Anggaran Waktu Pembaca"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Detik yang dapat dihabiskan oleh satu eksekusi pembaca sebelum berhenti memulai pembacaan simpul. Pertahankan nilainya di bawah interval poller; simpul yang belum terbaca akan dibaca pada eksekusi berikutnya."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Pembacaan Bersamaan"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Pembacaan simpul yang dijalankan satu pembaca secara bersamaan."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Copot Pemasangan"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Pertahankan Tabel Plugin saat Pencopotan"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Jika dicentang, pencopotan pemasangan plugin akan mempertahankan sistem berkas, simpul, inventaris, dan cache miliknya. Hapus centang agar pencopotan pemasangan menghapus semuanya; ekspor registri terlebih dahulu dari halaman Admin Parallel Filesystem. Simpul penyimpanan tidak pernah dihubungi dalam kedua kondisi tersebut."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Hapus Perangkat yang Dibuat Plugin Ini saat Pencopotan Pemasangan"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Jika dicentang, pencopotan pemasangan plugin akan menghapus perangkat yang dibuatnya untuk sistem berkas, beserta grafik dan sumber datanya, sebagaimana penghapusan di Cacti. Perangkat yang sudah ada yang dipetakan ke sistem berkas tidak pernah dihapus. Berkas RRD hanya dihapus jika pengaturan pembersihan RRD milik Cacti sendiri menghapusnya. Jika tidak dicentang, perangkat tetap dipertahankan."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Tidak ada sistem berkas yang terlihat untuk Anda."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Sistem Berkas %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Grafik sistem berkas ini"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Kondisi"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Kesegaran"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Nilai yang Diketahui"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Terakhir Terlihat"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Pemulihan"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Peninjauan"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Simpul Sumber"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Belum ada target yang ditemukan."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Catatan tersebut milik perangkat Cacti yang tidak Anda miliki izinnya. Tidak ada yang diubah."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Nama: sistem berkas lain dari backend ini sudah menggunakan nama tersebut."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Sistem berkas tidak dapat disimpan."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Sistem berkas telah disimpan."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Sistem berkas, simpul, dan inventarisnya telah dihapus. Perangkat Cacti, sumber data, dan grafiknya tetap dipertahankan. Tidak ada simpul yang dihubungi."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Nama: simpul lain sudah menggunakan nama tersebut."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Simpul tidak dapat disimpan."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Simpul telah disimpan."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Simpul telah dihapus. Target yang dilaporkannya tetap mempertahankan riwayatnya."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Masukkan jaringan sebagai alamat dan panjang prefiks, seperti 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Tidak ada perangkat yang ditambahkan: sistem berkas sudah memiliki perangkat, atau templat belum terpasang."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Perangkat tidak dapat dipetakan. Perangkat mungkin sudah dipetakan ke sistem berkas lain."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Perangkat telah dipetakan serta kueri data dan grafik ikhtisar telah ditambahkan."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti tidak membuat perangkat tersebut. Lihat log Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Perangkat, kueri data, dan grafik ikhtisarnya telah dibuat."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Perangkat tidak lagi dipetakan. Perangkat dan grafiknya tetap dipertahankan; kueri datanya tidak mencantumkan target hingga dipetakan kembali."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Templat dan berkas kueri data telah dipasang."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Templat tidak dapat dipasang: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Tampilan pemantauan"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Observasi tidak dapat dibaca. Minta administrator untuk memeriksa log plugin."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Plugin Parallel Filesystem memerlukan PHP %s atau yang lebih baru. Server ini menjalankan PHP %s, sehingga plugin tidak dipasang atau diaktifkan."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Plugin Parallel Filesystem tidak diaktifkan."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Plugin Parallel Filesystem memerlukan PHP %s atau yang lebih baru."
+
+#: setup.php
+msgid "Management"
+msgstr "Manajemen"
