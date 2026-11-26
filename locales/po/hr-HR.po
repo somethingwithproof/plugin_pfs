@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-26 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: hr-HR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Provjeravajte kapacitet odredišta, neuravnoteženost i ažurnost paralelnih datotečnih sustava. Pristup čvorovima, prihvaćanje odredišta i pridruživanje uređaja proslijedite administratoru."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Nametnuta SSH naredba"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Datotečni sustavi"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Postupci"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Pozadinski sustav"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Uređaj Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Očekivani razmak"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Ime"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Čvorovi"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Prikupljač"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Stanje"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Još nema registriranih datotečnih sustava."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d sek."
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Izbriši"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Pristup"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Krajnja točka"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Datotečni sustav"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Korisničko ime"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Uloga"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Još nema registriranih čvorova."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Najprije registrirajte datotečni sustav."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Izvezi"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Preuzmite registar (datotečne sustave, čvorove, mreže i pregled odredišta) kao JSON prije uklanjanja koje briše tablice dodatka. Ne sadrži ključeve ni vjerodajnice."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Datotečni sustav: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Novi datotečni sustav"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Očekivani razmak (sekunde)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Uključeno"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Novi čvor"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Čvor: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Krajnja točka (ime računala ili adresa)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH priključak"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Čvor mora sadržavati ključ čitača u datoteci authorized_keys za ovaj korisnički račun uz nametnutu naredbu koja pokreće pfs-read.sh, primjerice: restrict,command=\"/usr/local/libexec/pfs-read.sh\" iza koje slijedi javni ključ. Ključ poslužitelja mora biti u datoteci poznatih računala pod ovdje upisanom krajnjom točkom."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Uređaj Cacti za datotečni sustav %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Stvori novi uređaj"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Uređaj"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Prikaži što će se dodati"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Objekti za dodavanje"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Uređaj zadržava svoje postavke, uključujući prikupljač. Na njemu se ništa ne mijenja niti briše."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Grafovi po pojedinom odredištu stvaraju se na zahtjev sa stranice Novi grafovi tog uređaja."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Stvori uređaj"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Pridruži ovaj uređaj"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Dopuštene mreže"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Mreža"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Još nijedna mreža nije dopuštena. Prikupljač ne može dosegnuti nijedan čvor dok njegove mreže nisu na ovom popisu."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Dopusti"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Odredišta koja čekaju pregled"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Prisutnost"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Odredište"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Vrijednosti koje dodaje"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Prihvati"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Zanemari"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Nema odredišta koja čekaju pregled."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Dodaj uređaj"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(prikuplja prikupljač %d, a ne %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Ukloni pridruživanje"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Spremi"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Predlošci dodatka Parallel Filesystem nisu instalirani. Ponovno ih instalirajte sa stranice stanja sustava."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Uređaj \"%s\" iz predloška uređaja %s, koji obrađuje prikupljač %d, s isključenim provjerama dostupnosti."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Upit podataka \"%s\", koji daje popis od %d trenutno poznatih odredišta. Sam po sebi ne stvara nijedan graf."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Graf \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Izvor podataka \"%s\" za svaki od tih grafova, po jedan poziv poslužitelju skripti u ciklusu prikupljanja, bez obzira na broj odredišta."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Stvorio dodatak Parallel Filesystem za datotečni sustav %s. Vrijednosti potječu iz predmemorije dodatka; ime računala je rezervirano i s njim se nikada ne ostvaruje veza."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Pozadinski sustav: odaberite jedan s popisa."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Ime: upotrijebite naziv datotečnog sustava koji čvorovi ispisuju, poput Lustre fsname od najviše 8 slova, znamenki, crtica ili podvlaka."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Prikupljač: odaberite jedan s popisa."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Očekivani razmak: unesite cijeli broj sekundi od %d do %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Nikada"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "prije %d sek."
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "prije %d min."
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "prije %d sati"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "prije %d dana"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Prikaz Parallel Filesystem za %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Upozorenja Parallel Filesystem"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Nema upozorenja."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Ponovno instaliraj predloške"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Čitači"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Neuspjelo"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Zadnje dovršeno izvođenje"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Zadnje izvođenje"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Nedostupno"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Pročitano"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Nijedan čitač još nije pokrenut."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Trajanje"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Pogreška"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Zadnje čitanje"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Zadnji uspjeh"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Čvor"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Prijavljena inačica"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Veličina odgovora"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "onemogućeno"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: čvor je odgovorio bez fiksnog okvira skripte za čitanje. Moguće je da njegov ključ nije ograničen na nametnutu naredbu za pokretanje pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: ključ računala čvora nije u datoteci poznatih računala ili se promijenio. Provjerite ključ prije dodavanja."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: krajnja točka razrješava se izvan mreža dopuštenih za prikupljač %d pa se ne čita."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: skripta za čitanje ispisala je %d parametara koje dodatak ne čita, stoga to nije isporučena skripta pfs-read.sh. Čvor možda izlaže više podataka nego što je dodatku potrebno."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d naziva odredišta u izlazu čvora nije odgovaralo očekivanom uzorku ili datotečnom sustavu te je zanemareno."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Čitač na prikupljaču %d nije dovršio izvođenje u zadnjih %d sekundi. Vrijednosti s njegovih čvorova zastarijevaju."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Instalacija predložaka Parallel Filesystem nije uspjela: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Predlošci Parallel Filesystem nisu instalirani pa nije moguće dodati uređaj."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Datoteka upita podataka resource/script_server/%s nedostaje u sustavu Cacti ili se razlikuje od one koju ovaj dodatak isporučuje pa upiti podataka ne mogu ispisati popis odredišta."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Datotečni sustav %s pridružen je uređaju %d koji više ne postoji."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Uređaj datotečnog sustava %s obrađuje prikupljač %d, dok njegove čvorove čita prikupljač %d, čija je predmemorija potrebna izvorima podataka tog uređaja."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Datoteka SSH ključa %s ne postoji na ovom poslužitelju."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Datoteku SSH ključa %s mogu čitati ili u nju pisati i drugi korisnici osim vlasnika (dozvole %s). Ograničite pristup samo na korisnika prikupljača."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Datoteka poznatih računala %s ne postoji na ovom poslužitelju pa se nijedan čvor ne može pročitati."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSH klijent %s ne postoji na ovom poslužitelju."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Datotečni sustav: odaberite jedan od registriranih datotečnih sustava."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Ime: upotrijebite 1 do 64 slova, znamenki, točaka, crtica ili podvlaka, počevši slovom ili znamenkom."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Uloga: odaberite jednu s popisa uloga."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Priključak: unesite broj priključka od 1 do 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Korisničko ime: upotrijebite naziv računa malim slovima od najviše 32 znaka, koji počinje slovom ili podvlakom."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Krajnja točka: unesite samo ime računala ili IP adresu, bez korisnika, priključka ili putanje."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Krajnja točka: ime se ne razrješava na ovom poslužitelju."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Krajnja točka: razrješava se u %s, što nije unutar mreža dopuštenih za ovaj prikupljač. Najprije dodajte mrežu."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Upravljački poslužitelj (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Poslužitelj metapodataka (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Poslužitelj objektne pohrane (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Klijent"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Pregledajte zabilježena opažanja u nastavku. Potvrde vrijede samo za vašu trenutnu sesiju, istječu kada se opažanja promijene te nikada ne potiskuju upozorenja niti mijenjaju stanje ispravnosti."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Operacije Parallel Filesystem"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Ispitivanje"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Objekt"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Zabilježeno (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Nepoznato ili zastarjelo"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Potvrđeno; ispravnost nepromijenjena."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Potvrdi"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Nema dostupnih opažanja za uređaje kojima smijete pristupiti."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Operater Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Prikaz Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Administracija Parallel Filesystem"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Paralelni datotečni sustavi"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Registar Parallel Filesystem"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Ispravnost Parallel Filesystem"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Postavke dodatka za pristup čvorovima nepotpune su ili neupotrebljive"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Krajnja točka razrješava se izvan mreža dopuštenih za svoj prikupljač"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Ime krajnje točke ne može se razriješiti"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Čvor nije bio dostupan"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Ključ računala čvora je nepoznat ili promijenjen"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Čvor je odbio ključ"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Čitanje je prekoračilo vremensko ograničenje"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Odgovor je prekoračio ograničenje veličine"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Naredba čitanja nije uspjela"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Čvor nije odgovorio pomoću fiksne skripte za čitanje"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Odgovor je prekinut prije dovršetka skripte za čitanje"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Pristup čvorovima"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Apsolutna putanja do ssh klijenta na svakom prikupljaču koji čita čvorove."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH klijent"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Apsolutna putanja na svakom prikupljaču koji čita čvorove do privatnog ključa čiji javni dio svaki čvor navodi u datoteci authorized_keys s nametnutom naredbom koja pokreće pfs-read.sh. Mora biti čitljiv samo korisniku prikupljača. Dodatak ga nikada ne stvara, ne kopira niti ispisuje."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Datoteka SSH ključa"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Apsolutna putanja do datoteke known_hosts koja sadrži ključ računala svakog čvora pod imenom njegove krajnje točke. Čvor čiji ključ nedostaje ili je promijenjen neće se čitati."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Datoteka poznatih računala"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Istek vremena povezivanja"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Broj sekundi čekanja da čvor prihvati vezu."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Istek vremena čitanja"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Ukupan broj sekundi koliko jedno čitanje čvora smije trajati prije nego što se zaustavi i zabilježi kao neuspjelo."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "Količina podataka u KiB koju jedan čvor smije vratiti. Veći se odgovor odbacuje i bilježi kao neuspješan."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Najveći odgovor"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Čitač"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Vremenski okvir čitača"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Broj sekundi koji jedno izvođenje čitača smije potrošiti prije prestanka pokretanja novih čitanja čvorova. Održavajte vrijednost manjom od razmaka prikupljača; nepročitani čvorovi bit će pročitani pri sljedećem izvođenju."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Istodobna čitanja"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Broj čitanja čvorova koje jedan čitač izvodi istodobno."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Uklanjanje"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Zadrži tablice dodatka pri uklanjanju"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Kada je uključeno, uklanjanje dodatka zadržava njegove datotečne sustave, čvorove, inventar i predmemoriju. Isključite ovu opciju kako bi ih uklanjanje izbrisalo; najprije izvezite registar sa stranice Administracija Parallel Filesystem. S čvorovima pohrane ni u jednom se slučaju ne uspostavlja veza."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Izbriši uređaje koje je ovaj dodatak stvorio pri uklanjanju"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Kada je uključeno, uklanjanje dodatka briše uređaje koje je stvorio za datotečne sustave, zajedno s njihovim grafovima i izvorima podataka, kao pri brisanju u sustavu Cacti. Postojeći uređaji pridruženi datotečnom sustavu nikada se ne brišu. RRD datoteke uklanjaju se samo ako ih uklanja vlastita postavka čišćenja RRD datoteka u sustavu Cacti. Kada je isključeno, uređaji ostaju."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Nijedan datotečni sustav nije vam vidljiv."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Datotečni sustav %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Grafovi ovog datotečnog sustava"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Uvjet"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Ažurnost"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Poznate vrijednosti"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Zadnji put viđeno"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Oporavak"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Pregled"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Izvorni čvor"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Još nije pronađeno nijedno odredište."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Taj zapis pripada uređaju Cacti za koji nemate ovlasti. Ništa nije izmijenjeno."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Ime: drugi datotečni sustav ovog pozadinskog sustava već koristi to ime."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Datotečni sustav nije bilo moguće spremiti."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Datotečni sustav je spremljen."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Datotečni sustav, njegovi čvorovi i inventar su izbrisani. Njegov uređaj Cacti, izvori podataka i grafovi su zadržani. Ni s jednim čvorom nije uspostavljena veza."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Ime: drugi čvor već koristi to ime."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Čvor nije bilo moguće spremiti."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Čvor je spremljen."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Čvor je izbrisan. Odredišta koja je prijavio zadržavaju svoju povijest."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Unesite mrežu kao adresu i duljinu prefiksa, primjerice 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Nijedan uređaj nije dodan: datotečni sustav ga već ima ili predlošci nisu instalirani."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Uređaj nije bilo moguće pridružiti. Moguće je da je pridružen drugom datotečnom sustavu."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Uređaj je pridružen te su dodani upiti podataka i pregledni grafovi."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti nije stvorio uređaj. Pogledajte dnevnik sustava Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Uređaj, njegovi upiti podataka i pregledni grafovi su stvoreni."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Uređaj više nije pridružen. Uređaj i njegovi grafovi su zadržani; njegovi upiti podataka ne prikazuju odredišta dok se ponovno ne pridruži."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Predlošci i datoteke upita podataka su instalirani."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Predlošci se nisu mogli instalirati: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Prikaz nadzora"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Opažanja nije bilo moguće pročitati. Zamolite administratora da provjeri dnevnik dodatka."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Dodatak Parallel Filesystem zahtijeva PHP %s ili noviji. Ovaj poslužitelj koristi PHP %s, stoga dodatak nije instaliran ni uključen."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Dodatak Parallel Filesystem nije uključen."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Dodatak Parallel Filesystem zahtijeva PHP %s ili noviji."
+
+#: setup.php
+msgid "Management"
+msgstr "Upravljanje"
