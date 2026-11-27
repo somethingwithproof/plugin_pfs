@@ -75,6 +75,8 @@ final class InventoryReconciler {
 			$updates[$name] = new TargetUpdate($first->id, $existing[$name] ?? null, Presence::Present, (int) array_key_first($byNode), $first);
 		}
 
+		$allNodesAnswered = $reads !== [] && !in_array(null, $reads, true);
+
 		foreach ($existing as $name => $target) {
 			if (isset($updates[$name]) || $target->presence === Presence::Missing) {
 				continue;
@@ -86,8 +88,8 @@ final class InventoryReconciler {
 			// node read this run answered and none reports it.
 			$source = $target->presence === Presence::Conflict ? 0 : $target->sourceNodeId;
 			$seenBy = $source > 0
-				? array_key_exists($source, $reads) && $reads[$source] !== null
-				: $reads !== [] && !in_array(null, $reads, true);
+				? isset($reads[$source])
+				: $allNodesAnswered;
 
 			if ($seenBy) {
 				$updates[$name] = new TargetUpdate($target->targetId, $target, Presence::Missing, $source, null);

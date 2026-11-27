@@ -143,7 +143,12 @@ final class Reader {
 			$due[] = $node;
 		}
 
-		usort($due, static fn (Node $a, Node $b): int => [$health[$a->id]->lastAttempt ?? 0, $a->id] <=> [$health[$b->id]->lastAttempt ?? 0, $b->id]);
+		usort($due, static function (Node $a, Node $b) use ($health): int {
+			$aLast = $health[$a->id]->lastAttempt ?? 0;
+			$bLast = $health[$b->id]->lastAttempt ?? 0;
+
+			return $aLast !== $bLast ? ($aLast <=> $bLast) : ($a->id <=> $b->id);
+		});
 
 		$reads = $this->readNodes($due, $concurrency, $deadline);
 		$now   = $this->clock->now();
@@ -344,9 +349,12 @@ final class Reader {
 			return [];
 		}
 
-		$targetId = $update->existing->id ?? 0;
-		$before   = $previous[$targetId] ?? [];
-		$out      = [];
+		$targetId  = $update->existing->id ?? 0;
+		$before    = $previous[$targetId] ?? [];
+		$absentMap = ($update->report !== null && $update->report->absent !== [])
+			? array_fill_keys($update->report->absent, true)
+			: [];
+		$out = [];
 
 		foreach ($specs as $name => $spec) {
 			$prior = $before[$name] ?? null;
@@ -359,7 +367,7 @@ final class Reader {
 
 			$value      = $update->report->values[$name] ?? null;
 			$start      = $update->report->startMarker;
-			$continuity = $value === null && $spec->kind === ValueKind::Counter && in_array($name, $update->report->absent, true)
+			$continuity = $value === null && $spec->kind === ValueKind::Counter && isset($absentMap[$name])
 				? ResetDetector::absent($prior, $start, $update->sourceNodeId)
 				: ResetDetector::continuity($prior, $value, $start, $update->sourceNodeId, $spec->kind);
 			$epoch      = ($prior->epoch ?? 0) + ($continuity === Continuity::Reset ? 1 : 0);

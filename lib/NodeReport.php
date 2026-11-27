@@ -30,7 +30,18 @@ namespace Somethingwithproof\Pfs;
  */
 final readonly class NodeReport {
 	/**
-	 * @param array<string, TargetReport> $targets target name => report
+	 * Initialize a parsed node report.
+	 *
+	 * @param bool                       $framed             whether output began with the backend header
+	 * @param bool                       $complete           whether output ended with the backend footer without trailing data
+	 * @param bool                       $partial            whether any section failed, was truncated, or duplicated
+	 * @param ?string                    $version            reported backend software version
+	 * @param array<string, TargetReport> $targets           target name => report
+	 * @param int                        $rejectedNames      count of malformed target identifiers dropped
+	 * @param int                        $unexpectedSections count of unrecognized sections skipped
+	 * @param ?RpcLatencyMetrics         $rpcLatency         optional bounded RPC latency histograms (read/write/metadata)
+	 * @param ?StallMetrics              $stalls             optional backend-specific stall counters
+	 * @param ?RecoveryMetrics           $recovery           optional aggregated recovery and client eviction counters
 	 */
 	public function __construct(
 		public bool $framed,
@@ -40,6 +51,9 @@ final readonly class NodeReport {
 		public array $targets,
 		public int $rejectedNames,
 		public int $unexpectedSections,
+		public ?RpcLatencyMetrics $rpcLatency = null,
+		public ?StallMetrics $stalls = null,
+		public ?RecoveryMetrics $recovery = null,
 	) {
 	}
 

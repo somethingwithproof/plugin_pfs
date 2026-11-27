@@ -61,32 +61,63 @@ final class SummaryCalculator {
 	private const OST_COUNTERS = ['read_bytes', 'write_bytes'];
 
 	/**
+	 * Compute filesystem-wide capacity, throughput, metadata, and rate summary
+	 * from cached target observations in single-pass O(1) fill/inode memory.
+	 *
 	 * @param list<SummaryTarget> $targets
+	 * @param ?Summary            $previous
+	 * @param int                 $interval
+	 * @param int                 $now
+	 *
+	 * @return Summary
 	 */
 	public static function calculate(array $targets, ?Summary $previous, int $interval, int $now): Summary {
-		$considered = array_values(array_filter($targets, static fn (SummaryTarget $t): bool => $t->review !== Review::Ignored));
-		$interval   = max(1, $interval);
-		$newest     = 0;
+		$interval = max(1, $interval);
+		$newest   = 0;
 
-		foreach ($considered as $target) {
+		foreach ($targets as $target) {
+			if ($target->review === Review::Ignored) {
+				continue;
+			}
+
 			foreach ($target->values as $observation) {
-				$newest = max($newest, $observation->observedAt);
+				if ($observation->observedAt > $newest) {
+					$newest = $observation->observedAt;
+				}
 			}
 		}
 
-		$current = static fn (?Observation $o): bool => $o !== null && $o->observedAt > 0 && $newest - $o->observedAt < $interval;
+		$osts            = [];
+		$mdts            = [];
+		$consideredCount = 0;
+		$knownCondCount  = 0;
+		$unhealthyCount  = 0;
+		$contributors    = 0;
+		$oldest          = 0;
+		$kbTotal         = 0.0;
+		$kbAvail         = 0.0;
+		$allOsts         = true;
+		$fillCount       = 0;
+		$fillSum         = 0.0;
+		$fillMin         = null;
+		$fillMax         = null;
+		$inodeMax        = null;
 
-		$osts         = [];
-		$mdts         = [];
-		$fill         = [];
-		$inodes       = [];
-		$contributors = 0;
-		$oldest       = 0;
-		$kbTotal      = 0.0;
-		$kbAvail      = 0.0;
-		$allOsts      = true;
+		foreach ($targets as $target) {
+			if ($target->review === Review::Ignored) {
+				continue;
+			}
 
-		foreach ($considered as $target) {
+			$consideredCount++;
+
+			if ($target->condition !== Condition::Unknown) {
+				$knownCondCount++;
+
+				if ($target->condition !== Condition::InService) {
+					$unhealthyCount++;
+				}
+			}
+
 			$isOst = $target->id->type === TargetType::Ost;
 
 			if ($isOst) {
@@ -95,42 +126,64 @@ final class SummaryCalculator {
 				$mdts[] = $target;
 			}
 
-			$total = $target->value('kbytes_total');
-			$space = UsedPercent::space($total?->value, $target->value('kbytes_free')?->value, $target->value('kbytes_avail')?->value);
-			$ok    = $target->presence === Presence::Present && $space !== null && $current($total);
+			$total = $target->values['kbytes_total'] ?? null;
+			$free  = $target->values['kbytes_free'] ?? null;
+			$avail = $target->values['kbytes_avail'] ?? null;
+			$space = UsedPercent::space($total?->value, $free?->value, $avail?->value);
+			$ok    = $target->presence === Presence::Present
+				&& $space !== null
+				&& $total !== null
+				&& $total->observedAt > 0
+				&& ($newest - $total->observedAt) < $interval;
 
 			if (!$ok) {
-				$allOsts = $allOsts && !$isOst;
+				if ($isOst) {
+					$allOsts = false;
+				}
 
 				continue;
 			}
 
 			$contributors++;
-			$oldest = $oldest === 0 ? (int) $total?->observedAt : min($oldest, (int) $total?->observedAt);
-			$inode  = UsedPercent::inodes($target->value('files_total')?->value, $target->value('files_free')?->value);
 
-			if ($inode !== null) {
-				$inodes[] = $inode;
+			if ($oldest === 0 || $total->observedAt < $oldest) {
+				$oldest = $total->observedAt;
+			}
+
+			$inode = UsedPercent::inodes(($target->values['files_total'] ?? null)?->value, ($target->values['files_free'] ?? null)?->value);
+
+			if ($inode !== null && ($inodeMax === null || $inode > $inodeMax)) {
+				$inodeMax = $inode;
 			}
 
 			if ($isOst) {
-				$fill[]   = $space;
-				$kbTotal += (float) $total?->value;
-				$kbAvail += (float) $target->value('kbytes_avail')?->value;
+				$fillCount++;
+				$fillSum += $space;
+
+				if ($fillMax === null || $space > $fillMax) {
+					$fillMax = $space;
+				}
+
+				if ($fillMin === null || $space < $fillMin) {
+					$fillMin = $space;
+				}
+
+				$kbTotal += (float) $total->value;
+				$kbAvail += $avail !== null ? (float) $avail->value : 0.0;
 			}
 		}
 
 		$values = array_fill_keys(array_merge(Summary::GAUGES, Summary::COUNTERS, Summary::RATES), null);
 
-		if ($fill !== []) {
-			$values['fill_max_pct']    = max($fill);
-			$values['fill_min_pct']    = min($fill);
-			$values['fill_mean_pct']   = round(array_sum($fill) / count($fill), 2);
-			$values['fill_spread_pct'] = max($fill) - min($fill);
+		if ($fillCount > 0 && $fillMax !== null && $fillMin !== null) {
+			$values['fill_max_pct']    = $fillMax;
+			$values['fill_min_pct']    = $fillMin;
+			$values['fill_mean_pct']   = round($fillSum / $fillCount, 2);
+			$values['fill_spread_pct'] = $fillMax - $fillMin;
 		}
 
-		if ($inodes !== []) {
-			$values['inode_max_pct'] = max($inodes);
+		if ($inodeMax !== null) {
+			$values['inode_max_pct'] = $inodeMax;
 		}
 
 		if ($osts !== [] && $allOsts) {
@@ -138,27 +191,26 @@ final class SummaryCalculator {
 			$values['kbytes_avail'] = $kbAvail;
 		}
 
-		$values['targets_total']   = (float) count($considered);
-		$values['targets_missing'] = (float) (count($considered) - $contributors);
+		$values['targets_total']   = (float) $consideredCount;
+		$values['targets_missing'] = (float) ($consideredCount - $contributors);
 
-		$known = array_filter($considered, static fn (SummaryTarget $t): bool => $t->condition !== Condition::Unknown);
-
-		if ($known !== []) {
-			$values['targets_unhealthy'] = (float) count(array_filter($known, static fn (SummaryTarget $t): bool => $t->condition !== Condition::InService));
+		if ($knownCondCount > 0) {
+			$values['targets_unhealthy'] = (float) $unhealthyCount;
 		}
 
 		$members = [];
 		$at      = [];
-		$summed  = PHP_INT_MAX;
 
-		// ost_contributors counts the OSTs behind every OST counter, so it
-		// never claims more targets than a drawn sum holds.
+		// Sum both OST counters in a single pass and reuse one sorted name list
+		// when both counters share identical contributing OST sets (the common case).
+		$ostSums = self::sumOstCounters($osts, $newest, $interval);
+		$summed  = min($ostSums['read_bytes']['contributors'], $ostSums['write_bytes']['contributors']);
+
 		foreach (self::OST_COUNTERS as $counter) {
-			$sum    = self::sum($osts, [$counter], $current);
-			$summed = min($summed, $sum['contributors']);
+			$sum = $ostSums[$counter];
 
-			[$values[$counter], $members[$counter]] = self::guard($sum, $previous?->members[$counter] ?? null);
-			$at[$counter] = $values[$counter] === null ? 0 : (int) $sum['at'];
+			[$values[$counter], $members[$counter]] = self::guardHashed($sum['value'], $sum['hash'], $previous?->members[$counter] ?? null);
+			$at[$counter]                           = $values[$counter] === null ? 0 : $sum['at'];
 		}
 
 		$values['ost_contributors'] = (float) $summed;
@@ -166,17 +218,17 @@ final class SummaryCalculator {
 		$mdOps = [];
 
 		foreach ($mdts as $mdt) {
-			foreach (array_keys($mdt->values) as $metric) {
+			foreach ($mdt->values as $metric => $_obs) {
 				if (str_starts_with($metric, 'md_')) {
 					$mdOps[$metric] = true;
 				}
 			}
 		}
 
-		$sum                        = self::sum($mdts, array_keys($mdOps), $current);
-		$values['mdt_contributors'] = (float) $sum['contributors'];
+		$sum                                    = self::sum($mdts, array_keys($mdOps), $newest, $interval);
+		$values['mdt_contributors']             = (float) $sum['contributors'];
 		[$values['md_ops'], $members['md_ops']] = self::guard($sum, $previous?->members['md_ops'] ?? null);
-		$at['md_ops'] = $values['md_ops'] === null ? 0 : (int) $sum['at'];
+		$at['md_ops']                           = $values['md_ops'] === null ? 0 : (int) $sum['at'];
 
 		foreach (Summary::COUNTERS as $counter) {
 			$values[$counter . Summary::RATE_SUFFIX] = self::rate($counter, $values[$counter], $members[$counter], $at[$counter], $previous, $interval);
@@ -186,91 +238,416 @@ final class SummaryCalculator {
 	}
 
 	/**
-	 * Sum one or more counters over a set of targets. The sum is complete only
-	 * when every target is present and contributes at least one current,
-	 * continuous value; values that are unknown on this release are left out
-	 * and change the member set instead.
+	 * Sum both OST counters (read_bytes and write_bytes) in a single pass over
+	 * $osts, reusing one sorted target-name list when both counters share the
+	 * same contributing member set and skipping sort() when names arrive sorted.
 	 *
-	 * @param list<SummaryTarget>             $targets
-	 * @param list<string>                    $metrics
-	 * @param \Closure(?Observation): bool    $current
+	 * @param list<SummaryTarget> $osts
+	 * @param int                 $newest
+	 * @param int                 $interval
+	 *
+	 * @return array{
+	 *   read_bytes: array{value: ?float, hash: string, contributors: int, at: int},
+	 *   write_bytes: array{value: ?float, hash: string, contributors: int, at: int}
+	 * }
+	 */
+	private static function sumOstCounters(array $osts, int $newest, int $interval): array {
+		$hasOsts    = $osts !== [];
+		$readTotal  = 0.0;
+		$writeTotal = 0.0;
+		$readCont   = 0;
+		$writeCont  = 0;
+		$readComp   = $hasOsts;
+		$writeComp  = $hasOsts;
+		$readAt     = 0;
+		$readMulti  = false;
+		$writeAt    = 0;
+		$writeMulti = false;
+		$readNames  = [];
+		$sameSets   = true;
+		$prevRead   = '';
+		$readSorted = true;
+		$readLen    = -1;
+
+		foreach ($osts as $target) {
+			$present     = $target->presence === Presence::Present;
+			$canBeAbsent = $present && $target->condition === Condition::InService;
+			$knownAtMap  = null;
+			$targetName  = null;
+
+			$readVal   = null;
+			$readObs   = $target->values['read_bytes'] ?? null;
+			$readCur   = $readObs !== null && $readObs->observedAt > 0 && ($newest - $readObs->observedAt) < $interval;
+			$readPub   = $readObs?->published();
+
+			if ($readObs !== null) {
+				if ($readObs->value !== null && ($readPub === null || !$readCur)) {
+					$readComp = false;
+				}
+
+				if ($canBeAbsent && $readObs->continuity === Continuity::Absent && $readCur) {
+					$knownAtMap = self::knownObservedTimes($target);
+
+					if (isset($knownAtMap[$readObs->observedAt])) {
+						$readVal = 0.0;
+					}
+				} elseif ($readCur) {
+					$readVal = $readPub;
+				}
+			}
+
+			$writeVal = null;
+			$writeObs = $target->values['write_bytes'] ?? null;
+			$writeCur = $writeObs !== null && $writeObs->observedAt > 0 && ($newest - $writeObs->observedAt) < $interval;
+			$writePub = $writeObs?->published();
+
+			if ($writeObs !== null) {
+				if ($writeObs->value !== null && ($writePub === null || !$writeCur)) {
+					$writeComp = false;
+				}
+
+				if ($canBeAbsent && $writeObs->continuity === Continuity::Absent && $writeCur) {
+					$knownAtMap ??= self::knownObservedTimes($target);
+
+					if (isset($knownAtMap[$writeObs->observedAt])) {
+						$writeVal = 0.0;
+					}
+				} elseif ($writeCur) {
+					$writeVal = $writePub;
+				}
+			}
+
+			$rCounted = $readVal !== null && $readObs !== null;
+			$wCounted = $writeVal !== null && $writeObs !== null;
+
+			if ($rCounted !== $wCounted) {
+				$sameSets = false;
+			}
+
+			if ($rCounted || $wCounted) {
+				$targetName = $target->id->name();
+			}
+
+			if ($rCounted && $targetName !== null) {
+				$readTotal  += $readVal;
+				$readCont++;
+				$readNames[] = $targetName;
+				$len         = strlen($targetName);
+
+				if ($readLen === -1) {
+					$readLen = $len;
+				} elseif ($len !== $readLen) {
+					$readSorted = false;
+				}
+
+				if ($readSorted && $prevRead !== '' && strcmp($prevRead, $targetName) > 0) {
+					$readSorted = false;
+				}
+
+				$prevRead = $targetName;
+
+				if (!$readMulti) {
+					if ($readAt === 0) {
+						$readAt = $readObs->observedAt;
+					} elseif ($readAt !== $readObs->observedAt) {
+						$readMulti = true;
+					}
+				}
+			}
+
+			if (!$rCounted || !$present) {
+				$readComp = false;
+			}
+
+			if ($wCounted && $targetName !== null) {
+				$writeTotal += $writeVal;
+				$writeCont++;
+
+				if (!$writeMulti) {
+					if ($writeAt === 0) {
+						$writeAt = $writeObs->observedAt;
+					} elseif ($writeAt !== $writeObs->observedAt) {
+						$writeMulti = true;
+					}
+				}
+			}
+
+			if (!$wCounted || !$present) {
+				$writeComp = false;
+			}
+		}
+
+		if ($sameSets) {
+			if (!$readSorted) {
+				sort($readNames, SORT_STRING);
+			}
+
+			$readHash  = self::hashSuffixedMembers($readNames, ':read_bytes');
+			$writeHash = self::hashSuffixedMembers($readNames, ':write_bytes');
+		} else {
+			// Rebuild full writeNames list if sets diverged part way through.
+			$writeFull = [];
+
+			foreach ($osts as $target) {
+				$writeObs = $target->values['write_bytes'] ?? null;
+
+				if ($writeObs === null) {
+					continue;
+				}
+
+				$writeCur    = $writeObs->observedAt > 0 && ($newest - $writeObs->observedAt) < $interval;
+				$canBeAbsent = $target->presence === Presence::Present && $target->condition === Condition::InService;
+				$val         = null;
+
+				if ($canBeAbsent && $writeObs->continuity === Continuity::Absent && $writeCur) {
+					$knownAt = self::knownObservedTimes($target);
+
+					if (isset($knownAt[$writeObs->observedAt])) {
+						$val = 0.0;
+					}
+				} elseif ($writeCur) {
+					$val = $writeObs->published();
+				}
+
+				if ($val !== null) {
+					$writeFull[] = $target->id->name() . ':write_bytes';
+				}
+			}
+
+			$readFull = [];
+
+			foreach ($readNames as $n) {
+				$readFull[] = $n . ':read_bytes';
+			}
+
+			sort($readFull, SORT_STRING);
+			sort($writeFull, SORT_STRING);
+
+			$readHash  = self::hashPlainMembers($readFull);
+			$writeHash = self::hashPlainMembers($writeFull);
+		}
+
+		return [
+			'read_bytes' => [
+				'value'        => $readComp ? $readTotal : null,
+				'hash'         => $readHash,
+				'contributors' => $readCont,
+				'at'           => $readMulti ? 0 : $readAt,
+			],
+			'write_bytes' => [
+				'value'        => $writeComp ? $writeTotal : null,
+				'hash'         => $writeHash,
+				'contributors' => $writeCont,
+				'at'           => $writeMulti ? 0 : $writeAt,
+			],
+		];
+	}
+
+	/**
+	 * Index the observation timestamps on a target that carried a known value.
+	 *
+	 * @param SummaryTarget $target
+	 *
+	 * @return array<int, true>
+	 */
+	private static function knownObservedTimes(SummaryTarget $target): array {
+		$knownAt = [];
+
+		foreach ($target->values as $other) {
+			if ($other->value !== null) {
+				$knownAt[$other->observedAt] = true;
+			}
+		}
+
+		return $knownAt;
+	}
+
+	/**
+	 * Stream-hash sorted target names with a fixed metric suffix without
+	 * allocating a joined multi-MB string.
+	 *
+	 * @param list<string> $sortedNames
+	 * @param string       $suffix
+	 *
+	 * @return string
+	 */
+	private static function hashSuffixedMembers(array $sortedNames, string $suffix): string {
+		$n = count($sortedNames);
+
+		if ($n === 0) {
+			return '';
+		}
+
+		$ctx = hash_init('sha1');
+		hash_update($ctx, $sortedNames[0] . $suffix);
+
+		for ($i = 1; $i < $n; $i++) {
+			hash_update($ctx, "\n" . $sortedNames[$i] . $suffix);
+		}
+
+		return hash_final($ctx);
+	}
+
+	/**
+	 * Stream-hash sorted full member strings without allocating a joined string.
+	 *
+	 * @param list<string> $sortedMembers
+	 *
+	 * @return string
+	 */
+	private static function hashPlainMembers(array $sortedMembers): string {
+		$n = count($sortedMembers);
+
+		if ($n === 0) {
+			return '';
+		}
+
+		$ctx = hash_init('sha1');
+		hash_update($ctx, $sortedMembers[0]);
+
+		for ($i = 1; $i < $n; $i++) {
+			hash_update($ctx, "\n" . $sortedMembers[$i]);
+		}
+
+		return hash_final($ctx);
+	}
+
+	/**
+	 * Guard a pre-hashed counter sum against member-set changes.
+	 *
+	 * @param ?float  $value
+	 * @param string  $hash
+	 * @param ?string $previous
+	 *
+	 * @return array{0: ?float, 1: string}
+	 */
+	private static function guardHashed(?float $value, string $hash, ?string $previous): array {
+		if ($value === null) {
+			return [null, $hash];
+		}
+
+		if ($previous !== null && $previous !== '' && $previous !== $hash) {
+			return [null, $hash];
+		}
+
+		return [$value, $hash];
+	}
+
+	/**
+	 * Sum one or more counters over a set of targets in a single pass. The sum
+	 * is complete only when every target is present and contributes at least
+	 * one current, continuous value; values that are unknown on this release
+	 * are left out and change the member set instead.
+	 *
+	 * @param list<SummaryTarget> $targets
+	 * @param list<string>        $metrics
+	 * @param int                 $newest
+	 * @param int                 $interval
 	 *
 	 * @return array{value: ?float, members: list<string>, contributors: int, at: int} at is the read time every summed value shares, or 0
 	 */
-	private static function sum(array $targets, array $metrics, \Closure $current): array {
+	private static function sum(array $targets, array $metrics, int $newest, int $interval): array {
 		$total        = 0.0;
 		$members      = [];
 		$contributors = 0;
 		$complete     = $targets !== [];
-		$times        = [];
+		$singleTime   = 0;
+		$multipleTime = false;
 
 		foreach ($targets as $target) {
-			$counted = false;
+			$counted     = false;
+			$targetName  = null;
+			$knownAtMap  = null;
+			$canBeAbsent = $target->presence === Presence::Present && $target->condition === Condition::InService;
 
 			foreach ($metrics as $metric) {
-				$observation = $target->value($metric);
-				$value       = self::absentAsZero($target, $observation, $current) ? 0.0 : $observation?->published();
+				$observation = $target->values[$metric] ?? null;
 
-				if ($value === null || !$current($observation)) {
+				if ($observation === null) {
 					continue;
 				}
 
-				$total    += $value;
-				$members[] = $target->id->name() . ':' . $metric;
-				$times[$observation->observedAt] = true;
-				$counted   = true;
-			}
+				$isCurrent = $observation->observedAt > 0 && ($newest - $observation->observedAt) < $interval;
+				$published = $observation->published();
 
-			$contributors += $counted ? 1 : 0;
-			$complete      = $complete && $counted && $target->presence === Presence::Present;
-		}
-
-		// A target with a counter that is known but not current or not
-		// continuous (a reset) leaves the sum incomplete, even when its other
-		// counters count.
-		foreach ($targets as $target) {
-			foreach ($metrics as $metric) {
-				$observation = $target->value($metric);
-
-				if ($observation !== null && $observation->value !== null && ($observation->published() === null || !$current($observation))) {
+				// A target with a counter that is known but not current or not
+				// continuous (a reset) leaves the sum incomplete.
+				if ($observation->value !== null && ($published === null || !$isCurrent)) {
 					$complete = false;
 				}
+
+				$value = null;
+
+				if ($canBeAbsent && $observation->continuity === Continuity::Absent && $isCurrent) {
+					if ($knownAtMap === null) {
+						$knownAtMap = [];
+
+						foreach ($target->values as $other) {
+							if ($other->value !== null) {
+								$knownAtMap[$other->observedAt] = true;
+							}
+						}
+					}
+
+					if (isset($knownAtMap[$observation->observedAt])) {
+						$value = 0.0;
+					}
+				} elseif ($isCurrent) {
+					$value = $published;
+				}
+
+				if ($value === null) {
+					continue;
+				}
+
+				if ($targetName === null) {
+					$targetName = $target->id->name();
+				}
+
+				$total    += $value;
+				$members[] = $targetName . ':' . $metric;
+				$counted   = true;
+
+				if (!$multipleTime) {
+					if ($singleTime === 0) {
+						$singleTime = $observation->observedAt;
+					} elseif ($singleTime !== $observation->observedAt) {
+						$multipleTime = true;
+					}
+				}
+			}
+
+			if ($counted) {
+				$contributors++;
+			}
+
+			if (!$counted || $target->presence !== Presence::Present) {
+				$complete = false;
 			}
 		}
 
 		sort($members);
 
-		return ['value' => $complete ? $total : null, 'members' => $members, 'contributors' => $contributors, 'at' => count($times) === 1 ? (int) array_key_first($times) : 0];
-	}
-
-	/**
-	 * Whether an absent counter counts as zero: the observation says Lustre
-	 * left the line out, it is current, and the target is present, in
-	 * service, and has a known value from the same read.
-	 *
-	 * @param \Closure(?Observation): bool $current
-	 */
-	private static function absentAsZero(SummaryTarget $target, ?Observation $observation, \Closure $current): bool {
-		if ($observation === null || $observation->continuity !== Continuity::Absent || !$current($observation)) {
-			return false;
-		}
-
-		if ($target->presence !== Presence::Present || $target->condition !== Condition::InService) {
-			return false;
-		}
-
-		foreach ($target->values as $other) {
-			if ($other->value !== null && $other->observedAt === $observation->observedAt) {
-				return true;
-			}
-		}
-
-		return false;
+		return [
+			'value'        => $complete ? $total : null,
+			'members'      => $members,
+			'contributors' => $contributors,
+			'at'           => $multipleTime ? 0 : $singleTime,
+		];
 	}
 
 	/**
 	 * The per-second rate of one aggregate counter since the previous summary,
 	 * or null when it cannot be trusted (see the class comment).
+	 *
+	 * @param string   $counter
+	 * @param ?float   $value
+	 * @param string   $members
+	 * @param int      $at
+	 * @param ?Summary $previous
+	 * @param int      $interval
+	 *
+	 * @return ?float
 	 */
 	private static function rate(string $counter, ?float $value, string $members, int $at, ?Summary $previous, int $interval): ?float {
 		$before   = $previous?->value($counter);
@@ -290,12 +667,31 @@ final class SummaryCalculator {
 	}
 
 	/**
+	 * Guard a summed counter against member-set churn using streaming SHA-1
+	 * hashing so 100k+ target member lists never allocate a multi-MB joined string.
+	 *
 	 * @param array{value: ?float, members: list<string>, contributors: int, at: int} $sum
+	 * @param ?string                                                                 $previous
 	 *
 	 * @return array{0: ?float, 1: string} the value to publish and the member hash to keep
 	 */
 	private static function guard(array $sum, ?string $previous): array {
-		$hash = $sum['members'] === [] ? '' : sha1(implode("\n", $sum['members']));
+		$memberList = $sum['members'];
+
+		if ($memberList === []) {
+			$hash = '';
+		} else {
+			$ctx = hash_init('sha1');
+			$n   = count($memberList);
+
+			hash_update($ctx, $memberList[0]);
+
+			for ($i = 1; $i < $n; $i++) {
+				hash_update($ctx, "\n" . $memberList[$i]);
+			}
+
+			$hash = hash_final($ctx);
+		}
 
 		if ($sum['value'] === null) {
 			return [null, $hash];

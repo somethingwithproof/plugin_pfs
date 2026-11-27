@@ -66,7 +66,10 @@ final readonly class TargetId {
 	 * @return string
 	 */
 	public function name(): string {
-		return sprintf('%s-%s%04x', $this->filesystem, strtoupper($this->type->value), $this->index);
+		$prefix = $this->type === TargetType::Ost ? '-OST' : '-MDT';
+		$hex    = dechex($this->index);
+
+		return $this->filesystem . $prefix . (strlen($hex) < 4 ? str_pad($hex, 4, '0', STR_PAD_LEFT) : $hex);
 	}
 
 	/**

@@ -39,9 +39,12 @@ final class ImbalanceAnalyzer {
 
 	/**
 	 * Compute detailed OST/MDT fill ratios, skew/imbalance index, headroom,
-	 * missing target count, and per-target status flags.
+	 * missing target count, and per-target status flags using single-pass
+	 * Welford online variance so summary statistics require O(1) extra memory.
 	 *
 	 * @param list<SummaryTarget> $targets
+	 * @param int                 $interval
+	 * @param int                 $topK
 	 *
 	 * @return array{
 	 *   severity: string,
@@ -66,30 +69,44 @@ final class ImbalanceAnalyzer {
 	 * }
 	 */
 	public static function analyze(array $targets, int $interval, int $topK = TopKTracker::DEFAULT_K): array {
-		$considered = array_values(array_filter($targets, static fn (SummaryTarget $t): bool => $t->review !== Review::Ignored));
-		$interval   = max(1, $interval);
-		$newest     = 0;
+		$interval = max(1, $interval);
+		$newest   = 0;
 
-		foreach ($considered as $target) {
+		foreach ($targets as $target) {
+			if ($target->review === Review::Ignored) {
+				continue;
+			}
+
 			foreach ($target->values as $observation) {
-				$newest = max($newest, $observation->observedAt);
+				if ($observation->observedAt > $newest) {
+					$newest = $observation->observedAt;
+				}
 			}
 		}
 
-		$withinInterval = static fn (?Observation $o): bool => $o !== null && $o->observedAt > 0 && ($newest - $o->observedAt) < $interval;
+		$consideredCount = 0;
+		$ostCount        = 0;
+		$mdtCount        = 0;
+		$contributing    = 0;
+		$allOstsFresh    = true;
+		$kbAvailTotal    = 0.0;
+		$ostFillCount    = 0;
+		$ostFillSum      = 0.0;
+		$ostFillMean     = 0.0;
+		$ostFillM2       = 0.0;
+		$ostFillMin      = null;
+		$ostFillMax      = null;
+		$ostAvailMin     = null;
+		$mdtFillMax      = null;
+		$mdtInodeMax     = null;
+		$targetDetails   = [];
 
-		$ostFills      = [];
-		$ostAvails     = [];
-		$mdtFills      = [];
-		$mdtInodes     = [];
-		$ostCount      = 0;
-		$mdtCount      = 0;
-		$contributing  = 0;
-		$allOstsFresh  = true;
-		$kbAvailTotal  = 0.0;
-		$targetDetails = [];
+		foreach ($targets as $target) {
+			if ($target->review === Review::Ignored) {
+				continue;
+			}
 
-		foreach ($considered as $target) {
+			$consideredCount++;
 			$isOst = $target->id->type === TargetType::Ost;
 
 			if ($isOst) {
@@ -98,19 +115,21 @@ final class ImbalanceAnalyzer {
 				$mdtCount++;
 			}
 
-			$totalObs  = $target->value('kbytes_total');
-			$freeObs   = $target->value('kbytes_free');
-			$availObs  = $target->value('kbytes_avail');
-			$fTotalObs = $target->value('files_total');
-			$fFreeObs  = $target->value('files_free');
+			$totalObs  = $target->values['kbytes_total'] ?? null;
+			$freeObs   = $target->values['kbytes_free'] ?? null;
+			$availObs  = $target->values['kbytes_avail'] ?? null;
+			$fTotalObs = $target->values['files_total'] ?? null;
+			$fFreeObs  = $target->values['files_free'] ?? null;
 
-			$fresh     = $target->presence === Presence::Present && $withinInterval($totalObs);
-			$fillPct   = $fresh ? UsedPercent::space($totalObs?->value, $freeObs?->value, $availObs?->value) : null;
-			$inodePct  = $fresh ? UsedPercent::inodes($fTotalObs?->value, $fFreeObs?->value) : null;
-			$headroom  = $fillPct === null ? null : max(0.0, round(100.0 - $fillPct, 2));
-			$availKb   = $fresh ? $availObs?->value : null;
-
-			$flags = self::statusFlags($target->condition, $fillPct, $inodePct, $availKb, $fFreeObs?->value);
+			$fresh    = $target->presence === Presence::Present
+				&& $totalObs !== null
+				&& $totalObs->observedAt > 0
+				&& ($newest - $totalObs->observedAt) < $interval;
+			$fillPct  = $fresh ? UsedPercent::space($totalObs->value, $freeObs?->value, $availObs?->value) : null;
+			$inodePct = $fresh ? UsedPercent::inodes($fTotalObs?->value, $fFreeObs?->value) : null;
+			$headroom = $fillPct === null ? null : max(0.0, round(100.0 - $fillPct, 2));
+			$availKb  = $fresh ? $availObs?->value : null;
+			$flags    = self::statusFlags($target->condition, $fillPct, $inodePct, $availKb, $fFreeObs?->value);
 
 			$targetDetails[] = [
 				'name'         => $target->id->name(),
@@ -137,25 +156,42 @@ final class ImbalanceAnalyzer {
 			if ($isOst) {
 				// REQ-CAP-003: fill summary across in-service OSTs (or unknown-condition backends with valid capacity).
 				if ($target->condition === Condition::InService || $target->condition === Condition::Unknown) {
-					$ostFills[] = $fillPct;
+					$ostFillCount++;
+					$ostFillSum  += $fillPct;
+					$delta        = $fillPct - $ostFillMean;
+					$ostFillMean += $delta / $ostFillCount;
+					$ostFillM2   += $delta * ($fillPct - $ostFillMean);
+
+					if ($ostFillMax === null || $fillPct > $ostFillMax) {
+						$ostFillMax = $fillPct;
+					}
+
+					if ($ostFillMin === null || $fillPct < $ostFillMin) {
+						$ostFillMin = $fillPct;
+					}
 				}
 
 				if ($availKb !== null) {
-					$ostAvails[]   = $availKb;
 					$kbAvailTotal += $availKb;
+
+					if ($ostAvailMin === null || $availKb < $ostAvailMin) {
+						$ostAvailMin = $availKb;
+					}
 				} else {
 					$allOstsFresh = false;
 				}
 			} else {
-				$mdtFills[] = $fillPct;
+				if ($mdtFillMax === null || $fillPct > $mdtFillMax) {
+					$mdtFillMax = $fillPct;
+				}
 
-				if ($inodePct !== null) {
-					$mdtInodes[] = $inodePct;
+				if ($inodePct !== null && ($mdtInodeMax === null || $inodePct > $mdtInodeMax)) {
+					$mdtInodeMax = $inodePct;
 				}
 			}
 		}
 
-		$missing = count($considered) - $contributing;
+		$missing = $consideredCount - $contributing;
 
 		// REQ-CAP-004: summary fill/imbalance values are unknown unless every OST observation is within one reader interval.
 		$fillMax        = null;
@@ -167,27 +203,24 @@ final class ImbalanceAnalyzer {
 		$headroomMinKb  = null;
 		$headroomTotal  = null;
 
-		if ($ostCount > 0 && $allOstsFresh && $ostFills !== []) {
-			$fillMax        = max($ostFills);
-			$fillMin        = min($ostFills);
-			$fillMean       = round(array_sum($ostFills) / count($ostFills), 2);
+		if ($ostCount > 0 && $allOstsFresh && $ostFillCount > 0 && $ostFillMax !== null && $ostFillMin !== null) {
+			$fillMax        = $ostFillMax;
+			$fillMin        = $ostFillMin;
+			$fillMean       = round($ostFillSum / $ostFillCount, 2);
 			$fillSpread     = round($fillMax - $fillMin, 2);
 			$headroomMinPct = max(0.0, round(100.0 - $fillMax, 2));
 			$headroomTotal  = $kbAvailTotal;
-			$headroomMinKb  = $ostAvails !== [] ? min($ostAvails) : null;
-			$imbalanceIndex = self::computeImbalanceIndex($ostFills, $fillMean);
+			$headroomMinKb  = $ostAvailMin;
+			$imbalanceIndex = $ostFillCount >= 2 ? round(sqrt($ostFillM2 / $ostFillCount), 2) : null;
 		}
 
-		$mdtFillMax     = $mdtFills !== [] ? max($mdtFills) : null;
-		$mdtInodeMax    = $mdtInodes !== [] ? max($mdtInodes) : null;
 		$mdtHeadroomMin = $mdtFillMax !== null ? max(0.0, round(100.0 - $mdtFillMax, 2)) : null;
-
-		$severity = self::classifySeverity($fillMax, $fillSpread, $mdtFillMax, $mdtInodeMax, $missing, $ostCount);
-		$topSkew  = TopKTracker::topSkewedTargets($targetDetails, $fillMean, $topK);
+		$severity       = self::classifySeverity($fillMax, $fillSpread, $mdtFillMax, $mdtInodeMax, $missing, $ostCount);
+		$topSkew        = TopKTracker::topSkewedTargets($targetDetails, $fillMean, $topK);
 
 		return [
 			'severity'              => $severity,
-			'targets_total'         => count($considered),
+			'targets_total'         => $consideredCount,
 			'targets_contributing'  => $contributing,
 			'missing_targets'       => $missing,
 			'ost_count'             => $ostCount,
@@ -209,30 +242,13 @@ final class ImbalanceAnalyzer {
 	}
 
 	/**
-	 * Population standard deviation of OST fill percentages (0.0 when uniform,
-	 * null when fewer than 2 contributing OSTs exist).
-	 *
-	 * @param list<float> $fills
-	 */
-	private static function computeImbalanceIndex(array $fills, float $mean): ?float {
-		$n = count($fills);
-
-		if ($n < 2) {
-			return null;
-		}
-
-		$sumSq = 0.0;
-
-		foreach ($fills as $v) {
-			$diff   = $v - $mean;
-			$sumSq += $diff * $diff;
-		}
-
-		return round(sqrt($sumSq / $n), 2);
-	}
-
-	/**
 	 * Target status flags (REQ-CAP-005).
+	 *
+	 * @param Condition $condition
+	 * @param ?float    $fillPct
+	 * @param ?float    $inodePct
+	 * @param ?float    $availKb
+	 * @param ?float    $filesFree
 	 *
 	 * @return list<string>
 	 */
@@ -265,8 +281,9 @@ final class ImbalanceAnalyzer {
 	 * @param ?float $spread
 	 * @param ?float $mdtFillMax
 	 * @param ?float $mdtInodeMax
-	 * @param int $missing
-	 * @param int $ostCount
+	 * @param int    $missing
+	 * @param int    $ostCount
+	 *
 	 * @return string
 	 */
 	private static function classifySeverity(?float $fillMax, ?float $spread, ?float $mdtFillMax, ?float $mdtInodeMax, int $missing, int $ostCount): string {

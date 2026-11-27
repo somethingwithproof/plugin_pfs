@@ -25,8 +25,10 @@ namespace Somethingwithproof\Pfs;
  *
  * Builds parameterized multi-row INSERT ... ON DUPLICATE KEY UPDATE statements
  * in 500-row batches so repositories execute O(targets / 500) round-trips
- * instead of O(targets), and provides bounded keyset pagination parameters
- * (WHERE id > ? ORDER BY id ASC LIMIT ?) to avoid O(N) OFFSET scans.
+ * instead of O(targets), reuses one prebuilt SQL string across all full-size
+ * batches, streams batches in O(batchSize) memory via streamUpsertBatches(),
+ * and provides bounded keyset pagination parameters (WHERE id > ? ORDER BY id
+ * ASC LIMIT ?) to avoid O(N) OFFSET scans.
  */
 final class BatchUpserter {
 	/** Default batch size constant. */
@@ -41,9 +43,11 @@ final class BatchUpserter {
 	/**
 	 * Build chunked multi-row INSERT ... ON DUPLICATE KEY UPDATE statements.
 	 *
+	 * @param string            $table
 	 * @param list<string>      $columns       column names in row value order
 	 * @param list<list<mixed>> $rows          values matching $columns per row
 	 * @param list<string>      $updateColumns subset of columns updated on duplicate key
+	 * @param int               $batchSize     maximum rows per statement
 	 *
 	 * @return list<array{sql: string, params: list<mixed>, row_count: int}>
 	 */
@@ -54,6 +58,35 @@ final class BatchUpserter {
 		array $updateColumns,
 		int $batchSize = self::DEFAULT_BATCH_SIZE,
 	): array {
+		$batches = [];
+
+		foreach (self::streamUpsertBatches($table, $columns, $rows, $updateColumns, $batchSize) as $batch) {
+			$batches[] = $batch;
+		}
+
+		return $batches;
+	}
+
+	/**
+	 * Stream chunked multi-row INSERT ... ON DUPLICATE KEY UPDATE batches in
+	 * O(batchSize) working memory without duplicating $rows via array_chunk()
+	 * or rebuilding the SQL string for full-size batches.
+	 *
+	 * @param string                $table
+	 * @param list<string>          $columns       column names in row value order
+	 * @param iterable<list<mixed>> $rows          row stream matching $columns per row
+	 * @param list<string>          $updateColumns subset of columns updated on duplicate key
+	 * @param int                   $batchSize     maximum rows per statement
+	 *
+	 * @return \Generator<int, array{sql: string, params: list<mixed>, row_count: int}>
+	 */
+	public static function streamUpsertBatches(
+		string $table,
+		array $columns,
+		iterable $rows,
+		array $updateColumns,
+		int $batchSize = self::DEFAULT_BATCH_SIZE,
+	): \Generator {
 		self::assertIdentifier($table, 'table');
 
 		if ($columns === [] || $updateColumns === []) {
@@ -68,52 +101,64 @@ final class BatchUpserter {
 			self::assertIdentifier($col, 'update column');
 		}
 
-		if ($rows === []) {
-			return [];
-		}
-
 		$size       = max(1, min(self::MAX_BATCH_SIZE, $batchSize));
 		$colCount   = count($columns);
-		$colList    = implode(', ', array_map(static fn (string $c): string => '`' . $c . '`', $columns));
+		$colList    = '`' . implode('`, `', $columns) . '`';
 		$rowPh      = '(' . implode(', ', array_fill(0, $colCount, '?')) . ')';
-		$updateList = implode(', ', array_map(static fn (string $c): string => sprintf('`%s` = VALUES(`%s`)', $c, $c), $updateColumns));
+		$updateList = implode(', ', array_map(static fn (string $c): string => '`' . $c . '` = VALUES(`' . $c . '`)', $updateColumns));
+		$prefix     = 'INSERT INTO `' . $table . '` (' . $colList . ') VALUES ';
+		$suffix     = ' ON DUPLICATE KEY UPDATE ' . $updateList;
+		$fullSql    = null;
 
-		$batches = [];
+		$params   = [];
+		$rowCount = 0;
 
-		foreach (array_chunk($rows, $size) as $chunk) {
-			$params = [];
-
-			foreach ($chunk as $row) {
-				if (count($row) !== $colCount) {
-					throw new \InvalidArgumentException('Every row must match column count');
-				}
-
-				foreach ($row as $value) {
-					$params[] = $value;
-				}
+		foreach ($rows as $row) {
+			if (count($row) !== $colCount) {
+				throw new \InvalidArgumentException('Every row must match column count');
 			}
 
-			$placeholders = implode(', ', array_fill(0, count($chunk), $rowPh));
-			$sql          = sprintf('INSERT INTO `%s` (%s) VALUES %s ON DUPLICATE KEY UPDATE %s', $table, $colList, $placeholders, $updateList);
+			foreach ($row as $value) {
+				$params[] = $value;
+			}
 
-			$batches[] = [
-				'sql'       => $sql,
-				'params'    => $params,
-				'row_count' => count($chunk),
-			];
+			$rowCount++;
+
+			if ($rowCount === $size) {
+				$fullSql ??= $prefix . implode(', ', array_fill(0, $size, $rowPh)) . $suffix;
+
+				yield [
+					'sql'       => $fullSql,
+					'params'    => $params,
+					'row_count' => $rowCount,
+				];
+
+				$params   = [];
+				$rowCount = 0;
+			}
 		}
 
-		return $batches;
+		if ($rowCount > 0) {
+			$sql = $prefix . implode(', ', array_fill(0, $rowCount, $rowPh)) . $suffix;
+
+			yield [
+				'sql'       => $sql,
+				'params'    => $params,
+				'row_count' => $rowCount,
+			];
+		}
 	}
 
 	/**
 	 * Execute prepared upsert batches through a repository callback and return
 	 * total rows written (stops immediately on the first failed batch).
 	 *
-	 * @param list<array{sql: string, params: list<mixed>, row_count: int}> $batches
-	 * @param \Closure(string, list<mixed>): bool                           $executor
+	 * @param iterable<array{sql: string, params: list<mixed>, row_count: int}> $batches
+	 * @param \Closure(string, list<mixed>): bool                               $executor
+	 *
+	 * @return int
 	 */
-	public static function execute(array $batches, \Closure $executor): int {
+	public static function execute(iterable $batches, \Closure $executor): int {
 		$written = 0;
 
 		foreach ($batches as $batch) {
@@ -129,6 +174,9 @@ final class BatchUpserter {
 
 	/**
 	 * Normalize keyset pagination cursor and limit bounds.
+	 *
+	 * @param int $afterId
+	 * @param int $limit
 	 *
 	 * @return array{after_id: int, limit: int}
 	 */

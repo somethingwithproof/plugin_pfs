@@ -32,8 +32,16 @@ namespace Somethingwithproof\Pfs;
  */
 final readonly class TargetReport {
 	/**
-	 * @param array<string, ?float> $values value name => value
-	 * @param list<string>          $absent counter value names absent from a printed stats section
+	 * Initialize a parsed target report.
+	 *
+	 * @param TargetId              $id                      parsed target identifier
+	 * @param array<string, ?float> $values                  value name => value
+	 * @param ?string               $startMarker             counter stats start marker
+	 * @param Condition             $condition               target operational condition
+	 * @param ?string               $recovery                target recovery status string
+	 * @param list<string>          $absent                  counter value names absent from a printed stats section
+	 * @param ?float                $recoveryDurationSeconds observed target recovery duration in seconds
+	 * @param ?int                  $evictedClients          observed evicted client count for this target
 	 */
 	public function __construct(
 		public TargetId $id,
@@ -42,6 +50,8 @@ final readonly class TargetReport {
 		public Condition $condition,
 		public ?string $recovery,
 		public array $absent = [],
+		public ?float $recoveryDurationSeconds = null,
+		public ?int $evictedClients = null,
 	) {
 	}
 }

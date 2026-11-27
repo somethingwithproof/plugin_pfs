@@ -33,8 +33,24 @@ namespace Somethingwithproof\Pfs;
  * the plan holds no update for them.
  */
 final class CacheRepository {
-	/** Kib metrics constant. */
-	private const KIB_METRICS = ['kbytes_total', 'kbytes_free', 'kbytes_avail'];
+	/** O(1) lookup map of KiB capacity metrics stored in value_kib BIGINT UNSIGNED. */
+	private const KIB_METRIC_MAP = [
+		'kbytes_total' => true,
+		'kbytes_free'  => true,
+		'kbytes_avail' => true,
+	];
+
+	/** Observation table columns in insert order. */
+	private const OBS_COLUMNS = [
+		'target_id', 'metric', 'value', 'value_kib', 'observed_at', 'ingested_at',
+		'source_node_id', 'expected_interval', 'continuity', 'start_marker', 'epoch',
+	];
+
+	/** Observation table columns updated on duplicate key. */
+	private const OBS_UPDATE_COLUMNS = [
+		'value', 'value_kib', 'observed_at', 'ingested_at', 'source_node_id',
+		'expected_interval', 'continuity', 'start_marker', 'epoch',
+	];
 
 	/**
 	 * Initialize CacheRepository.
@@ -45,41 +61,42 @@ final class CacheRepository {
 	}
 
 	/**
-	 * Upsert observations in chunked 500-row multi-row INSERT statements so
-	 * large filesystems execute O(targets / 500) SQL round-trips.
+	 * Upsert observations in streamed 500-row multi-row INSERT statements so
+	 * large filesystems execute O(targets / 500) SQL round-trips in O(batchSize)
+	 * working memory.
 	 *
-	 * @param list<array{target_id: int, observation: Observation}> $entries
+	 * @param iterable<array{target_id: int, observation: Observation}> $entries
+	 * @param int                                                       $batchSize
+	 *
+	 * @return int
 	 */
-	public function upsertObservationsBatch(array $entries, int $batchSize = BatchUpserter::DEFAULT_BATCH_SIZE): int {
-		if ($entries === []) {
-			return 0;
-		}
+	public function upsertObservationsBatch(iterable $entries, int $batchSize = BatchUpserter::DEFAULT_BATCH_SIZE): int {
+		$rowStream = (static function (iterable $items): \Generator {
+			foreach ($items as $entry) {
+				$o      = $entry['observation'];
+				$valKib = isset(self::KIB_METRIC_MAP[$o->metric]) ? FramedReportParser::kibToUint64($o->value) : null;
 
-		$rows = [];
+				yield [
+					$entry['target_id'],
+					$o->metric,
+					$o->value,
+					$valKib,
+					$o->observedAt,
+					$o->ingestedAt,
+					$o->sourceNodeId,
+					$o->expectedInterval,
+					$o->continuity->value,
+					$o->startMarker ?? '',
+					$o->epoch,
+				];
+			}
+		})($entries);
 
-		foreach ($entries as $entry) {
-			$o      = $entry['observation'];
-			$valKib = in_array($o->metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($o->value) : null;
-			$rows[] = [
-				$entry['target_id'],
-				$o->metric,
-				$o->value,
-				$valKib,
-				$o->observedAt,
-				$o->ingestedAt,
-				$o->sourceNodeId,
-				$o->expectedInterval,
-				$o->continuity->value,
-				$o->startMarker ?? '',
-				$o->epoch,
-			];
-		}
-
-		$batches = BatchUpserter::buildUpsertBatches(
+		$batches = BatchUpserter::streamUpsertBatches(
 			'plugin_pfs_observation',
-			['target_id', 'metric', 'value', 'value_kib', 'observed_at', 'ingested_at', 'source_node_id', 'expected_interval', 'continuity', 'start_marker', 'epoch'],
-			$rows,
-			['value', 'value_kib', 'observed_at', 'ingested_at', 'source_node_id', 'expected_interval', 'continuity', 'start_marker', 'epoch'],
+			self::OBS_COLUMNS,
+			$rowStream,
+			self::OBS_UPDATE_COLUMNS,
 			$batchSize,
 		);
 
@@ -90,15 +107,26 @@ final class CacheRepository {
 	}
 
 	/**
+	 * Apply targets, batched observations, node health, and summary within one
+	 * lease-verified database transaction.
+	 *
+	 * @param int                                                                $pollerId
+	 * @param string                                                             $holder
+	 * @param int                                                                $now
+	 * @param Filesystem                                                         $filesystem
 	 * @param list<array{update: TargetUpdate, observations: list<Observation>}> $writes
-	 * @param list<NodeHealth>                                                    $health
+	 * @param list<NodeHealth>                                                   $health
+	 * @param ?Summary                                                           $summary
+	 *
+	 * @return bool
 	 */
 	public function apply(int $pollerId, string $holder, int $now, Filesystem $filesystem, array $writes, array $health, ?Summary $summary = null): bool {
 		if (!db_begin_transaction($this->connection)) {
 			return false;
 		}
 
-		$ok = (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_reader WHERE poller_id = ? AND holder = ? AND expires_at >= ? FOR UPDATE', [$pollerId, $holder, $now], '', true, $this->connection) === 1;
+		$ok         = (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_reader WHERE poller_id = ? AND holder = ? AND expires_at >= ? FOR UPDATE', [$pollerId, $holder, $now], '', true, $this->connection) === 1;
+		$obsPending = [];
 
 		foreach ($writes as $write) {
 			if (!$ok) {
@@ -108,13 +136,26 @@ final class CacheRepository {
 			$targetId = $this->target($filesystem, $write['update'], $now);
 			$ok       = $targetId > 0 && $this->inTransaction();
 
-			foreach ($write['observations'] as $observation) {
-				if (!$ok) {
-					break;
-				}
-
-				$ok = $this->observation($targetId, $observation) && $this->inTransaction();
+			if (!$ok) {
+				break;
 			}
+
+			foreach ($write['observations'] as $observation) {
+				$obsPending[] = ['target_id' => $targetId, 'observation' => $observation];
+
+				if (count($obsPending) >= BatchUpserter::DEFAULT_BATCH_SIZE) {
+					$ok         = $this->upsertObservationsBatch($obsPending) >= 0 && $this->inTransaction();
+					$obsPending = [];
+
+					if (!$ok) {
+						break;
+					}
+				}
+			}
+		}
+
+		if ($ok && $obsPending !== []) {
+			$ok = $this->upsertObservationsBatch($obsPending) >= 0 && $this->inTransaction();
 		}
 
 		foreach ($health as $record) {
@@ -147,6 +188,12 @@ final class CacheRepository {
 	/**
 	 * Upsert the target and return its id. A new target is proposed for
 	 * review; review is never changed here.
+	 *
+	 * @param Filesystem   $filesystem
+	 * @param TargetUpdate $update
+	 * @param int          $now
+	 *
+	 * @return int
 	 */
 	private function target(Filesystem $filesystem, TargetUpdate $update, int $now): int {
 		$present  = $update->presence === Presence::Present;
@@ -166,35 +213,18 @@ final class CacheRepository {
 	}
 
 	/**
-	 * Observation.
-	 *
-	 * @param int $targetId
-	 * @param Observation $o
-	 * @return bool
-	 */
-	private function observation(int $targetId, Observation $o): bool {
-		$valKib = in_array($o->metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($o->value) : null;
-
-		return db_execute_prepared('INSERT INTO plugin_pfs_observation (target_id, metric, value, value_kib, observed_at, ingested_at, source_node_id, expected_interval, continuity, start_marker, epoch)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE value = VALUES(value), value_kib = VALUES(value_kib), observed_at = VALUES(observed_at), ingested_at = VALUES(ingested_at), source_node_id = VALUES(source_node_id),
-				expected_interval = VALUES(expected_interval), continuity = VALUES(continuity), start_marker = VALUES(start_marker), epoch = VALUES(epoch)', [
-			$targetId, $o->metric, $o->value, $valKib, $o->observedAt, $o->ingestedAt, $o->sourceNodeId, $o->expectedInterval, $o->continuity->value, $o->startMarker ?? '', $o->epoch,
-		], true, $this->connection);
-	}
-
-	/**
 	 * Summary.
 	 *
-	 * @param int $filesystemId
-	 * @param string $metric
-	 * @param ?float $value
+	 * @param int     $filesystemId
+	 * @param string  $metric
+	 * @param ?float  $value
 	 * @param Summary $summary
+	 *
 	 * @return bool
 	 */
 	private function summary(int $filesystemId, string $metric, ?float $value, Summary $summary): bool {
 		$counter = Summary::counterOf($metric);
-		$valKib  = in_array($metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($value) : null;
+		$valKib  = isset(self::KIB_METRIC_MAP[$metric]) ? FramedReportParser::kibToUint64($value) : null;
 
 		// A rate row keeps its counter's read time, which the next run's rate
 		// is measured from (SummaryRepository).
@@ -211,6 +241,7 @@ final class CacheRepository {
 	 * Health.
 	 *
 	 * @param NodeHealth $h
+	 *
 	 * @return bool
 	 */
 	private function health(NodeHealth $h): bool {
@@ -227,6 +258,8 @@ final class CacheRepository {
 	 * failed statement outside it, so the transaction is checked after every
 	 * statement and the run's writes for this filesystem are abandoned when
 	 * it has ended.
+	 *
+	 * @return bool
 	 */
 	private function inTransaction(): bool {
 		return (int) db_fetch_cell_prepared('SELECT @@in_transaction', [], '', true, $this->connection) === 1;

@@ -24,7 +24,7 @@ namespace Somethingwithproof\Pfs;
  *
  * Partitions storage servers across concurrent reader workers or remote
  * Cacti pollers using platform-independent unsigned CRC32 modulo N so 5,000
- * to 50,000 targets complete reliably within a 5-minute polling window.
+ * to 100,000+ targets complete reliably within a 5-minute polling window.
  */
 final readonly class ShardAssigner {
 	/** Max shards constant. */
@@ -52,6 +52,10 @@ final readonly class ShardAssigner {
 
 	/**
 	 * Parse a 1-indexed shard specification of the form "K/N" (for example "1/4").
+	 *
+	 * @param string $spec shard specification
+	 *
+	 * @return self
 	 */
 	public static function parse(string $spec): self {
 		$trimmed = trim($spec);
@@ -65,9 +69,18 @@ final readonly class ShardAssigner {
 
 	/**
 	 * Compute the 1-indexed shard number (1..shardTotal) for an arbitrary key.
+	 *
+	 * On 64-bit PHP, masking crc32() with 0xFFFFFFFF produces the exact
+	 * unsigned 32-bit integer in one bitwise op without sprintf() string
+	 * allocation or re-parsing.
+	 *
+	 * @param string $key shard routing key
+	 *
+	 * @return int
 	 */
 	public function shardFor(string $key): int {
-		$unsigned = (int) sprintf('%u', crc32($key));
+		$crc      = crc32($key);
+		$unsigned = PHP_INT_SIZE >= 8 ? ($crc & 0xFFFFFFFF) : (int) sprintf('%u', $crc);
 
 		return ($unsigned % $this->shardTotal) + 1;
 	}
@@ -89,7 +102,7 @@ final readonly class ShardAssigner {
 	 * @return bool
 	 */
 	public function ownsNode(Node $node): bool {
-		return $this->owns(sprintf('node:%d:%s', $node->id, $node->name));
+		return $this->shardFor('node:' . $node->id . ':' . $node->name) === $this->shardIndex;
 	}
 
 	/**
@@ -100,7 +113,15 @@ final readonly class ShardAssigner {
 	 * @return list<Node>
 	 */
 	public function filterNodes(array $nodes): array {
-		return array_values(array_filter($nodes, fn (Node $node): bool => $this->ownsNode($node)));
+		$owned = [];
+
+		foreach ($nodes as $node) {
+			if ($this->shardFor('node:' . $node->id . ':' . $node->name) === $this->shardIndex) {
+				$owned[] = $node;
+			}
+		}
+
+		return $owned;
 	}
 
 	/**

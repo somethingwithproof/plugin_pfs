@@ -85,6 +85,10 @@ final class BeegfsBackend implements Backend {
 			new ValueSpec('queued_requests', ValueKind::Gauge, 'requests', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
 			new ValueSpec('read_bytes_int', ValueKind::Gauge, 'bytes', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
 			new ValueSpec('write_bytes_int', ValueKind::Gauge, 'bytes', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
+			new ValueSpec('chunk_queue_depth', ValueKind::Gauge, 'requests', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
+			new ValueSpec('lock_waiters', ValueKind::Gauge, 'waiters', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
+			new ValueSpec('evicted_clients', ValueKind::Gauge, 'clients', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
+			new ValueSpec('recovery_duration_s', ValueKind::Gauge, 'seconds', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
 			new ValueSpec('kbytes_total', ValueKind::Gauge, 'KiB', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
 			new ValueSpec('kbytes_free', ValueKind::Gauge, 'KiB', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
 			new ValueSpec('kbytes_avail', ValueKind::Gauge, 'KiB', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
@@ -92,31 +96,43 @@ final class BeegfsBackend implements Backend {
 			new ValueSpec('files_free', ValueKind::Gauge, 'files', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
 			new ValueSpec('work_requests', ValueKind::Gauge, 'requests', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
 			new ValueSpec('queued_requests', ValueKind::Gauge, 'requests', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
+			new ValueSpec('lock_waiters', ValueKind::Gauge, 'waiters', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
+			new ValueSpec('evicted_clients', ValueKind::Gauge, 'clients', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
+			new ValueSpec('recovery_duration_s', ValueKind::Gauge, 'seconds', TargetType::Mdt, [NodeRole::Mds, NodeRole::Mgs]),
 		];
 	}
 
 	/**
-	 * Parse a framed node report into structured targets and observations.
+	 * Parse a framed node report into structured targets, observations, RPC
+	 * latency quantiles, chunkserver/lock stalls, and recovery counters.
 	 *
 	 * @param string $output
 	 * @return NodeReport
 	 */
 	public function parse(string $output): NodeReport {
+		$rpcLatency = new RpcLatencyMetrics();
+
 		return FramedReportParser::parseReport(
 			$output,
 			self::PROTOCOL,
 			self::END,
 			self::MAX_SECTIONS,
 			$this->values(),
-			function (string $section, array $body, array &$targets, int &$rejected, bool &$partial): bool {
+			function (string $section, array $body, array &$targets, int &$rejected, bool &$partial) use ($rpcLatency): bool {
 				if ($section === 'storage_targets') {
-					$this->parseTargets($body, TargetType::Ost, $targets, $rejected, $partial);
+					$this->parseTargets($body, TargetType::Ost, $targets, $rejected, $partial, $rpcLatency);
 
 					return true;
 				}
 
 				if ($section === 'meta_targets') {
-					$this->parseTargets($body, TargetType::Mdt, $targets, $rejected, $partial);
+					$this->parseTargets($body, TargetType::Mdt, $targets, $rejected, $partial, $rpcLatency);
+
+					return true;
+				}
+
+				if ($section === 'rpc_latency') {
+					FramedReportParser::parseRpcLatencyLines($body, $rpcLatency);
 
 					return true;
 				}
@@ -124,6 +140,34 @@ final class BeegfsBackend implements Backend {
 				return false;
 			},
 			static fn (array $lines): ?string => self::parseVersion($lines),
+			$rpcLatency,
+			static function (array $reports): ?StallMetrics {
+				$maxChunkQueue = null;
+				$lockWaiters   = null;
+
+				foreach ($reports as $target) {
+					$q = $target->values['chunk_queue_depth'] ?? null;
+
+					if ($q !== null) {
+						$maxChunkQueue = $maxChunkQueue === null ? $q : max($maxChunkQueue, $q);
+					}
+
+					$w = $target->values['lock_waiters'] ?? null;
+
+					if ($w !== null) {
+						$lockWaiters = ($lockWaiters ?? 0.0) + $w;
+					}
+				}
+
+				if ($maxChunkQueue === null && $lockWaiters === null) {
+					return null;
+				}
+
+				return new StallMetrics(
+					chunkQueueDepth: $maxChunkQueue,
+					lockWaiters: $lockWaiters,
+				);
+			},
 		);
 	}
 
@@ -131,12 +175,18 @@ final class BeegfsBackend implements Backend {
 	 * Parse target lines:
 	 *   target fs=<name> id=<int> reachability=online|probably-offline|offline consistency=GOOD|NEEDS_RESYNC|BAD
 	 *     disk_space_total=<bytes> disk_space_free=<bytes> inodes_total=<n> inodes_free=<n>
-	 *     [work_requests=<n> queued_requests=<n> disk_read_bytes=<n> disk_write_bytes=<n>]
+	 *     [work_requests=<n> queued_requests=<n> disk_read_bytes=<n> disk_write_bytes=<n>
+	 *      chunk_queue_depth=<n> lock_waiters=<n> evicted_clients=<n> recovery_duration_s=<n>
+	 *      read_latency_us=<n> write_latency_us=<n> meta_latency_us=<n>]
 	 *
-	 * @param list<string>                                                                                    $lines
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets
+	 * @param list<string>                                                                                                                                                                     $lines
+	 * @param TargetType                                                                                                                                                                       $type
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string, recovery?: ?string, recovery_duration_s?: ?float, evicted_clients?: ?int}> $targets
+	 * @param int                                                                                                                                                                              $rejected
+	 * @param bool                                                                                                                                                                             $partial
+	 * @param RpcLatencyMetrics                                                                                                                                                                $rpcLatency
 	 */
-	private function parseTargets(array $lines, TargetType $type, array &$targets, int &$rejected, bool &$partial): void {
+	private function parseTargets(array $lines, TargetType $type, array &$targets, int &$rejected, bool &$partial, RpcLatencyMetrics $rpcLatency): void {
 		$seenTarget = [];
 
 		foreach ($lines as $rawLine) {
@@ -150,7 +200,7 @@ final class BeegfsBackend implements Backend {
 			$fs     = $fields['fs'] ?? '';
 			$idRaw  = $fields['id'] ?? ($fields['target_id'] ?? '');
 
-			if (preg_match($this->filesystemPattern(), $fs) !== 1 || preg_match('/^[0-9]{1,5}$/', $idRaw) !== 1) {
+			if (preg_match($this->filesystemPattern(), $fs) !== 1 || !ctype_digit($idRaw) || strlen($idRaw) > 5) {
 				$rejected++;
 
 				continue;
@@ -177,30 +227,67 @@ final class BeegfsBackend implements Backend {
 
 			$seenTarget[$name] = true;
 
-			$condition = self::mapCondition($fields['reachability'] ?? '', $fields['consistency'] ?? '');
+			$consistency = strtoupper(trim($fields['consistency'] ?? ''));
+			$condition   = self::mapCondition($fields['reachability'] ?? '', $consistency);
+			$evicted     = FramedReportParser::uint($fields['evicted_clients'] ?? null);
+			$recDur      = FramedReportParser::nonNegFloat($fields['recovery_duration_s'] ?? null);
+			$recovery    = null;
 
-			// Convert raw byte counts directly to integer KiB via exact decimal
+			if (isset($fields['recovery_state'])) {
+				$rawRec = strtoupper(trim($fields['recovery_state']));
+
+				if (preg_match('/^[A-Z_]{1,32}$/', $rawRec) === 1) {
+					$recovery = $rawRec;
+				}
+			} elseif ($consistency === 'NEEDS_RESYNC') {
+				$recovery = 'NEEDS_RESYNC';
+			}
+
+			// Convert raw byte counts directly to integer KiB via exact integer
 			// division so 500 PB and 2 EB targets keep full integer precision.
 			$values = [
-				'kbytes_total'    => FramedReportParser::bytesToKib($fields['disk_space_total'] ?? null),
-				'kbytes_free'     => FramedReportParser::bytesToKib($fields['disk_space_free'] ?? null),
-				'kbytes_avail'    => FramedReportParser::bytesToKib($fields['disk_space_avail'] ?? ($fields['disk_space_free'] ?? null)),
-				'files_total'     => FramedReportParser::uint($fields['inodes_total'] ?? null),
-				'files_free'      => FramedReportParser::uint($fields['inodes_free'] ?? null),
-				'work_requests'   => FramedReportParser::uint($fields['work_requests'] ?? null),
-				'queued_requests' => FramedReportParser::uint($fields['queued_requests'] ?? null),
+				'kbytes_total'        => FramedReportParser::bytesToKib($fields['disk_space_total'] ?? null),
+				'kbytes_free'         => FramedReportParser::bytesToKib($fields['disk_space_free'] ?? null),
+				'kbytes_avail'        => FramedReportParser::bytesToKib($fields['disk_space_avail'] ?? ($fields['disk_space_free'] ?? null)),
+				'files_total'         => FramedReportParser::uint($fields['inodes_total'] ?? null),
+				'files_free'          => FramedReportParser::uint($fields['inodes_free'] ?? null),
+				'work_requests'       => FramedReportParser::uint($fields['work_requests'] ?? null),
+				'queued_requests'     => FramedReportParser::uint($fields['queued_requests'] ?? null),
+				'lock_waiters'        => FramedReportParser::uint($fields['lock_waiters'] ?? null),
+				'evicted_clients'     => $evicted,
+				'recovery_duration_s' => $recDur,
 			];
 
 			if ($type === TargetType::Ost) {
-				$values['read_bytes_int']  = FramedReportParser::uint($fields['disk_read_bytes'] ?? null);
-				$values['write_bytes_int'] = FramedReportParser::uint($fields['disk_write_bytes'] ?? null);
+				$values['read_bytes_int']    = FramedReportParser::uint($fields['disk_read_bytes'] ?? null);
+				$values['write_bytes_int']   = FramedReportParser::uint($fields['disk_write_bytes'] ?? null);
+				$values['chunk_queue_depth'] = FramedReportParser::nonNegFloat($fields['chunk_queue_depth'] ?? null);
+			}
+
+			$readUs  = FramedReportParser::nonNegFloat($fields['read_latency_us'] ?? null);
+			$writeUs = FramedReportParser::nonNegFloat($fields['write_latency_us'] ?? null);
+			$metaUs  = FramedReportParser::nonNegFloat($fields['meta_latency_us'] ?? null);
+
+			if ($readUs !== null) {
+				$rpcLatency->recordReadUs($readUs);
+			}
+
+			if ($writeUs !== null) {
+				$rpcLatency->recordWriteUs($writeUs);
+			}
+
+			if ($metaUs !== null) {
+				$rpcLatency->recordMetadataUs($metaUs);
 			}
 
 			$targets[$name] = [
-				'id'        => $targetId,
-				'values'    => $values,
-				'condition' => $condition,
-				'start'     => null,
+				'id'                  => $targetId,
+				'values'              => $values,
+				'condition'           => $condition,
+				'start'               => null,
+				'recovery'            => $recovery,
+				'recovery_duration_s' => $recDur,
+				'evicted_clients'     => $evicted !== null ? (int) round($evicted) : null,
 			];
 		}
 	}
@@ -240,6 +327,10 @@ final class BeegfsBackend implements Backend {
 	}
 
 	/**
+	 * Parse key=value tokens from a single line.
+	 *
+	 * @param string $line
+	 *
 	 * @return array<string, string>
 	 */
 	private static function parseKeyValues(string $line): array {
@@ -247,7 +338,11 @@ final class BeegfsBackend implements Backend {
 	}
 
 	/**
+	 * Parse BeeGFS version line.
+	 *
 	 * @param list<string> $lines
+	 *
+	 * @return ?string
 	 */
 	private static function parseVersion(array $lines): ?string {
 		$text = trim(implode("\n", $lines));

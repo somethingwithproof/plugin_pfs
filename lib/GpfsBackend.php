@@ -24,7 +24,8 @@ namespace Somethingwithproof\Pfs;
  *
  * Parses framed output from a restricted node-side wrapper (#pfs-gpfs 1 ...
  * #pfs-gpfs end) that runs read-only mmpmon (-p -s with fs_io_s/io_s only,
- * never reset), mmdf capacity output, and waiter summaries.
+ * never reset), mmdf capacity output, waiter summaries, NSD queue/pagepool
+ * telemetry, and optional RPC latency lines.
  *
  * Maps NSD/data pools to TargetType::Ost (<fs>-OST<nnnn>) and metadata pools
  * to TargetType::Mdt (<fs>-MDT<nnnn>) so the unified plugin_pfs target,
@@ -95,6 +96,10 @@ final class GpfsBackend implements Backend {
 			new ValueSpec('write_ops', ValueKind::Counter, 'operations', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
 			new ValueSpec('waiters_count', ValueKind::Gauge, 'waiters', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
 			new ValueSpec('waiters_max_sec', ValueKind::Gauge, 'seconds', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
+			new ValueSpec('nsd_queue_depth', ValueKind::Gauge, 'requests', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
+			new ValueSpec('pagepool_hit_pct', ValueKind::Gauge, 'percent', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
+			new ValueSpec('evicted_clients', ValueKind::Gauge, 'clients', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
+			new ValueSpec('recovery_duration_s', ValueKind::Gauge, 'seconds', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
 			new ValueSpec('kbytes_total', ValueKind::Gauge, 'KiB', TargetType::Mdt, [NodeRole::Mds, NodeRole::Client]),
 			new ValueSpec('kbytes_free', ValueKind::Gauge, 'KiB', TargetType::Mdt, [NodeRole::Mds, NodeRole::Client]),
 			new ValueSpec('kbytes_avail', ValueKind::Gauge, 'KiB', TargetType::Mdt, [NodeRole::Mds, NodeRole::Client]),
@@ -108,19 +113,22 @@ final class GpfsBackend implements Backend {
 	}
 
 	/**
-	 * Parse a framed node report into structured targets and observations.
+	 * Parse a framed node report into structured targets, observations, RPC
+	 * latency quantiles, NSD/pagepool stalls, and recovery counters.
 	 *
 	 * @param string $output
 	 * @return NodeReport
 	 */
 	public function parse(string $output): NodeReport {
+		$rpcLatency = new RpcLatencyMetrics();
+
 		return FramedReportParser::parseReport(
 			$output,
 			self::PROTOCOL,
 			self::END,
 			self::MAX_SECTIONS,
 			$this->values(),
-			function (string $section, array $body, array &$targets, int &$rejected, bool &$partial): bool {
+			function (string $section, array $body, array &$targets, int &$rejected, bool &$partial) use ($rpcLatency): bool {
 				if ($section === 'mmpmon_fs_io_s') {
 					$this->parseMmpmon($body, $targets, $rejected, $partial);
 
@@ -139,9 +147,51 @@ final class GpfsBackend implements Backend {
 					return true;
 				}
 
+				if ($section === 'nsd_stats') {
+					$this->parseNsdStats($body, $targets, $rejected);
+
+					return true;
+				}
+
+				if ($section === 'rpc_latency') {
+					FramedReportParser::parseRpcLatencyLines($body, $rpcLatency);
+
+					return true;
+				}
+
 				return false;
 			},
 			static fn (array $lines): ?string => self::parseVersion($lines),
+			$rpcLatency,
+			static function (array $reports): ?StallMetrics {
+				$maxQueue = null;
+				$hitSum   = 0.0;
+				$hitCount = 0;
+
+				foreach ($reports as $target) {
+					$q = $target->values['nsd_queue_depth'] ?? null;
+
+					if ($q !== null) {
+						$maxQueue = $maxQueue === null ? $q : max($maxQueue, $q);
+					}
+
+					$hit = $target->values['pagepool_hit_pct'] ?? null;
+
+					if ($hit !== null) {
+						$hitSum += $hit;
+						$hitCount++;
+					}
+				}
+
+				if ($maxQueue === null && $hitCount === 0) {
+					return null;
+				}
+
+				return new StallMetrics(
+					nsdQueueDepth: $maxQueue,
+					pagepoolHitPct: $hitCount > 0 ? round($hitSum / $hitCount, 2) : null,
+				);
+			},
 		);
 	}
 
@@ -149,8 +199,8 @@ final class GpfsBackend implements Backend {
 	 * Parse mmpmon -p -s fs_io_s lines (Table 8, docs/research/mmpmon.md).
 	 * Rejects non-zero _rc_ or any reset response (REQ-GPFS-001, REQ-GPFS-002).
 	 *
-	 * @param list<string>                                                                                    $lines
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets
+	 * @param list<string>                                                                                                                                                                     $lines
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string, recovery?: ?string, recovery_duration_s?: ?float, evicted_clients?: ?int}> $targets
 	 */
 	private function parseMmpmon(array $lines, array &$targets, int &$rejected, bool &$partial): void {
 		foreach ($lines as $rawLine) {
@@ -162,7 +212,15 @@ final class GpfsBackend implements Backend {
 
 			$tokens = preg_split('/\s+/', $line);
 
-			if (!is_array($tokens) || count($tokens) < 4) {
+			if (!is_array($tokens)) {
+				$rejected++;
+
+				continue;
+			}
+
+			$tokenCount = count($tokens);
+
+			if ($tokenCount < 4) {
 				$rejected++;
 
 				continue;
@@ -185,12 +243,14 @@ final class GpfsBackend implements Backend {
 
 			$kv = [];
 
-			for ($i = 1; $i + 1 < count($tokens); $i += 2) {
-				if (preg_match('/^_[a-z]{1,4}_$/', $tokens[$i]) !== 1) {
+			for ($i = 1; $i + 1 < $tokenCount; $i += 2) {
+				$tok = $tokens[$i];
+
+				if (preg_match('/^_[a-z]{1,4}_$/', $tok) !== 1) {
 					continue;
 				}
 
-				$kv[$tokens[$i]] = $tokens[$i + 1];
+				$kv[$tok] = $tokens[$i + 1];
 			}
 
 			if (($kv['_rc_'] ?? '') !== '0') {
@@ -231,11 +291,11 @@ final class GpfsBackend implements Backend {
 	}
 
 	/**
-	 * Parse mmdf pool/NSD capacity records in key=value or colon-delimited form:
-	 *   pool fs=<name> type=ost|mdt index=<int> kbytes_total=<n> kbytes_free=<n> kbytes_avail=<n> files_total=<n> files_free=<n> state=up|degraded|readonly|nocreate
+	 * Parse mmdf pool/NSD capacity records in key=value form:
+	 *   pool fs=<name> type=ost|mdt index=<int> kbytes_total=<n> kbytes_free=<n> kbytes_avail=<n> files_total=<n> files_free=<n> state=up|degraded|recovering|readonly|nocreate
 	 *
-	 * @param list<string>                                                                                    $lines
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets
+	 * @param list<string>                                                                                                                                                                     $lines
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string, recovery?: ?string, recovery_duration_s?: ?float, evicted_clients?: ?int}> $targets
 	 */
 	private function parseMmdf(array $lines, array &$targets, int &$rejected): void {
 		foreach ($lines as $rawLine) {
@@ -254,7 +314,7 @@ final class GpfsBackend implements Backend {
 			};
 			$indexRaw = $fields['index'] ?? '';
 
-			if ($type === null || preg_match($this->filesystemPattern(), $fs) !== 1 || preg_match('/^[0-9]{1,5}$/', $indexRaw) !== 1) {
+			if ($type === null || preg_match($this->filesystemPattern(), $fs) !== 1 || !ctype_digit($indexRaw) || strlen($indexRaw) > 5) {
 				$rejected++;
 
 				continue;
@@ -268,10 +328,11 @@ final class GpfsBackend implements Backend {
 				continue;
 			}
 
-			$id   = new TargetId($fs, $type, $index);
-			$name = $id->name();
+			$id       = new TargetId($fs, $type, $index);
+			$name     = $id->name();
+			$stateRaw = strtolower($fields['state'] ?? '');
 
-			$condition = match (strtolower($fields['state'] ?? '')) {
+			$condition = match ($stateRaw) {
 				'up', 'ready', 'in_service', 'ok' => Condition::InService,
 				'degraded', 'recovering'          => Condition::Degraded,
 				'readonly', 'ro'                  => Condition::ReadOnly,
@@ -279,22 +340,31 @@ final class GpfsBackend implements Backend {
 				default                           => Condition::Unknown,
 			};
 
-			$targets[$name] ??= ['id' => $id, 'values' => [], 'condition' => Condition::Unknown, 'start' => null];
+			if (!isset($targets[$name])) {
+				$targets[$name] = ['id' => $id, 'values' => [], 'condition' => Condition::Unknown, 'start' => null];
+			}
+
 			$targets[$name]['condition']              = self::worstCondition($targets[$name]['condition'], $condition);
 			$targets[$name]['values']['kbytes_total'] = self::uint($fields['kbytes_total'] ?? null);
 			$targets[$name]['values']['kbytes_free']  = self::uint($fields['kbytes_free'] ?? null);
 			$targets[$name]['values']['kbytes_avail'] = self::uint($fields['kbytes_avail'] ?? ($fields['kbytes_free'] ?? null));
 			$targets[$name]['values']['files_total']  = self::uint($fields['files_total'] ?? null);
 			$targets[$name]['values']['files_free']   = self::uint($fields['files_free'] ?? null);
+
+			if ($stateRaw === 'recovering') {
+				$targets[$name]['recovery'] = 'RECOVERING';
+			}
+
+			self::applyOptionalGpfsTelemetry($fields, $targets[$name]);
 		}
 	}
 
 	/**
 	 * Parse GPFS waiter status lines:
-	 *   waiters fs=<name> index=<int> count=<n> max_sec=<n>
+	 *   waiters fs=<name> index=<int> count=<n> max_sec=<n> [nsd_queue_depth=<n> evicted_clients=<n> recovery_duration_s=<n>]
 	 *
-	 * @param list<string>                                                                                    $lines
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets
+	 * @param list<string>                                                                                                                                                                     $lines
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string, recovery?: ?string, recovery_duration_s?: ?float, evicted_clients?: ?int}> $targets
 	 */
 	private function parseWaiters(array $lines, array &$targets, int &$rejected): void {
 		foreach ($lines as $rawLine) {
@@ -308,7 +378,7 @@ final class GpfsBackend implements Backend {
 			$fs       = $fields['fs'] ?? '';
 			$indexRaw = $fields['index'] ?? '0';
 
-			if (preg_match($this->filesystemPattern(), $fs) !== 1 || preg_match('/^[0-9]{1,5}$/', $indexRaw) !== 1) {
+			if (preg_match($this->filesystemPattern(), $fs) !== 1 || !ctype_digit($indexRaw) || strlen($indexRaw) > 5) {
 				$rejected++;
 
 				continue;
@@ -327,18 +397,124 @@ final class GpfsBackend implements Backend {
 			$count  = self::uint($fields['count'] ?? null);
 			$maxSec = self::nonNegFloat($fields['max_sec'] ?? null);
 
-			$targets[$name] ??= ['id' => $id, 'values' => [], 'condition' => Condition::Unknown, 'start' => null];
+			if (!isset($targets[$name])) {
+				$targets[$name] = ['id' => $id, 'values' => [], 'condition' => Condition::Unknown, 'start' => null];
+			}
+
 			$targets[$name]['values']['waiters_count']   = $count;
 			$targets[$name]['values']['waiters_max_sec'] = $maxSec;
 
 			if ($maxSec !== null && $maxSec >= 30.0) {
 				$targets[$name]['condition'] = self::worstCondition($targets[$name]['condition'], Condition::Degraded);
 			}
+
+			self::applyOptionalGpfsTelemetry($fields, $targets[$name]);
 		}
 	}
 
 	/**
+	 * Parse GPFS NSD server queue depth, pagepool hit ratio, and recovery/eviction lines:
+	 *   nsd fs=<name> [index=<int>] [nsd_queue_depth=<n>|queue_depth=<n>] [pagepool_hit_pct=<0..100>]
+	 *       [pagepool_hits=<n> pagepool_misses=<n>] [evicted_clients=<n>] [recovery_duration_s=<n>] [recovery_state=<STATE>]
+	 *
+	 * @param list<string>                                                                                                                                                                     $lines
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string, recovery?: ?string, recovery_duration_s?: ?float, evicted_clients?: ?int}> $targets
+	 */
+	private function parseNsdStats(array $lines, array &$targets, int &$rejected): void {
+		foreach ($lines as $rawLine) {
+			$line = trim($rawLine);
+
+			if ($line === '' || str_starts_with($line, '#')) {
+				continue;
+			}
+
+			$fields   = self::parseKeyValues($line);
+			$fs       = $fields['fs'] ?? '';
+			$indexRaw = $fields['index'] ?? '0';
+
+			if (preg_match($this->filesystemPattern(), $fs) !== 1 || !ctype_digit($indexRaw) || strlen($indexRaw) > 5) {
+				$rejected++;
+
+				continue;
+			}
+
+			$index = (int) $indexRaw;
+
+			if ($index > 65535) {
+				$rejected++;
+
+				continue;
+			}
+
+			$id   = new TargetId($fs, TargetType::Ost, $index);
+			$name = $id->name();
+
+			if (!isset($targets[$name])) {
+				$targets[$name] = ['id' => $id, 'values' => [], 'condition' => Condition::Unknown, 'start' => null];
+			}
+
+			self::applyOptionalGpfsTelemetry($fields, $targets[$name]);
+		}
+	}
+
+	/**
+	 * Apply optional NSD queue depth, pagepool hit ratio, eviction, and recovery
+	 * fields onto a GPFS target entry.
+	 *
+	 * @param array<string, string>                                                                                                                                          $fields
+	 * @param array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string, recovery?: ?string, recovery_duration_s?: ?float, evicted_clients?: ?int} $entry
+	 */
+	private static function applyOptionalGpfsTelemetry(array $fields, array &$entry): void {
+		$queue = self::nonNegFloat($fields['nsd_queue_depth'] ?? ($fields['queue_depth'] ?? null));
+
+		if ($queue !== null) {
+			$entry['values']['nsd_queue_depth'] = $queue;
+		}
+
+		$hitPct = FramedReportParser::percent($fields['pagepool_hit_pct'] ?? null);
+
+		if ($hitPct === null && isset($fields['pagepool_hits'], $fields['pagepool_misses'])) {
+			$hits   = self::uint($fields['pagepool_hits']);
+			$misses = self::uint($fields['pagepool_misses']);
+
+			if ($hits !== null && $misses !== null && ($hits + $misses) > 0.0) {
+				$hitPct = round(($hits / ($hits + $misses)) * 100.0, 2);
+			}
+		}
+
+		if ($hitPct !== null) {
+			$entry['values']['pagepool_hit_pct'] = $hitPct;
+		}
+
+		$evicted = self::uint($fields['evicted_clients'] ?? null);
+
+		if ($evicted !== null) {
+			$entry['values']['evicted_clients'] = $evicted;
+			$entry['evicted_clients']           = (int) round($evicted);
+		}
+
+		$recDur = self::nonNegFloat($fields['recovery_duration_s'] ?? null);
+
+		if ($recDur !== null) {
+			$entry['values']['recovery_duration_s'] = $recDur;
+			$entry['recovery_duration_s']           = $recDur;
+		}
+
+		if (isset($fields['recovery_state'])) {
+			$recState = strtoupper(trim($fields['recovery_state']));
+
+			if (preg_match('/^[A-Z_]{1,32}$/', $recState) === 1) {
+				$entry['recovery'] = $recState;
+			}
+		}
+	}
+
+	/**
+	 * Parse IBM Storage Scale / GPFS version line.
+	 *
 	 * @param list<string> $lines
+	 *
+	 * @return ?string
 	 */
 	private static function parseVersion(array $lines): ?string {
 		$text = trim(implode("\n", $lines));
@@ -357,6 +533,10 @@ final class GpfsBackend implements Backend {
 	}
 
 	/**
+	 * Parse key=value tokens from a single line.
+	 *
+	 * @param string $line
+	 *
 	 * @return array<string, string>
 	 */
 	private static function parseKeyValues(string $line): array {
@@ -370,11 +550,7 @@ final class GpfsBackend implements Backend {
 	 * @return ?float
 	 */
 	private static function nonNegFloat(?string $raw): ?float {
-		if ($raw === null) {
-			return null;
-		}
-
-		return preg_match('/^[0-9]{1,12}(?:\.[0-9]{1,6})?$/', trim($raw)) === 1 ? (float) trim($raw) : null;
+		return FramedReportParser::nonNegFloat($raw);
 	}
 
 	/**
