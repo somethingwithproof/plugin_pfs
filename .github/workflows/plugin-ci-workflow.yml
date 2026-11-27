@@ -118,7 +118,7 @@ jobs:
         php-version: ${{ matrix.php }}
         tools: composer:2.10.3, phpstan:2.3.5
         extensions: intl, mysql, gd, ldap, gmp, xml, json, mbstring, openssl, snmp
-        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York, opcache.jit=0"
+        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York, opcache.jit=disable, opcache.jit_buffer_size=0"
         coverage: ${{ matrix.php == '8.4' && matrix.cacti == 'release/1.2.31' && 'pcov' || 'none' }}
 
     - name: Install system dependencies
@@ -253,7 +253,7 @@ jobs:
       env:
         PFS_TEST_DATABASE: disposable
       run: |
-        php -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
+        php -d opcache.enable=0 -d opcache.jit=disable -d opcache.jit_buffer_size=0 -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
         for _ in 1 2 3 4 5 6 7 8 9 10; do
           curl -fsS -o /dev/null http://127.0.0.1:8080/cacti/index.php && break
           sleep 1
@@ -390,7 +390,7 @@ jobs:
         PFS_TEST_DATABASE: disposable
         PFS_EXPECT_REFUSAL: '1'
       run: |
-        php -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
+        php -d opcache.enable=0 -d opcache.jit=disable -d opcache.jit_buffer_size=0 -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
         for _ in 1 2 3 4 5 6 7 8 9 10; do
           curl -fsS -o /dev/null http://127.0.0.1:8080/cacti/index.php && break
           sleep 1
