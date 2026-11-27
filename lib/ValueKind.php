@@ -25,6 +25,8 @@ namespace Somethingwithproof\Pfs;
  * milestone 3 (ADR 0005); a gauge is a level read as it stands.
  */
 enum ValueKind: string {
+	/** ValueKind gauge case. */
 	case Gauge   = 'gauge';
+	/** ValueKind counter case. */
 	case Counter = 'counter';
 }

@@ -32,7 +32,7 @@ const PFS_TABLES = [
 	'plugin_pfs_target',
 ];
 
-const PFS_HOOKS = ['abilities_register', 'api_device_new', 'auth_alternate_realms', 'casc_register_providers', 'config_arrays', 'config_settings', 'device_remove', 'doctor_register_checks', 'draw_navigation_text', 'graph_buttons', 'poller_bottom', 'remote_agent', 'replicate_out'];
+const PFS_HOOKS = ['abilities_register', 'api_device_new', 'api_register_resources', 'auth_alternate_realms', 'casc_register_providers', 'config_arrays', 'config_settings', 'device_remove', 'doctor_register_checks', 'doctor_register_debug_info', 'draw_navigation_text', 'graph_buttons', 'poller_bottom', 'remote_agent', 'replicate_out'];
 
 const PFS_T = 1800000000;
 
@@ -292,6 +292,38 @@ it('moves a milestone 4 record of created devices from its setting into the tabl
 		->and($state['created_devices'])->toBe('[5,1234567]')
 		->and($state['legacy_created_devices'])->toBe('')
 		->and($state['tracked'])->toBe(PFS_TABLES);
+});
+
+it('upgrades from the prior main schema (version 3) to schema version 4 cleanly and idempotently', function () {
+	lifecycle('install');
+	lifecycle('seed');
+	lifecycle('to_schema_3');
+
+	$before = lifecycle('state');
+	expect($before['schema'])->toEqual('3')
+		->and($before['value_kib_columns'])->toBe(['observation' => false, 'summary' => false])
+		->and($before['tables']['plugin_pfs_observation'])->toBe(1)
+		->and($before['tables']['plugin_pfs_summary'])->toBe(1)
+		->and(count($before['hooks']))->toBe(8);
+
+	$first = lifecycle('upgrade');
+	expect($first['result'])->toBeTrue()
+		->and($first['schema'])->toEqual('4')
+		->and($first['value_kib_columns'])->toBe(['observation' => true, 'summary' => true])
+		->and(array_keys($first['hooks']))->toBe(PFS_HOOKS)
+		->and($first['tables']['plugin_pfs_filesystem'])->toBe(1)
+		->and($first['tables']['plugin_pfs_observation'])->toBe(1)
+		->and($first['tables']['plugin_pfs_summary'])->toBe(1)
+		->and($first['tracked'])->toBe(PFS_TABLES);
+
+	foreach ([lifecycle('upgrade'), lifecycle('upgrade')] as $repeat) {
+		expect($repeat['result'])->toBeTrue()
+			->and($repeat['schema'])->toEqual('4')
+			->and($repeat['value_kib_columns'])->toBe(['observation' => true, 'summary' => true])
+			->and($repeat['hooks'])->toBe($first['hooks'])
+			->and($repeat['tables'])->toBe($first['tables'])
+			->and($repeat['tracked'])->toBe(PFS_TABLES);
+	}
 });
 
 it('grants realms on install but never on a repair a viewer triggers', function () {

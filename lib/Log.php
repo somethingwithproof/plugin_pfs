@@ -27,18 +27,38 @@ namespace Somethingwithproof\Pfs;
  * is counted, never quoted.
  */
 final class Log {
+	/**
+	 * Debug.
+	 *
+	 * @param string $message
+	 */
 	public static function debug(string $message): void {
 		cacti_log('DEBUG: ' . $message, false, 'PFS', POLLER_VERBOSITY_DEBUG);
 	}
 
+	/**
+	 * Info.
+	 *
+	 * @param string $message
+	 */
 	public static function info(string $message): void {
 		cacti_log('NOTE: ' . $message, false, 'PFS', POLLER_VERBOSITY_MEDIUM);
 	}
 
+	/**
+	 * Warning.
+	 *
+	 * @param string $message
+	 */
 	public static function warning(string $message): void {
 		cacti_log('WARNING: ' . $message, false, 'PFS');
 	}
 
+	/**
+	 * Error.
+	 *
+	 * @param string $message
+	 */
 	public static function error(string $message): void {
 		cacti_log('ERROR: ' . $message, false, 'PFS');
 	}

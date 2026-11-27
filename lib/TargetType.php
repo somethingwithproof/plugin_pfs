@@ -24,9 +24,16 @@ namespace Somethingwithproof\Pfs;
  * as a list position.
  */
 enum TargetType: string {
+	/** TargetType ost case. */
 	case Ost = 'ost';
+	/** TargetType mdt case. */
 	case Mdt = 'mdt';
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return strtoupper($this->value);
 	}

@@ -31,7 +31,9 @@ namespace Somethingwithproof\Pfs;
  * summary, imbalance, and reset-detection model works across filesystems.
  */
 final class GpfsBackend implements Backend {
+	/** Protocol constant. */
 	public const PROTOCOL = '#pfs-gpfs 1';
+	/** End constant. */
 	public const END      = '#pfs-gpfs end';
 
 	/**
@@ -45,20 +47,41 @@ final class GpfsBackend implements Backend {
 		'mutating_requests_banned' => ['reset', 'vio_s_reset'],
 	];
 
+	/** Max sections constant. */
 	private const MAX_SECTIONS = 20000;
 
+	/**
+	 * Return the canonical backend identifier.
+	 *
+	 * @return string
+	 */
 	public function id(): string {
 		return 'gpfs';
 	}
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return 'IBM Storage Scale (GPFS)';
 	}
 
+	/**
+	 * Return the validation regex for filesystem names on this backend.
+	 *
+	 * @return string
+	 */
 	public function filesystemPattern(): string {
 		return '/^[A-Za-z0-9_-]{1,8}$/';
 	}
 
+	/**
+	 * Return the metric value specifications supported by this backend.
+	 *
+	 * @return list<ValueSpec>
+	 */
 	public function values(): array {
 		return [
 			new ValueSpec('kbytes_total', ValueKind::Gauge, 'KiB', TargetType::Ost, [NodeRole::Oss, NodeRole::Client]),
@@ -84,6 +107,12 @@ final class GpfsBackend implements Backend {
 		];
 	}
 
+	/**
+	 * Parse a framed node report into structured targets and observations.
+	 *
+	 * @param string $output
+	 * @return NodeReport
+	 */
 	public function parse(string $output): NodeReport {
 		return FramedReportParser::parseReport(
 			$output,
@@ -317,6 +346,12 @@ final class GpfsBackend implements Backend {
 		return preg_match('/^(?:gpfs:\s*|scale:\s*)?([0-9][0-9A-Za-z._-]{0,31})$/', $text, $m) === 1 ? $m[1] : null;
 	}
 
+	/**
+	 * Uint.
+	 *
+	 * @param ?string $raw
+	 * @return ?float
+	 */
 	private static function uint(?string $raw): ?float {
 		return FramedReportParser::uint($raw);
 	}
@@ -328,6 +363,12 @@ final class GpfsBackend implements Backend {
 		return FramedReportParser::parseKeyValues($line);
 	}
 
+	/**
+	 * Non neg float.
+	 *
+	 * @param ?string $raw
+	 * @return ?float
+	 */
 	private static function nonNegFloat(?string $raw): ?float {
 		if ($raw === null) {
 			return null;
@@ -336,6 +377,13 @@ final class GpfsBackend implements Backend {
 		return preg_match('/^[0-9]{1,12}(?:\.[0-9]{1,6})?$/', trim($raw)) === 1 ? (float) trim($raw) : null;
 	}
 
+	/**
+	 * Worst condition.
+	 *
+	 * @param Condition $a
+	 * @param Condition $b
+	 * @return Condition
+	 */
 	private static function worstCondition(Condition $a, Condition $b): Condition {
 		$rank = static fn (Condition $c): int => match ($c) {
 			Condition::OutOfSpace => 6,

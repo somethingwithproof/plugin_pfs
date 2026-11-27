@@ -19,7 +19,15 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Persistence layer for per-node last-read health records.
+ */
 final class NodeHealthRepository {
+	/**
+	 * Initialize NodeHealthRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 

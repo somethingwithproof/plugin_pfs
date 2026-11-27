@@ -19,7 +19,15 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Production Clock backed by PHP time().
+ */
 final class SystemClock implements Clock {
+	/**
+	 * Return the current Unix timestamp in seconds.
+	 *
+	 * @return int
+	 */
 	public function now(): int {
 		return time();
 	}

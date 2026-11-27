@@ -43,14 +43,29 @@ final readonly class NodeReport {
 	) {
 	}
 
+	/**
+	 * Unframed.
+	 *
+	 * @return self
+	 */
 	public static function unframed(): self {
 		return new self(false, false, false, null, [], 0, 0);
 	}
 
+	/**
+	 * Usable.
+	 *
+	 * @return bool
+	 */
 	public function usable(): bool {
 		return $this->framed && $this->complete;
 	}
 
+	/**
+	 * Error.
+	 *
+	 * @return ?ReadError
+	 */
 	public function error(): ?ReadError {
 		return match (true) {
 			!$this->framed   => ReadError::Unframed,

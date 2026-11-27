@@ -25,11 +25,20 @@ namespace Somethingwithproof\Pfs;
  * reads as unknown, never zero.
  */
 enum Freshness: string {
+	/** Freshness current case. */
 	case Current = 'current';
+	/** Freshness delayed case. */
 	case Delayed = 'delayed';
+	/** Freshness stale case. */
 	case Stale   = 'stale';
+	/** Freshness never case. */
 	case Never   = 'never';
 
+	/**
+	 * Usable.
+	 *
+	 * @return bool
+	 */
 	public function usable(): bool {
 		return $this === self::Current || $this === self::Delayed;
 	}

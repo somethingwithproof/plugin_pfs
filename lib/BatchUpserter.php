@@ -29,9 +29,13 @@ namespace Somethingwithproof\Pfs;
  * (WHERE id > ? ORDER BY id ASC LIMIT ?) to avoid O(N) OFFSET scans.
  */
 final class BatchUpserter {
+	/** Default batch size constant. */
 	public const DEFAULT_BATCH_SIZE = 500;
+	/** Max batch size constant. */
 	public const MAX_BATCH_SIZE     = 2000;
+	/** Default page size constant. */
 	public const DEFAULT_PAGE_SIZE  = 500;
+	/** Max page size constant. */
 	public const MAX_PAGE_SIZE      = 5000;
 
 	/**
@@ -135,6 +139,13 @@ final class BatchUpserter {
 		];
 	}
 
+	/**
+	 * Assert identifier.
+	 *
+	 * @param string $name
+	 * @param string $label
+	 * @throws \InvalidArgumentException
+	 */
 	private static function assertIdentifier(string $name, string $label): void {
 		if (preg_match('/^[a-z][a-z0-9_]{0,63}$/', $name) !== 1) {
 			throw new \InvalidArgumentException('Invalid SQL ' . $label . ' identifier');

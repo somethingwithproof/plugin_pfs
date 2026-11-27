@@ -30,6 +30,20 @@ namespace Somethingwithproof\Pfs;
  * counter reset (REQ-STATE-004).
  */
 final readonly class Observation {
+	/**
+	 * Initialize Observation.
+	 *
+	 * @param int $targetId
+	 * @param string $metric
+	 * @param ?float $value
+	 * @param int $observedAt
+	 * @param int $ingestedAt
+	 * @param int $sourceNodeId
+	 * @param int $expectedInterval
+	 * @param Continuity $continuity
+	 * @param ?string $startMarker
+	 * @param int $epoch
+	 */
 	public function __construct(
 		public int $targetId,
 		public string $metric,
@@ -71,6 +85,11 @@ final readonly class Observation {
 		);
 	}
 
+	/**
+	 * Published.
+	 *
+	 * @return ?float
+	 */
 	public function published(): ?float {
 		return $this->continuity === Continuity::Reset ? null : $this->value;
 	}

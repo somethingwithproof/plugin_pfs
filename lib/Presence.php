@@ -27,7 +27,10 @@ namespace Somethingwithproof\Pfs;
  * so neither observation is used. A missing target keeps its row and history.
  */
 enum Presence: string {
+	/** Presence present case. */
 	case Present  = 'present';
+	/** Presence missing case. */
 	case Missing  = 'missing';
+	/** Presence conflict case. */
 	case Conflict = 'conflict';
 }

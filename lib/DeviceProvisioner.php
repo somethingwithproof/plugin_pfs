@@ -31,6 +31,17 @@ namespace Somethingwithproof\Pfs;
  * every setting; only the data queries and overview graphs are added.
  */
 final class DeviceProvisioner {
+	/**
+	 * Initialize DeviceProvisioner.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param TargetRepository $targets
+	 * @param CactiObjectRepository $objects
+	 * @param BackendRegistry $backends
+	 * @param string $cactiPath
+	 * @param CreatedDeviceRepository $created
+	 * @param Clock $clock
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly TargetRepository $targets,
@@ -197,6 +208,12 @@ final class DeviceProvisioner {
 		push_out_host($hostId, 0);
 	}
 
+	/**
+	 * Description.
+	 *
+	 * @param Filesystem $filesystem
+	 * @return string
+	 */
 	public function description(Filesystem $filesystem): string {
 		$label = $this->backends->has($filesystem->backend) ? $this->backends->get($filesystem->backend)->label() : $filesystem->backend;
 

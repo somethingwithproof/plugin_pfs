@@ -28,9 +28,13 @@ namespace Somethingwithproof\Pfs;
  * newest observation, and missing_targets is always reported alongside them.
  */
 final class ImbalanceAnalyzer {
+	/** Default warn fill pct constant. */
 	public const DEFAULT_WARN_FILL_PCT     = 80.0;
+	/** Default crit fill pct constant. */
 	public const DEFAULT_CRIT_FILL_PCT     = 90.0;
+	/** Default warn spread pct constant. */
 	public const DEFAULT_WARN_SPREAD_PCT   = 15.0;
+	/** Default crit spread pct constant. */
 	public const DEFAULT_CRIT_SPREAD_PCT   = 30.0;
 
 	/**
@@ -254,6 +258,17 @@ final class ImbalanceAnalyzer {
 		return $flags;
 	}
 
+	/**
+	 * Classify severity.
+	 *
+	 * @param ?float $fillMax
+	 * @param ?float $spread
+	 * @param ?float $mdtFillMax
+	 * @param ?float $mdtInodeMax
+	 * @param int $missing
+	 * @param int $ostCount
+	 * @return string
+	 */
 	private static function classifySeverity(?float $fillMax, ?float $spread, ?float $mdtFillMax, ?float $mdtInodeMax, int $missing, int $ostCount): string {
 		if ($ostCount === 0 || $fillMax === null) {
 			return $missing > 0 ? 'unknown' : 'ok';

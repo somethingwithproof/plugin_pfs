@@ -31,9 +31,21 @@ namespace Somethingwithproof\Pfs;
  * stale, never current.
  */
 final class FreshnessEvaluator {
+	/**
+	 * Initialize FreshnessEvaluator.
+	 *
+	 * @param Clock $clock
+	 */
 	public function __construct(private readonly Clock $clock) {
 	}
 
+	/**
+	 * Evaluate.
+	 *
+	 * @param int $observedAt
+	 * @param int $interval
+	 * @return Freshness
+	 */
 	public function evaluate(int $observedAt, int $interval): Freshness {
 		if ($observedAt <= 0) {
 			return Freshness::Never;

@@ -19,10 +19,25 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Persistence layer for registered parallel filesystems.
+ */
 final class FilesystemRepository {
+	/**
+	 * Initialize FilesystemRepository.
+	 *
+	 * @param \PDO|false $connection
+	 * @param Clock $clock
+	 */
 	public function __construct(private readonly \PDO|false $connection, private readonly Clock $clock) {
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param int $id
+	 * @return ?Filesystem
+	 */
 	public function find(int $id): ?Filesystem {
 		$row = db_fetch_row_prepared('SELECT * FROM plugin_pfs_filesystem WHERE id = ?', [$id], true, $this->connection);
 
@@ -51,6 +66,12 @@ final class FilesystemRepository {
 		return $out;
 	}
 
+	/**
+	 * Find by host.
+	 *
+	 * @param int $hostId
+	 * @return ?Filesystem
+	 */
 	public function findByHost(int $hostId): ?Filesystem {
 		if ($hostId <= 0) {
 			return null;
@@ -134,6 +155,14 @@ final class FilesystemRepository {
 		return (int) $count;
 	}
 
+	/**
+	 * Name taken.
+	 *
+	 * @param string $backend
+	 * @param string $name
+	 * @param int $exceptId
+	 * @return bool
+	 */
 	public function nameTaken(string $backend, string $name, int $exceptId): bool {
 		return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_filesystem WHERE backend = ? AND name = ? AND id != ?', [$backend, $name, $exceptId], '', true, $this->connection) > 0;
 	}

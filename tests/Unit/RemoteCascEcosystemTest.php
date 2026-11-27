@@ -310,6 +310,53 @@ it('registers read-only abilities, Doctor checks, CasC descriptor, and remote_ag
 			->and($inv['filesystems'][0]['name'])->toBe('secret')
 			->and($eco->handleRemoteAgent('pfs_health')['plugin'])->toBe('pfs')
 			->and($eco->handleRemoteAgent('unknown_action'))->toBeNull();
+
+		// Decoupled doctor_register_debug_info: plain array with redacted paths.
+		$debug = $eco->doctorDebugInfo();
+		expect($debug)->toHaveKey('pfs')
+			->and($debug['pfs']['fields']['schema_version']['value'])->toBe(Schema::VERSION)
+			->and($debug['pfs']['fields']['backends']['value'])->toBe('beegfs, gpfs, lustre')
+			->and($debug['pfs']['fields']['filesystems_total']['value'])->toBe(2)
+			->and($debug['pfs']['fields']['ssh_key_file'])->toBe(['label' => 'SSH Key File', 'value' => '[redacted]', 'private' => true])
+			->and($debug['pfs']['fields']['ssh_known_hosts'])->toBe(['label' => 'Known Hosts File', 'value' => '[redacted]', 'private' => true]);
+
+		$encodedDebug = json_encode($debug, JSON_THROW_ON_ERROR);
+		expect($encodedDebug)->not->toContain('/etc/cacti/pfs/id_ed25519')
+			->and($encodedDebug)->not->toContain('/etc/cacti/pfs/known_hosts');
+
+		// Decoupled api_register_resources: Google AIP descriptor for pfsFilesystems.
+		$resources = $eco->apiResources();
+		expect($resources)->toHaveKey('pfsFilesystems')
+			->and($resources['pfsFilesystems']['type'])->toBe('cacti.pfs/Filesystem')
+			->and($resources['pfsFilesystems']['pattern'])->toBe('pfsFilesystems/{pfs_filesystem}')
+			->and($resources['pfsFilesystems']['read_only'])->toBeTrue()
+			->and($resources['pfsFilesystems']['methods'])->toBe(['list', 'get'])
+			->and($resources['pfsFilesystems']['schema'])->toBe('schema/pfs.schema.yaml');
+
+		$apiList = ($resources['pfsFilesystems']['handlers']['list'])(7, ['page_size' => 10]);
+		expect($apiList['pfsFilesystems'])->toHaveCount(1)
+			->and($apiList['pfsFilesystems'][0]['name'])->toBe('pfsFilesystems/1')
+			->and($apiList['pfsFilesystems'][0]['display_name'])->toBe('gpfs01')
+			->and($apiList['next_page_token'])->toBe('');
+
+		// Unauthorized user receives empty list and null on get.
+		expect(($resources['pfsFilesystems']['handlers']['list'])(99, []))->toBe(['pfsFilesystems' => [], 'next_page_token' => ''])
+			->and(($resources['pfsFilesystems']['handlers']['get'])(99, '1'))->toBeNull()
+			->and(($resources['pfsFilesystems']['handlers']['get'])(7, 'pfsFilesystems/1')['display_name'])->toBe('gpfs01')
+			->and(($resources['pfsFilesystems']['handlers']['get'])(7, 'pfsFilesystems/2'))->toBeNull()
+			->and(($resources['pfsFilesystems']['handlers']['get'])(7, 'invalid'))->toBeNull();
+
+		// Backend filter excludes non-matching filesystems.
+		expect(($resources['pfsFilesystems']['handlers']['list'])(7, ['backend' => 'lustre'])['pfsFilesystems'])->toBe([]);
+
+		// setup.php hook shims merge cleanly with arrays and handle non-array callers.
+		$mergedDebug = pfs_doctor_register_debug_info(['other' => ['label' => 'Other']]);
+		expect($mergedDebug)->toHaveKeys(['other', 'pfs'])
+			->and(pfs_doctor_register_debug_info(null))->toHaveKey('pfs');
+
+		$mergedApi = pfs_api_register_resources(['other' => ['plugin' => 'other']]);
+		expect($mergedApi)->toHaveKeys(['other', 'pfsFilesystems'])
+			->and(pfs_api_register_resources(null))->toHaveKey('pfsFilesystems');
 	} finally {
 		$GLOBALS['__pfs_db_rows'] = [];
 	}

@@ -1,0 +1,223 @@
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# This file is part of plugin_pfs, a plugin for Cacti.
+# https://github.com/somethingwithproof/plugin_pfs
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the Free
+# Software Foundation; either version 2 of the License, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+# more details.
+#
+# Static configuration and state schema for plugin_pfs (Drupal-style schema).
+# Enforces strict separation between declarative configuration (Config) and
+# ephemeral/runtime operational data (State).
+
+schema_version: 1
+plugin: pfs
+
+# Declarative Configuration (Config): administrator-controlled settings and
+# registry definitions. Host-local SSH paths are marked non-exportable so
+# CasC snapshots remain portable and never leak host paths or key material.
+plugin.pfs.settings:
+  type: config_object
+  label: 'Parallel Filesystems settings'
+  storage: settings
+  mapping:
+    pfs_ssh_binary:
+      type: string
+      label: 'SSH Client'
+      default: '/usr/bin/ssh'
+      pattern: '^/[A-Za-z0-9._/+-]{1,254}$'
+      exportable: false
+      sensitive: false
+    pfs_ssh_key_file:
+      type: string
+      label: 'SSH Key File'
+      default: '/etc/cacti/pfs/id_ed25519'
+      pattern: '^/[A-Za-z0-9._/+-]{1,254}$'
+      exportable: false
+      sensitive: true
+    pfs_ssh_known_hosts:
+      type: string
+      label: 'Known Hosts File'
+      default: '/etc/cacti/pfs/known_hosts'
+      pattern: '^/[A-Za-z0-9._/+-]{1,254}$'
+      exportable: false
+      sensitive: true
+    pfs_connect_timeout:
+      type: integer
+      label: 'Connect Timeout'
+      default: 5
+      min: 1
+      max: 60
+      exportable: true
+      sensitive: false
+    pfs_read_timeout:
+      type: integer
+      label: 'Read Timeout'
+      default: 30
+      min: 2
+      max: 300
+      exportable: true
+      sensitive: false
+    pfs_max_response:
+      type: integer
+      label: 'Maximum Response'
+      default: 4352
+      min: 64
+      max: 65536
+      exportable: true
+      sensitive: false
+    pfs_reader_budget:
+      type: integer
+      label: 'Reader Time Budget'
+      default: 240
+      min: 10
+      max: 3600
+      exportable: true
+      sensitive: false
+    pfs_concurrency:
+      type: integer
+      label: 'Concurrent Reads'
+      default: 8
+      min: 1
+      max: 64
+      exportable: true
+      sensitive: false
+    pfs_uninstall_keep_tables:
+      type: boolean
+      label: 'Keep Plugin Tables on Uninstall'
+      default: true
+      exportable: true
+      sensitive: false
+    pfs_uninstall_delete_devices:
+      type: boolean
+      label: 'Delete the Devices This Plugin Created on Uninstall'
+      default: false
+      exportable: true
+      sensitive: false
+
+plugin.pfs.config:
+  type: config_object
+  label: 'Parallel Filesystems declarative registry'
+  exportable: true
+  mapping:
+    filesystems:
+      type: sequence
+      table: plugin_pfs_filesystem
+      sequence:
+        type: mapping
+        mapping:
+          name:
+            type: string
+            max_length: 64
+          backend:
+            type: string
+            enum: ['beegfs', 'gpfs', 'lustre']
+          poller_id:
+            type: integer
+            min: 1
+            default: 1
+          expected_interval:
+            type: integer
+            min: 10
+            max: 86400
+            default: 300
+          admin_state:
+            type: string
+            enum: ['enabled', 'disabled']
+            default: 'enabled'
+    nodes:
+      type: sequence
+      table: plugin_pfs_node
+      exportable: false
+      sequence:
+        type: mapping
+        mapping:
+          filesystem_id:
+            type: integer
+            min: 1
+          name:
+            type: string
+            max_length: 64
+          role:
+            type: string
+            enum: ['mds', 'oss']
+          poller_id:
+            type: integer
+            min: 1
+            default: 1
+          endpoint:
+            type: string
+            max_length: 253
+            sensitive: true
+          port:
+            type: integer
+            min: 1
+            max: 65535
+            default: 22
+          ssh_user:
+            type: string
+            max_length: 32
+            sensitive: true
+          access_method:
+            type: string
+            enum: ['ssh']
+            default: 'ssh'
+          admin_state:
+            type: string
+            enum: ['enabled', 'disabled']
+            default: 'enabled'
+    networks:
+      type: sequence
+      table: plugin_pfs_network
+      sequence:
+        type: mapping
+        mapping:
+          poller_id:
+            type: integer
+            min: 1
+          cidr:
+            type: string
+            max_length: 64
+
+# Runtime State (State): non-exportable operational tables, leases, caches,
+# discovered targets, observations, and lifecycle bookkeeping.
+plugin.pfs.state:
+  type: state_object
+  label: 'Parallel Filesystems runtime state'
+  exportable: false
+  mapping:
+    schema_version:
+      type: integer
+      storage: settings
+      key: pfs_schema_version
+    templates_version:
+      type: integer
+      storage: settings
+      key: pfs_templates_version
+    templates_failure:
+      type: string
+      storage: settings
+      key: pfs_templates_failure
+    query_files:
+      type: string
+      storage: settings
+      key: pfs_query_files
+    tables:
+      type: sequence
+      sequence:
+        type: string
+      values:
+        - plugin_pfs_target
+        - plugin_pfs_observation
+        - plugin_pfs_node_health
+        - plugin_pfs_summary
+        - plugin_pfs_reader
+        - plugin_pfs_created_devices

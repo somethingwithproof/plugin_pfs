@@ -33,8 +33,14 @@ namespace Somethingwithproof\Pfs;
  * the plan holds no update for them.
  */
 final class CacheRepository {
+	/** Kib metrics constant. */
 	private const KIB_METRICS = ['kbytes_total', 'kbytes_free', 'kbytes_avail'];
 
+	/**
+	 * Initialize CacheRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 
@@ -159,6 +165,13 @@ final class CacheRepository {
 		return $ok ? (int) db_fetch_insert_id($this->connection) : 0;
 	}
 
+	/**
+	 * Observation.
+	 *
+	 * @param int $targetId
+	 * @param Observation $o
+	 * @return bool
+	 */
 	private function observation(int $targetId, Observation $o): bool {
 		$valKib = in_array($o->metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($o->value) : null;
 
@@ -170,6 +183,15 @@ final class CacheRepository {
 		], true, $this->connection);
 	}
 
+	/**
+	 * Summary.
+	 *
+	 * @param int $filesystemId
+	 * @param string $metric
+	 * @param ?float $value
+	 * @param Summary $summary
+	 * @return bool
+	 */
 	private function summary(int $filesystemId, string $metric, ?float $value, Summary $summary): bool {
 		$counter = Summary::counterOf($metric);
 		$valKib  = in_array($metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($value) : null;
@@ -185,6 +207,12 @@ final class CacheRepository {
 		], true, $this->connection);
 	}
 
+	/**
+	 * Health.
+	 *
+	 * @param NodeHealth $h
+	 * @return bool
+	 */
 	private function health(NodeHealth $h): bool {
 		return db_execute_prepared('INSERT INTO plugin_pfs_node_health (node_id, last_attempt, last_success, duration, bytes, outcome, error, version, unexpected_sections, rejected_names)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)

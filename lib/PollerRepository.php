@@ -23,6 +23,11 @@ namespace Somethingwithproof\Pfs;
  * Cacti's pollers, read for the registry forms. Read only.
  */
 final class PollerRepository {
+	/**
+	 * Initialize PollerRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 

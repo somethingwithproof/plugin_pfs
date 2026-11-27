@@ -26,6 +26,12 @@ namespace Somethingwithproof\Pfs;
  * either page shows.
  */
 final class GraphLinks {
+	/**
+	 * Initialize GraphLinks.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param CactiObjectRepository $objects
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly CactiObjectRepository $objects,
@@ -39,6 +45,13 @@ final class GraphLinks {
 		return $localGraphId > 0 ? $this->filesystems->findByHost($this->objects->hostOfGraph($localGraphId)) : null;
 	}
 
+	/**
+	 * Html.
+	 *
+	 * @param string $urlPath
+	 * @param Filesystem $filesystem
+	 * @return string
+	 */
 	public static function html(string $urlPath, Filesystem $filesystem): string {
 		$url   = $urlPath . 'plugins/pfs/pfs.php#pfs_graphs_' . $filesystem->id;
 		$title = __('Parallel Filesystem view of %s', $filesystem->name, 'pfs');

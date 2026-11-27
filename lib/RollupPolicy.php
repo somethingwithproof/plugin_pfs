@@ -29,13 +29,20 @@ namespace Somethingwithproof\Pfs;
  * never cause an RRD file explosion.
  */
 final class RollupPolicy {
+	/** Tier filesystem constant. */
 	public const TIER_FILESYSTEM = 'filesystem';
+	/** Tier pool constant. */
 	public const TIER_POOL       = 'pool';
+	/** Tier server constant. */
 	public const TIER_SERVER     = 'server';
+	/** Tier target constant. */
 	public const TIER_TARGET     = 'target';
 
+	/** Default warn fill pct constant. */
 	public const DEFAULT_WARN_FILL_PCT        = 80.0;
+	/** Default skew delta pct constant. */
 	public const DEFAULT_SKEW_DELTA_PCT       = 15.0;
+	/** Default max promoted targets constant. */
 	public const DEFAULT_MAX_PROMOTED_TARGETS = 200;
 
 	/**

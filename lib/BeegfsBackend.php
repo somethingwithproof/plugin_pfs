@@ -34,23 +34,46 @@ namespace Somethingwithproof\Pfs;
  * metadata targets).
  */
 final class BeegfsBackend implements Backend {
+	/** Protocol constant. */
 	public const PROTOCOL = '#pfs-beegfs 1';
+	/** End constant. */
 	public const END      = '#pfs-beegfs end';
 
+	/** Max sections constant. */
 	private const MAX_SECTIONS = 20000;
 
+	/**
+	 * Return the canonical backend identifier.
+	 *
+	 * @return string
+	 */
 	public function id(): string {
 		return 'beegfs';
 	}
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return 'BeeGFS';
 	}
 
+	/**
+	 * Return the validation regex for filesystem names on this backend.
+	 *
+	 * @return string
+	 */
 	public function filesystemPattern(): string {
 		return '/^[A-Za-z0-9_-]{1,8}$/';
 	}
 
+	/**
+	 * Return the metric value specifications supported by this backend.
+	 *
+	 * @return list<ValueSpec>
+	 */
 	public function values(): array {
 		return [
 			new ValueSpec('kbytes_total', ValueKind::Gauge, 'KiB', TargetType::Ost, [NodeRole::Oss, NodeRole::Mgs]),
@@ -72,6 +95,12 @@ final class BeegfsBackend implements Backend {
 		];
 	}
 
+	/**
+	 * Parse a framed node report into structured targets and observations.
+	 *
+	 * @param string $output
+	 * @return NodeReport
+	 */
 	public function parse(string $output): NodeReport {
 		return FramedReportParser::parseReport(
 			$output,
@@ -176,6 +205,13 @@ final class BeegfsBackend implements Backend {
 		}
 	}
 
+	/**
+	 * Map condition.
+	 *
+	 * @param string $reachability
+	 * @param string $consistency
+	 * @return Condition
+	 */
 	private static function mapCondition(string $reachability, string $consistency): Condition {
 		$r = strtolower(trim($reachability));
 		$c = strtoupper(trim($consistency));

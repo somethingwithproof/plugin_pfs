@@ -28,10 +28,14 @@ namespace Somethingwithproof\Pfs;
  * and never creates per-client Cacti devices or RRD files.
  */
 final class TopKTracker {
+	/** Default k constant. */
 	public const DEFAULT_K = 20;
+	/** Min k constant. */
 	public const MIN_K     = 1;
+	/** Max k constant. */
 	public const MAX_K     = 500;
 
+	/** Allowed sources constant. */
 	public const ALLOWED_SOURCES = ['job_stats', 'mmpmon', 'ldms', 'beegfs'];
 
 	/**
@@ -160,10 +164,22 @@ final class TopKTracker {
 		return array_map(static fn (array $row): mixed => $row[3], $ranked);
 	}
 
+	/**
+	 * Clamp k.
+	 *
+	 * @param int $k
+	 * @return int
+	 */
 	private static function clampK(int $k): int {
 		return max(self::MIN_K, min(self::MAX_K, $k));
 	}
 
+	/**
+	 * Non neg float.
+	 *
+	 * @param mixed $value
+	 * @return ?float
+	 */
 	private static function nonNegFloat(mixed $value): ?float {
 		if (is_int($value) || is_float($value)) {
 			$f = (float) $value;

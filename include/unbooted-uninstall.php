@@ -66,6 +66,12 @@ function pfs_unbooted_created_devices(): array {
 	})));
 }
 
+/**
+ * Check whether the created-device ownership table exists in the database.
+ *
+ * @return bool
+ * @throws RuntimeException
+ */
 function pfs_unbooted_record_exists(): bool {
 	$count = db_fetch_cell_prepared('SELECT COUNT(*) FROM information_schema.TABLES WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = ?', array('plugin_pfs_created_devices'));
 	if ($count === false) {
@@ -128,6 +134,11 @@ function pfs_unbooted_mapped_host_ids(): array {
 	return array_values(array_unique($ids));
 }
 
+/**
+ * Clear filesystem host mappings for Cacti devices confirmed removed.
+ *
+ * @throws RuntimeException
+ */
 function pfs_unbooted_unmap_removed_devices(): void {
 	$removed = pfs_unbooted_removed_devices(pfs_unbooted_mapped_host_ids());
 
@@ -139,6 +150,11 @@ function pfs_unbooted_unmap_removed_devices(): void {
 	}
 }
 
+/**
+ * Run uninstall cleanup using PHP 8.0-compatible code when lib/ cannot load.
+ *
+ * @throws RuntimeException
+ */
 function pfs_uninstall_unbooted(): void {
 	// The plugin can be uninstalled while disabled, when no device_remove
 	// hook cleared mappings for remotely soft-deleted hosts.

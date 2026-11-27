@@ -26,10 +26,20 @@
  * down the whole Cacti UI (REQ-COMPAT-001 to REQ-COMPAT-003).
  */
 
+/**
+ * Check whether the running PHP version meets the 8.2.0 floor.
+ *
+ * @return bool
+ */
 function pfs_php_supported(): bool {
 	return version_compare(PHP_VERSION, '8.2.0', '>=');
 }
 
+/**
+ * Verify PHP version support and register the lib/ autoloader.
+ *
+ * @return bool
+ */
 function pfs_boot(): bool {
 	if (!pfs_php_supported()) {
 		return false;
@@ -83,6 +93,9 @@ function plugin_pfs_version(): array {
 	return $version;
 }
 
+/**
+ * Install the plugin schema, hooks, realms, and templates.
+ */
 function plugin_pfs_install(): void {
 	if (pfs_refuse_unsupported()) {
 		return;
@@ -91,6 +104,11 @@ function plugin_pfs_install(): void {
 	plugin_pfs_upgrade(true);
 }
 
+/**
+ * Verify runtime requirements and bring schema and hooks up to date.
+ *
+ * @return bool
+ */
 function plugin_pfs_check_config(): bool {
 	if (pfs_refuse_unsupported()) {
 		return false;
@@ -143,6 +161,11 @@ function pfs_require_post(string $page, array $actions): void {
 	}
 }
 
+/**
+ * Load the current plugin settings from Cacti.
+ *
+ * @return \Somethingwithproof\Pfs\Settings
+ */
 function pfs_settings(): \Somethingwithproof\Pfs\Settings {
 	return (new \Somethingwithproof\Pfs\SettingsRepository(false))->load();
 }
@@ -196,12 +219,22 @@ function plugin_pfs_upgrade(bool $grant = false): bool {
 	return true;
 }
 
+/**
+ * Construct the template and data query installer for this Cacti checkout.
+ *
+ * @return \Somethingwithproof\Pfs\TemplateInstaller
+ */
 function pfs_template_installer(): \Somethingwithproof\Pfs\TemplateInstaller {
 	global $config;
 
 	return new \Somethingwithproof\Pfs\TemplateInstaller(__DIR__, $config['base_path'], new \Somethingwithproof\Pfs\CactiObjectRepository(false));
 }
 
+/**
+ * Construct the Cacti device provisioner for parallel filesystems.
+ *
+ * @return \Somethingwithproof\Pfs\DeviceProvisioner
+ */
 function pfs_provisioner(): \Somethingwithproof\Pfs\DeviceProvisioner {
 	global $config;
 
@@ -368,6 +401,9 @@ function pfs_uninstall_devices(array $hostIds): void {
 	cacti_log(sprintf('NOTE: Uninstall deleted the %d devices the plugin created, as configured', count($hostIds)), false, 'PFS');
 }
 
+/**
+ * Register navigation menu entries and trigger schema upgrades on plugin pages.
+ */
 function pfs_config_arrays(): void {
 	global $menu;
 
@@ -384,6 +420,9 @@ function pfs_config_arrays(): void {
 	}
 }
 
+/**
+ * Register the Parallel Filesystems settings tab for authorized administrators.
+ */
 function pfs_config_settings(): void {
 	global $tabs, $settings;
 
@@ -584,6 +623,11 @@ function pfs_in_maintenance(int $host_id): ?bool {
 	return function_exists('plugin_maint_check_cacti_host') ? (bool) plugin_maint_check_cacti_host($host_id) : null;
 }
 
+/**
+ * Construct the Configuration-as-Code provider.
+ *
+ * @return \Somethingwithproof\Pfs\CascProvider
+ */
 function pfs_casc(): \Somethingwithproof\Pfs\CascProvider {
 	$clock = new \Somethingwithproof\Pfs\SystemClock();
 
@@ -604,6 +648,11 @@ function pfs_casc(): \Somethingwithproof\Pfs\CascProvider {
 	);
 }
 
+/**
+ * Construct the decoupled ecosystem integration facade.
+ *
+ * @return \Somethingwithproof\Pfs\EcosystemIntegration
+ */
 function pfs_ecosystem(): \Somethingwithproof\Pfs\EcosystemIntegration {
 	$clock = new \Somethingwithproof\Pfs\SystemClock();
 
@@ -711,6 +760,48 @@ function pfs_doctor_register_checks($checks) {
 
 	if (is_array($checks)) {
 		return array_merge($checks, $registered);
+	}
+
+	return $registered;
+}
+
+/**
+ * doctor_register_debug_info hook: register a redacted PFS diagnostic snapshot
+ * as a plain array without importing plugin_doctor.
+ *
+ * @param mixed $sections
+ * @return mixed
+ */
+function pfs_doctor_register_debug_info($sections) {
+	if (!pfs_boot()) {
+		return $sections;
+	}
+
+	$debug = pfs_ecosystem()->doctorDebugInfo();
+
+	if (is_array($sections)) {
+		return array_merge($sections, $debug);
+	}
+
+	return $debug;
+}
+
+/**
+ * api_register_resources hook: register Google AIP resource descriptors for
+ * pfsFilesystems as plain arrays without importing plugin_api.
+ *
+ * @param mixed $resources
+ * @return mixed
+ */
+function pfs_api_register_resources($resources) {
+	if (!pfs_boot()) {
+		return $resources;
+	}
+
+	$registered = pfs_ecosystem()->apiResources();
+
+	if (is_array($resources)) {
+		return array_merge($resources, $registered);
 	}
 
 	return $registered;

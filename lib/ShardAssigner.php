@@ -27,8 +27,16 @@ namespace Somethingwithproof\Pfs;
  * to 50,000 targets complete reliably within a 5-minute polling window.
  */
 final readonly class ShardAssigner {
+	/** Max shards constant. */
 	public const MAX_SHARDS = 1024;
 
+	/**
+	 * Initialize ShardAssigner.
+	 *
+	 * @param int $shardIndex
+	 * @param int $shardTotal
+	 * @throws \InvalidArgumentException
+	 */
 	public function __construct(
 		public int $shardIndex,
 		public int $shardTotal,
@@ -64,10 +72,22 @@ final readonly class ShardAssigner {
 		return ($unsigned % $this->shardTotal) + 1;
 	}
 
+	/**
+	 * Owns.
+	 *
+	 * @param string $key
+	 * @return bool
+	 */
 	public function owns(string $key): bool {
 		return $this->shardFor($key) === $this->shardIndex;
 	}
 
+	/**
+	 * Owns node.
+	 *
+	 * @param Node $node
+	 * @return bool
+	 */
 	public function ownsNode(Node $node): bool {
 		return $this->owns(sprintf('node:%d:%s', $node->id, $node->name));
 	}
@@ -83,6 +103,11 @@ final readonly class ShardAssigner {
 		return array_values(array_filter($nodes, fn (Node $node): bool => $this->ownsNode($node)));
 	}
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return $this->shardIndex . '/' . $this->shardTotal;
 	}

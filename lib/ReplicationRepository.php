@@ -25,6 +25,11 @@ namespace Somethingwithproof\Pfs;
  * networks (REQ-REMOTE-002).
  */
 final class ReplicationRepository {
+	/**
+	 * Initialize ReplicationRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 

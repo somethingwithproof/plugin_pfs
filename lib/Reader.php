@@ -35,8 +35,25 @@ namespace Somethingwithproof\Pfs;
  * can send a node anything else.
  */
 final class Reader {
+	/** Due slack constant. */
 	public const DUE_SLACK = 30;
 
+	/**
+	 * Initialize Reader.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param NodeRepository $nodes
+	 * @param TargetRepository $targets
+	 * @param ObservationRepository $observations
+	 * @param NodeHealthRepository $health
+	 * @param ReaderRepository $runs
+	 * @param CacheRepository $cache
+	 * @param SummaryRepository $summaries
+	 * @param BackendRegistry $backends
+	 * @param NodeSources $sources
+	 * @param Clock $clock
+	 * @param string $holder
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly NodeRepository $nodes,
@@ -84,6 +101,16 @@ final class Reader {
 		}
 	}
 
+	/**
+	 * Run leased.
+	 *
+	 * @param int $pollerId
+	 * @param int $started
+	 * @param int $budgetSeconds
+	 * @param int $concurrency
+	 * @param ?ShardAssigner $shard
+	 * @return ReaderRun
+	 */
 	private function runLeased(int $pollerId, int $started, int $budgetSeconds, int $concurrency, ?ShardAssigner $shard = null): ReaderRun {
 		$deadline = microtime(true) + $budgetSeconds;
 		$health   = $this->health->all();

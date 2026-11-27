@@ -30,6 +30,7 @@ namespace Somethingwithproof\Pfs;
  * - Remote data collector read-only agent actions (remote_agent).
  */
 final class EcosystemIntegration {
+	/** Standard MCP read-only, non-destructive, idempotent tool annotations. */
 	private const READ_ONLY_ANNOTATIONS = [
 		'readOnly'    => true,
 		'destructive' => false,
@@ -385,6 +386,221 @@ final class EcosystemIntegration {
 	}
 
 	/**
+	 * Redacted diagnostic snapshot for Cacti Doctor (doctor_register_debug_info).
+	 *
+	 * Never exposes host-local SSH paths, node endpoints, SSH usernames, or
+	 * allowlisted network CIDRs.
+	 *
+	 * @return array<string, array{
+	 *   label: string,
+	 *   description: string,
+	 *   fields: array<string, array{label: string, value: int|string, private: bool}>
+	 * }>
+	 */
+	public function doctorDebugInfo(): array {
+		$settings    = $this->settings->load();
+		$filesystems = $this->filesystems->all();
+		$nodes       = $this->nodes->all();
+		$networks    = $this->networks->all();
+		$backendIds  = array_keys($this->backends->all());
+		sort($backendIds);
+
+		return [
+			'pfs' => [
+				'label'       => 'Parallel Filesystems',
+				'description' => 'Read-only diagnostic snapshot for plugin_pfs with host-local paths and endpoints redacted.',
+				'fields'      => [
+					'schema_version' => [
+						'label'   => 'Schema Version',
+						'value'   => $this->schema->storedVersion(),
+						'private' => false,
+					],
+					'expected_schema_version' => [
+						'label'   => 'Expected Schema Version',
+						'value'   => Schema::VERSION,
+						'private' => false,
+					],
+					'backends' => [
+						'label'   => 'Registered Backends',
+						'value'   => implode(', ', $backendIds),
+						'private' => false,
+					],
+					'filesystems_total' => [
+						'label'   => 'Filesystems',
+						'value'   => count($filesystems),
+						'private' => false,
+					],
+					'nodes_total' => [
+						'label'   => 'Nodes',
+						'value'   => count($nodes),
+						'private' => false,
+					],
+					'networks_total' => [
+						'label'   => 'Allowed Networks',
+						'value'   => count($networks),
+						'private' => false,
+					],
+					'concurrency' => [
+						'label'   => 'Concurrent Reads',
+						'value'   => $settings->concurrency,
+						'private' => false,
+					],
+					'reader_budget' => [
+						'label'   => 'Reader Time Budget (s)',
+						'value'   => $settings->readerBudget,
+						'private' => false,
+					],
+					'connect_timeout' => [
+						'label'   => 'Connect Timeout (s)',
+						'value'   => $settings->connectTimeout,
+						'private' => false,
+					],
+					'read_timeout' => [
+						'label'   => 'Read Timeout (s)',
+						'value'   => $settings->readTimeout,
+						'private' => false,
+					],
+					'max_response_kib' => [
+						'label'   => 'Maximum Response (KiB)',
+						'value'   => $settings->maxResponseKib,
+						'private' => false,
+					],
+					'ssh_key_file' => [
+						'label'   => 'SSH Key File',
+						'value'   => '[redacted]',
+						'private' => true,
+					],
+					'ssh_known_hosts' => [
+						'label'   => 'Known Hosts File',
+						'value'   => '[redacted]',
+						'private' => true,
+					],
+					'keep_tables_on_uninstall' => [
+						'label'   => 'Keep Tables on Uninstall',
+						'value'   => $settings->keepTablesOnUninstall ? 'yes' : 'no',
+						'private' => false,
+					],
+				],
+			],
+		];
+	}
+
+	/**
+	 * Google AIP-compliant resource descriptors for api_register_resources.
+	 *
+	 * Plain-array registration keeps plugin_pfs 100% standalone when plugin_api
+	 * is absent. Both list and get handlers enforce the View realm and Cacti
+	 * per-device permissions.
+	 *
+	 * @return array<string, array<string, mixed>>
+	 */
+	public function apiResources(): array {
+		$serialize = function (Filesystem $fs): array {
+			$inMaint = ($this->inMaintenance !== null && $fs->hostId > 0) ? ($this->inMaintenance)($fs->hostId) : null;
+
+			return [
+				'name'              => 'pfsFilesystems/' . $fs->id,
+				'id'                => $fs->id,
+				'display_name'      => $fs->name,
+				'backend'           => $fs->backend,
+				'poller_id'         => $fs->pollerId,
+				'expected_interval' => $fs->interval,
+				'admin_state'       => $fs->adminState->value,
+				'host_id'           => $fs->hostId,
+				'in_maintenance'    => $inMaint,
+			];
+		};
+
+		return [
+			'pfsFilesystems' => [
+				'plugin'     => 'pfs',
+				'type'       => 'cacti.pfs/Filesystem',
+				'collection' => 'pfsFilesystems',
+				'singular'   => 'pfsFilesystem',
+				'plural'     => 'pfsFilesystems',
+				'pattern'    => 'pfsFilesystems/{pfs_filesystem}',
+				'read_only'  => true,
+				'methods'    => ['list', 'get'],
+				'realm'      => 'pfs.php',
+				'schema'     => 'schema/pfs.schema.yaml',
+				'fields'     => [
+					'name'              => ['type' => 'string', 'behavior' => ['IDENTIFIER']],
+					'id'                => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
+					'display_name'      => ['type' => 'string', 'behavior' => ['OUTPUT_ONLY']],
+					'backend'           => ['type' => 'string', 'enum' => ['beegfs', 'gpfs', 'lustre'], 'behavior' => ['OUTPUT_ONLY']],
+					'poller_id'         => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
+					'expected_interval' => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
+					'admin_state'       => ['type' => 'string', 'enum' => ['enabled', 'disabled'], 'behavior' => ['OUTPUT_ONLY']],
+					'host_id'           => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
+					'in_maintenance'    => ['type' => ['boolean', 'null'], 'behavior' => ['OUTPUT_ONLY']],
+				],
+				'handlers' => [
+					/**
+					 * @param int                  $userId caller Cacti user id
+					 * @param array<string, mixed> $params optional backend, page_size, page_token
+					 *
+					 * @return array{pfsFilesystems: list<array<string, mixed>>, next_page_token: string}
+					 */
+					'list' => function (int $userId, array $params = []) use ($serialize): array {
+						if (!($this->hasViewRealm)($userId)) {
+							return ['pfsFilesystems' => [], 'next_page_token' => ''];
+						}
+
+						$backendFilter = isset($params['backend']) && is_string($params['backend']) ? $params['backend'] : null;
+						$pageSize      = isset($params['page_size']) && is_int($params['page_size']) ? max(1, min(1000, $params['page_size'])) : 100;
+						$offset        = isset($params['page_token']) && is_string($params['page_token']) && ctype_digit($params['page_token']) ? (int) $params['page_token'] : 0;
+
+						$items = [];
+
+						foreach ($this->permittedFilesystems($userId) as $fs) {
+							if ($backendFilter !== null && $fs->backend !== $backendFilter) {
+								continue;
+							}
+
+							$items[] = $serialize($fs);
+						}
+
+						$slice = array_slice($items, $offset, $pageSize);
+						$next  = ($offset + count($slice)) < count($items) ? (string) ($offset + count($slice)) : '';
+
+						return [
+							'pfsFilesystems'  => $slice,
+							'next_page_token' => $next,
+						];
+					},
+					/**
+					 * @param int    $userId     caller Cacti user id
+					 * @param string $resourceId numeric id or canonical pfsFilesystems/{id}
+					 *
+					 * @return array<string, mixed>|null
+					 */
+					'get' => function (int $userId, string $resourceId) use ($serialize): ?array {
+						if (!($this->hasViewRealm)($userId)) {
+							return null;
+						}
+
+						$rawId = str_starts_with($resourceId, 'pfsFilesystems/') ? substr($resourceId, strlen('pfsFilesystems/')) : $resourceId;
+
+						if ($rawId === '' || !ctype_digit($rawId)) {
+							return null;
+						}
+
+						$targetId = (int) $rawId;
+
+						foreach ($this->permittedFilesystems($userId) as $fs) {
+							if ($fs->id === $targetId) {
+								return $serialize($fs);
+							}
+						}
+
+						return null;
+					},
+				],
+			],
+		];
+	}
+
+	/**
 	 * CasC provider registration descriptor (casc_register_providers).
 	 *
 	 * @return array<string, mixed>
@@ -486,6 +702,11 @@ final class EcosystemIntegration {
 		return ImbalanceAnalyzer::analyze($sumTargets, $fs->interval);
 	}
 
+	/**
+	 * Casc.
+	 *
+	 * @return CascProvider
+	 */
 	private function casc(): CascProvider {
 		return new CascProvider(
 			$this->settings,

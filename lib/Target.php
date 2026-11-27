@@ -25,6 +25,20 @@ namespace Somethingwithproof\Pfs;
  * history stays.
  */
 final readonly class Target {
+	/**
+	 * Initialize Target.
+	 *
+	 * @param int $id
+	 * @param int $filesystemId
+	 * @param TargetId $targetId
+	 * @param Review $review
+	 * @param Presence $presence
+	 * @param Condition $condition
+	 * @param ?string $recovery
+	 * @param int $sourceNodeId
+	 * @param int $firstSeen
+	 * @param int $lastSeen
+	 */
 	public function __construct(
 		public int $id,
 		public int $filesystemId,
@@ -70,6 +84,11 @@ final readonly class Target {
 		);
 	}
 
+	/**
+	 * Name.
+	 *
+	 * @return string
+	 */
 	public function name(): string {
 		return $this->targetId->name();
 	}

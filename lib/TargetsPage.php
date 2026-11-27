@@ -31,8 +31,21 @@ namespace Somethingwithproof\Pfs;
  * shown to administrators only.
  */
 final class TargetsPage {
+	/** File constant. */
 	public const FILE = 'pfs.php';
 
+	/**
+	 * Initialize TargetsPage.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param NodeRepository $nodes
+	 * @param TargetRepository $targets
+	 * @param ObservationRepository $observations
+	 * @param FreshnessEvaluator $freshness
+	 * @param Clock $clock
+	 * @param DeviceAccess $access
+	 * @param bool $admin
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly NodeRepository $nodes,
@@ -56,6 +69,9 @@ final class TargetsPage {
 		return $this->admin ? $allowed : array_values(array_filter($allowed, static fn (Filesystem $f): bool => $f->hostId > 0));
 	}
 
+	/**
+	 * Render.
+	 */
 	public function render(): void {
 		$names = [];
 

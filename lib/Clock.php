@@ -19,6 +19,14 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Source of current Unix timestamps for polling, freshness, and tests.
+ */
 interface Clock {
+	/**
+	 * Return the current Unix timestamp in seconds.
+	 *
+	 * @return int
+	 */
 	public function now(): int;
 }

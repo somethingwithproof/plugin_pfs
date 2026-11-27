@@ -29,8 +29,11 @@ namespace Somethingwithproof\Pfs;
  * REQ-HEALTH-004); the view realm sees inventory and freshness only.
  */
 final class Pages {
+	/** Operator constant. */
 	public const OPERATOR = ['pfs_operator.php'];
+	/** View constant. */
 	public const VIEW  = ['pfs.php'];
+	/** Admin constant. */
 	public const ADMIN = ['pfs_admin.php', 'pfs_health.php'];
 
 	/**

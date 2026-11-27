@@ -26,7 +26,9 @@ namespace Somethingwithproof\Pfs;
  * $maxBytes, and it is killed at $timeout (REQ-SRC-003).
  */
 final class ProcRunner implements ProcessRunner {
+	/** Chunk constant. */
 	private const CHUNK       = 65536;
+	/** Stderr keep constant. */
 	private const STDERR_KEEP = 2048;
 
 	/**
@@ -35,6 +37,16 @@ final class ProcRunner implements ProcessRunner {
 	public function __construct(private readonly array $env = ['PATH' => '/usr/bin:/bin', 'LC_ALL' => 'C']) {
 	}
 
+	/**
+	 * Run all.
+	 *
+	 * @param array<int, list<string>> $commands
+	 * @param int $concurrency
+	 * @param float $timeout
+	 * @param int $maxBytes
+	 * @param float $deadline
+	 * @return array<int, ProcessResult>
+	 */
 	public function runAll(array $commands, int $concurrency, float $timeout, int $maxBytes, float $deadline): array {
 		$pending  = $commands;
 		$running  = [];
@@ -189,6 +201,13 @@ final class ProcRunner implements ProcessRunner {
 		}
 	}
 
+	/**
+	 * Kill.
+	 *
+	 * @param ProcJob $job
+	 * @param bool $timedOut
+	 * @return ProcessResult
+	 */
 	private function kill(ProcJob $job, bool $timedOut): ProcessResult {
 		proc_terminate($job->process, 9);
 		fclose($job->stdout);

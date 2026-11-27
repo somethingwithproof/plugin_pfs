@@ -28,6 +28,7 @@ namespace Somethingwithproof\Pfs;
  * patterns, and every cell is escaped.
  */
 final class HealthPage {
+	/** File constant. */
 	public const FILE = 'pfs_health.php';
 
 	/**

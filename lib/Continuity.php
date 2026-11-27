@@ -27,7 +27,10 @@ namespace Somethingwithproof\Pfs;
  * counted since its start time; the value itself stays unknown (ADR 0013).
  */
 enum Continuity: string {
+	/** Continuity continuous case. */
 	case Continuous = 'continuous';
+	/** Continuity reset case. */
 	case Reset      = 'reset';
+	/** Continuity absent case. */
 	case Absent     = 'absent';
 }

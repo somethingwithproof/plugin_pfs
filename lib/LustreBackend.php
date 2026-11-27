@@ -49,9 +49,12 @@ namespace Somethingwithproof\Pfs;
  * that list is ignored, never guessed at.
  */
 final class LustreBackend implements Backend {
+	/** Protocol constant. */
 	public const PROTOCOL = '#pfs-read 1';
+	/** End constant. */
 	public const END      = '#pfs-read end';
 
+	/** Capacity constant. */
 	private const CAPACITY = [
 		'kbytestotal' => 'kbytes_total',
 		'kbytesfree'  => 'kbytes_free',
@@ -60,6 +63,7 @@ final class LustreBackend implements Backend {
 		'filesfree'   => 'files_free',
 	];
 
+	/** Flags constant. */
 	private const FLAGS = ['degraded', 'no_precreate', 'no_create', 'readonly'];
 
 	/** OST stats counter => [samples value, sum value] */
@@ -92,22 +96,44 @@ final class LustreBackend implements Backend {
 		'rename_trylocks'      => 'md_rename_trylocks',
 	];
 
+	/** Recovery constant. */
 	private const RECOVERY = ['INACTIVE', 'COMPLETE', 'WAITING', 'WAITING_FOR_CLIENTS', 'RECOVERING'];
 
+	/** Max sections constant. */
 	private const MAX_SECTIONS = 50000;
 
+	/**
+	 * Return the canonical backend identifier.
+	 *
+	 * @return string
+	 */
 	public function id(): string {
 		return 'lustre';
 	}
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return 'Lustre';
 	}
 
+	/**
+	 * Return the validation regex for filesystem names on this backend.
+	 *
+	 * @return string
+	 */
 	public function filesystemPattern(): string {
 		return '/^[A-Za-z0-9_-]{1,8}$/';
 	}
 
+	/**
+	 * Return the metric value specifications supported by this backend.
+	 *
+	 * @return list<ValueSpec>
+	 */
 	public function values(): array {
 		$values = [];
 
@@ -131,6 +157,12 @@ final class LustreBackend implements Backend {
 		return $values;
 	}
 
+	/**
+	 * Parse a framed node report into structured targets and observations.
+	 *
+	 * @param string $output
+	 * @return NodeReport
+	 */
 	public function parse(string $output): NodeReport {
 		$lines = explode("\n", $output);
 

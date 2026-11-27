@@ -344,3 +344,26 @@ it('ships the node read script with its SPDX header after the shebang', function
 		->and($lines[2])->toBe('# SPDX-License-Identifier: GPL-2.0-or-later');
 	// REUSE-IgnoreEnd
 });
+
+it('contains zero cross-plugin PHP imports for doctor, api, casc, or mcp', function () {
+	foreach (pfs_sources() as $file) {
+		$code = pfs_code($file);
+
+		expect($code)->not->toMatch('/\b(require|include)(_once)?\b[^\n;]*plugins\/(doctor|api|casc|mcp)\b/i', $file)
+			->and($code)->not->toMatch('/\buse\s+[^\n;]*(PluginDoctor|PluginApi|PluginCasc|PluginMcp|\\\\Doctor\\\\|\\\\Api\\\\)/i', $file);
+	}
+});
+
+it('ships a static Drupal-style config/state schema with strict separation', function () {
+	$path = pfs_root() . '/schema/pfs.schema.yaml';
+
+	expect(is_file($path))->toBeTrue();
+
+	$content = (string) file_get_contents($path);
+
+	expect($content)->toContain('plugin.pfs.settings:')
+		->and($content)->toContain('type: config_object')
+		->and($content)->toContain('plugin.pfs.config:')
+		->and($content)->toContain('plugin.pfs.state:')
+		->and($content)->toContain('type: state_object');
+});

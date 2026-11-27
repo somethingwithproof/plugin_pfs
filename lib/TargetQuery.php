@@ -38,13 +38,24 @@ namespace Somethingwithproof\Pfs;
 final class TargetQuery {
 	/** Input fields, by query_name, beside the value names. */
 	public const NAME_FIELD  = 'name';
+	/** Index field constant. */
 	public const INDEX_FIELD = 'number';
 
+	/** Cache seconds constant. */
 	private const CACHE_SECONDS = 30;
 
 	/** @var array<int, array{at: int, filesystem: ?Filesystem, targets: array<string, Target>, values: array<int, array<string, Observation>>}> */
 	private array $cache = [];
 
+	/**
+	 * Initialize TargetQuery.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param TargetRepository $targets
+	 * @param ObservationRepository $observations
+	 * @param BackendRegistry $backends
+	 * @param Clock $clock
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly TargetRepository $targets,
@@ -54,6 +65,16 @@ final class TargetQuery {
 	) {
 	}
 
+	/**
+	 * Answer.
+	 *
+	 * @param int $hostId
+	 * @param string $type
+	 * @param string $command
+	 * @param string $field
+	 * @param string $index
+	 * @return string
+	 */
 	public function answer(int $hostId, string $type, string $command, string $field = '', string $index = ''): string {
 		$targetType = TargetType::tryFrom($type);
 
@@ -159,6 +180,14 @@ final class TargetQuery {
 		return $served ? Number::format($value) : 'U';
 	}
 
+	/**
+	 * Spec.
+	 *
+	 * @param Filesystem $filesystem
+	 * @param TargetType $type
+	 * @param string $field
+	 * @return ?ValueSpec
+	 */
 	private function spec(Filesystem $filesystem, TargetType $type, string $field): ?ValueSpec {
 		if (!$this->backends->has($filesystem->backend)) {
 			return null;

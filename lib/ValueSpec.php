@@ -28,6 +28,7 @@ namespace Somethingwithproof\Pfs;
  * poller_item.rrd_name are varchar(19)).
  */
 final readonly class ValueSpec {
+	/** Name pattern constant. */
 	public const NAME_PATTERN = '/^[a-zA-Z0-9_]{1,19}$/';
 
 	/**

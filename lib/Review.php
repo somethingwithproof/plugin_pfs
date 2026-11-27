@@ -25,7 +25,10 @@ namespace Somethingwithproof\Pfs;
  * ones.
  */
 enum Review: string {
+	/** Review proposed case. */
 	case Proposed = 'proposed';
+	/** Review accepted case. */
 	case Accepted = 'accepted';
+	/** Review ignored case. */
 	case Ignored  = 'ignored';
 }

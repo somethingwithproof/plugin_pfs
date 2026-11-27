@@ -25,6 +25,17 @@ namespace Somethingwithproof\Pfs;
  * never logged.
  */
 final readonly class ProcessResult {
+	/**
+	 * Initialize ProcessResult.
+	 *
+	 * @param ?int $exitCode
+	 * @param string $stdout
+	 * @param string $stderr
+	 * @param bool $timedOut
+	 * @param bool $tooLarge
+	 * @param bool $started
+	 * @param float $duration
+	 */
 	public function __construct(
 		public ?int $exitCode,
 		public string $stdout,
@@ -36,6 +47,11 @@ final readonly class ProcessResult {
 	) {
 	}
 
+	/**
+	 * Not started.
+	 *
+	 * @return self
+	 */
 	public static function notStarted(): self {
 		return new self(null, '', '', false, false, false, 0.0);
 	}

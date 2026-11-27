@@ -28,6 +28,7 @@ namespace Somethingwithproof\Pfs;
  * byte-precision ceiling) keep exact integer precision past 8 EiB (9.22 EB).
  */
 final class FramedReportParser {
+	/** Default max sections constant. */
 	public const DEFAULT_MAX_SECTIONS = 20000;
 
 	/**

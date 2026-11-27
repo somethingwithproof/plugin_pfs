@@ -24,11 +24,20 @@ namespace Somethingwithproof\Pfs;
  * backends map their own server kinds onto the same four.
  */
 enum NodeRole: string {
+	/** NodeRole mgs case. */
 	case Mgs    = 'mgs';
+	/** NodeRole mds case. */
 	case Mds    = 'mds';
+	/** NodeRole oss case. */
 	case Oss    = 'oss';
+	/** NodeRole client case. */
 	case Client = 'client';
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return match ($this) {
 			self::Mgs    => __('Management server (MGS)', 'pfs'),

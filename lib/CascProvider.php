@@ -27,7 +27,9 @@ namespace Somethingwithproof\Pfs;
  * imbalance reporting. Uses zero external Composer runtime dependencies.
  */
 final class CascProvider {
+	/** Schema version constant. */
 	public const SCHEMA_VERSION = 1;
+	/** Formats constant. */
 	public const FORMATS        = ['yaml', 'xml'];
 
 	/**
@@ -102,6 +104,13 @@ final class CascProvider {
 		];
 	}
 
+	/**
+	 * Export.
+	 *
+	 * @param string $format
+	 * @return string
+	 * @throws \InvalidArgumentException
+	 */
 	public function export(string $format = 'yaml'): string {
 		$format = strtolower(trim($format));
 		$data   = $this->snapshot();
@@ -572,6 +581,12 @@ final class CascProvider {
 		];
 	}
 
+	/**
+	 * Format health.
+	 *
+	 * @param string $format
+	 * @return string
+	 */
 	public function formatHealth(string $format = 'text'): string {
 		$report = $this->health();
 
@@ -655,6 +670,12 @@ final class CascProvider {
 		return implode("\n", $lines) . "\n";
 	}
 
+	/**
+	 * Yaml scalar.
+	 *
+	 * @param int|bool|string $value
+	 * @return string
+	 */
 	private static function yamlScalar(int|bool|string $value): string {
 		if (is_bool($value)) {
 			return $value ? 'true' : 'false';
@@ -742,6 +763,12 @@ final class CascProvider {
 		return $result;
 	}
 
+	/**
+	 * Parse yaml value.
+	 *
+	 * @param string $raw
+	 * @return int|bool|string
+	 */
 	private static function parseYamlValue(string $raw): int|bool|string {
 		if ($raw === 'true') {
 			return true;

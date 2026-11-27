@@ -57,6 +57,7 @@ namespace Somethingwithproof\Pfs;
  * the sum has no members to compare, so it is two.
  */
 final class SummaryCalculator {
+	/** Ost counters constant. */
 	private const OST_COUNTERS = ['read_bytes', 'write_bytes'];
 
 	/**

@@ -37,6 +37,12 @@ final class HealthWarnings {
 	public function __construct(private readonly \Closure $mode, private readonly Clock $clock) {
 	}
 
+	/**
+	 * Production.
+	 *
+	 * @param Clock $clock
+	 * @return self
+	 */
 	public static function production(Clock $clock): self {
 		return new self(static function (string $path): ?int {
 			clearstatcache(true, $path);

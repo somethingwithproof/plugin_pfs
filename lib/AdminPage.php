@@ -27,8 +27,22 @@ namespace Somethingwithproof\Pfs;
  * Nothing here contacts a node.
  */
 final class AdminPage {
+	/** File constant. */
 	public const FILE = 'pfs_admin.php';
 
+	/**
+	 * Initialize AdminPage.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param NodeRepository $nodes
+	 * @param NetworkRepository $networks
+	 * @param TargetRepository $targets
+	 * @param BackendRegistry $backends
+	 * @param PollerRepository $pollers
+	 * @param DeviceProvisioner $provisioner
+	 * @param CactiObjectRepository $objects
+	 * @param DeviceAccess $access
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly NodeRepository $nodes,
@@ -331,6 +345,12 @@ final class AdminPage {
 		}
 	}
 
+	/**
+	 * Device cell.
+	 *
+	 * @param Filesystem $fs
+	 * @return string
+	 */
 	private function deviceCell(Filesystem $fs): string {
 		$device = $fs->hostId > 0 ? $this->objects->device($fs->hostId) : null;
 
@@ -344,6 +364,13 @@ final class AdminPage {
 			. $this->actionForm('unmap_device', $fs->id, __('Unmap', 'pfs'));
 	}
 
+	/**
+	 * Submit label.
+	 *
+	 * @param string $action
+	 * @param int $id
+	 * @param string $label
+	 */
 	private function submitLabel(string $action, int $id, string $label): void {
 		print '<input type="hidden" name="action" value="' . html_escape($action) . '">'
 			. '<input type="hidden" name="id" value="' . $id . '">'
@@ -351,6 +378,12 @@ final class AdminPage {
 			. '</form>';
 	}
 
+	/**
+	 * Submit.
+	 *
+	 * @param string $action
+	 * @param int $id
+	 */
 	private function submit(string $action, int $id): void {
 		print '<input type="hidden" name="action" value="' . html_escape($action) . '">'
 			. '<input type="hidden" name="id" value="' . $id . '">'
@@ -358,6 +391,14 @@ final class AdminPage {
 			. '</form>';
 	}
 
+	/**
+	 * Action form.
+	 *
+	 * @param string $action
+	 * @param int $id
+	 * @param string $label
+	 * @return string
+	 */
 	private function actionForm(string $action, int $id, string $label): string {
 		return '<form method="post" action="' . html_escape(self::FILE) . '" style="display:inline">'
 			. '<input type="hidden" name="action" value="' . html_escape($action) . '">'
@@ -366,11 +407,26 @@ final class AdminPage {
 			. '</form>';
 	}
 
+	/**
+	 * Text.
+	 *
+	 * @param string $name
+	 * @param string $label
+	 * @param string $value
+	 * @param int $length
+	 */
 	private function text(string $name, string $label, string $value, int $length): void {
 		print '<tr><td><label for="' . html_escape($name) . '">' . html_escape($label) . '</label></td>'
 			. '<td><input type="text" id="' . html_escape($name) . '" name="' . html_escape($name) . '" value="' . html_escape($value) . '" maxlength="' . $length . '" size="' . min(60, $length) . '"></td></tr>';
 	}
 
+	/**
+	 * Checkbox.
+	 *
+	 * @param string $name
+	 * @param string $label
+	 * @param bool $checked
+	 */
 	private function checkbox(string $name, string $label, bool $checked): void {
 		print '<tr><td><label for="' . html_escape($name) . '">' . html_escape($label) . '</label></td><td><input type="checkbox" id="' . html_escape($name) . '" name="' . html_escape($name) . '" value="on"' . ($checked ? ' checked' : '') . '></td></tr>';
 	}

@@ -19,6 +19,9 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Reconciled target creations, updates, and missing-target transitions.
+ */
 final readonly class InventoryPlan {
 	/**
 	 * @param array<string, TargetUpdate> $updates target name => decision

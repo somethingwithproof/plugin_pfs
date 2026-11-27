@@ -25,6 +25,19 @@ namespace Somethingwithproof\Pfs;
  * stopped at its budget or died leaves it unchanged.
  */
 final readonly class ReaderRun {
+	/**
+	 * Initialize ReaderRun.
+	 *
+	 * @param int $pollerId
+	 * @param int $startedAt
+	 * @param int $finishedAt
+	 * @param int $lastCompleted
+	 * @param int $nodesTotal
+	 * @param int $nodesRead
+	 * @param int $nodesFailed
+	 * @param int $nodesSkipped
+	 * @param bool $stoppedEarly
+	 */
 	public function __construct(
 		public int $pollerId,
 		public int $startedAt = 0,

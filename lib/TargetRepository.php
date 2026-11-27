@@ -24,6 +24,11 @@ namespace Somethingwithproof\Pfs;
  * writes go through CacheRepository.
  */
 final class TargetRepository {
+	/**
+	 * Initialize TargetRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 
@@ -64,12 +69,25 @@ final class TargetRepository {
 		return $this->targets(Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_target ORDER BY filesystem_id, type, target_index', [], true, $this->connection)));
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param int $id
+	 * @return ?Target
+	 */
 	public function find(int $id): ?Target {
 		$row = db_fetch_row_prepared('SELECT * FROM plugin_pfs_target WHERE id = ?', [$id], true, $this->connection);
 
 		return is_array($row) ? Target::fromRow($row) : null;
 	}
 
+	/**
+	 * Review.
+	 *
+	 * @param int $id
+	 * @param Review $review
+	 * @return bool
+	 */
 	public function review(int $id, Review $review): bool {
 		return $this->find($id) !== null && db_execute_prepared('UPDATE plugin_pfs_target SET review = ? WHERE id = ?', [$review->value, $id], true, $this->connection);
 	}

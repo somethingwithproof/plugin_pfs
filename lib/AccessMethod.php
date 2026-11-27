@@ -25,8 +25,14 @@ namespace Somethingwithproof\Pfs;
  * option.
  */
 enum AccessMethod: string {
+	/** AccessMethod ssh case. */
 	case Ssh = 'ssh';
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return match ($this) {
 			self::Ssh => __('SSH forced command', 'pfs'),

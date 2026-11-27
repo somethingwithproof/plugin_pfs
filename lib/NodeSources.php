@@ -28,10 +28,22 @@ final class NodeSources {
 	/** @var array<string, NodeSource> */
 	private array $sources = [];
 
+	/**
+	 * Register.
+	 *
+	 * @param AccessMethod $method
+	 * @param NodeSource $source
+	 */
 	public function register(AccessMethod $method, NodeSource $source): void {
 		$this->sources[$method->value] = $source;
 	}
 
+	/**
+	 * For.
+	 *
+	 * @param AccessMethod $method
+	 * @return ?NodeSource
+	 */
 	public function for(AccessMethod $method): ?NodeSource {
 		return $this->sources[$method->value] ?? null;
 	}

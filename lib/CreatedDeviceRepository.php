@@ -29,11 +29,17 @@ namespace Somethingwithproof\Pfs;
  * device even when the other plugin tables are dropped.
  */
 final class CreatedDeviceRepository {
+	/** Table constant. */
 	public const TABLE = 'plugin_pfs_created_devices';
 
 	/** Where milestone 4 kept the list, as JSON; migration 3 moves it. */
 	public const LEGACY_SETTING = 'pfs_created_devices';
 
+	/**
+	 * Initialize CreatedDeviceRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 
@@ -44,6 +50,13 @@ final class CreatedDeviceRepository {
 		return array_values(array_filter(array_map(static fn (array $row): int => Row::int($row, 'host_id', 0, 1), Row::rows(db_fetch_assoc_prepared('SELECT host_id FROM plugin_pfs_created_devices ORDER BY host_id', [], true, $this->connection))), static fn (int $id): bool => $id > 0));
 	}
 
+	/**
+	 * Add.
+	 *
+	 * @param int $hostId
+	 * @param int $now
+	 * @return bool
+	 */
 	public function add(int $hostId, int $now): bool {
 		return $hostId > 0 && db_execute_prepared('INSERT IGNORE INTO plugin_pfs_created_devices (host_id, created_at) VALUES (?, ?)', [$hostId, $now], true, $this->connection);
 	}
