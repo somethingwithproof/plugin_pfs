@@ -213,4 +213,33 @@ final class FramedReportParser {
 
 		return (int) round($kib);
 	}
+
+	/**
+	 * Normalize collected target entries into sorted TargetReport instances
+	 * filtered strictly to each backend's declared ValueSpec list.
+	 *
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets
+	 * @param list<ValueSpec>                                                                                          $specs
+	 *
+	 * @return array<string, TargetReport>
+	 */
+	public static function buildTargetReports(array $targets, array $specs): array {
+		$reports = [];
+
+		foreach ($targets as $name => $entry) {
+			$values = [];
+
+			foreach ($specs as $spec) {
+				if ($spec->targetType === $entry['id']->type) {
+					$values[$spec->name] = $entry['values'][$spec->name] ?? null;
+				}
+			}
+
+			$reports[$name] = new TargetReport($entry['id'], $values, $entry['start'], $entry['condition'], null, []);
+		}
+
+		ksort($reports);
+
+		return $reports;
+	}
 }

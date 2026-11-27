@@ -119,21 +119,7 @@ final class GpfsBackend implements Backend {
 			}
 		}
 
-		$reports = [];
-
-		foreach ($targets as $name => $entry) {
-			$values = [];
-
-			foreach ($this->values() as $spec) {
-				if ($spec->targetType === $entry['id']->type) {
-					$values[$spec->name] = $entry['values'][$spec->name] ?? null;
-				}
-			}
-
-			$reports[$name] = new TargetReport($entry['id'], $values, $entry['start'], $entry['condition'], null, []);
-		}
-
-		ksort($reports);
+		$reports = FramedReportParser::buildTargetReports($targets, $this->values());
 
 		return new NodeReport(true, true, $partial, $version, $reports, $rejected, $unexpected);
 	}

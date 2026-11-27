@@ -87,7 +87,7 @@ final class BeegfsBackend implements Backend {
 		$version    = null;
 		$rejected   = 0;
 		$unexpected = 0;
-		/** @var array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition}> $targets */
+		/** @var array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets */
 		$targets  = [];
 
 		foreach ($parsed['sections'] as $entry) {
@@ -105,21 +105,7 @@ final class BeegfsBackend implements Backend {
 			}
 		}
 
-		$reports = [];
-
-		foreach ($targets as $name => $entry) {
-			$values = [];
-
-			foreach ($this->values() as $spec) {
-				if ($spec->targetType === $entry['id']->type) {
-					$values[$spec->name] = $entry['values'][$spec->name] ?? null;
-				}
-			}
-
-			$reports[$name] = new TargetReport($entry['id'], $values, null, $entry['condition'], null, []);
-		}
-
-		ksort($reports);
+		$reports = FramedReportParser::buildTargetReports($targets, $this->values());
 
 		return new NodeReport(true, true, $partial, $version, $reports, $rejected, $unexpected);
 	}
@@ -130,8 +116,8 @@ final class BeegfsBackend implements Backend {
 	 *     disk_space_total=<bytes> disk_space_free=<bytes> inodes_total=<n> inodes_free=<n>
 	 *     [work_requests=<n> queued_requests=<n> disk_read_bytes=<n> disk_write_bytes=<n>]
 	 *
-	 * @param list<string>                                                                   $lines
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition}> $targets
+	 * @param list<string>                                                                                    $lines
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets
 	 */
 	private function parseTargets(array $lines, TargetType $type, array &$targets, int &$rejected, bool &$partial): void {
 		$seenTarget = [];
@@ -166,7 +152,7 @@ final class BeegfsBackend implements Backend {
 
 			if (isset($seenTarget[$name])) {
 				// Duplicate target in one section is ambiguous; drop its values and flag partial.
-				$targets[$name] = ['id' => $targetId, 'values' => [], 'condition' => Condition::Unknown];
+				$targets[$name] = ['id' => $targetId, 'values' => [], 'condition' => Condition::Unknown, 'start' => null];
 				$partial        = true;
 
 				continue;
@@ -197,6 +183,7 @@ final class BeegfsBackend implements Backend {
 				'id'        => $targetId,
 				'values'    => $values,
 				'condition' => $condition,
+				'start'     => null,
 			];
 		}
 	}

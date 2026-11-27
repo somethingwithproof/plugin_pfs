@@ -65,25 +65,10 @@ final class TopKTracker {
 				'status_flags'   => $detail['status_flags'],
 			];
 
-			$tuple = [$score, $fill, $detail['name'], $entry];
-
-			if ($heap->count() < $limit) {
-				$heap->insert($tuple);
-			} elseif ($tuple[0] > $heap->top()[0] || ($tuple[0] === $heap->top()[0] && $tuple[1] > $heap->top()[1])) {
-				$heap->extract();
-				$heap->insert($tuple);
-			}
+			self::pushBounded($heap, $limit, [$score, $fill, $detail['name'], $entry]);
 		}
 
-		$ranked = [];
-
-		while (!$heap->isEmpty()) {
-			$ranked[] = $heap->extract();
-		}
-
-		usort($ranked, static fn (array $a, array $b): int => [$b[0], $b[1], $a[2]] <=> [$a[0], $a[1], $b[2]]);
-
-		return array_map(static fn (array $row): array => $row[3], $ranked);
+		return self::drainDescending($heap);
 	}
 
 	/**
@@ -130,16 +115,40 @@ final class TopKTracker {
 				'read_bytes'    => $readBytes,
 				'write_bytes'   => $writeBytes,
 			];
-			$tuple = [$bps, $ops, $id, $entry];
 
-			if ($heap->count() < $limit) {
-				$heap->insert($tuple);
-			} elseif ($tuple[0] > $heap->top()[0] || ($tuple[0] === $heap->top()[0] && $tuple[1] > $heap->top()[1])) {
-				$heap->extract();
-				$heap->insert($tuple);
-			}
+			self::pushBounded($heap, $limit, [$bps, $ops, $id, $entry]);
 		}
 
+		return self::drainDescending($heap);
+	}
+
+	/**
+	 * @template T
+	 * @param \SplMinHeap<array{0: float, 1: float, 2: string, 3: T}> $heap
+	 * @param array{0: float, 1: float, 2: string, 3: T}            $tuple
+	 */
+	private static function pushBounded(\SplMinHeap $heap, int $limit, array $tuple): void {
+		if ($heap->count() < $limit) {
+			$heap->insert($tuple);
+
+			return;
+		}
+
+		$top = $heap->top();
+
+		if ($tuple[0] > $top[0] || ($tuple[0] === $top[0] && $tuple[1] > $top[1])) {
+			$heap->extract();
+			$heap->insert($tuple);
+		}
+	}
+
+	/**
+	 * @template T
+	 * @param \SplMinHeap<array{0: float, 1: float, 2: string, 3: T}> $heap
+	 *
+	 * @return list<T>
+	 */
+	private static function drainDescending(\SplMinHeap $heap): array {
 		$ranked = [];
 
 		while (!$heap->isEmpty()) {
@@ -148,7 +157,7 @@ final class TopKTracker {
 
 		usort($ranked, static fn (array $a, array $b): int => [$b[0], $b[1], $a[2]] <=> [$a[0], $a[1], $b[2]]);
 
-		return array_map(static fn (array $row): array => $row[3], $ranked);
+		return array_map(static fn (array $row): mixed => $row[3], $ranked);
 	}
 
 	private static function clampK(int $k): int {
