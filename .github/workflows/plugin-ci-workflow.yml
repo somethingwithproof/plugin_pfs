@@ -118,7 +118,7 @@ jobs:
         php-version: ${{ matrix.php }}
         tools: composer:2.10.3, phpstan:2.3.5
         extensions: intl, mysql, gd, ldap, gmp, xml, json, mbstring, openssl, snmp
-        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York"
+        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York, opcache.jit=0"
         coverage: ${{ matrix.php == '8.4' && matrix.cacti == 'release/1.2.31' && 'pcov' || 'none' }}
 
     - name: Install system dependencies
