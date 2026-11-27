@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-إضافة لـ Cacti 1.2 تتيح إدماج حالة أنظمة الملفات المتوازية وحمولتها داخل Cacti: السعة وعدم توازن الامتلاء عبر الأهداف، والإنتاجية لكل هدف، ومعدلات عمليات البيانات الوصفية (metadata). يُعد Lustre أول خلفية (backend) مدعومة، وتليه خلفيتا GPFS (IBM Storage Scale) وBeeGFS عبر واجهة خلفيات موحدة. وتصل البيانات إلى أجهزة Cacti العادية، ومصادر البيانات، والمبيانات، بحيث تتولى إضافتا Thold وMaint التنبيه بشأنها وكتم التنبيهات دون أي تعديل عليهما.
+إضافة لـ Cacti 1.2 تنقل صحة أنظمة الملفات المتوازية وسعتها وعدم توازن الامتلاء والإنتاجية لكل هدف ومعدلات عمليات البيانات الوصفية إلى Cacti عبر Lustre وIBM Storage Scale (GPFS) وBeeGFS خلف واجهة `Backend` موحدة. يُربط كل نظام ملفات بجهاز Cacti عادي مع استعلامات بيانات، ومبيانات للنظرة العامة وأخرى لكل هدف عند الطلب، ومؤشرات قياس ملخصة بحيث تتولى إضافتا Thold وMaint التنبيه بشأنها وكتم التنبيهات دون أي تعديل عليهما.
 
-> **الحالة: المعلم 4، الشيفرة مكتملة للمرحلة 1، ولم يُطلق الإصدار بعد.** تم إنجاز المعالم 2 (الأساس)، و3 (مراقبة Lustre)، و4 (التنبيه والتحضير للإطلاق) على الفرع `main` أو هي قيد المراجعة. تدعم الإضافة التثبيت والترقية وإزالة التثبيت عبر واجهة برمجة إضافات Cacti وترفض أي إصدار PHP أقل من 8.2. يقوم قارئ في الخلفية على كل مجمّع بيانات (poller) بقراءة خوادم Lustre عبر SSH من خلال سكربت أمر مفروض ثابت ([node/pfs-read.sh](../../../node/pfs-read.sh))، ويخزن الجرد والحالة والسعة والعدادات مؤقتاً مع حداثة بياناتها. يصبح كل نظام ملفات جهازاً داخل Cacti مع استعلامات بيانات OST وMDT، وخمسة مبيانات للنظرة العامة، ومبيانات لكل هدف عند الطلب، ومصدر بيانات ملخص لإضافة Thold. وتقوم إضافتا Thold v1.8.2 وMaint v1.3، دون تعديل، بالتنبيه على المقاييس الملخصة وكتمها في التشغيل الشامل (end-to-end)؛ غير أن عتبات Thold على العدادات غير مدعومة مع Thold 1.8.2 ([docs/alerting.md](../../alerting.md)). جميع الاختبارات حتى الآن تُنفذ على مخرجات عقد تجريبية (fixtures) ضمن بيئة Cacti مؤقتة: لم يسبق تشغيل الإضافة على عقدة Lustre حقيقية. وما زال مفتوحاً قبل الإطلاق: التجارب الميدانية على أنظمة ملفات حقيقية ([خطة التجريب الميداني](../../pilot-plan.md))، والمراجعة الأمنية الخارجية ([المراجعة الذاتية](../../security-review.md))، وقياسات قابلية التوسع على عتاد موثق ([قياسات قابلية التوسع](../../research/scale.md)). تم تحضير الإصدار 0.1.0 في `INFO` و[CHANGELOG.md](../../../CHANGELOG.md) لكنه لم يُوسَم (tag) بعد.
+> **الحالة: المراحل من 1 إلى 3 وأوليات التوسع لمستوى الإكساسكيل منفذة في الشيفرة، ولم يُطلق الإصدار بعد.** تم تنفيذ الأساس، ومراقبة Lustre، والتنبيه وكتم Maint، ومشغّلات القراءة فقط لـ GPFS وBeeGFS، وتحليل عدم توازن OST/MDT مع تكامل Maint، وتحديد نطاق مجمّع البيانات البعيد (`replicate_out`، `remote_agent`)، وأوليات التوسع لأكثر من 100 PB / الإكساسكيل (`FramedReportParser`، المخطط v4 `value_kib`، `RollupPolicy`، `TopKTracker`، `ShardAssigner`، `BatchUpserter`)، وواجهة سطر أوامر المشغل CasC (`cli/pfs.php`)، وخطافات المنظومة (`abilities_register`، `doctor_register_checks`، `casc_register_providers`)، والتحقق منها باختبارات الوحدة والأمان واختبارات التكامل على بيئة Cacti مؤقتة. جميع التشغيلات حتى الآن تعتمد على مخرجات عقد تجريبية بدلًا من عتاد Lustre أو GPFS أو BeeGFS حقيقي. وما زال مفتوحًا قبل وسم الإصدار: التجارب الميدانية على أنظمة ملفات حقيقية ([خطة التجريب الميداني](../../pilot-plan.md))، والمراجعة الأمنية الخارجية ([المراجعة الذاتية](../../security-review.md))، وقياسات قابلية التوسع على عتاد موثق ([قياسات قابلية التوسع](../../research/scale.md)). تم تحضير الإصدار 0.1.0 في `INFO` و[CHANGELOG.md](../../../CHANGELOG.md) لكنه لم يُوسم بعد.
 
 ## أدوار الوصول
 
@@ -44,27 +44,35 @@
 
 ## النطاق المخطط له
 
-| المرحلة | النطاق | المعالم |
-|---|---|---|
-| 0، البحث | مصفوفة الإصدارات، قرار الوصول إلى العقد، تأكيد سلوك المنبع (upstream)، سلوك العدادات وتجاوز الفشل، قياسات قابلية التوسع | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1، المراقبة | جرد Lustre، السعة والامتلاء، إنتاجية OST، معدلات عمليات MDT، المبيانات، تنبيهات Thold، كتم Maint، صفحة الحالة الصحية | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2، التعمق | مجمعات البيانات البعيدة في Cacti، عروض على مستوى المهام (job-level) والعملاء (client-level) ضمن عدد محدود من الكائنات | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3، الخلفيات | خلفيات GPFS (IBM Storage Scale) وBeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| المرحلة | النطاق | الحالة | المعالم |
+|---|---|---|---|
+| 0، البحث | مصفوفة الإصدارات، قرار الوصول إلى العقد، تأكيد سلوك المنبع (upstream)، سلوك العدادات وتجاوز الفشل، قياسات قابلية التوسع | مكتملة | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1، المراقبة | جرد Lustre، السعة والامتلاء، عدم توازن OST/MDT (`lib/ImbalanceAnalyzer.php`)، تكامل Maint (`lib/HealthPage.php`)، إنتاجية OST، معدلات عمليات MDT، المبيانات، تنبيهات Thold، صفحة الحالة الصحية | منفذة (مختبرة بعينات تجريبية) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2، البعيد والتوسع | الجمع البعيد على مستوى مجمّع البيانات (`lib/Reader.php`، `lib/ReplicationRepository.php`، `replicate_out`، `remote_agent`)، أوليات التوسع لأكثر من 100 PB (ضبط KiB بـ 64 بت + المخطط v4 `value_kib`، `lib/RollupPolicy.php`، `lib/TopKTracker.php`، `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`، `lib/BatchUpserter.php`)، واجهة سطر أوامر CasC (`cli/pfs.php`)، خطافات MCP/Doctor/CasC | منفذة (مختبرة بالوحدة والتكامل في CI) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3، الخلفيات | مشغّلات القراءة فقط لـ IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) وBeeGFS (`lib/BeegfsBackend.php`) المسجلة في `BackendRegistry::production()` | منفذة (مختبرة بالوحدة) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-خارج النطاق: أي عملية كتابة أو مسح أو إعادة ضبط أو توليف (tuning) على عقدة أو نظام ملفات؛ أو محرك تنبيهات مملوك للإضافة؛ أو خدمة خفية (daemon) مخصصة أو بروتوكول شبكة مخصص؛ أو مصادر بيانات لكل مهمة؛ أو تعديلات على نواة Cacti أو Thold أو Maint.
+أهم أوليات التشغيل وقابلية التوسع المنفذة:
+
+- **مشغّلات قراءة فقط متعددة الأنظمة:** `LustreBackend` و`GpfsBackend` (`mmpmon` `fs_io_s`/`io_s` المؤطّر فقط مع حظر `reset`، وسعة/حالات تجمعات `mmdf` وملخصات المنتظرين) و`BeegfsBackend` (أهداف التخزين والبيانات الوصفية لـ BeeGFS 7.4 و8.x مع تحويل دقيق من بايت إلى KiB وتعيين حالات القابلية للوصول والاتساق ودلالات القياس لكل فترة) تشترك في `lib/FramedReportParser.php`.
+- **عدم التوازن والهامش المتاح والوعي بـ Maint:** يحسب `lib/ImbalanceAnalyzer.php` نسب امتلاء OST/MDT والتشتت ومؤشر عدم توازن الانحراف المعياري للمجتمع والهامش المتاح وفرض حداثة فترة واحدة (`missing_targets`) وأعلام حالة كل هدف وأعلى K أهداف منحرفة محدودة. ويعرض `HealthPage` (`pfs_health.php`) و`CascProvider::health()` نوافذ صيانة `Maint` في Cacti ويكبتان تحذيرات الأعطال النشطة أثناء الصيانة المجدولة.
+- **التوسع لأكثر من 100 PB والإكساسكيل** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): التحويل العشري الدقيق من بايت إلى KiB (`FramedReportParser::bytesToKibInt()`) المُتحقق منه عند 500 PB و2 EB إلى جانب أعمدة `BIGINT UNSIGNED value_kib` (المخطط v4)؛ وتجميعات RRD الهرمية `Filesystem -> Pool -> Storage Server` مع ترقية محدودة للأهداف الاختيارية أو الساخنة أو المنحرفة (`lib/RollupPolicy.php`)؛ وأهداف Top-K المنحرفة المحدودة بتعقيد $O(K)$ وملخصات المهام/العملاء الثقيلة المجمّعة مسبقًا (`lib/TopKTracker.php`، دون إنشاء أجهزة أو ملفات RRD لكل عميل)؛ وتقسيم مجمّعات البيانات الحتمي عبر CRC32 (`lib/ShardAssigner.php`، `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`)؛ وإدراجات SQL الدفعية من 500 صف مع ترقيم الصفحات بالمفاتيح (`lib/BatchUpserter.php`، `CacheRepository::upsertObservationsBatch()`، `TargetRepository::forFilesystemPage()`).
+- **واجهة CasC للمشغل وخطافات المنظومة:** يدعم `cli/pfs.php` الأوامر `export [--format=yaml|xml]` و`validate <file> [--format=yaml|xml]` و`plan <file> [--format=yaml|xml] [--output=text|json]` و`apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]` و`health [--format=text|json]` دون أي تبعيات Composer خارجية. ويسجل `setup.php` و`lib/EcosystemIntegration.php` كلًا من `abilities_register` (`pfs-list-filesystems`، `pfs-get-imbalance`، `pfs-get-health`؛ للقراءة فقط، ومقيدة بصلاحية `Parallel Filesystem View` وصلاحيات أجهزة Cacti) و`doctor_register_checks` (`pfs_schema`، `pfs_reader_freshness`، `pfs_capacity_imbalance`) و`casc_register_providers` و`replicate_out` و`remote_agent`.
+
+خارج النطاق: أي عملية كتابة أو مسح أو إعادة ضبط أو توليف (tuning) على عقدة أو نظام ملفات؛ أو محرك تنبيهات مملوك للإضافة؛ أو خدمة خفية (daemon) مخصصة أو بروتوكول شبكة مخصص؛ أو أجهزة أو ملفات RRD في Cacti لكل مهمة أو لكل عميل؛ أو تعديلات على نواة Cacti أو Thold أو Maint.
 
 ## أهداف التوافق
 
 | المكون | الهدف |
 |---|---|
 | Cacti | 1.2.31 أو أحدث، دون أي رقع (patches) للنواة |
-| PHP | 8.2 أو أحدث؛ يبقى الملف `setup.php` قابلاً للتحليل على PHP 8.0 بحيث تحصل بيئة التشغيل غير المدعومة على رفض واضح بدلاً من تعطّل واجهة Cacti |
-| Lustre | خطوط الإصدارات التي سيحددها المعلم 1؛ المصادر والأدلة التي تم التحقق منها حتى الآن عند الإصدار 2.17.0 |
-| GPFS, BeeGFS | المرحلة 3؛ ستُحدد الإصدارات بناءً على البحث |
-| Thold, Maint | لا تتطلب أي تغييرات |
+| PHP | 8.2 أو أحدث؛ يبقى `setup.php` و`poller_pfs.php` و`cli/pfs.php` قابلة للتحليل على PHP 8.0 بحيث تحصل بيئة التشغيل غير المدعومة على رفض واضح بدلًا من تعطّل واجهة Cacti |
+| Lustre | تم فحص الشيفرة والأدلة عند الإصدار 2.17.0؛ مختبر بعينات تجريبية |
+| GPFS, BeeGFS | مشغّلات القراءة فقط لـ IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` وBeeGFS 7.4 / 8.x منفذة ومختبرة بعينات تجريبية |
+| Thold, Maint | Thold 1.8.2 وMaint 1.3، دون أي تغييرات |
 
 ## التصميم
 
+- يوثّق [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) معمارية القياس عن بُعد ذات الطبقتين لـ 100+ PB / الإكساسكيل (طبقة خادم Cacti/`plugin_pfs` + التجميع + Top-K مقترنة بقياس عملاء خارج النطاق عبر LDMS/Darshan/TOKIO) وسياقها في الأدبيات الأكاديمية.
 - يضم [docs/PLAN.md](../../PLAN.md) الخطة الكاملة: البنية المعمارية، وحقائق المنبع التي تعتمد عليها (مع المصادر وما لم يُتحقق منه بعد)، ودلالات العدادات، ونموذج الحالة، والحدود الأمنية، وحسابات الأداء، والاختبار، والمخاطر.
 - يغطي [docs/operator-guide.md](../../operator-guide.md) التثبيت، والمبيانات والقيم، والترقية، والنسخ الاحتياطي والاستعادة، وإزالة التثبيت، واستكشاف الأخطاء وإصلاحها؛ كما يغطي [docs/alerting.md](../../alerting.md) إضافتي Thold وMaint.
 - يصف [docs/node-setup.md](../../node-setup.md) كيفية تهيئة خادم Lustre ومجمع بيانات لعمل القارئ.
@@ -73,13 +81,14 @@
 
 ```mermaid
 flowchart LR
-    N[خوادم Lustre: OSS، MDS] -->|طلب قراءة فقط ثابت| S[مصدر العقدة على مجمع بيانات Cacti]
-    S --> R[القارئ]
-    R --> C[(ذاكرة التخزين المؤقت للملاحظات)]
-    C --> SS[مدخلات خادم السكربت]
-    SS -->|poller_output| T[Thold وMaint]
-    SS --> RRD[(ملفات RRD الخاصة بـ Cacti)]
-    RRD --> G[مبيانات وصلاحيات Cacti]
+    N["خوادم التخزين: Lustre OSS/MDS، GPFS NSD، BeeGFS"] -->|"طلب قراءة فقط ثابت"| S["قارئ مقيّد بمجمع البيانات ومقسّم للشرائح"]
+    S --> B["BatchUpserter + ذاكرة تخزين مؤقت KiB بـ 64 بت"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["مدخلات خادم السكربت"]
+    R --> ECO["CasC CLI وقدرات MCP وفحوصات Doctor"]
+    SS -->|"poller_output"| T["Thold وMaint"]
+    SS --> RRD[("ملفات RRD الخاصة بـ Cacti: FS/Pool/Server + أهداف اختيارية")]
+    RRD --> G["مبيانات وصلاحيات Cacti"]
 ```
 
 ## كيفية تتبع العمل

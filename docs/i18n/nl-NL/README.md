@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-Een Cacti 1.2-plug-in die de status en belasting van parallelle bestandssystemen naar Cacti brengt: capaciteit en vullingsonbalans tussen targets, doorvoer per target en het aantal metadatabewerkingen per seconde. Lustre is de eerste backend. GPFS (IBM Storage Scale) en BeeGFS volgen achter een backendinterface. De gegevens komen terecht in gewone Cacti-apparaten, databronnen en grafieken, zodat Thold en Maint er ongewijzigd meldingen voor kunnen genereren en onderdrukken.
+Een Cacti 1.2-plug-in die status, capaciteit, vullingsonbalans, doorvoer per target en het aantal metadatabewerkingen per seconde van parallelle bestandssystemen voor Lustre, IBM Storage Scale (GPFS) en BeeGFS naar Cacti brengt achter een uniforme `Backend`-interface. Elk bestandssysteem wordt gekoppeld aan een gewoon Cacti-apparaat met dataquery's, overzichts- en on-demand targetgrafieken en samenvattende meters, zodat Thold en Maint er ongewijzigd meldingen voor kunnen genereren en onderdrukken.
 
-> **Status: mijlpaal 4, code voor fase 1 voltooid, nog niet uitgebracht.** Mijlpalen 2 (basis), 3 (Lustre-observatie) en 4 (meldingen en releasevoorbereiding) zijn afgerond op `main` of in review. De plug-in wordt geïnstalleerd, bijgewerkt en verwijderd via de plug-in-API van Cacti en weigert PHP-versies lager dan 8.2. Een achtergrondlezer op elke poller leest Lustre-servers uit via SSH met een vast forced-command-script ([node/pfs-read.sh](../../../node/pfs-read.sh)) en slaat de inventarisatie, conditie, capaciteit en tellers inclusief hun actualiteit op in de cache. Elk bestandssysteem wordt een Cacti-apparaat met OST- en MDT-dataquery's, vijf overzichtsgrafieken, grafieken per target op aanvraag en een samenvattende databron voor Thold. Ongewijzigde versies van Thold v1.8.2 en Maint v1.3 genereren en onderdrukken meldingen op de samenvattende meters in de end-to-end-run; Thold-drempelwaarden op tellers worden niet ondersteund met Thold 1.8.2 ([docs/alerting.md](../../alerting.md)). Alle tests tot nu toe draaien op fixture-uitvoer van nodes in een tijdelijke Cacti-omgeving: de plug-in heeft nog niet tegen een echte Lustre-node gedraaid. Nog open voor een release: pilots op echte bestandssystemen ([pilotplan](../../pilot-plan.md)), de externe beveiligingsreview ([zelfevaluatie](../../security-review.md)) en schaalmetingen op gedocumenteerde hardware ([schaalmetingen](../../research/scale.md)). Versie 0.1.0 is voorbereid in `INFO` en [CHANGELOG.md](../../../CHANGELOG.md), maar nog niet getagd.
+> **Status: fasen 1 tot en met 3 en primitieve functies voor exascale-schaling in code geïmplementeerd, nog niet uitgebracht.** De basis, Lustre-observatie, meldingen en Maint-onderdrukking, alleen-lezen drivers voor GPFS en BeeGFS, OST/MDT-onbalansanalyse met Maint-integratie, scoping voor externe dataverzamelaars (`replicate_out`, `remote_agent`), schalingsprimitieven voor 100+ PB / exascale (`FramedReportParser`, Schema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), de CasC-beheerders-CLI (`cli/pfs.php`) en ecosysteemhooks (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) zijn geïmplementeerd en geverifieerd met unit-, beveiligings- en integratietests in een tijdelijke Cacti-omgeving. Alle runs tot nu toe gebruiken fixture-uitvoer van nodes in plaats van echte Lustre-, GPFS- of BeeGFS-hardware. Nog open vóór het taggen van een release: pilots op echte bestandssystemen ([pilotplan](../../pilot-plan.md)), een externe beveiligingsreview ([zelfevaluatie](../../security-review.md)) en schaalmetingen op gedocumenteerde hardware ([schaalmetingen](../../research/scale.md)). Versie 0.1.0 is voorbereid in `INFO` en [CHANGELOG.md](../../../CHANGELOG.md), maar nog niet getagd.
 
 ## Toegangsrollen
 
@@ -44,27 +44,35 @@ Cacti maakt grafieken van hosts en bewaakt drempelwaarden met Thold, en de GitHu
 
 ## Geplande scope
 
-| Fase | Scope | Mijlpalen |
-|---|---|---|
-| 0, onderzoek | Releasematrix, beslissing over nodetoegang, bevestiging van upstream-gedrag, teller- en failover-gedrag, schaalmetingen | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, observatie | Lustre-inventarisatie, capaciteit en vulling, OST-doorvoer, aantallen MDT-bewerkingen per seconde, grafieken, Thold-meldingen, Maint-onderdrukking, statuspagina | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, verdieping | Externe Cacti-dataverzamelaars, weergaven op taak- en clientniveau binnen een begrensd aantal objecten | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, backends | GPFS- (IBM Storage Scale) en BeeGFS-backends | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Fase | Scope | Status | Mijlpalen |
+|---|---|---|---|
+| 0, onderzoek | Releasematrix, beslissing over nodetoegang, bevestiging van upstream-gedrag, teller- en failover-gedrag, schaalmetingen | Voltooid | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, observatie | Lustre-inventarisatie, capaciteit en vulling, OST/MDT-onbalans (`lib/ImbalanceAnalyzer.php`), Maint-integratie (`lib/HealthPage.php`), OST-doorvoer, aantallen MDT-bewerkingen per seconde, grafieken, Thold-meldingen, statuspagina | Geïmplementeerd (fixture-getest) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, extern en schaal | Poller-gebonden externe verzameling (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), schalingsprimitieven voor 100+ PB (64-bit KiB-hygiëne + Schema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC-CLI (`cli/pfs.php`), MCP/Doctor/CasC-hooks | Geïmplementeerd (unit- en CI-integratiegetest) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, backends | Alleen-lezen drivers voor IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) en BeeGFS (`lib/BeegfsBackend.php`) geregistreerd in `BackendRegistry::production()` | Geïmplementeerd (unit-getest) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Buiten scope: elke schrijf-, wis-, reset- of afstemmingsbewerking op een node of bestandssysteem; een eigen meldingsengine in de plug-in; een aangepaste daemon of netwerkprotocol; databronnen per taak; wijzigingen aan Cacti-core, Thold of Maint.
+Belangrijkste geïmplementeerde beheerders- en schalingsprimitieven:
+
+- **Alleen-lezen drivers voor meerdere bestandssystemen:** `LustreBackend`, `GpfsBackend` (uitsluitend geframede `mmpmon` `fs_io_s`/`io_s` met `reset` verboden, `mmdf`-poolcapaciteit/-statussen en waiter-samenvattingen) en `BeegfsBackend` (BeeGFS 7.4- en 8.x-opslag-/metadatatargets met exacte byte-naar-KiB-conversie, toewijzing van bereikbaarheids-/consistentiestatussen en metersemantiek per interval) die `lib/FramedReportParser.php` delen.
+- **Onbalans-, headroom- en Maint-bewustzijn:** `lib/ImbalanceAnalyzer.php` berekent OST/MDT-vullingsratio's, spreiding, onbalansindex op basis van populatiestandaarddeviatie, headroom, actualiteitshandhaving over 1 interval (`missing_targets`), statusvlaggen per target en begrensde Top-K scheve targets. `HealthPage` (`pfs_health.php`) en `CascProvider::health()` tonen `Maint`-onderhoudsvensters van Cacti en onderdrukken actieve storingswaarschuwingen tijdens gepland onderhoud.
+- **Schaling voor 100+ PB en exascale** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): exacte decimale byte-naar-KiB-conversie (`FramedReportParser::bytesToKibInt()`) geverifieerd op 500 PB en 2 EB naast `BIGINT UNSIGNED value_kib`-kolommen (Schema v4); hiërarchische `Filesystem -> Pool -> Storage Server` RRD-rollups met begrensde promotie van opt-in/drukke/scheve targets (`lib/RollupPolicy.php`); begrensde $O(K)$ Top-K scheve targets en vooraf geaggregeerde samenvattingen van zware taken/clients (`lib/TopKTracker.php`, zonder ooit apparaten of RRD's per client aan te maken); deterministische CRC32-verzamelaarsharding (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); en batched SQL-upserts van 500 rijen plus keyset-paginering (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **CasC-CLI voor beheerders en ecosysteemhooks:** `cli/pfs.php` ondersteunt `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]` en `health [--format=text|json]` zonder externe Composer-afhankelijkheden. `setup.php` en `lib/EcosystemIntegration.php` registreren `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; alleen-lezen, afgeschermd met `Parallel Filesystem View` en Cacti-apparaatmachtigingen), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out` en `remote_agent`.
+
+Buiten scope: elke schrijf-, wis-, reset- of afstemmingsbewerking op een node of bestandssysteem; een eigen meldingsengine in de plug-in; een aangepaste daemon of netwerkprotocol; Cacti-apparaten of RRD's per taak of per client; wijzigingen aan Cacti-core, Thold of Maint.
 
 ## Compatibiliteitsdoelen
 
 | Component | Doel |
 |---|---|
 | Cacti | 1.2.31 of nieuwer, geen core-patches |
-| PHP | 8.2 of nieuwer; `setup.php` blijft parseerbaar op 8.0 zodat een niet-ondersteunde runtime een weigering krijgt in plaats van een defecte Cacti-interface |
-| Lustre | Releaselijnen worden vastgesteld bij mijlpaal 1; gecontroleerde broncode en handleidingen zijn tot nu toe versie 2.17.0 |
-| GPFS, BeeGFS | Fase 3; releases worden vastgesteld na onderzoek |
-| Thold, Maint | Geen wijzigingen vereist |
+| PHP | 8.2 of nieuwer; `setup.php`, `poller_pfs.php` en `cli/pfs.php` blijven parseerbaar op 8.0 zodat een niet-ondersteunde runtime een weigering krijgt in plaats van een defecte Cacti-interface |
+| Lustre | Broncode en handleidingen gecontroleerd op 2.17.0; fixture-getest |
+| GPFS, BeeGFS | Alleen-lezen drivers voor IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` en BeeGFS 7.4 / 8.x geïmplementeerd en fixture-getest |
+| Thold, Maint | Thold 1.8.2 en Maint 1.3, ongewijzigd |
 
 ## Ontwerp
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) documenteert de tweetraps 100+ PB / exascale-telemetriearchitectuur (Cacti/`plugin_pfs`-server + rollup + Top-K-laag gecombineerd met out-of-band LDMS/Darshan/TOKIO-clienttelemetrie) en de academische literatuurcontext.
 - [docs/PLAN.md](../../PLAN.md) is het volledige plan: architectuur, upstream-feiten waarop het steunt (met bronnen en wat nog niet is geverifieerd), tellersemantiek, toestandsmodel, beveiligingsgrenzen, prestatierekenwerk, testen en risico's.
 - [docs/operator-guide.md](../../operator-guide.md) behandelt installatie, de grafieken en waarden, upgraden, back-up en herstel, verwijderen en probleemoplossing; [docs/alerting.md](../../alerting.md) behandelt Thold en Maint.
 - [docs/node-setup.md](../../node-setup.md) beschrijft hoe een Lustre-server en een poller voor de lezer worden ingericht.
@@ -73,13 +81,14 @@ Buiten scope: elke schrijf-, wis-, reset- of afstemmingsbewerking op een node of
 
 ```mermaid
 flowchart LR
-    N[Lustre-servers: OSS, MDS] -->|vaste alleen-lezen aanvraag| S[Nodebron op de Cacti-poller]
-    S --> R[Lezer]
-    R --> C[(Observatiecache)]
-    C --> SS[Invoer voor scriptserver]
-    SS -->|poller_output| T[Thold en Maint]
-    SS --> RRD[(Cacti-RRD's)]
-    RRD --> G[Cacti-grafieken en -rechten]
+    N["Opslagservers: Lustre OSS/MDS, GPFS NSD, BeeGFS"] -->|vaste alleen-lezen aanvraag| S["Poller-gebonden & gesharde lezer"]
+    S --> B["BatchUpserter + 64-bit KiB-cache"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["Invoer voor scriptserver"]
+    R --> ECO["CasC-CLI, MCP-mogelijkheden, Doctor-controles"]
+    SS -->|poller_output| T["Thold en Maint"]
+    SS --> RRD[("Cacti-RRD's: FS/Pool/Server + opt-in targets")]
+    RRD --> G["Cacti-grafieken en -rechten"]
 ```
 
 ## Hoe het werk wordt bijgehouden

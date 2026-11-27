@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-Ƙarin plugin na Cacti 1.2 wanda ke kawo yanayin lafiya da nauyin tsarin fayil na gaggawa (parallel filesystem) cikin Cacti: ƙarfin ajiya da rashin daidaiton cika a tsakanin maƙasudai, saurin watsa bayanai na kowane maƙasudi, da ƙimar ayyukan metadata. Lustre ne backend na farko. GPFS (IBM Storage Scale) da BeeGFS suna biye a bayan ƙirar haɗin backend. Bayanan suna sauka cikin na'urorin Cacti na yau da kullum, tushen bayanai, da jadawalai, don haka Thold da Maint suna ba da faɗakarwa da dakatar da su ba tare da wani sauyi ba.
+Ƙarin plugin na Cacti 1.2 wanda ke kawo yanayin lafiyar tsarin fayil na gaggawa (parallel filesystem), ƙarfin ajiya, rashin daidaiton cika, saurin watsa bayanai na kowane maƙasudi, da ƙimar ayyukan metadata cikin Cacti a cikin Lustre, IBM Storage Scale (GPFS), da BeeGFS a bayan haɗaɗɗiyar ƙirar `Backend`. Kowane tsarin fayil yana taswira zuwa na'urar Cacti ta yau da kullum mai tambayoyin bayanai, jadawalan taƙaitawa da na kowane maƙasudi idan an buƙata, da ma'aunan taƙaitawa, don haka Thold da Maint suna ba da faɗakarwa da dakatar da su ba tare da wani sauyi ba.
 
-> **Matsayi: mataki na 4 (milestone 4), an kammala lambar mataki na 1, ba a sake shi ba tukuna.** An kammala mataki na 2 (tushe), na 3 (lura da Lustre), da na 4 (faɗakarwa da shirye-shiryen saki) a kan `main` ko suna cikin bita. Plugin ɗin yana shigarwa, sabuntawa, da cirewa ta hanyar API na plugin ɗin Cacti kuma yana ƙin PHP da ke ƙasa da 8.2. Mai karatu na bayan fage a kan kowane poller yana karanta sabobin Lustre ta SSH ta hanyar ƙayyadadden rubutun umarni na tilas ([node/pfs-read.sh](../../../node/pfs-read.sh)) kuma yana ajiye jerin kayayyaki, yanayi, ƙarfi, da na'urorin ƙidaya tare da sabuntarsu a taska. Kowane tsarin fayil yana zama na'urar Cacti tare da tambayoyin bayanai na OST da MDT, jadawalan taƙaitawa guda biyar, jadawalan kowane maƙasudi idan an buƙata, da tushen bayanai na taƙaitawa don Thold. Thold v1.8.2 da Maint v1.3, ba tare da sauyi ba, suna ba da faɗakarwa da dakatar da ma'aunan taƙaitawa a cikin gwajin ƙarshe-zuwa-ƙarshe; ba a goyan bayan ƙayyadaddun iyakokin Thold a kan na'urorin ƙidaya tare da Thold 1.8.2 ba ([docs/alerting.md](../../alerting.md)). Kowanne gwaji ya zuwa yanzu yana gudana ne a kan fitarwar node na gwaji (fixture) a cikin Cacti na wucin-gadi: plugin ɗin bai yi aiki a kan ainihin node na Lustre ba. Abubuwan da ke saura kafin a sake shi: gwaje-gwajen farko a kan ainihin tsarin fayiloli ([shirin gwaji](../../pilot-plan.md)), bitar tsaro ta waje ([bitar kai](../../security-review.md)), da ma'aunan girma a kan kayan masarufi da aka rubuta ([ma'aunin girma](../../research/scale.md)). An shirya sigar 0.1.0 a cikin `INFO` da [CHANGELOG.md](../../../CHANGELOG.md) amma ba a sa mata alama (tag) ba.
+> **Matsayi: an aiwatar da matakai na 1 zuwa na 3 da tubalan faɗaɗa girman exascale a cikin lamba, ba a sake shi ba tukuna.** An aiwatar tare da tabbatar da tushe, lura da Lustre, faɗakarwa da dakatarwar Maint, direbobin karatu-kawai na GPFS da BeeGFS, nazarin rashin daidaiton OST/MDT tare da haɗin Maint, iyakance masu tattara bayanai na nesa (`replicate_out`, `remote_agent`), tubalan faɗaɗawa na 100+ PB / exascale (`FramedReportParser`, Schema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CLI na mai aiki na CasC (`cli/pfs.php`), da ƙugiyoyin yanayin aiki (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) ta gwaje-gwajen naúrar, tsaro, da haɗin gwiwa a Cacti na wucin-gadi. Duk gwaje-gwajen da aka yi ya zuwa yanzu suna amfani da fitarwar node na gwaji maimakon ainihin kayan masarufi na Lustre, GPFS, ko BeeGFS. Abubuwan da ke saura kafin sa alamar saki: gwaje-gwajen farko a kan ainihin tsarin fayiloli ([shirin gwaji](../../pilot-plan.md)), bitar tsaro ta waje ([bitar kai](../../security-review.md)), da ma'aunan girma a kan kayan masarufi da aka rubuta ([ma'aunin girma](../../research/scale.md)). An shirya sigar 0.1.0 a cikin `INFO` da [CHANGELOG.md](../../../CHANGELOG.md) amma ba a sa mata alama (tag) ba.
 
 ## Matsayin shiga
 
@@ -44,27 +44,35 @@ Cacti yana zana jadawalin na'urori kuma yana sanya iyakokin ƙimomi da Thold, ku
 
 ## Tsarin aiki da aka shirya
 
-| Mataki | Fage | Matakan Aiki |
-|---|---|---|
-| 0, bincike | Jadawalin saki, shawarar shiga node, tabbatar da halayen upstream, halayen ƙidaya da failover, ma'aunan girma | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, lura | Jerin kayayyakin Lustre, ƙarfi da cika, saurin watsawar OST, ƙimar ayyukan MDT, jadawalai, faɗakarwar Thold, dakatarwar Maint, shafin lafiya | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, zurfi | Masu tattara bayanai na nesa na Cacti, ra'ayoyin matakin aiki (job-level) da matakin abokin ciniki (client-level) cikin ƙayyadadden adadin abubuwa | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, backends | Backends na GPFS (IBM Storage Scale) da BeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Mataki | Fage | Matsayi | Matakan Aiki |
+|---|---|---|---|
+| 0, bincike | Jadawalin saki, shawarar shiga node, tabbatar da halayen upstream, halayen ƙidaya da failover, ma'aunan girma | An kammala | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, lura | Jerin kayayyakin Lustre, ƙarfi da cika, rashin daidaiton OST/MDT (`lib/ImbalanceAnalyzer.php`), haɗin Maint (`lib/HealthPage.php`), saurin watsawar OST, ƙimar ayyukan MDT, jadawalai, faɗakarwar Thold, shafin lafiya | An aiwatar (an gwada da fixture) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, nesa da girma | Tattarawa na nesa mai iyaka a poller (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), tubalan faɗaɗawa na 100+ PB (tsabtar KiB 64-bit + Schema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI (`cli/pfs.php`), ƙugiyoyin MCP/Doctor/CasC | An aiwatar (an gwada da naúrar da haɗin CI) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, backends | Direbobin karatu-kawai na IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) da BeeGFS (`lib/BeegfsBackend.php`) da aka yi wa rijista a cikin `BackendRegistry::production()` | An aiwatar (an gwada da naúrar) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Abin da ke wajen tsari: kowane aiki na rubutu, sharewa, sake saitawa, ko daidaitawa a kan node ko tsarin fayil; injin faɗakarwa mallakar plugin; daemon na musamman ko ƙa'idar hanyar sadarwa; tushen bayanai na kowane aiki (per-job); sauye-sauye ga ainihin Cacti, Thold, ko Maint.
+Manyan tubalan mai aiki da na faɗaɗa girma da aka aiwatar:
+
+- **Direbobin karatu-kawai na tsarin fayiloli da yawa:** `LustreBackend`, `GpfsBackend` (`mmpmon` `fs_io_s`/`io_s` mai firam kawai tare da haramta `reset`, ƙarfi/yanayin pool na `mmdf`, da taƙaitaccen bayanin masu jira), da `BeegfsBackend` (maƙasudan ajiya da metadata na BeeGFS 7.4 da 8.x tare da juyar da byte zuwa KiB daidai, taswirar yanayin samuwa/daidaito, da ma'anar ma'auni na kowane lokaci) suna raba `lib/FramedReportParser.php`.
+- **Sanin rashin daidaito, sararin da ya rage, da Maint:** `lib/ImbalanceAnalyzer.php` yana lissafin rabon cikar OST/MDT, yaduwa, ma'aunin rashin daidaito na standard deviation na yawan jama'a, sararin da ya rage, tabbatar da sabuntar tazara 1 (`missing_targets`), tutocin yanayi na kowane maƙasudi, da ƙayyadaddun maƙasudan Top-K masu karkata. `HealthPage` (`pfs_health.php`) da `CascProvider::health()` suna nuna lokutan gyaran `Maint` na Cacti kuma suna dakatar da gargaɗin gazawa masu aiki yayin gyaran da aka tsara.
+- **Faɗaɗa girma na 100+ PB da exascale** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): juyar da byte zuwa KiB na decimal daidai (`FramedReportParser::bytesToKibInt()`) da aka tabbatar a 500 PB da 2 EB tare da ginshiƙan `BIGINT UNSIGNED value_kib` (Schema v4); taƙaitawar RRD mai matakai `Filesystem -> Pool -> Storage Server` tare da haɓaka maƙasudan opt-in/masu zafi/masu karkata cikin iyaka (`lib/RollupPolicy.php`); maƙasudan Top-K masu karkata cikin iyaka $O(K)$ da taƙaitattun bayanan ayyuka/abokan ciniki masu nauyi da aka riga aka haɗa (`lib/TopKTracker.php`, ba tare da ƙirƙirar na'urori ko RRDs na kowane abokin ciniki ba); raba masu tattarawa na CRC32 mai tabbas (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); da shigar da/sabunta SQL a rukuni na layuka 500 tare da keyset pagination (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **CasC CLI na mai aiki da ƙugiyoyin yanayin aiki:** `cli/pfs.php` yana goyan bayan `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`, da `health [--format=text|json]` ba tare da dogaro da Composer na waje ba. `setup.php` da `lib/EcosystemIntegration.php` suna yin rijistar `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; karatu-kawai, an iyakance su a kan `Parallel Filesystem View` da izinin na'urar Cacti), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out`, da `remote_agent`.
+
+Abin da ke wajen tsari: kowane aiki na rubutu, sharewa, sake saitawa, ko daidaitawa a kan node ko tsarin fayil; injin faɗakarwa mallakar plugin; daemon na musamman ko ƙa'idar hanyar sadarwa; na'urorin Cacti ko RRDs na kowane aiki (per-job) ko na kowane abokin ciniki (per-client); sauye-sauye ga ainihin Cacti, Thold, ko Maint.
 
 ## Maƙasudan jituwa
 
 | Bangare | Maƙasudi |
 |---|---|
 | Cacti | 1.2.31 ko na baya, babu facin ainihin tsari |
-| PHP | 8.2 ko na baya; `setup.php` yana kasancewa mai karantuwa a kan 8.0 don haka yanayin aiki da ba a goyan baya ya sami ƙin yarda maimakon ɓarnatar da ƙirar Cacti |
-| Lustre | Layukan saki da za a gyara ta mataki na 1; lamba da litattafan jagora da aka duba ya zuwa yanzu suna a 2.17.0 |
-| GPFS, BeeGFS | Mataki na 3; layukan saki da za a gyara ta bincike |
-| Thold, Maint | Babu sauye-sauyen da ake buƙata |
+| PHP | 8.2 ko na baya; `setup.php`, `poller_pfs.php`, da `cli/pfs.php` suna kasancewa masu karantuwa a kan 8.0 don haka yanayin aiki da ba a goyan baya ya sami ƙin yarda maimakon ɓarnatar da ƙirar Cacti |
+| Lustre | An duba lamba da litattafan jagora a 2.17.0; an gwada da fixture |
+| GPFS, BeeGFS | An aiwatar kuma an gwada direbobin karatu-kawai na IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` da BeeGFS 7.4 / 8.x da fixture |
+| Thold, Maint | Thold 1.8.2 da Maint 1.3, ba a canza su ba |
 
 ## Tsari
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) yana rubuta tsarin telemetry mai matakai biyu na 100+ PB / exascale (sabar Cacti/`plugin_pfs` + taƙaitawa + matakin Top-K haɗe da telemetry na abokin ciniki na waje LDMS/Darshan/TOKIO) da yanayin adabin iliminsa.
 - [docs/PLAN.md](../../PLAN.md) shi ne cikakken shiri: tsarin gini, bayanan upstream da ya dogara a kansu (tare da tushe da abin da har yanzu ba a tabbatar ba), ma'anar na'urorin ƙidaya, samfurin yanayi, iyakokin tsaro, lissafin ingancin aiki, gwaji, da haɗari.
 - [docs/operator-guide.md](../../operator-guide.md) yana ɗauke da shigarwa, jadawalai da ƙimomi, sabuntawa, ajiyar baya da maidowa, cirewa, da magance matsaloli; [docs/alerting.md](../../alerting.md) yana ɗauke da Thold da Maint.
 - [docs/node-setup.md](../../node-setup.md) yana bayyana yadda za a shirya sabar Lustre da poller don mai karatu.
@@ -73,12 +81,13 @@ Abin da ke wajen tsari: kowane aiki na rubutu, sharewa, sake saitawa, ko daidait
 
 ```mermaid
 flowchart LR
-    N[Sabobin Lustre: OSS, MDS] -->|ƙayyadadden buƙatar karatu-kawai| S[Tushen node a kan mai tattara bayanai na Cacti]
-    S --> R[Mai karatu]
-    R --> C[(Taskar lura)]
-    C --> SS[Shigarwar uwar garken rubutu]
+    N[Sabobin ajiya: Lustre OSS/MDS, GPFS NSD, BeeGFS] -->|ƙayyadadden buƙatar karatu-kawai| S[Mai karatu mai iyaka a poller da rarrabawa]
+    S --> B[BatchUpserter + taskar KiB 64-bit]
+    B --> R[RollupPolicy + TopKTracker + ImbalanceAnalyzer]
+    B --> SS[Shigarwar uwar garken rubutu]
+    R --> ECO[CasC CLI, iyawar MCP, binciken Doctor]
     SS -->|poller_output| T[Thold da Maint]
-    SS --> RRD[(Cacti RRDs)]
+    SS --> RRD[(Cacti RRDs: FS/Pool/Server + maƙasudan zaɓi)]
     RRD --> G[Jadawali da izinin Cacti]
 ```
 

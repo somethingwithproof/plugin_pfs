@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-一個將平行檔案系統健康狀態與負載整合進 Cacti 的 Cacti 1.2 外掛程式：包含跨目標的容量與填充不平衡、各目標吞吐量，以及中繼資料操作速率。Lustre 是第一個後端。GPFS（IBM Storage Scale）與 BeeGFS 則會透過後端介面陸續支援。資料會匯入至一般的 Cacti 裝置、資料來源與圖表中，因此無須修改 Thold 與 Maint 即可進行警報通知與維護抑制。
+一個透過統一的 `Backend` 介面，將 Lustre、IBM Storage Scale (GPFS) 與 BeeGFS 的平行檔案系統健康狀態、容量、填充不平衡、各目標吞吐量以及中繼資料操作速率整合進 Cacti 的 Cacti 1.2 外掛程式。每個檔案系統皆會對應至一個標準的 Cacti 裝置，具備資料查詢、概覽與依需求產生的目標圖表，以及摘要量表，使無須修改的 Thold 與 Maint 能夠據此發出警報與進行維護抑制。
 
-> **狀態：里程碑 4，第 1 階段程式碼已完成，尚未釋出。** 里程碑 2（基礎架構）、3（Lustre 觀測）與 4（警報與釋出準備）已在 `main` 分支完成或正進行審查。此外掛程式透過 Cacti 的外掛 API 進行安裝、升級與解除安裝，並拒絕低於 8.2 版本的 PHP。每個輪詢器上的背景讀取器會透過固定的強制指令碼（[node/pfs-read.sh](../../../node/pfs-read.sh)）經由 SSH 讀取 Lustre 伺服器，並快取清單、狀態、容量、計數器及其新鮮度。每個檔案系統都會成為一個 Cacti 裝置，具備 OST 與 MDT 資料查詢、五張概覽圖表、依需求產生的個別目標圖表，以及供 Thold 使用的摘要資料來源。在端對端測試執行中，未經修改的 Thold v1.8.2 與 Maint v1.3 可針對摘要量表進行警報與抑制；Thold 1.8.2 不支援針對計數器設定 Thold 閾值（[docs/alerting.md](../../alerting.md)）。目前為止的所有測試皆是在拋棄式 Cacti 環境中使用固定節點輸出執行：此外掛程式尚未在真實的 Lustre 節點上執行過。釋出前仍待完成的項目包括：在真實檔案系統上進行前導測試（[前導測試計畫](../../pilot-plan.md)）、外部安全性審查（[自我審查](../../security-review.md)），以及在已記錄規格的硬體上進行規模量測（[規模量測](../../research/scale.md)）。版本 0.1.0 已在 `INFO` 與 [CHANGELOG.md](../../../CHANGELOG.md) 中準備就緒，但尚未建立標籤（tag）。
+> **狀態：第 1 至第 3 階段與 exascale 擴展基礎元件已在程式碼中實作完成，尚未釋出。** 基礎架構、Lustre 觀測、警報與 Maint 抑制、GPFS 與 BeeGFS 唯讀驅動程式、整合 Maint 的 OST/MDT 不平衡分析、遠端資料收集器範圍限定（`replicate_out`、`remote_agent`）、100+ PB / exascale 擴展基礎元件（`FramedReportParser`、Schema v4 `value_kib`、`RollupPolicy`、`TopKTracker`、`ShardAssigner`、`BatchUpserter`）、CasC 操作人員 CLI（`cli/pfs.php`），以及生態系統掛鉤（`abilities_register`、`doctor_register_checks`、`casc_register_providers`）皆已實作，並透過單元測試、安全性測試與拋棄式 Cacti 整合測試完成驗證。目前為止的所有執行皆使用模擬節點輸出，而非真實的 Lustre、GPFS 或 BeeGFS 硬體。建立版本標籤（tag）前仍待完成的項目包括：在真實檔案系統上進行前導測試（[前導測試計畫](../../pilot-plan.md)）、外部安全性審查（[自我審查](../../security-review.md)），以及在已記錄規格的硬體上進行規模量測（[規模量測](../../research/scale.md)）。版本 0.1.0 已在 `INFO` 與 [CHANGELOG.md](../../../CHANGELOG.md) 中準備就緒，但尚未建立標籤。
 
 ## 存取角色
 
@@ -34,27 +34,35 @@ Cacti 擅長繪製主機圖表並透過 Thold 設定閾值警報，而 Cacti 的
 
 ## 規劃範圍
 
-| 階段 | 範圍 | 里程碑 |
-|---|---|---|
-| 0，研究 | 發行版本矩陣、節點存取決策、上游行為確認、計數器與容錯移轉行為、規模量測 | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1，觀測 | Lustre 清單、容量與填充量、OST 吞吐量、MDT 操作速率、圖表、Thold 警報、Maint 抑制、健康狀態頁面 | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2，深度 | Cacti 遠端資料收集器、在有限物件數量內的作業層級與用戶端層級檢視 | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3，後端 | GPFS（IBM Storage Scale）與 BeeGFS 後端 | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| 階段 | 範圍 | 狀態 | 里程碑 |
+|---|---|---|---|
+| 0，研究 | 發行版本矩陣、節點存取決策、上游行為確認、計數器與容錯移轉行為、規模量測 | 已完成 | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1，觀測 | Lustre 清單、容量與填充量、OST/MDT 不平衡（`lib/ImbalanceAnalyzer.php`）、Maint 整合（`lib/HealthPage.php`）、OST 吞吐量、MDT 操作速率、圖表、Thold 警報、健康狀態頁面 | 已實作（經樣本資料測試） | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2，遠端與規模 | 輪詢器範圍的遠端收集（`lib/Reader.php`、`lib/ReplicationRepository.php`、`replicate_out`、`remote_agent`）、100+ PB 擴展基礎元件（64 位元 KiB 規範 + Schema v4 `value_kib`、`lib/RollupPolicy.php`、`lib/TopKTracker.php`、`lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`、`lib/BatchUpserter.php`）、CasC CLI（`cli/pfs.php`）、MCP/Doctor/CasC 掛鉤 | 已實作（經單元與 CI 整合測試） | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3，後端 | 註冊於 `BackendRegistry::production()` 的唯讀 IBM Storage Scale (GPFS)（`lib/GpfsBackend.php`）與 BeeGFS（`lib/BeegfsBackend.php`）驅動程式 | 已實作（經單元測試） | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-不在規劃範圍內的項目：對節點或檔案系統進行任何寫入、清除、重設或調校操作；外掛程式自有的警報引擎；自訂背景服務（daemon）或網路通訊協定；各作業（per-job）的資料來源；對 Cacti 核心、Thold 或 Maint 的修改。
+已實作的關鍵操作與擴展基礎元件：
+
+- **多檔案系統唯讀驅動程式：** 共用 `lib/FramedReportParser.php` 的 `LustreBackend`、`GpfsBackend`（僅支援禁用 `reset` 的訊框化 `mmpmon` `fs_io_s`/`io_s`、`mmdf` 集區容量與狀態，以及等待佇列摘要），以及 `BeegfsBackend`（支援 BeeGFS 7.4 與 8.x 儲存及中繼資料目標，具備精確位元組轉 KiB 換算、可連線性與一致性狀態對應，以及逐區間量表語意）。
+- **不平衡分析、可用餘裕與 Maint 感知：** `lib/ImbalanceAnalyzer.php` 計算 OST/MDT 填充比例、落差、母體標準差不平衡指數、可用餘裕、1 區間新鮮度強制檢查（`missing_targets`）、逐目標狀態旗標，以及受限的 Top-K 傾斜目標。`HealthPage`（`pfs_health.php`）與 `CascProvider::health()` 會呈現 Cacti `Maint` 維護時段，並在排程維護期間抑制作用中的失敗警告。
+- **100+ PB 與 exascale 規模擴展**（[docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)）：在 500 PB 與 2 EB 規模驗證通過的精確十進位位元組轉 KiB 換算（`FramedReportParser::bytesToKibInt()`）搭配 `BIGINT UNSIGNED value_kib` 欄位（Schema v4）；具備受限之自選、熱門或傾斜目標晉升機制的階層式 `Filesystem -> Pool -> Storage Server` RRD 彙總（`lib/RollupPolicy.php`）；受限於 $O(K)$ 的 Top-K 傾斜目標與預先彙總的高負載作業或用戶端摘要（`lib/TopKTracker.php`，絕不建立逐用戶端裝置或 RRD）；具確定性的 CRC32 收集器分片（`lib/ShardAssigner.php`、`php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`）；以及 500 列批次 SQL upsert 與鍵集（keyset）分頁（`lib/BatchUpserter.php`、`CacheRepository::upsertObservationsBatch()`、`TargetRepository::forFilesystemPage()`）。
+- **操作人員 CasC CLI 與生態系統掛鉤：** `cli/pfs.php` 在無任何外部 Composer 相依套件下支援 `export [--format=yaml|xml]`、`validate <file> [--format=yaml|xml]`、`plan <file> [--format=yaml|xml] [--output=text|json]`、`apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`，以及 `health [--format=text|json]`。`setup.php` 與 `lib/EcosystemIntegration.php` 註冊 `abilities_register`（`pfs-list-filesystems`、`pfs-get-imbalance`、`pfs-get-health`；唯讀，受 `Parallel Filesystem View` 與 Cacti 裝置權限控管）、`doctor_register_checks`（`pfs_schema`、`pfs_reader_freshness`、`pfs_capacity_imbalance`）、`casc_register_providers`、`replicate_out` 與 `remote_agent`。
+
+不在規劃範圍內的項目：對節點或檔案系統進行任何寫入、清除、重設或調校操作；外掛程式自有的警報引擎；自訂背景服務（daemon）或網路通訊協定；各作業（per-job）或各用戶端（per-client）的 Cacti 裝置與 RRD；對 Cacti 核心、Thold 或 Maint 的修改。
 
 ## 相容性目標
 
 | 元件 | 目標 |
 |---|---|
 | Cacti | 1.2.31 或更新版本，無需修改核心程式碼 |
-| PHP | 8.2 或更新版本；`setup.php` 仍可在 8.0 上正常解析，使不支援的執行環境收到拒絕訊息而非導致 Cacti 介面損毀 |
-| Lustre | 將由里程碑 1 確定支援的發行版本系列；目前檢查過的原始碼與手冊版本為 2.17.0 |
-| GPFS, BeeGFS | 第 3 階段；將透過研究確定支援的發行版本 |
-| Thold, Maint | 無需任何修改 |
+| PHP | 8.2 或更新版本；`setup.php`、`poller_pfs.php` 與 `cli/pfs.php` 仍可在 8.0 上正常解析，使不支援的執行環境收到拒絕訊息而非導致 Cacti 介面損毀 |
+| Lustre | 已於 2.17.0 檢查原始碼與手冊；經樣本資料測試 |
+| GPFS, BeeGFS | 已實作 IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` 與 BeeGFS 7.4 / 8.x 唯讀驅動程式，並經樣本資料測試 |
+| Thold, Maint | Thold 1.8.2 與 Maint 1.3，無需修改 |
 
 ## 設計
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) 記錄雙層式 100+ PB / exascale 遙測架構（Cacti/`plugin_pfs` 伺服器 + 彙總 + Top-K 層搭配頻外 LDMS/Darshan/TOKIO 用戶端遙測）及其學術文獻背景。
 - [docs/PLAN.md](../../PLAN.md) 為完整計畫書：包含架構、所依據的上游事實（含來源及尚未驗證的項目）、計數器語意、狀態模型、安全邊界、效能算術、測試與風險。
 - [docs/operator-guide.md](../../operator-guide.md) 涵蓋安裝、圖表與數值、升級、備份與還原、解除安裝以及疑難排解；[docs/alerting.md](../../alerting.md) 涵蓋 Thold 與 Maint。
 - [docs/node-setup.md](../../node-setup.md) 說明如何為讀取器準備 Lustre 伺服器與輪詢器。
@@ -63,13 +71,14 @@ Cacti 擅長繪製主機圖表並透過 Thold 設定閾值警報，而 Cacti 的
 
 ```mermaid
 flowchart LR
-    N[Lustre 伺服器：OSS、MDS] -->|固定唯讀請求| S[Cacti 輪詢器上的節點來源]
-    S --> R[讀取器]
-    R --> C[(觀測快取)]
-    C --> SS[指令碼伺服器輸入]
-    SS -->|poller_output| T[Thold 與 Maint]
-    SS --> RRD[(Cacti RRD)]
-    RRD --> G[Cacti 圖表與權限]
+    N["儲存伺服器：Lustre OSS/MDS、GPFS NSD、BeeGFS"] -->|固定唯讀請求| S["輪詢器範圍與分片讀取器"]
+    S --> B["BatchUpserter + 64 位元 KiB 快取"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["指令碼伺服器輸入"]
+    R --> ECO["CasC CLI、MCP 能力、Doctor 檢查"]
+    SS -->|poller_output| T["Thold 與 Maint"]
+    SS --> RRD[("Cacti RRD：FS/Pool/伺服器 + 自選目標")]
+    RRD --> G["Cacti 圖表與權限"]
 ```
 
 ## 工作追蹤方式

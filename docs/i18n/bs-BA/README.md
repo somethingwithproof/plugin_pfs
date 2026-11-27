@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-Dodatak za Cacti 1.2 koji u Cacti donosi stanje zdravlja i opterećenje paralelnih datotečnih sistema: kapacitet i neravnotežu popunjenosti po ciljevima, protok po cilju i stope operacija metapodataka. Lustre je prvi pozadinski sistem. GPFS (IBM Storage Scale) i BeeGFS slijede iza zajedničkog interfejsa pozadinskog sistema. Podaci završavaju u standardnim Cacti uređajima, izvorima podataka i grafikonima, tako da Thold i Maint bez ikakvih izmjena šalju upozorenja i potiskuju alarme.
+Dodatak za Cacti 1.2 koji u Cacti donosi stanje zdravlja, kapacitet, neravnotežu popunjenosti, protok po cilju i stope operacija metapodataka paralelnih datotečnih sistema za Lustre, IBM Storage Scale (GPFS) i BeeGFS iza jedinstvenog `Backend` interfejsa. Svaki datotečni sistem mapira se na standardni Cacti uređaj s upitima podataka, preglednim grafikonima i grafikonima po cilju na zahtjev, te zbirnim mjeračima tako da Thold i Maint bez ikakvih izmjena šalju upozorenja i potiskuju alarme.
 
-> **Status: prekretnica 4, kod završen za fazu 1, još nije objavljeno.** Prekretnice 2 (temelji), 3 (praćenje sistema Lustre) i 4 (alarmiranje i priprema za objavu) završene su na grani `main` ili su u pregledu. Dodatak se instalira, nadograđuje i deinstalira kroz Cacti API za dodatke i odbija PHP verzije starije od 8.2. Pozadinski čitač na svakom polleru čita Lustre servere preko SSH veze pomoću fiksne prisilne komande ([node/pfs-read.sh](../../../node/pfs-read.sh)) i kešira inventar, uslov rada, kapacitet i brojače zajedno s njihovom svježinom. Svaki datotečni sistem postaje Cacti uređaj s OST i MDT upitima podataka, pet preglednih grafikona, grafikonima po cilju na zahtjev i zbirnim izvorom podataka za Thold. Neizmijenjeni Thold v1.8.2 i Maint v1.3 u cjelovitom testnom izvršavanju alarmiraju i potiskuju alarme na zbirnim mjerenjima; Thold pragovi na brojačima nisu podržani u verziji Thold 1.8.2 ([docs/alerting.md](../../alerting.md)). Svi dosadašnji testovi pokreću se na testnim izlazima čvorova u privremenoj Cacti instanci: dodatak još nije pokrenut na stvarnom Lustre čvoru. Prije objave ostaju otvoreni: pilot-testiranja na stvarnim datotečnim sistemima ([pilot plan](../../pilot-plan.md)), vanjski sigurnosni pregled ([samoprovjera](../../security-review.md)) i mjerenja skalabilnosti na dokumentovanom hardveru ([skalabilnost](../../research/scale.md)). Verzija 0.1.0 pripremljena je u datotekama `INFO` i [CHANGELOG.md](../../../CHANGELOG.md), ali još nije označena oznakom.
+> **Status: faze 1 do 3 i primitivi za eksaskalno skaliranje implementirani u kodu, još nije objavljeno.** Temelji, praćenje sistema Lustre, alarmiranje i potiskivanje u dodatku Maint, upravljački programi samo za čitanje za GPFS i BeeGFS, analiza neravnoteže OST/MDT s integracijom za Maint, obuhvat udaljenog prikupljača podataka (`replicate_out`, `remote_agent`), primitivi za skaliranje na 100+ PB / eksaskalu (`FramedReportParser`, shema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CasC CLI za operatore (`cli/pfs.php`) i sistemske kuke (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) implementirani su i potvrđeni jediničnim, sigurnosnim i integracionim testovima na privremenoj Cacti instanci. Sva dosadašnja pokretanja koriste testne izlaze čvorova umjesto stvarnog Lustre, GPFS ili BeeGFS hardvera. Prije označavanja izdanja ostaju otvoreni: pilot-testiranja na stvarnim datotečnim sistemima ([pilot plan](../../pilot-plan.md)), vanjski sigurnosni pregled ([samoprovjera](../../security-review.md)) i mjerenja skalabilnosti na dokumentovanom hardveru ([skalabilnost](../../research/scale.md)). Verzija 0.1.0 pripremljena je u datotekama `INFO` i [CHANGELOG.md](../../../CHANGELOG.md), ali još nije označena oznakom.
 
 ## Uloge pristupa
 
@@ -34,27 +34,35 @@ Cacti crta grafikone za računare i prati pragove putem dodatka Thold, a Cacti G
 
 ## Planirani opseg
 
-| Faza | Opseg | Prekretnice |
-|---|---|---|
-| 0, istraživanje | Matrica izdanja, odluka o pristupu čvorovima, potvrda uzvodnog ponašanja, ponašanje brojača i prebacivanja u slučaju kvara, mjerenja skalabilnosti | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, praćenje | Lustre inventar, kapacitet i popunjenost, OST protok, MDT stope operacija, grafikoni, Thold alarmiranje, Maint potiskivanje, stranica zdravlja | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, dubina | Cacti udaljeni prikupljači podataka, prikazi na nivou poslova i klijenata unutar ograničenog broja objekata | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, pozadinski sistemi | Pozadinski sistemi GPFS (IBM Storage Scale) i BeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Faza | Opseg | Status | Prekretnice |
+|---|---|---|---|
+| 0, istraživanje | Matrica izdanja, odluka o pristupu čvorovima, potvrda uzvodnog ponašanja, ponašanje brojača i prebacivanja u slučaju kvara, mjerenja skalabilnosti | Završeno | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, praćenje | Lustre inventar, kapacitet i popunjenost, OST/MDT neravnoteža (`lib/ImbalanceAnalyzer.php`), Maint integracija (`lib/HealthPage.php`), OST protok, MDT stope operacija, grafikoni, Thold alarmiranje, stranica zdravlja | Implementirano (testirano s testnim uzorcima) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, udaljeno i skaliranje | Prikupljanje s opsegom po polleru (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), primitivi za skaliranje na 100+ PB (64-bitna KiB higijena + shema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI (`cli/pfs.php`), MCP/Doctor/CasC kuke | Implementirano (jedinični i CI integracioni testovi) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, pozadinski sistemi | Upravljački programi samo za čitanje za IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) i BeeGFS (`lib/BeegfsBackend.php`) registrovani u `BackendRegistry::production()` | Implementirano (jedinični testovi) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Izvan opsega: bilo kakve operacije pisanja, brisanja, resetovanja ili podešavanja na čvoru ili datotečnom sistemu; vlastiti sistem alarmiranja u dodatku; prilagođeni demon ili mrežni protokol; izvori podataka po poslu; izmjene jezgra sistema Cacti, dodatka Thold ili dodatka Maint.
+Ključni implementirani operatorski primitivi i primitivi za skaliranje:
+
+- **Upravljački programi samo za čitanje za više datotečnih sistema:** `LustreBackend`, `GpfsBackend` (isključivo uokvireni `mmpmon` `fs_io_s`/`io_s` sa zabranjenom naredbom `reset`, kapaciteti/stanja skupova `mmdf` i sažeci čekanja) i `BeegfsBackend` (ciljevi skladištenja i metapodataka za BeeGFS 7.4 i 8.x s tačnom konverzijom bajtova u KiB, mapiranjem stanja dostupnosti i konzistentnosti te semantikom mjerača po intervalu) koji dijele `lib/FramedReportParser.php`.
+- **Neravnoteža, preostali prostor i svjesnost o Maintu:** `lib/ImbalanceAnalyzer.php` izračunava omjere popunjenosti OST/MDT, raspon, indeks neravnoteže populacione standardne devijacije, preostali prostor, provjeru svježine od 1 intervala (`missing_targets`), zastavice statusa po cilju i ograničene Top-K ciljeve s najvećim odstupanjem. `HealthPage` (`pfs_health.php`) i `CascProvider::health()` prikazuju Cacti `Maint` prozore održavanja i potiskuju aktivna upozorenja o greškama tokom zakazanog održavanja.
+- **Skaliranje na 100+ PB i eksaskalu** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): tačna decimalna konverzija bajtova u KiB (`FramedReportParser::bytesToKibInt()`) potvrđena na 500 PB i 2 EB uz kolone `BIGINT UNSIGNED value_kib` (shema v4); hijerarhijske RRD agregacije `Filesystem -> Pool -> Storage Server` s ograničenim promovisanjem opcionih, vrućih i neuravnoteženih ciljeva (`lib/RollupPolicy.php`); ograničeni $O(K)$ Top-K neuravnoteženi ciljevi i unaprijed agregirani sažeci zahtjevnih poslova/klijenata (`lib/TopKTracker.php`, bez ikakvog kreiranja uređaja ili RRD-ova po klijentu); deterministička CRC32 podjela prikupljača (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); te grupna SQL umetanja/ažuriranja od po 500 redova uz paginaciju po ključu (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **Operatorski CasC CLI i sistemske kuke:** `cli/pfs.php` podržava `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]` i `health [--format=text|json]` bez ikakvih vanjskih Composer zavisnosti. `setup.php` i `lib/EcosystemIntegration.php` registruju `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; samo za čitanje, ograničeno dozvolom `Parallel Filesystem View` i Cacti dozvolama uređaja), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out` i `remote_agent`.
+
+Izvan opsega: bilo kakve operacije pisanja, brisanja, resetovanja ili podešavanja na čvoru ili datotečnom sistemu; vlastiti sistem alarmiranja u dodatku; prilagođeni demon ili mrežni protokol; Cacti uređaji/RRD-ovi po poslu ili po klijentu; izmjene jezgra sistema Cacti, dodatka Thold ili dodatka Maint.
 
 ## Ciljevi kompatibilnosti
 
 | Komponenta | Cilj |
 |---|---|
 | Cacti | 1.2.31 ili noviji, bez zakrpa jezgra |
-| PHP | 8.2 ili noviji; `setup.php` ostaje sintaksno čitljiv na verziji 8.0 kako bi nepodržano okruženje dobilo uredno odbijanje umjesto pokvarenog Cacti interfejsa |
-| Lustre | Linije izdanja koje će biti definisane do prekretnice 1; dosad provjereni izvorni kod i priručnici su na verziji 2.17.0 |
-| GPFS, BeeGFS | Faza 3; izdanja će biti definisana istraživanjem |
-| Thold, Maint | Nisu potrebne nikakve izmjene |
+| PHP | 8.2 ili noviji; `setup.php`, `poller_pfs.php` i `cli/pfs.php` ostaju sintaksno čitljivi na verziji 8.0 kako bi nepodržano okruženje dobilo uredno odbijanje umjesto pokvarenog Cacti interfejsa |
+| Lustre | Izvorni kod i priručnici provjereni na verziji 2.17.0; testirano na testnim uzorcima |
+| GPFS, BeeGFS | Upravljački programi samo za čitanje za IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` i BeeGFS 7.4 / 8.x implementirani i testirani na testnim uzorcima |
+| Thold, Maint | Thold 1.8.2 i Maint 1.3, bez izmjena |
 
 ## Dizajn
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) dokumentuje dvoslojnu telemetrijsku arhitekturu za 100+ PB / eksaskalu (sloj servera Cacti/`plugin_pfs` + agregacije + Top-K uparen s izvanpojasnom klijentskom telemetrijom LDMS/Darshan/TOKIO) i njen akademski kontekst.
 - [docs/PLAN.md](../../PLAN.md) predstavlja potpuni plan: arhitekturu, uzvodne činjenice na koje se oslanja (s izvorima i naznakom šta još nije provjereno), semantiku brojača, model stanja, sigurnosne granice, proračun performansi, testiranje i rizike.
 - [docs/operator-guide.md](../../operator-guide.md) pokriva instalaciju, grafikone i vrijednosti, nadogradnju, sigurnosnu kopiju i vraćanje, deinstalaciju i rješavanje grešaka; [docs/alerting.md](../../alerting.md) pokriva Thold i Maint.
 - [docs/node-setup.md](../../node-setup.md) opisuje kako konfigurisati Lustre server i poller za čitač.
@@ -63,12 +71,13 @@ Izvan opsega: bilo kakve operacije pisanja, brisanja, resetovanja ili podešavan
 
 ```mermaid
 flowchart LR
-    N[Lustre serveri: OSS, MDS] -->|fiksni zahtjev samo za čitanje| S[Izvor čvora na Cacti polleru]
-    S --> R[Čitač]
-    R --> C[(Keš opažanja)]
-    C --> SS[Ulaz servera skripti]
+    N[Serveri za skladištenje: Lustre OSS/MDS, GPFS NSD, BeeGFS] -->|fiksni zahtjev samo za čitanje| S[Čitač s opsegom pollera i podjelom na segmente]
+    S --> B[BatchUpserter + 64-bitni KiB keš]
+    B --> R[RollupPolicy + TopKTracker + ImbalanceAnalyzer]
+    B --> SS[Ulaz servera skripti]
+    R --> ECO[CasC CLI, MCP mogućnosti, Doctor provjere]
     SS -->|poller_output| T[Thold i Maint]
-    SS --> RRD[(Cacti RRD datoteke)]
+    SS --> RRD[(Cacti RRD datoteke: FS/Pool/Server + opcioni ciljevi)]
     RRD --> G[Cacti grafikoni i dozvole]
 ```
 

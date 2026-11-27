@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-Plugin Cacti 1.2 yang membawa pemantauan kesehatan dan beban sistem berkas paralel ke dalam Cacti: kapasitas dan ketidakseimbangan pengisian antar target, throughput per target, serta laju operasi metadata. Lustre merupakan backend pertama. GPFS (IBM Storage Scale) dan BeeGFS menyusul di balik antarmuka backend. Data disimpan ke dalam perangkat, sumber data, dan grafik Cacti biasa, sehingga Thold dan Maint dapat memicu peringatan dan menekannya tanpa perubahan.
+Plugin Cacti 1.2 yang membawa pemantauan kesehatan sistem berkas paralel, kapasitas, ketidakseimbangan pengisian, throughput per target, dan laju operasi metadata ke dalam Cacti di Lustre, IBM Storage Scale (GPFS), dan BeeGFS di balik antarmuka `Backend` terpadu. Setiap sistem berkas dipetakan ke perangkat Cacti biasa dengan kueri data, grafik ikhtisar dan grafik target sesuai permintaan, serta pengukur ringkasan sehingga Thold dan Maint dapat memicu peringatan dan menekannya tanpa perubahan.
 
-> **Status: tonggak pencapaian 4, kode selesai untuk fase 1, belum dirilis.** Tonggak pencapaian 2 (fondasi), 3 (observasi Lustre), dan 4 (peringatan dan persiapan rilis) telah selesai pada cabang `main` atau sedang dalam peninjauan. Plugin ini dapat dipasang, ditingkatkan versinya, dan dicopot melalui API plugin Cacti serta menolak PHP di bawah versi 8.2. Pembaca latar belakang pada setiap poller membaca server Lustre melalui SSH menggunakan skrip forced-command tetap ([node/pfs-read.sh](../../../node/pfs-read.sh)) dan menyimpan inventaris, kondisi, kapasitas, serta penghitung beserta kesegaran datanya di cache. Setiap sistem berkas menjadi sebuah perangkat Cacti dengan kueri data OST dan MDT, lima grafik ikhtisar, grafik per target sesuai permintaan, dan satu sumber data ringkasan untuk Thold. Thold v1.8.2 dan Maint v1.3, tanpa modifikasi, memicu peringatan dan menekan pengukur ringkasan dalam pengujian menyeluruh; ambang batas Thold pada penghitung tidak didukung pada Thold 1.8.2 ([docs/alerting.md](../../alerting.md)). Seluruh pengujian sejauh ini dijalankan menggunakan keluaran node tiruan pada Cacti sementara: plugin ini belum pernah dijalankan pada node Lustre yang sebenarnya. Hal yang masih terbuka sebelum rilis: uji coba pada sistem berkas nyata ([rencana uji coba](../../pilot-plan.md)), tinjauan keamanan eksternal ([tinjauan mandiri](../../security-review.md)), dan pengukuran skala pada perangkat keras terdokumentasi ([skala](../../research/scale.md)). Versi 0.1.0 telah disiapkan pada `INFO` dan [CHANGELOG.md](../../../CHANGELOG.md), tetapi belum diberi tag.
+> **Status: fase 1 hingga 3 dan primitif penskalaan exascale telah diimplementasikan dalam kode, belum dirilis.** Fondasi, observasi Lustre, peringatan dan penekanan Maint, driver baca-saja GPFS dan BeeGFS, analisis ketidakseimbangan OST/MDT dengan integrasi Maint, pembatasan cakupan pengumpul data jarak jauh (`replicate_out`, `remote_agent`), primitif penskalaan 100+ PB / exascale (`FramedReportParser`, Skema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CLI operator CasC (`cli/pfs.php`), dan hook ekosistem (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) telah diimplementasikan dan diverifikasi melalui pengujian unit, keamanan, dan integrasi Cacti sementara. Seluruh pengujian sejauh ini menggunakan keluaran node tiruan alih-alih perangkat keras Lustre, GPFS, atau BeeGFS yang sebenarnya. Hal yang masih terbuka sebelum menandai rilis: uji coba pada sistem berkas nyata ([rencana uji coba](../../pilot-plan.md)), tinjauan keamanan eksternal ([tinjauan mandiri](../../security-review.md)), dan pengukuran skala pada perangkat keras terdokumentasi ([skala](../../research/scale.md)). Versi 0.1.0 telah disiapkan pada `INFO` dan [CHANGELOG.md](../../../CHANGELOG.md), tetapi belum diberi tag.
 
 ## Peran akses
 
@@ -44,27 +44,35 @@ Cacti membuat grafik host dan menetapkan ambang batas nilai menggunakan Thold, s
 
 ## Ruang lingkup yang direncanakan
 
-| Fase | Ruang lingkup | Tonggak pencapaian |
-|---|---|---|
-| 0, riset | Matriks rilis, keputusan akses node, konfirmasi perilaku upstream, perilaku penghitung dan failover, pengukuran skala | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, observasi | Inventaris Lustre, kapasitas dan pengisian, throughput OST, laju operasi MDT, grafik, peringatan Thold, penekanan Maint, halaman kesehatan | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, kedalaman | Pengumpul data jarak jauh Cacti, tampilan tingkat pekerjaan dan tingkat klien dalam batas jumlah objek tertentu | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, backend | Backend GPFS (IBM Storage Scale) dan BeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Fase | Ruang lingkup | Status | Tonggak pencapaian |
+|---|---|---|---|
+| 0, riset | Matriks rilis, keputusan akses node, konfirmasi perilaku upstream, perilaku penghitung dan failover, pengukuran skala | Selesai | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, observasi | Inventaris Lustre, kapasitas dan pengisian, ketidakseimbangan OST/MDT (`lib/ImbalanceAnalyzer.php`), integrasi Maint (`lib/HealthPage.php`), throughput OST, laju operasi MDT, grafik, peringatan Thold, halaman kesehatan | Diimplementasikan (diuji dengan fixture) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, jarak jauh dan skala | Pengumpulan jarak jauh tercakup pada poller (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), primitif penskalaan 100+ PB (kebersihan KiB 64-bit + Skema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CLI CasC (`cli/pfs.php`), hook MCP/Doctor/CasC | Diimplementasikan (diuji unit dan integrasi CI) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, backend | Driver baca-saja IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) dan BeeGFS (`lib/BeegfsBackend.php`) yang terdaftar pada `BackendRegistry::production()` | Diimplementasikan (diuji unit) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Di luar ruang lingkup: operasi tulis, hapus, atur ulang, atau penyetelan apa pun pada node atau sistem berkas; mesin peringatan milik plugin sendiri; daemon atau protokol jaringan khusus; sumber data per pekerjaan; perubahan pada inti Cacti, Thold, atau Maint.
+Primitif utama operator dan penskalaan yang telah diimplementasikan:
+
+- **Driver baca-saja multi-sistem berkas:** `LustreBackend`, `GpfsBackend` (hanya `mmpmon` berbingkai `fs_io_s`/`io_s` dengan larangan `reset`, kapasitas/status pool `mmdf`, dan ringkasan waiter), dan `BeegfsBackend` (target penyimpanan/metadata BeeGFS 7.4 dan 8.x dengan konversi byte ke KiB yang tepat, pemetaan kondisi keterjangkauan/konsistensi, dan semantik pengukur per interval) yang berbagi `lib/FramedReportParser.php`.
+- **Kesadaran ketidakseimbangan, ruang tersisa, dan Maint:** `lib/ImbalanceAnalyzer.php` menghitung rasio pengisian OST/MDT, sebaran, indeks ketidakseimbangan simpangan baku populasi, ruang tersisa, penegakan kesegaran 1 interval (`missing_targets`), penanda status per target, dan Top-K target timpang yang dibatasi. `HealthPage` (`pfs_health.php`) dan `CascProvider::health()` menampilkan jendela pemeliharaan `Maint` Cacti serta menekan peringatan kegagalan aktif selama pemeliharaan terjadwal.
+- **Penskalaan 100+ PB dan exascale** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): konversi desimal byte ke KiB yang tepat (`FramedReportParser::bytesToKibInt()`) yang terverifikasi pada 500 PB dan 2 EB bersama kolom `BIGINT UNSIGNED value_kib` (Skema v4); rollup RRD hierarkis `Filesystem -> Pool -> Storage Server` dengan promosi target opt-in/sibuk/timpang yang dibatasi (`lib/RollupPolicy.php`); Top-K target timpang terbatas $O(K)$ serta ringkasan pekerjaan/klien berat yang telah diagregasi sebelumnya (`lib/TopKTracker.php`, tanpa pernah membuat perangkat atau RRD per klien); sharding pengumpul CRC32 deterministik (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); serta upsert SQL per batch berisi 500 baris ditambah paginasi keyset (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **CLI operator CasC dan hook ekosistem:** `cli/pfs.php` mendukung `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`, dan `health [--format=text|json]` tanpa ketergantungan Composer eksternal. `setup.php` dan `lib/EcosystemIntegration.php` mendaftarkan `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; baca-saja, dibatasi oleh `Parallel Filesystem View` dan izin perangkat Cacti), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out`, dan `remote_agent`.
+
+Di luar ruang lingkup: operasi tulis, hapus, atur ulang, atau penyetelan apa pun pada node atau sistem berkas; mesin peringatan milik plugin sendiri; daemon atau protokol jaringan khusus; perangkat atau RRD Cacti per pekerjaan atau per klien; perubahan pada inti Cacti, Thold, atau Maint.
 
 ## Target kompatibilitas
 
 | Komponen | Target |
 |---|---|
 | Cacti | 1.2.31 atau lebih baru, tanpa patch inti |
-| PHP | 8.2 atau lebih baru; `setup.php` tetap dapat diurai pada 8.0 sehingga runtime yang tidak didukung menerima penolakan alih-alih merusak antarmuka Cacti |
-| Lustre | Lini rilis akan ditetapkan pada tonggak pencapaian 1; sumber dan manual yang diperiksa sejauh ini berada pada versi 2.17.0 |
-| GPFS, BeeGFS | Fase 3; rilis akan ditetapkan melalui riset |
-| Thold, Maint | Tidak memerlukan perubahan |
+| PHP | 8.2 atau lebih baru; `setup.php`, `poller_pfs.php`, dan `cli/pfs.php` tetap dapat diurai pada 8.0 sehingga runtime yang tidak didukung menerima penolakan alih-alih merusak antarmuka Cacti |
+| Lustre | Sumber dan manual diperiksa pada versi 2.17.0; diuji dengan fixture |
+| GPFS, BeeGFS | Driver baca-saja IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` dan BeeGFS 7.4 / 8.x telah diimplementasikan dan diuji dengan fixture |
+| Thold, Maint | Thold 1.8.2 dan Maint 1.3, tanpa perubahan |
 
 ## Desain
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) mendokumentasikan arsitektur telemetri dua tingkat 100+ PB / exascale (tingkat server + rollup + Top-K Cacti/`plugin_pfs` yang dipasangkan dengan telemetri klien di luar jalur LDMS/Darshan/TOKIO) beserta konteks literatur akademisnya.
 - [docs/PLAN.md](../../PLAN.md) adalah rencana lengkap: arsitektur, fakta upstream yang menjadi dasar (beserta sumber dan hal yang belum terverifikasi), semantik penghitung, model status, batas keamanan, perhitungan kinerja, pengujian, dan risiko.
 - [docs/operator-guide.md](../../operator-guide.md) mencakup pemasangan, grafik dan nilai, pembaruan, pencadangan dan pemulihan, pencopotan, serta pemecahan masalah; [docs/alerting.md](../../alerting.md) mencakup Thold dan Maint.
 - [docs/node-setup.md](../../node-setup.md) menjelaskan cara menyiapkan server Lustre dan poller untuk pembaca.
@@ -73,12 +81,13 @@ Di luar ruang lingkup: operasi tulis, hapus, atur ulang, atau penyetelan apa pun
 
 ```mermaid
 flowchart LR
-    N[Server Lustre: OSS, MDS] -->|permintaan baca-saja tetap| S[Sumber node pada poller Cacti]
-    S --> R[Pembaca]
-    R --> C[(Cache observasi)]
-    C --> SS[Masukan script server]
+    N[Server penyimpanan: Lustre OSS/MDS, GPFS NSD, BeeGFS] -->|permintaan baca-saja tetap| S[Pembaca tercakup poller dan terpecah shard]
+    S --> B[BatchUpserter + cache KiB 64-bit]
+    B --> R[RollupPolicy + TopKTracker + ImbalanceAnalyzer]
+    B --> SS[Masukan script server]
+    R --> ECO[CasC CLI, kemampuan MCP, pemeriksaan Doctor]
     SS -->|poller_output| T[Thold dan Maint]
-    SS --> RRD[(RRD Cacti)]
+    SS --> RRD[(RRD Cacti: FS/Pool/Server + target opt-in)]
     RRD --> G[Grafik dan izin Cacti]
 ```
 

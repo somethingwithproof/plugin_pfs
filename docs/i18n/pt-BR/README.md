@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-Um plugin para Cacti 1.2 que traz a integridade e a carga de sistemas de arquivos paralelos para o Cacti: capacidade e desequilíbrio de preenchimento entre alvos (targets), vazão por alvo e taxas de operações de metadados. O Lustre é o primeiro backend. GPFS (IBM Storage Scale) e BeeGFS seguem atrás de uma interface de backend. Os dados chegam em dispositivos, fontes de dados (data sources) e gráficos comuns do Cacti, de modo que o Thold e o Maint emitem alertas e os suprimem sem alterações.
+Um plugin para Cacti 1.2 que traz a integridade, a capacidade, o desequilíbrio de preenchimento, a vazão por alvo e as taxas de operações de metadados de sistemas de arquivos paralelos para o Cacti no Lustre, no IBM Storage Scale (GPFS) e no BeeGFS por trás de uma interface `Backend` unificada. Cada sistema de arquivos é mapeado para um dispositivo comum do Cacti com data queries, gráficos de visão geral e de alvo sob demanda, além de medidores resumidos para que o Thold e o Maint emitam alertas e os suprimam sem alterações.
 
-> **Status: marco 4, código completo para a fase 1, não lançado.** Os marcos 2 (fundação), 3 (observação do Lustre) e 4 (alertas e preparação de lançamento) estão concluídos na `main` ou em revisão. O plugin instala, atualiza e desinstala por meio da API de plugins do Cacti e recusa PHP inferior à versão 8.2. Um leitor em segundo plano em cada poller lê servidores Lustre via SSH por meio de um script fixo de comando forçado ([node/pfs-read.sh](../../../node/pfs-read.sh)) e armazena em cache inventário, condição, capacidade e contadores com seu frescor (freshness). Cada sistema de arquivos torna-se um dispositivo do Cacti com data queries de OST e MDT, cinco gráficos de visão geral, gráficos por alvo sob demanda e uma fonte de dados resumida para o Thold. O Thold v1.8.2 e o Maint v1.3, sem alterações, emitem alertas e suprimem os medidores (gauges) resumidos na execução ponta a ponta; limiares (thresholds) do Thold em contadores não têm suporte no Thold 1.8.2 ([docs/alerting.md](../../alerting.md)). Todos os testes até o momento são executados em saídas de nó de fixture em um Cacti descartável: o plugin ainda não foi executado contra um nó Lustre real. Ainda em aberto antes de um lançamento: pilotos em sistemas de arquivos reais ([plano de piloto](../../pilot-plan.md)), a revisão de segurança externa ([autoavaliação](../../security-review.md)) e medições de escala em hardware documentado ([escala](../../research/scale.md)). A versão 0.1.0 está preparada em `INFO` e [CHANGELOG.md](../../../CHANGELOG.md), mas ainda não recebeu tag.
+> **Status: fases 1 a 3 e primitivas de escalonamento em exaescala implementadas em código, ainda não lançado.** Fundação, observação do Lustre, alertas e supressão do Maint, drivers somente leitura de GPFS e BeeGFS, análise de desequilíbrio OST/MDT com integração ao Maint, escopo de coletores remotos (`replicate_out`, `remote_agent`), primitivas de escalonamento de 100+ PB / exaescala (`FramedReportParser`, Esquema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), a CLI de CasC para operadores (`cli/pfs.php`) e hooks de ecossistema (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) estão implementados e verificados com testes unitários, de segurança e de integração em Cacti descartável. Todas as execuções até agora usam saída de nó de fixture em vez de hardware real de Lustre, GPFS ou BeeGFS. Ainda em aberto antes de marcar um lançamento: pilotos em sistemas de arquivos reais ([plano de piloto](../../pilot-plan.md)), uma revisão de segurança externa ([autoavaliação](../../security-review.md)) e medições de escala em hardware documentado ([escala](../../research/scale.md)). A versão 0.1.0 está preparada em `INFO` e [CHANGELOG.md](../../../CHANGELOG.md), mas ainda não recebeu tag.
 
 ## Papéis de acesso
 
@@ -44,27 +44,35 @@ O Cacti gera gráficos de hosts e aplica limiares com o Thold, e a organização
 
 ## Escopo planejado
 
-| Fase | Escopo | Marcos |
-|---|---|---|
-| 0, pesquisa | Matriz de versões, decisão de acesso ao nó, confirmação de comportamento upstream, comportamento de contadores e failover, medições de escala | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, observação | Inventário Lustre, capacidade e preenchimento, vazão de OST, taxas de operação de MDT, gráficos, alertas do Thold, supressão do Maint, página de integridade | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, profundidade | Coletores de dados remotos do Cacti, visões por job e por cliente dentro de uma contagem limitada de objetos | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, backends | Backends GPFS (IBM Storage Scale) e BeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Fase | Escopo | Status | Marcos |
+|---|---|---|---|
+| 0, pesquisa | Matriz de versões, decisão de acesso ao nó, confirmação de comportamento upstream, comportamento de contadores e failover, medições de escala | Concluído | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, observação | Inventário Lustre, capacidade e preenchimento, desequilíbrio OST/MDT (`lib/ImbalanceAnalyzer.php`), integração com Maint (`lib/HealthPage.php`), vazão de OST, taxas de operação de MDT, gráficos, alertas do Thold, página de integridade | Implementado (testado com fixtures) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, remoto e escala | Coleta remota com escopo de poller (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), primitivas de escalonamento de 100+ PB (higiene de KiB de 64 bits + Esquema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CLI CasC (`cli/pfs.php`), hooks MCP/Doctor/CasC | Implementado (testado em unidade e integração CI) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, backends | Drivers somente leitura de IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) e BeeGFS (`lib/BeegfsBackend.php`) registrados em `BackendRegistry::production()` | Implementado (testado em unidade) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Fora do escopo: qualquer operação de gravação, limpeza, redefinição ou ajuste (tuning) em um nó ou sistema de arquivos; um mecanismo de alertas próprio do plugin; um daemon ou protocolo de rede personalizado; fontes de dados por job; alterações no núcleo do Cacti, no Thold ou no Maint.
+Principais primitivas de operação e escalonamento implementadas:
+
+- **Drivers somente leitura multi-sistema de arquivos:** `LustreBackend`, `GpfsBackend` (apenas `mmpmon` enquadrado `fs_io_s`/`io_s` com `reset` proibido, capacidade/estados de pool `mmdf` e resumos de waiters) e `BeegfsBackend` (alvos de armazenamento/metadados BeeGFS 7.4 e 8.x com conversão exata de bytes para KiB, mapeamento de condição de acessibilidade/consistência e semântica de medidor por intervalo) compartilhando `lib/FramedReportParser.php`.
+- **Consciência de desequilíbrio, margem livre e Maint:** `lib/ImbalanceAnalyzer.php` calcula razões de preenchimento OST/MDT, amplitude (spread), índice de desequilíbrio por desvio padrão populacional, margem livre (headroom), imposição de frescor de 1 intervalo (`missing_targets`), sinalizadores de estado por alvo e alvos distorcidos Top-K limitados. `HealthPage` (`pfs_health.php`) e `CascProvider::health()` expõem janelas de manutenção `Maint` do Cacti e suprimem avisos ativos de falha durante manutenção programada.
+- **Escalonamento para 100+ PB e exaescala** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): conversão decimal exata de bytes para KiB (`FramedReportParser::bytesToKibInt()`) verificada em 500 PB e 2 EB junto a colunas `BIGINT UNSIGNED value_kib` (Esquema v4); rollups hierárquicos de RRD `Filesystem -> Pool -> Storage Server` com promoção limitada de alvos opt-in/quentes/distorcidos (`lib/RollupPolicy.php`); alvos distorcidos Top-K limitados em $O(K)$ e resumos pré-agregados de jobs/clientes pesados (`lib/TopKTracker.php`, nunca criando dispositivos ou RRDs por cliente); sharding determinístico de coletores via CRC32 (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); e upserts SQL em lote de 500 linhas com paginação por keyset (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **CLI CasC de operador e hooks de ecossistema:** `cli/pfs.php` oferece suporte a `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]` e `health [--format=text|json]` sem dependências externas do Composer. `setup.php` e `lib/EcosystemIntegration.php` registram `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; somente leitura, protegidas por `Parallel Filesystem View` e permissões de dispositivo do Cacti), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out` e `remote_agent`.
+
+Fora do escopo: qualquer operação de gravação, limpeza, redefinição ou ajuste (tuning) em um nó ou sistema de arquivos; um mecanismo de alertas próprio do plugin; um daemon ou protocolo de rede personalizado; dispositivos/RRDs do Cacti por job ou por cliente; alterações no núcleo do Cacti, no Thold ou no Maint.
 
 ## Alvos de compatibilidade
 
 | Componente | Alvo |
 |---|---|
 | Cacti | 1.2.31 ou posterior, sem patches no núcleo |
-| PHP | 8.2 ou posterior; `setup.php` permanece analisável (parseable) no 8.0 para que um runtime sem suporte receba uma recusa em vez de uma interface do Cacti quebrada |
-| Lustre | Linhas de lançamento a serem definidas no marco 1; código-fonte e manuais verificados até agora estão na versão 2.17.0 |
-| GPFS, BeeGFS | Fase 3; versões a serem definidas por pesquisa |
-| Thold, Maint | Nenhuma alteração necessária |
+| PHP | 8.2 ou posterior; `setup.php`, `poller_pfs.php` e `cli/pfs.php` permanecem analisáveis (parseable) no 8.0 para que um runtime sem suporte receba uma recusa em vez de uma interface do Cacti quebrada |
+| Lustre | Código-fonte e manuais verificados em 2.17.0; testado com fixtures |
+| GPFS, BeeGFS | Drivers somente leitura para IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` e BeeGFS 7.4 / 8.x implementados e testados com fixtures |
+| Thold, Maint | Thold 1.8.2 e Maint 1.3, sem alterações |
 
 ## Design
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) documenta a arquitetura de telemetria em duas camadas para 100+ PB / exaescala (servidor Cacti/`plugin_pfs` + rollup + camada Top-K combinada com telemetria de cliente LDMS/Darshan/TOKIO fora de banda) e seu contexto na literatura acadêmica.
 - [docs/PLAN.md](../../PLAN.md) é o plano completo: arquitetura, fatos upstream dos quais depende (com fontes e o que ainda não foi verificado), semântica de contadores, modelo de estado, limites de segurança, aritmética de desempenho, testes e riscos.
 - [docs/operator-guide.md](../../operator-guide.md) aborda instalação, os gráficos e valores, atualização, backup e restauração, desinstalação e solução de problemas; [docs/alerting.md](../../alerting.md) aborda o Thold e o Maint.
 - [docs/node-setup.md](../../node-setup.md) descreve como preparar um servidor Lustre e um poller para o leitor.
@@ -73,13 +81,14 @@ Fora do escopo: qualquer operação de gravação, limpeza, redefinição ou aju
 
 ```mermaid
 flowchart LR
-    N[Servidores Lustre: OSS, MDS] -->|requisição fixa somente leitura| S[Origem do nó no poller do Cacti]
-    S --> R[Leitor]
-    R --> C[(Cache de observação)]
-    C --> SS[Entrada do script server]
-    SS -->|poller_output| T[Thold e Maint]
-    SS --> RRD[(RRDs do Cacti)]
-    RRD --> G[Gráficos e permissões do Cacti]
+    N["Servidores de armazenamento: Lustre OSS/MDS, GPFS NSD, BeeGFS"] -->|requisição fixa somente leitura| S["Leitor com escopo de poller e sharding"]
+    S --> B["BatchUpserter + cache KiB de 64 bits"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["Entrada do script server"]
+    R --> ECO["CLI CasC, capacidades MCP, verificações Doctor"]
+    SS -->|poller_output| T["Thold e Maint"]
+    SS --> RRD[("RRDs do Cacti: FS/Pool/Server + alvos opt-in")]
+    RRD --> G["Gráficos e permissões do Cacti"]
 ```
 
 ## Como o trabalho é acompanhado

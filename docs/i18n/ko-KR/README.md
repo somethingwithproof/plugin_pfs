@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-병렬 파일시스템의 상태와 부하를 Cacti로 가져오는 Cacti 1.2 플러그인입니다. 타깃(target) 전반의 용량 및 사용률 불균형(fill imbalance), 타깃별 처리량(throughput), 메타데이터 작업 속도를 수집합니다. 첫 번째 백엔드는 Lustre이며, GPFS(IBM Storage Scale)와 BeeGFS는 백엔드 인터페이스 뒤에 이어서 지원될 예정입니다. 수집된 데이터는 일반 Cacti 디바이스, 데이터 소스, 그래프로 저장되므로 Thold와 Maint가 별도 수정 없이 알림을 생성하고 억제할 수 있습니다.
+통합된 `Backend` 인터페이스를 통해 Lustre, IBM Storage Scale(GPFS), BeeGFS 전반의 병렬 파일시스템 상태, 용량, 사용률 불균형(fill imbalance), 타깃별 처리량(throughput), 메타데이터 작업 속도를 Cacti로 가져오는 Cacti 1.2 플러그인입니다. 각 파일시스템은 데이터 쿼리, 개요 및 온디맨드 타깃 그래프, 요약 게이지를 갖춘 일반 Cacti 디바이스로 매핑되므로 Thold와 Maint가 별도 수정 없이 알림을 생성하고 억제할 수 있습니다.
 
-> **상태: 마일스톤 4, 1단계(Phase 1) 코드 구현 완료, 미배포.** 마일스톤 2(기반 구축), 3(Lustre 관측), 4(알림 및 릴리스 준비)는 `main` 브랜치에 반영되었거나 검토 중입니다. 이 플러그인은 Cacti의 플러그인 API를 통해 설치, 업그레이드, 제거되며 PHP 8.2 미만 버전에서는 실행을 거부합니다. 각 폴러(poller)의 백그라운드 리더(reader)는 고정된 강제 명령(forced-command) 스크립트([node/pfs-read.sh](../../../node/pfs-read.sh))를 사용해 SSH로 Lustre 서버를 조회하고 인벤토리, 상태, 용량, 카운터와 그 최신성(freshness) 정보를 캐시합니다. 각 파일시스템은 OST 및 MDT 데이터 쿼리, 5개의 개요 그래프, 필요에 따라 생성되는 타깃별 그래프, 그리고 Thold용 요약 데이터 소스를 갖춘 하나의 Cacti 디바이스로 등록됩니다. 수정하지 않은 상태의 Thold v1.8.2와 Maint v1.3은 엔드투엔드(end-to-end) 실행에서 요약 게이지(summary gauges)에 대한 알림 생성 및 억제를 정상적으로 수행합니다. 단, Thold 1.8.2에서는 카운터에 대한 Thold 임계값 설정이 지원되지 않습니다([docs/alerting.md](../../alerting.md)). 지금까지의 모든 테스트는 일회성 Cacti 환경에서 픽스처(fixture) 노드 출력으로만 수행되었으며, 실제 Lustre 노드를 대상으로 실행된 적은 없습니다. 릴리스 전에 남아 있는 과제는 실제 파일시스템에서의 파일럿 테스트([파일럿 계획](../../pilot-plan.md)), 외부 보안 검토([자체 검토](../../security-review.md)), 문서화된 하드웨어에서의 규모 측정([규모 측정](../../research/scale.md))입니다. 버전 0.1.0은 `INFO`와 [CHANGELOG.md](../../../CHANGELOG.md)에 준비되어 있으나 아직 태그가 지정되지 않았습니다.
+> **상태: 1단계부터 3단계 및 엑사스케일 확장 프리미티브 코드 구현 완료, 미배포.** 기반 구축, Lustre 관측, 알림 및 Maint 억제, GPFS 및 BeeGFS 읽기 전용 드라이버, Maint 통합을 포함한 OST/MDT 불균형 분석, 원격 데이터 수집기 범위 지정(`replicate_out`, `remote_agent`), 100+ PB / 엑사스케일 확장 프리미티브(`FramedReportParser`, 스키마 v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CasC 운영자 CLI(`cli/pfs.php`), 그리고 생태계 훅(`abilities_register`, `doctor_register_checks`, `casc_register_providers`)이 구현되어 단위, 보안, 일회성 Cacti 통합 테스트로 검증되었습니다. 지금까지의 모든 실행은 실제 Lustre, GPFS 또는 BeeGFS 하드웨어가 아닌 픽스처(fixture) 노드 출력만 사용했습니다. 릴리스 태그 지정 전에 남아 있는 과제는 실제 파일시스템에서의 파일럿 테스트([파일럿 계획](../../pilot-plan.md)), 외부 보안 검토([자체 검토](../../security-review.md)), 문서화된 하드웨어에서의 규모 측정([규모 측정](../../research/scale.md))입니다. 버전 0.1.0은 `INFO`와 [CHANGELOG.md](../../../CHANGELOG.md)에 준비되어 있으나 아직 태그가 지정되지 않았습니다.
 
 ## 접근 역할
 
@@ -34,27 +34,35 @@ Cacti는 호스트를 그래프로 시각화하고 Thold로 임계값을 감시�
 
 ## 계획된 범위
 
-| 단계 | 범위 | 마일스톤 |
-|---|---|---|
-| 0, 조사(research) | 릴리스 매트릭스, 노드 접근 방식 결정, 업스트림 동작 확인, 카운터 및 페일오버 동작, 규모 측정 | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, 관측(observe) | Lustre 인벤토리, 용량 및 사용률, OST 처리량, MDT 작업 속도, 그래프, Thold 알림, Maint 억제, 상태(health) 페이지 | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, 심화(depth) | Cacti 원격 데이터 수집기, 제한된 객체 수 범위 내의 작업(job) 수준 및 클라이언트 수준 뷰 | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, 백엔드(backends) | GPFS(IBM Storage Scale) 및 BeeGFS 백엔드 | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| 단계 | 범위 | 상태 | 마일스톤 |
+|---|---|---|---|
+| 0, 조사(research) | 릴리스 매트릭스, 노드 접근 방식 결정, 업스트림 동작 확인, 카운터 및 페일오버 동작, 규모 측정 | 완료 | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, 관측(observe) | Lustre 인벤토리, 용량 및 사용률, OST/MDT 불균형(`lib/ImbalanceAnalyzer.php`), Maint 통합(`lib/HealthPage.php`), OST 처리량, MDT 작업 속도, 그래프, Thold 알림, 상태(health) 페이지 | 구현 완료(픽스처 테스트됨) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, 원격 및 확장(remote and scale) | 폴러 범위 원격 수집(`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), 100+ PB 확장 프리미티브(64비트 KiB 정합성 + 스키마 v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI(`cli/pfs.php`), MCP/Doctor/CasC 훅 | 구현 완료(단위 및 CI 통합 테스트됨) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, 백엔드(backends) | `BackendRegistry::production()`에 등록된 읽기 전용 IBM Storage Scale(GPFS)(`lib/GpfsBackend.php`) 및 BeeGFS(`lib/BeegfsBackend.php`) 드라이버 | 구현 완료(단위 테스트됨) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-범위 제외(Out of scope): 노드나 파일시스템에 대한 모든 쓰기, 초기화(clear), 재설정(reset) 또는 튜닝 작업, 플러그인 자체 알림 엔진, 사용자 지정 데몬 또는 네트워크 프로토콜, 작업(job)별 데이터 소스, Cacti 코어·Thold·Maint 수정.
+구현된 주요 운영 및 확장 프리미티브:
+
+- **다중 파일시스템 읽기 전용 드라이버:** `lib/FramedReportParser.php`를 공유하는 `LustreBackend`, `GpfsBackend`(`reset`이 금지된 프레이밍된 `mmpmon` `fs_io_s`/`io_s` 전용, `mmdf` 풀 용량/상태 및 대기자 요약), 그리고 `BeegfsBackend`(정확한 바이트-KiB 변환, 도달 가능성/일관성 상태 매핑, 간격별 게이지 시맨틱을 갖춘 BeeGFS 7.4 및 8.x 스토리지/메타데이터 타깃).
+- **불균형, 여유 공간 및 Maint 인식:** `lib/ImbalanceAnalyzer.php`는 OST/MDT 사용률, 편차(spread), 모표준편차 불균형 지수, 여유 공간(headroom), 1간격 최신성 강제(`missing_targets`), 타깃별 상태 플래그, 제한된 Top-K 편중 타깃을 계산합니다. `HealthPage`(`pfs_health.php`)와 `CascProvider::health()`는 Cacti `Maint` 유지보수 기간을 표시하고 예약된 유지보수 중에는 활성 장애 경고를 억제합니다.
+- **100+ PB 및 엑사스케일 확장** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): `BIGINT UNSIGNED value_kib` 열(스키마 v4)과 함께 500 PB 및 2 EB에서 검증된 정확한 10진 바이트-KiB 변환(`FramedReportParser::bytesToKibInt()`); 제한된 옵트인/고부하/편중 타깃 승격을 지원하는 계층적 `Filesystem -> Pool -> Storage Server` RRD 롤업(`lib/RollupPolicy.php`); 제한된 $O(K)$ Top-K 편중 타깃 및 사전 집계된 고부하 작업/클라이언트 요약(`lib/TopKTracker.php`, 클라이언트별 디바이스나 RRD를 생성하지 않음); 결정적 CRC32 수집기 샤딩(`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); 그리고 500행 단위 배치 SQL 업서트 및 키셋 페이지네이션(`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **운영자 CasC CLI 및 생태계 훅:** `cli/pfs.php`는 외부 Composer 의존성 없이 `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`, `health [--format=text|json]`를 지원합니다. `setup.php`와 `lib/EcosystemIntegration.php`는 `abilities_register`(`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; 읽기 전용, `Parallel Filesystem View` 및 Cacti 디바이스 권한으로 게이팅), `doctor_register_checks`(`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out`, `remote_agent`를 등록합니다.
+
+범위 제외(Out of scope): 노드나 파일시스템에 대한 모든 쓰기, 초기화(clear), 재설정(reset) 또는 튜닝 작업, 플러그인 자체 알림 엔진, 사용자 지정 데몬 또는 네트워크 프로토콜, 작업(job)별 또는 클라이언트별 Cacti 디바이스/RRD, Cacti 코어·Thold·Maint 수정.
 
 ## 호환성 목표
 
 | 구성 요소 | 목표 |
 |---|---|
 | Cacti | 1.2.31 이상, 코어 패치 불필요 |
-| PHP | 8.2 이상. 지원되지 않는 런타임에서 Cacti UI가 깨지는 대신 명확한 거부 메시지를 표시하도록 `setup.php`는 8.0에서도 파싱 가능하게 유지됩니다 |
-| Lustre | 마일스톤 1에서 릴리스 라인을 확정할 예정입니다. 현재까지 확인한 소스 및 매뉴얼 기준은 2.17.0입니다 |
-| GPFS, BeeGFS | 3단계(Phase 3)에서 지원하며, 조사를 통해 지원 릴리스를 확정할 예정입니다 |
-| Thold, Maint | 별도 수정 불필요 |
+| PHP | 8.2 이상. 지원되지 않는 런타임에서 Cacti UI가 깨지는 대신 명확한 거부 메시지를 표시하도록 `setup.php`, `poller_pfs.php`, `cli/pfs.php`는 8.0에서도 파싱 가능하게 유지됩니다 |
+| Lustre | 2.17.0 기준 소스 및 매뉴얼 확인, 픽스처 테스트됨 |
+| GPFS, BeeGFS | IBM Storage Scale(GPFS) 5.x `mmpmon`/`mmdf` 및 BeeGFS 7.4 / 8.x 읽기 전용 드라이버 구현 및 픽스처 테스트됨 |
+| Thold, Maint | Thold 1.8.2 및 Maint 1.3, 변경 없음 |
 
 ## 설계
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)는 2계층 100+ PB / 엑사스케일 텔레메트리 아키텍처(Cacti/`plugin_pfs` 서버 + 롤업 + Top-K 계층과 대역 외 LDMS/Darshan/TOKIO 클라이언트 텔레메트리의 결합) 및 학술 문헌 맥락을 문서화합니다.
 - [docs/PLAN.md](../../PLAN.md)는 전체 계획 문서로 아키텍처, 의존하는 업스트림 사실(출처 및 미검증 항목 포함), 카운터 시맨틱, 상태 모델, 보안 경계, 성능 계산, 테스트, 위험 요소를 다룹니다.
 - [docs/operator-guide.md](../../operator-guide.md)는 설치, 그래프와 측정값, 업그레이드, 백업 및 복원, 제거, 문제 해결을 다루며, [docs/alerting.md](../../alerting.md)는 Thold와 Maint를 다룹니다.
 - [docs/node-setup.md](../../node-setup.md)는 리더(reader)를 위해 Lustre 서버와 폴러를 준비하는 방법을 설명합니다.
@@ -63,12 +71,13 @@ Cacti는 호스트를 그래프로 시각화하고 Thold로 임계값을 감시�
 
 ```mermaid
 flowchart LR
-    N["Lustre 서버: OSS, MDS"] -->|고정 읽기 전용 요청| S["Cacti 폴러의 노드 소스"]
-    S --> R["리더(Reader)"]
-    R --> C[("관측 캐시")]
-    C --> SS["스크립트 서버 입력"]
+    N["스토리지 서버: Lustre OSS/MDS, GPFS NSD, BeeGFS"] -->|고정 읽기 전용 요청| S["폴러 범위 및 샤딩된 리더"]
+    S --> B["BatchUpserter + 64비트 KiB 캐시"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["스크립트 서버 입력"]
+    R --> ECO["CasC CLI, MCP 기능, Doctor 점검"]
     SS -->|poller_output| T["Thold 및 Maint"]
-    SS --> RRD[("Cacti RRD")]
+    SS --> RRD[("Cacti RRD: FS/Pool/Server + 옵트인 타깃")]
     RRD --> G["Cacti 그래프 및 권한"]
 ```
 

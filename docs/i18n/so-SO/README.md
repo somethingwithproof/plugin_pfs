@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-Qalab-ku-xirka (plugin) Cacti 1.2 oo keena caafimaadka iyo culayska nidaamka faylasha barbar-socodka ah (parallel filesystem) gudaha Cacti: awoodda kaydinta iyo dheellitirnaan la'aanta buuxinta ee bartilmaameedyada kala duwan, xawaaraha xog-gudbinta ee bartilmaameed kasta, iyo heerarka hawlgallada metadata. Lustre waa nidaamka dambe (backend) ee ugu horreeya. GPFS (IBM Storage Scale) iyo BeeGFS waxay ku xigaan iyagoo raacaya weji-isku-xirka nidaamka dambe. Xogtu waxay ku dhacdaa aaladaha caadiga ah ee Cacti, ilaha xogta, iyo jaantusyada, sidaas darteed Thold iyo Maint waxay uga digaan una joojiyaan digniinaha sidooda oo aan waxba laga beddelin.
+Qalab-ku-xirka Cacti 1.2 oo keena caafimaadka, awoodda kaydinta, dheellitirnaan la'aanta buuxinta, xawaaraha xog-gudbinta ee bartilmaameed kasta, iyo heerarka hawlgallada metadata ee nidaamka faylasha barbar-socodka ah gudaha Cacti iyadoo la adeegsanayo Lustre, IBM Storage Scale (GPFS), iyo BeeGFS oo ka dambeeya weji-isku-xirka `Backend` ee mideysan. Nidaam faylal kasta wuxuu ku xirmaa aalad caadi ah oo Cacti ah oo leh weydiimaha xogta, jaantusyada guudmarka iyo kuwa bartilmaameedka markii loo baahdo, iyo cabbirrada kooban si Thold iyo Maint ay uga digaan una joojiyaan iyaga oo aan waxba laga beddelin.
 
-> **Xaaladda: marxaladda 4-aad, koodhku wuu dhammaystiran yahay wajiga 1-aad, weli lama sii dayn.** Marxaladaha 2-aad (aasaaska), 3-aad (kormeerka Lustre), iyo 4-aad (digniinaha iyo diyaarinta sii-daynta) waa la dhammeeyay oo waxay ku jiraan `main` ama dib-u-eegis. Qalab-ku-xirku wuu rakibmaa, wuu cusboonaysiismaa, wuuna tirtirmaa iyadoo loo marayo API-ga qalab-ku-xirka ee Cacti, wuuna diidaa PHP ka hooseeya 8.2. Akhris-wade dambe oo ku yaal poller kasta wuxuu adeegayaasha Lustre ka akhriyaa SSH iyadoo la sii marinayo qoraal amar-qasab ah oo go'an ([node/pfs-read.sh](../../../node/pfs-read.sh)), wuxuuna ku kaydiyaa agabka jira, xaaladda, awoodda kaydinta, iyo tiriyeyaasha oo wata xogta cusubnimadooda. Nidaam faylal kasta wuxuu noqdaa aalad Cacti ah oo leh weydiimaha xogta OST iyo MDT, shan jaantus oo guudmar ah, jaantusyo bartilmaameed kasta ah markii loo baahdo, iyo il xog kooban oo loogu talagalay Thold. Thold v1.8.2 iyo Maint v1.3, iyagoo aan waxba laga beddelin, waxay ka digaan oo hakiyaan cabbirrada kooban inta lagu jiro orodka dhammaadka-ilaa-dhammaadka; xadka digniinta Thold ee tiriyeyaasha laguma taageero Thold 1.8.2 ([docs/alerting.md](../../alerting.md)). Tijaabo kasta oo ilaa hadda la sameeyay waxay ku shaqaysaa xog-tijaabo oo laga soo saaray nood ku jira Cacti ku-meel-gaar ah: qalab-ku-xirku weli kuma shaqayn nood Lustre dhab ah. Waxyaabaha weli furan ka hor sii-daynta: tijaabooyinka hordhaca ah ee nidaamyada faylasha dhabta ah ([qorshaha tijaabada](../../pilot-plan.md)), dib-u-eegista amniga ee dibadda ([is-dib-u-eegista](../../security-review.md)), iyo cabbirrada baaxadda ee qalabka la diiwaangeliyay ([baaxadda](../../research/scale.md)). Nooca 0.1.0 waxaa lagu diyaariyay `INFO` iyo [CHANGELOG.md](../../../CHANGELOG.md) laakiin weli calaamad (tag) looma samayn.
+> **Xaaladda: wajiyada 1 ilaa 3 iyo aaladaha aasaasiga ah ee ballaarinta exascale waa lagu hirgeliyay koodhka, weli lama sii dayn.** Aasaaska, kormeerka Lustre, digniinaha iyo joojinta Maint, darawalada akhris-kaliya ee GPFS iyo BeeGFS, falanqaynta dheellitirnaan la'aanta OST/MDT oo leh isdhexgalka Maint, xaddidaadda ururiyaha xogta fog (`replicate_out`, `remote_agent`), aaladaha ballaarinta 100+ PB / exascale (`FramedReportParser`, Schema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CLI-ga hawlwadeenka CasC (`cli/pfs.php`), iyo xirmooyinka nidaamka deegaanka (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) waa la hirgeliyay waxaana lagu xaqiijiyay tijaabooyinka unugga, amniga, iyo isdhexgalka Cacti ku-meel-gaar ah. Dhammaan orodyada ilaa hadda waxay isticmaalaan xog-tijaabo oo nood ah halkii ay ka isticmaali lahaayeen qalab dhab ah oo Lustre, GPFS, ama BeeGFS ah. Waxyaabaha weli furan ka hor calaamadaynta sii-daynta: tijaabooyinka hordhaca ah ee nidaamyada faylasha dhabta ah ([qorshaha tijaabada](../../pilot-plan.md)), dib-u-eegista amniga ee dibadda ([is-dib-u-eegista](../../security-review.md)), iyo cabbirrada baaxadda ee qalabka la diiwaangeliyay ([baaxadda](../../research/scale.md)). Nooca 0.1.0 waxaa lagu diyaariyay `INFO` iyo [CHANGELOG.md](../../../CHANGELOG.md) laakiin weli calaamad looma samayn.
 
 ## Doorarka gelitaanka
 
@@ -34,27 +34,35 @@ Cacti wuxuu sawiraa martigeliyayaasha wuxuuna u dejiyaa xadka qiimaha isagoo ade
 
 ## Baaxadda la qorsheeyay
 
-| Wajiga | Baaxadda | Marxaladaha |
-|---|---|---|
-| 0, cilmi-baaris | Shaxda sii-daynta, go'aanka gelitaanka noodka, xaqiijinta habdhaqanka kor-ka-yimaada, habdhaqanka tiriyaha iyo wareejinta fashilka, cabbirrada baaxadda | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, kormeer | Agabka Lustre, awoodda kaydinta iyo buuxinta, xawaaraha xog-gudbinta OST, heerarka hawlgalka MDT, jaantusyada, digniinaha Thold, joojinta Maint, bogga caafimaadka | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, qoto-dheeri | Ururiyeyaasha xogta fog ee Cacti, aragtiyaha heerka-shaqada iyo heerka-macmiilka gudaha tirada walxaha xaddidan | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, nidaamyada dambe | Nidaamyada dambe ee GPFS (IBM Storage Scale) iyo BeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Wajiga | Baaxadda | Xaaladda | Marxaladaha |
+|---|---|---|---|
+| 0, cilmi-baaris | Shaxda sii-daynta, go'aanka gelitaanka noodka, xaqiijinta habdhaqanka kor-ka-yimaada, habdhaqanka tiriyaha iyo wareejinta fashilka, cabbirrada baaxadda | Dhammaystiran | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, kormeer | Agabka Lustre, awoodda kaydinta iyo buuxinta, dheellitirnaan la'aanta OST/MDT (`lib/ImbalanceAnalyzer.php`), isdhexgalka Maint (`lib/HealthPage.php`), xawaaraha xog-gudbinta OST, heerarka hawlgalka MDT, jaantusyada, digniinaha Thold, bogga caafimaadka | La hirgeliyay (lagu tijaabiyay fixture) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, fogaan iyo baaxad | Ururinta fog ee xaddidan poller-ka (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), aaladaha ballaarinta 100+ PB (nadaafadda 64-bit KiB + Schema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI (`cli/pfs.php`), xirmooyinka MCP/Doctor/CasC | La hirgeliyay (lagu tijaabiyay unug iyo isdhexgalka CI) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, nidaamyada dambe | Darawalada akhris-kaliya ee IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) iyo BeeGFS (`lib/BeegfsBackend.php`) ee ka diiwaangashan `BackendRegistry::production()` | La hirgeliyay (lagu tijaabiyay unug) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Ka baxsan baaxadda: wax kasta oo qoris, nadiifin, dib-u-dejin, ama hagaajin ah oo lagu sameeyo nood ama nidaam faylal; matoor digniin oo uu leeyahay qalab-ku-xirku; daemon gaar ah ama borotokool shabakad; ilo xog oo shaqo-kasta ah; isbeddel lagu sameeyo xudunta Cacti, Thold, ama Maint.
+Aaladaha muhiimka ah ee hawlwadeenka iyo ballaarinta ee la hirgeliyay:
+
+- **Darawalada akhris-kaliya ee nidaamyada faylasha badan:** `LustreBackend`, `GpfsBackend` (`mmpmon` qaabaysan oo `fs_io_s`/`io_s` oo keliya ah iyadoo `reset` mamnuuc yahay, awoodda/xaaladaha barkadda `mmdf`, iyo soo-koobista sugayaasha), iyo `BeegfsBackend` (bartilmaameedyada kaydinta/metadata ee BeeGFS 7.4 iyo 8.x oo leh beddelaadda saxda ah ee byte-ilaa-KiB, khariidaynta xaaladda gaaritaanka/iswaafaqidda, iyo macnaha cabbirka muddo-kasta) kuwaas oo wadaaga `lib/FramedReportParser.php`.
+- **Ogaanshaha dheellitirnaan la'aanta, meesha bannaan, iyo Maint:** `lib/ImbalanceAnalyzer.php` wuxuu xisaabiyaa saamiga buuxinta OST/MDT, kala-baxa, tusmada dheellitirnaan la'aanta leexashada caadiga ah ee dadweynaha, meesha bannaan (headroom), dhaqangelinta cusboonaysiinta 1-muddo (`missing_targets`), calamadaha xaaladda bartilmaameed kasta, iyo bartilmaameedyada qalloocan ee Top-K ee xaddidan. `HealthPage` (`pfs_health.php`) iyo `CascProvider::health()` waxay soo bandhigaan daaqadaha dayactirka `Maint` ee Cacti waxayna joojiyaan digniinaha fashilka firfircoon inta lagu jiro dayactirka qorshaysan.
+- **Ballaarinta 100+ PB iyo exascale** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): beddelaadda tobanlaha saxda ah ee byte-ilaa-KiB (`FramedReportParser::bytesToKibInt()`) oo lagu xaqiijiyay 500 PB iyo 2 EB iyadoo la socota tiirarka `BIGINT UNSIGNED value_kib` (Schema v4); ururinta RRD ee kala-sarreynta `Filesystem -> Pool -> Storage Server` oo leh dallacaadda bartilmaameedka opt-in/kulul/qalloocan ee xaddidan (`lib/RollupPolicy.php`); bartilmaameedyada qalloocan ee Top-K ee xaddidan $O(K)$ iyo soo-koobista shaqooyinka/macaamiisha culus ee horay loo ururiyay (`lib/TopKTracker.php`, iyadoon waligood la abuurin aalado ama RRD-yo macmiil-kasta ah); qaybinta sharding CRC32 ee go'an ee ururiyaha (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); iyo gelinta SQL ee kooxaysan oo 500-saf ah oo lagu daray bog-u-qaybinta keyset (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **CasC CLI-ga hawlwadeenka iyo xirmooyinka nidaamka deegaanka:** `cli/pfs.php` wuxuu taageeraa `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`, iyo `health [--format=text|json]` iyada oo aan wax ku-tiirsanaan ah oo Composer dibadda ah jirin. `setup.php` iyo `lib/EcosystemIntegration.php` waxay diiwaangeliyaan `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; akhris-kaliya, ku xiran `Parallel Filesystem View` iyo oggolaanshaha aaladaha Cacti), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out`, iyo `remote_agent`.
+
+Ka baxsan baaxadda: wax kasta oo qoris, nadiifin, dib-u-dejin, ama hagaajin ah oo lagu sameeyo nood ama nidaam faylal; matoor digniin oo uu leeyahay qalab-ku-xirku; daemon gaar ah ama borotokool shabakad; aaladaha/RRD-yada Cacti ee shaqo-kasta ama macmiil-kasta ah; isbeddel lagu sameeyo xudunta Cacti, Thold, ama Maint.
 
 ## Bartilmaameedyada is-waafajinta
 
 | Qaybta | Bartilmaameedka |
 |---|---|
 | Cacti | 1.2.31 ama ka dambeeya, iyada oo aan wax balastar ah lagu samayn xudunta |
-| PHP | 8.2 ama ka dambeeya; `setup.php` wuxuu sii ahaadaa mid laga baaraandegi karo PHP 8.0 si deegaanka aan la taageerin uu u helo diidmo halkii uu ka jabi lahaa UI-ga Cacti |
-| Lustre | Khadadka sii-daynta ee la go'aamin doono marxaladda 1-aad; isha koodhka iyo buugaagta ilaa hadda la hubiyay waxay joogaan 2.17.0 |
-| GPFS, BeeGFS | Wajiga 3-aad; sii-daynta waxaa go'aamin doona cilmi-baaris |
-| Thold, Maint | Wax isbeddel ah looma baahna |
+| PHP | 8.2 ama ka dambeeya; `setup.php`, `poller_pfs.php`, iyo `cli/pfs.php` waxay sii ahaadaan kuwo laga baaraandegi karo PHP 8.0 si deegaanka aan la taageerin uu u helo diidmo halkii uu ka jabi lahaa UI-ga Cacti |
+| Lustre | Isha koodhka iyo buugaagta waxaa lagu hubiyay 2.17.0; lagu tijaabiyay fixture |
+| GPFS, BeeGFS | Darawalada akhris-kaliya ee IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` iyo BeeGFS 7.4 / 8.x waa la hirgeliyay waxaana lagu tijaabiyay fixture |
+| Thold, Maint | Thold 1.8.2 iyo Maint 1.3, aan waxba laga beddelin |
 
 ## Naqshadda
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) wuxuu diiwaangeliyaa qaab-dhismeedka telemetry ee laba-heer ah ee 100+ PB / exascale (adeegaha Cacti/`plugin_pfs` + ururinta + heerka Top-K oo lala lammaaniyay telemetry-ga macmiilka LDMS/Darshan/TOKIO ee ka baxsan xariiqa) iyo macnaha suugaanta tacliinta.
 - [docs/PLAN.md](../../PLAN.md) waa qorshaha buuxa: qaab-dhismeedka, xaqiiqooyinka kor-ka-yimaada ee uu ku tiirsan yahay (oo ay la socdaan ilaha iyo waxa aan weli la xaqiijin), macnaha tiriyeyaasha, qaabka xaaladda, xuduudaha amniga, xisaabinta waxqabadka, tijaabinta, iyo khataraha.
 - [docs/operator-guide.md](../../operator-guide.md) wuxuu daboolaa rakibidda, jaantusyada iyo qiyamka, cusboonaysiinta, kaydinta iyo soo-celinta, tirtirista, iyo xallinta dhibaatooyinka; [docs/alerting.md](../../alerting.md) wuxuu daboolaa Thold iyo Maint.
 - [docs/node-setup.md](../../node-setup.md) wuxuu sharxayaa sida loo diyaariyo adeegaha Lustre iyo poller loogu talagalay akhriyaha.
@@ -63,13 +71,14 @@ Ka baxsan baaxadda: wax kasta oo qoris, nadiifin, dib-u-dejin, ama hagaajin ah o
 
 ```mermaid
 flowchart LR
-    N[Adeegayaasha Lustre: OSS, MDS] -->|codsi sugan oo akhris kaliya ah| S[Isha noodka ee Cacti poller]
-    S --> R[Akhriyaha]
-    R --> C[(Kaydka kormeerka)]
-    C --> SS[Gelinta server-ka qoraalka]
-    SS -->|poller_output| T[Thold iyo Maint]
-    SS --> RRD[(Cacti RRDs)]
-    RRD --> G[Jaantusyada iyo ogolaanshaha Cacti]
+    N["Adeegayaasha kaydinta: Lustre OSS/MDS, GPFS NSD, BeeGFS"] -->|codsi sugan oo akhris kaliya ah| S["Akhriyaha ku xaddidan poller-ka & leh sharding"]
+    S --> B["BatchUpserter + kaydka KiB 64-bit"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["Gelinta server-ka qoraalka"]
+    R --> ECO["CasC CLI, awoodaha MCP, hubinta Doctor"]
+    SS -->|poller_output| T["Thold iyo Maint"]
+    SS --> RRD[("Cacti RRDs: FS/Pool/Server + bartilmaameedyada opt-in")]
+    RRD --> G["Jaantusyada iyo ogolaanshaha Cacti"]
 ```
 
 ## Sida shaqada loola socdo

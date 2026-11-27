@@ -6,9 +6,9 @@
 
 # plugin_pfs
 
-এটি একটি Cacti 1.2 প্লাগইন, যা প্যারালাল ফাইলসিস্টেমের অবস্থা এবং লোড Cacti-তে নিয়ে আসে: টার্গেটগুলোতে ধারণক্ষমতা ও ফিল ইমব্যাল্যান্স, প্রতি-টার্গেট থ্রুপুট এবং মেটাডেটা অপারেশনের হার। Lustre হলো প্রথম ব্যাকএন্ড। একটি ব্যাকএন্ড ইন্টারফেসের মাধ্যমে পরবর্তীতে GPFS (IBM Storage Scale) এবং BeeGFS যুক্ত হবে। ডেটাগুলো সাধারণ Cacti ডিভাইস, ডেটা সোর্স এবং গ্রাফে সংরক্ষিত হয়, ফলে Thold এবং Maint কোনো পরিবর্তন ছাড়াই অ্যালার্ট দিতে ও তা সাময়িকভাবে বন্ধ (suppress) রাখতে পারে।
+এটি একটি Cacti 1.2 প্লাগইন, যা একটি সমন্বিত `Backend` ইন্টারফেসের পেছনে থাকা Lustre, IBM Storage Scale (GPFS) এবং BeeGFS জুড়ে প্যারালাল ফাইলসিস্টেমের অবস্থা, ধারণক্ষমতা, ফিল ইমব্যাল্যান্স, প্রতি-টার্গেট থ্রুপুট এবং মেটাডেটা অপারেশনের হার Cacti-তে নিয়ে আসে। প্রতিটি ফাইলসিস্টেম ডেটা কোয়েরি, ওভারভিউ ও চাহিদা অনুযায়ী টার্গেট গ্রাফ এবং সারাংশ গেজসহ একটি সাধারণ Cacti ডিভাইসে ম্যাপ হয়, ফলে Thold এবং Maint কোনো পরিবর্তন ছাড়াই অ্যালার্ট দেয় ও তা সাময়িকভাবে বন্ধ রাখে।
 
-> **অবস্থা: মাইলফলক ৪, প্রথম ধাপের কোড সম্পন্ন, তবে এখনো রিলিজ হয়নি।** মাইলফলক ২ (ভিত্তি), ৩ (Lustre পর্যবেক্ষণ), এবং ৪ (অ্যালার্টিং এবং রিলিজ প্রস্তুতি) `main` শাখায় সম্পন্ন হয়েছে অথবা পর্যালোচনায় (review) রয়েছে। প্লাগইনটি Cacti-এর প্লাগইন API-এর মাধ্যমে ইনস্টল, আপগ্রেড এবং আনইনস্টল করা যায় এবং PHP 8.2-এর নিচের সংস্করণ সমর্থন করে না। প্রতিটি পোলারে থাকা একটি ব্যাকগ্রাউন্ড রিডার একটি নির্দিষ্ট ফোর্সড-কমান্ড স্ক্রিপ্টের ([node/pfs-read.sh](../../../node/pfs-read.sh)) মাধ্যমে SSH ব্যবহার করে Lustre সার্ভার থেকে তথ্য পড়ে এবং ইনভেন্টরি, অবস্থা, ধারণক্ষমতা ও কাউন্টারগুলো তাদের সতেজতাসহ ক্যাশে সংরক্ষণ করে। প্রতিটি ফাইলসিস্টেম OST এবং MDT ডেটা কোয়েরি, পাঁচটি ওভারভিউ গ্রাফ, চাহিদা অনুযায়ী প্রতি-টার্গেট গ্রাফ এবং Thold-এর জন্য একটি সারাংশ ডেটা সোর্সসহ একটি Cacti ডিভাইসে পরিণত হয়। এন্ড-টু-এন্ড পরীক্ষায় Thold v1.8.2 এবং Maint v1.3 কোনো পরিবর্তন ছাড়াই সারাংশ গেজগুলোর ওপর অ্যালার্ট দেয় এবং তা সাপ্রেস করে; Thold 1.8.2-এ কাউন্টারের ওপর Thold থ্রেশহোল্ড সমর্থিত নয় ([docs/alerting.md](../../alerting.md))। এখন পর্যন্ত প্রতিটি পরীক্ষা একটি ডিসপোজেবল Cacti-তে ফিক্সচার নোড আউটপুটের ওপর চালানো হয়েছে: প্লাগইনটি এখনো কোনো বাস্তব Lustre নোডে চালানো হয়নি। রিলিজের আগে এখনো যা বাকি আছে: বাস্তব ফাইলসিস্টেমে পাইলট পরীক্ষা ([পাইলট পরিকল্পনা](../../pilot-plan.md)), বাহ্যিক নিরাপত্তা পর্যালোচনা ([স্ব-পর্যালোচনা](../../security-review.md)), এবং নথিভুক্ত হার্ডওয়্যারে স্কেল পরিমাপ ([স্কেল](../../research/scale.md))। সংস্করণ 0.1.0 `INFO` এবং [CHANGELOG.md](../../../CHANGELOG.md)-এ প্রস্তুত করা হয়েছে, তবে এখনো ট্যাগ করা হয়নি।
+> **অবস্থা: ধাপ ১ থেকে ৩ এবং এক্সাস্কেল স্কেলিং প্রিমিটিভ কোডে বাস্তবায়িত হয়েছে, তবে এখনো রিলিজ হয়নি।** ভিত্তি, Lustre পর্যবেক্ষণ, অ্যালার্টিং ও Maint সাপ্রেশন, GPFS এবং BeeGFS রিড-অনলি ড্রাইভার, Maint সমন্বয়সহ OST/MDT ইমব্যাল্যান্স বিশ্লেষণ, রিমোট ডেটা কালেক্টর স্কোপিং (`replicate_out`, `remote_agent`), 100+ PB / এক্সাস্কেল স্কেলিং প্রিমিটিভ (`FramedReportParser`, স্কিমা v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CasC অপারেটর CLI (`cli/pfs.php`), এবং ইকোসিস্টেম হুক (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) বাস্তবায়িত হয়েছে এবং ইউনিট, নিরাপত্তা ও ডিসপোজেবল-Cacti ইন্টিগ্রেশন টেস্টের মাধ্যমে যাচাই করা হয়েছে। এখন পর্যন্ত প্রতিটি রান লাইভ Lustre, GPFS বা BeeGFS হার্ডওয়্যারের পরিবর্তে ফিক্সচার নোড আউটপুট ব্যবহার করে। রিলিজ ট্যাগ করার আগে এখনো যা বাকি আছে: বাস্তব ফাইলসিস্টেমে পাইলট পরীক্ষা ([পাইলট পরিকল্পনা](../../pilot-plan.md)), বাহ্যিক নিরাপত্তা পর্যালোচনা ([স্ব-পর্যালোচনা](../../security-review.md)), এবং নথিভুক্ত হার্ডওয়্যারে স্কেল পরিমাপ ([স্কেল](../../research/scale.md))। সংস্করণ 0.1.0 `INFO` এবং [CHANGELOG.md](../../../CHANGELOG.md)-এ প্রস্তুত করা হয়েছে, তবে এখনো ট্যাগ করা হয়নি।
 
 ## অ্যাক্সেস ভূমিকা
 
@@ -44,27 +44,35 @@ Cacti হোস্টগুলোর গ্রাফ তৈরি করে এ�
 
 ## পরিকল্পিত পরিধি
 
-| ধাপ | পরিধি | মাইলফলক |
-|---|---|---|
-| ০, গবেষণা | রিলিজ ম্যাট্রিক্স, নোড অ্যাক্সেস সিদ্ধান্ত, আপস্ট্রিম আচরণ নিশ্চিতকরণ, কাউন্টার এবং ফেইলওভার আচরণ, স্কেল পরিমাপ | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| ১, পর্যবেক্ষণ | Lustre ইনভেন্টরি, ধারণক্ষমতা ও ফিল, OST থ্রুপুট, MDT অপারেশন হার, গ্রাফ, Thold অ্যালার্টিং, Maint সাপ্রেশন, স্বাস্থ্য পৃষ্ঠা | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| ২, গভীরতা | Cacti রিমোট ডেটা কালেক্টর, একটি সীমিত অবজেক্ট সংখ্যার মধ্যে জব-স্তর এবং ক্লায়েন্ট-স্তরের ভিউ | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| ৩, ব্যাকএন্ড | GPFS (IBM Storage Scale) এবং BeeGFS ব্যাকএন্ড | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| ধাপ | পরিধি | অবস্থা | মাইলফলক |
+|---|---|---|---|
+| ০, গবেষণা | রিলিজ ম্যাট্রিক্স, নোড অ্যাক্সেস সিদ্ধান্ত, আপস্ট্রিম আচরণ নিশ্চিতকরণ, কাউন্টার এবং ফেইলওভার আচরণ, স্কেল পরিমাপ | সম্পন্ন | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| ১, পর্যবেক্ষণ | Lustre ইনভেন্টরি, ধারণক্ষমতা ও ফিল, OST/MDT ইমব্যাল্যান্স (`lib/ImbalanceAnalyzer.php`), Maint সমন্বয় (`lib/HealthPage.php`), OST থ্রুপুট, MDT অপারেশন হার, গ্রাফ, Thold অ্যালার্টিং, স্বাস্থ্য পৃষ্ঠা | বাস্তবায়িত (ফিক্সচার-পরীক্ষিত) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| ২, রিমোট ও স্কেল | পোলার-স্কোপড রিমোট সংগ্রহ (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), 100+ PB স্কেলিং প্রিমিটিভ (৬৪-বিট KiB হাইজিন + স্কিমা v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI (`cli/pfs.php`), MCP/Doctor/CasC হুক | বাস্তবায়িত (ইউনিট ও CI ইন্টিগ্রেশন পরীক্ষিত) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| ৩, ব্যাকএন্ড | `BackendRegistry::production()`-এ নিবন্ধিত রিড-অনলি IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) এবং BeeGFS (`lib/BeegfsBackend.php`) ড্রাইভার | বাস্তবায়িত (ইউনিট-পরীক্ষিত) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-পরিধির বাইরে: কোনো নোড বা ফাইলসিস্টেমে লেখা, ক্লিয়ার করা, রিসেট করা বা টিউনিং অপারেশন; প্লাগইন-নিয়ন্ত্রিত অ্যালার্টিং ইঞ্জিন; কাস্টম ডেমন বা নেটওয়ার্ক প্রোটোকল; প্রতি-জব ডেটা সোর্স; Cacti কোর, Thold, বা Maint-এ কোনো পরিবর্তন।
+বাস্তবায়িত মূল অপারেটর এবং স্কেলিং প্রিমিটিভসমূহ:
+
+- **মাল্টি-ফাইলসিস্টেম রিড-অনলি ড্রাইভার:** `lib/FramedReportParser.php` শেয়ার করা `LustreBackend`, `GpfsBackend` (কেবল ফ্রেমযুক্ত `mmpmon` `fs_io_s`/`io_s` যেখানে `reset` নিষিদ্ধ, `mmdf` পুল ধারণক্ষমতা/অবস্থা এবং ওয়েটার সারাংশ), এবং `BeegfsBackend` (নির্ভুল বাইট-থেকে-KiB রূপান্তর, পৌঁছানোযোগ্যতা/সামঞ্জস্যের অবস্থা ম্যাপিং এবং প্রতি-ব্যবধান গেজ শব্দার্থসহ BeeGFS 7.4 ও 8.x স্টোরেজ/মেটাডেটা টার্গেট)।
+- **ইমব্যাল্যান্স, হেডরুম এবং Maint সচেতনতা:** `lib/ImbalanceAnalyzer.php` OST/MDT ফিল অনুপাত, স্প্রেড, পপুলেশন স্ট্যান্ডার্ড ডেভিয়েশন ইমব্যাল্যান্স সূচক, হেডরুম, ১-ব্যবধান সতেজতা প্রয়োগ (`missing_targets`), প্রতি-টার্গেট স্ট্যাটাস ফ্ল্যাগ এবং সীমাবদ্ধ Top-K স্কিউড টার্গেট গণনা করে। `HealthPage` (`pfs_health.php`) এবং `CascProvider::health()` Cacti `Maint` রক্ষণাবেক্ষণ উইন্ডো প্রদর্শন করে এবং নির্ধারিত রক্ষণাবেক্ষণের সময় সক্রিয় ব্যর্থতার সতর্কতা দমন করে।
+- **100+ PB এবং এক্সাস্কেল স্কেলিং** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): স্কিমা v4-এ `BIGINT UNSIGNED value_kib` কলামসহ 500 PB এবং 2 EB-তে যাচাইকৃত নির্ভুল দশমিক বাইট-থেকে-KiB রূপান্তর (`FramedReportParser::bytesToKibInt()`); সীমাবদ্ধ অপ্ট-ইন/হট/স্কিউড টার্গেট প্রমোশনসহ স্তরবিন্যাসকৃত `Filesystem -> Pool -> Storage Server` RRD রোলআপ (`lib/RollupPolicy.php`); সীমাবদ্ধ $O(K)$ Top-K স্কিউড টার্গেট এবং প্রি-অ্যাগ্রিগেটেড ভারী জব/ক্লায়েন্ট সারাংশ (`lib/TopKTracker.php`, কখনোই প্রতি-ক্লায়েন্ট ডিভাইস বা RRD তৈরি করে না); নির্ধারক CRC32 কালেক্টর শার্ডিং (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); এবং ৫০০-সারির ব্যাচড SQL আপসার্ট ও কীসেট পেজিনেশন (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`)।
+- **অপারেটর CasC CLI এবং ইকোসিস্টেম হুক:** `cli/pfs.php` শূন্য বাহ্যিক Composer নির্ভরতা নিয়ে `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`, এবং `health [--format=text|json]` সমর্থন করে। `setup.php` এবং `lib/EcosystemIntegration.php` নিবন্ধন করে `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; কেবল-পাঠযোগ্য, `Parallel Filesystem View` এবং Cacti ডিভাইস অনুমতি দ্বারা নিয়ন্ত্রিত), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out`, এবং `remote_agent`।
+
+পরিধির বাইরে: কোনো নোড বা ফাইলসিস্টেমে লেখা, ক্লিয়ার করা, রিসেট করা বা টিউনিং অপারেশন; প্লাগইন-নিয়ন্ত্রিত অ্যালার্টিং ইঞ্জিন; কাস্টম ডেমন বা নেটওয়ার্ক প্রোটোকল; প্রতি-জব বা প্রতি-ক্লায়েন্ট Cacti ডিভাইস/RRD; Cacti কোর, Thold, বা Maint-এ কোনো পরিবর্তন।
 
 ## সামঞ্জস্যের লক্ষ্যমাত্রা
 
 | উপাদান | লক্ষ্যমাত্রা |
 |---|---|
 | Cacti | 1.2.31 বা পরবর্তী, কোনো কোর প্যাচ ছাড়া |
-| PHP | 8.2 বা পরবর্তী; `setup.php` 8.0 সংস্করণেও পার্সযোগ্য থাকে যাতে অসমর্থিত রানটাইম ভেঙে যাওয়া Cacti UI-এর পরিবর্তে একটি প্রত্যাখ্যান বার্তা পায় |
-| Lustre | মাইলফলক ১ দ্বারা রিলিজ লাইন নির্ধারিত হবে; এখন পর্যন্ত পরীক্ষিত সোর্স ও ম্যানুয়াল 2.17.0 সংস্করণের |
-| GPFS, BeeGFS | ধাপ ৩; গবেষণার মাধ্যমে রিলিজ নির্ধারিত হবে |
-| Thold, Maint | কোনো পরিবর্তনের প্রয়োজন নেই |
+| PHP | 8.2 বা পরবর্তী; `setup.php`, `poller_pfs.php`, এবং `cli/pfs.php` 8.0 সংস্করণেও পার্সযোগ্য থাকে যাতে অসমর্থিত রানটাইম ভেঙে যাওয়া Cacti UI-এর পরিবর্তে একটি প্রত্যাখ্যান বার্তা পায় |
+| Lustre | 2.17.0-এ সোর্স এবং ম্যানুয়াল যাচাইকৃত; ফিক্সচার-পরীক্ষিত |
+| GPFS, BeeGFS | IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` এবং BeeGFS 7.4 / 8.x রিড-অনলি ড্রাইভার বাস্তবায়িত ও ফিক্সচার-পরীক্ষিত |
+| Thold, Maint | Thold 1.8.2 এবং Maint 1.3, অপরিবর্তিত |
 
 ## নকশা
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) দ্বি-স্তর বিশিষ্ট 100+ PB / এক্সাস্কেল টেলিমেট্রি আর্কিটেকচার (আউট-অব-ব্যান্ড LDMS/Darshan/TOKIO ক্লায়েন্ট টেলিমেট্রির সাথে যুক্ত Cacti/`plugin_pfs` সার্ভার + রোলআপ + Top-K স্তর) এবং এর একাডেমিক সাহিত্য প্রেক্ষাপট নথিভুক্ত করে।
 - [docs/PLAN.md](../../PLAN.md) হলো পূর্ণাঙ্গ পরিকল্পনা: আর্কিটেকচার, যে আপস্ট্রিম তথ্যের ওপর এটি নির্ভর করে (উৎসসহ এবং যা এখনো যাচাই করা হয়নি), কাউন্টারের অর্থ, স্টেট মডেল, নিরাপত্তা সীমা, পারফরম্যান্স হিসাব, টেস্টিং এবং ঝুঁকি।
 - [docs/operator-guide.md](../../operator-guide.md) ইনস্টল, গ্রাফ ও মান, আপগ্রেড, ব্যাকআপ ও পুনরুদ্ধার, আনইনস্টল এবং সমস্যা সমাধান কভার করে; [docs/alerting.md](../../alerting.md) Thold এবং Maint কভার করে।
 - [docs/node-setup.md](../../node-setup.md) রিডারের জন্য একটি Lustre সার্ভার এবং একটি পোলার কীভাবে প্রস্তুত করতে হবে তা বর্ণনা করে।
@@ -73,12 +81,13 @@ Cacti হোস্টগুলোর গ্রাফ তৈরি করে এ�
 
 ```mermaid
 flowchart LR
-    N[Lustre সার্ভার: OSS, MDS] -->|নির্দিষ্ট কেবল-পাঠযোগ্য অনুরোধ| S[Cacti পোলারে নোড সোর্স]
-    S --> R[রিডার]
-    R --> C[(পর্যবেক্ষণ ক্যাশ)]
-    C --> SS[স্ক্রিপ্ট সার্ভার ইনপুট]
+    N[স্টোরেজ সার্ভার: Lustre OSS/MDS, GPFS NSD, BeeGFS] -->|নির্দিষ্ট কেবল-পাঠযোগ্য অনুরোধ| S[পোলার-স্কোপড ও শার্ডেড রিডার]
+    S --> B[BatchUpserter + ৬৪-বিট KiB ক্যাশ]
+    B --> R[RollupPolicy + TopKTracker + ImbalanceAnalyzer]
+    B --> SS[স্ক্রিপ্ট সার্ভার ইনপুট]
+    R --> ECO[CasC CLI, MCP সক্ষমতা, Doctor পরীক্ষা]
     SS -->|poller_output| T[Thold এবং Maint]
-    SS --> RRD[(Cacti RRDসমূহ)]
+    SS --> RRD[(Cacti RRDসমূহ: FS/Pool/Server + অপ্ট-ইন টার্গেট)]
     RRD --> G[Cacti গ্রাফ এবং অনুমতি]
 ```
 
