@@ -35,7 +35,7 @@ namespace Somethingwithproof\Pfs;
  * (REQ-LIFE-006).
  */
 final class Schema {
-	public const VERSION = 3;
+	public const VERSION = 4;
 
 	public const HOOKS = [
 		'auth_alternate_realms'   => 'pfs_auth_alternate_realms',
@@ -173,6 +173,10 @@ final class Schema {
 			// migration 1 and no setting to move.
 			3 => fn (): bool => $this->createTables([CreatedDeviceRepository::TABLE => self::tables()[CreatedDeviceRepository::TABLE]])
 				&& (new CreatedDeviceRepository($this->connection))->importLegacy(time()),
+			// Exascale 64-bit KiB capacity hygiene: store exact unsigned 64-bit
+			// KiB integers alongside double values so capacity past 9 PB stays exact.
+			4 => fn (): bool => $this->addColumn('plugin_pfs_observation', 'value_kib', 'bigint(20) unsigned NULL DEFAULT NULL', 'value')
+				&& $this->addColumn('plugin_pfs_summary', 'value_kib', 'bigint(20) unsigned NULL DEFAULT NULL', 'value'),
 		];
 	}
 
@@ -333,6 +337,7 @@ final class Schema {
 					$id('target_id'),
 					$text('metric', 19),
 					['name' => 'value', 'type' => 'double', 'NULL' => true],
+					['name' => 'value_kib', 'type' => 'bigint(20)', 'unsigned' => true, 'NULL' => true],
 					$time('observed_at'),
 					$time('ingested_at'),
 					$id('source_node_id') + ['default' => '0'],
@@ -367,6 +372,7 @@ final class Schema {
 					$id('filesystem_id'),
 					$text('metric', 19),
 					['name' => 'value', 'type' => 'double', 'NULL' => true],
+					['name' => 'value_kib', 'type' => 'bigint(20)', 'unsigned' => true, 'NULL' => true],
 					$text('members', 40),
 					$time('observed_at'),
 					$time('computed_at'),

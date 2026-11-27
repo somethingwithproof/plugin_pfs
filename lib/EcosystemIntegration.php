@@ -161,11 +161,28 @@ final class EcosystemIntegration {
 									'fillMinPct'     => ['type' => ['number', 'null']],
 									'fillMeanPct'    => ['type' => ['number', 'null']],
 									'fillSpreadPct'  => ['type' => ['number', 'null']],
-									'imbalanceIndex' => ['type' => ['number', 'null']],
-									'headroomMinPct' => ['type' => ['number', 'null']],
-									'missingTargets' => ['type' => 'integer'],
+									'imbalanceIndex'   => ['type' => ['number', 'null']],
+									'headroomMinPct'   => ['type' => ['number', 'null']],
+									'missingTargets'   => ['type' => 'integer'],
+									'topSkewedTargets' => [
+										'type'     => 'array',
+										'maxItems' => TopKTracker::DEFAULT_K,
+										'items'    => [
+											'type'       => 'object',
+											'properties' => [
+												'name'           => ['type' => 'string'],
+												'type'           => ['type' => 'string'],
+												'fill_pct'       => ['type' => 'number'],
+												'skew_delta_pct' => ['type' => ['number', 'null']],
+												'headroom_pct'   => ['type' => ['number', 'null']],
+												'status_flags'   => ['type' => 'array', 'items' => ['type' => 'string']],
+											],
+											'required'             => ['name', 'type', 'fill_pct', 'skew_delta_pct', 'headroom_pct', 'status_flags'],
+											'additionalProperties' => false,
+										],
+									],
 								],
-								'required'             => ['id', 'name', 'backend', 'severity', 'fillMaxPct', 'fillMinPct', 'fillMeanPct', 'fillSpreadPct', 'imbalanceIndex', 'headroomMinPct', 'missingTargets'],
+								'required'             => ['id', 'name', 'backend', 'severity', 'fillMaxPct', 'fillMinPct', 'fillMeanPct', 'fillSpreadPct', 'imbalanceIndex', 'headroomMinPct', 'missingTargets', 'topSkewedTargets'],
 								'additionalProperties' => false,
 							],
 						],
@@ -195,9 +212,10 @@ final class EcosystemIntegration {
 							'fillMinPct'     => $analysis['fill_min_pct'],
 							'fillMeanPct'    => $analysis['fill_mean_pct'],
 							'fillSpreadPct'  => $analysis['fill_spread_pct'],
-							'imbalanceIndex' => $analysis['imbalance_index'],
-							'headroomMinPct' => $analysis['headroom_min_pct'],
-							'missingTargets' => $analysis['missing_targets'],
+							'imbalanceIndex'   => $analysis['imbalance_index'],
+							'headroomMinPct'   => $analysis['headroom_min_pct'],
+							'missingTargets'   => $analysis['missing_targets'],
+							'topSkewedTargets' => $analysis['top_skewed_targets'],
 						];
 					}
 
@@ -478,6 +496,7 @@ final class EcosystemIntegration {
 	 *   mdt_fill_max_pct: ?float,
 	 *   mdt_inode_max_pct: ?float,
 	 *   mdt_headroom_min_pct: ?float,
+	 *   top_skewed_targets: list<array{name: string, type: string, fill_pct: float, skew_delta_pct: ?float, headroom_pct: ?float, status_flags: list<string>}>,
 	 *   targets: list<array{name: string, type: string, presence: string, condition: string, fill_pct: ?float, inode_pct: ?float, headroom_pct: ?float, kbytes_avail: ?float, status_flags: list<string>}>
 	 * }
 	 */

@@ -555,8 +555,9 @@ final class CascProvider {
 				'fill_max_pct'    => $imbalance['fill_max_pct'],
 				'fill_spread_pct' => $imbalance['fill_spread_pct'],
 				'imbalance_index' => $imbalance['imbalance_index'],
-				'headroom_min_pct' => $imbalance['headroom_min_pct'],
-				'missing_targets' => $imbalance['missing_targets'],
+				'headroom_min_pct'   => $imbalance['headroom_min_pct'],
+				'missing_targets'    => $imbalance['missing_targets'],
+				'top_skewed_targets' => $imbalance['top_skewed_targets'],
 			];
 		}
 

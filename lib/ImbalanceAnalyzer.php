@@ -57,10 +57,11 @@ final class ImbalanceAnalyzer {
 	 *   mdt_fill_max_pct: ?float,
 	 *   mdt_inode_max_pct: ?float,
 	 *   mdt_headroom_min_pct: ?float,
+	 *   top_skewed_targets: list<array{name: string, type: string, fill_pct: float, skew_delta_pct: ?float, headroom_pct: ?float, status_flags: list<string>}>,
 	 *   targets: list<array{name: string, type: string, presence: string, condition: string, fill_pct: ?float, inode_pct: ?float, headroom_pct: ?float, kbytes_avail: ?float, status_flags: list<string>}>
 	 * }
 	 */
-	public static function analyze(array $targets, int $interval): array {
+	public static function analyze(array $targets, int $interval, int $topK = TopKTracker::DEFAULT_K): array {
 		$considered = array_values(array_filter($targets, static fn (SummaryTarget $t): bool => $t->review !== Review::Ignored));
 		$interval   = max(1, $interval);
 		$newest     = 0;
@@ -178,6 +179,7 @@ final class ImbalanceAnalyzer {
 		$mdtHeadroomMin = $mdtFillMax !== null ? max(0.0, round(100.0 - $mdtFillMax, 2)) : null;
 
 		$severity = self::classifySeverity($fillMax, $fillSpread, $mdtFillMax, $mdtInodeMax, $missing, $ostCount);
+		$topSkew  = TopKTracker::topSkewedTargets($targetDetails, $fillMean, $topK);
 
 		return [
 			'severity'              => $severity,
@@ -197,6 +199,7 @@ final class ImbalanceAnalyzer {
 			'mdt_fill_max_pct'      => $mdtFillMax,
 			'mdt_inode_max_pct'     => $mdtInodeMax,
 			'mdt_headroom_min_pct'  => $mdtHeadroomMin,
+			'top_skewed_targets'    => $topSkew,
 			'targets'               => $targetDetails,
 		];
 	}

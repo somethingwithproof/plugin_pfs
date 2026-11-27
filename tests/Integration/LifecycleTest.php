@@ -49,7 +49,7 @@ it('installs fresh with tracked tables, hooks, and three realms, leaving the plu
 
 	expect($state['plugin']['status'])->toEqual('4')
 		->and($state['plugin']['version'])->toEqual(PFS_VERSION)
-		->and($state['schema'])->toEqual('3')
+		->and($state['schema'])->toEqual('4')
 		->and(array_keys($state['tables']))->toBe(PFS_TABLES)
 		->and($state['tracked'])->toBe(PFS_TABLES)
 		->and(array_keys($state['hooks']))->toBe(PFS_HOOKS)
@@ -119,7 +119,7 @@ it('finishes an upgrade that was interrupted after creating only some tables', f
 	expect($state['result'])->toBeTrue()
 		->and(array_keys($state['tables']))->toBe(PFS_TABLES)
 		->and($state['tables']['plugin_pfs_filesystem'])->toBe(1)
-		->and($state['schema'])->toEqual('3')
+		->and($state['schema'])->toEqual('4')
 		->and($state['plugin']['version'])->toEqual(PFS_VERSION);
 });
 
@@ -136,7 +136,7 @@ it('upgrades a milestone 2 schema, keeping its filesystems and adding the device
 	$state = lifecycle('upgrade');
 
 	expect($state['result'])->toBeTrue()
-		->and($state['schema'])->toEqual('3')
+		->and($state['schema'])->toEqual('4')
 		->and($state['host_column'])->toBeTrue()
 		->and(array_keys($state['tables']))->toBe(PFS_TABLES)
 		->and($state['tables']['plugin_pfs_filesystem'])->toBe(1);
@@ -150,7 +150,7 @@ it('does not advance past a migration that did not run', function () {
 	expect($stopped['result'])->toBeTrue()
 		->and($stopped['schema'])->toEqual('0');
 
-	expect(lifecycle('upgrade')['schema'])->toEqual('3');
+	expect(lifecycle('upgrade')['schema'])->toEqual('4');
 });
 
 it('refuses a schema newer than the code and leaves the recorded version alone', function () {
@@ -288,7 +288,7 @@ it('moves a milestone 4 record of created devices from its setting into the tabl
 		->and($before['legacy_created_devices'])->toBe('[5, 1234567, "x", -1]');
 
 	$state = lifecycle('upgrade');
-	expect($state['schema'])->toEqual('3')
+	expect($state['schema'])->toEqual('4')
 		->and($state['created_devices'])->toBe('[5,1234567]')
 		->and($state['legacy_created_devices'])->toBe('')
 		->and($state['tracked'])->toBe(PFS_TABLES);

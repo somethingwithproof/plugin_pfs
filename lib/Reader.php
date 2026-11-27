@@ -68,7 +68,7 @@ final class Reader {
 	 * plus time to write, so a slow last read does not cost the run its
 	 * results.
 	 */
-	public function run(int $pollerId, int $budgetSeconds, int $concurrency, int $readTimeout): ReaderRun {
+	public function run(int $pollerId, int $budgetSeconds, int $concurrency, int $readTimeout, ?ShardAssigner $shard = null): ReaderRun {
 		$started = $this->clock->now();
 
 		if (!$this->runs->acquire($pollerId, $this->holder, $budgetSeconds + $readTimeout + 60)) {
@@ -78,13 +78,13 @@ final class Reader {
 		}
 
 		try {
-			return $this->runLeased($pollerId, $started, $budgetSeconds, $concurrency);
+			return $this->runLeased($pollerId, $started, $budgetSeconds, $concurrency, $shard);
 		} finally {
 			$this->runs->release($pollerId, $this->holder);
 		}
 	}
 
-	private function runLeased(int $pollerId, int $started, int $budgetSeconds, int $concurrency): ReaderRun {
+	private function runLeased(int $pollerId, int $started, int $budgetSeconds, int $concurrency, ?ShardAssigner $shard = null): ReaderRun {
 		$deadline = microtime(true) + $budgetSeconds;
 		$health   = $this->health->all();
 		$fsById   = [];
@@ -100,6 +100,10 @@ final class Reader {
 			$filesystem = $fsById[$node->filesystemId] ?? null;
 
 			if ($filesystem === null || !$node->enabled()) {
+				continue;
+			}
+
+			if ($shard !== null && !$shard->ownsNode($node)) {
 				continue;
 			}
 

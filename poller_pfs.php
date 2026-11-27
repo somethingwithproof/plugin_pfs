@@ -37,16 +37,19 @@ ini_set('max_execution_time', '0');
 
 $pfs_poller = (int) $config['poller_id'];
 $pfs_force  = false;
+$pfs_shard  = null;
 
 foreach (array_slice($_SERVER['argv'], 1) as $pfs_arg) {
 	if (strpos($pfs_arg, '--poller=') === 0) {
 		$pfs_poller = (int) substr($pfs_arg, 9);
+	} elseif (strpos($pfs_arg, '--shard=') === 0) {
+		$pfs_shard = substr($pfs_arg, 8);
 	} elseif ($pfs_arg === '--force') {
 		$pfs_force = true;
 	} elseif ($pfs_arg === '--debug') {
 		$debug = true;
 	} else {
-		fwrite(STDERR, 'ERROR: Unknown argument' . PHP_EOL . 'usage: poller_pfs.php [--poller=N] [--force] [--debug]' . PHP_EOL);
+		fwrite(STDERR, 'ERROR: Unknown argument' . PHP_EOL . 'usage: poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]' . PHP_EOL);
 		exit(1);
 	}
 }
@@ -70,17 +73,30 @@ if (!(new \Somethingwithproof\Pfs\Schema(false))->isCurrent()) {
 	exit(1);
 }
 
+$pfs_shard_assigner = null;
+$pfs_proc_name      = 'reader';
+
+if ($pfs_shard !== null) {
+	try {
+		$pfs_shard_assigner = \Somethingwithproof\Pfs\ShardAssigner::parse($pfs_shard);
+		$pfs_proc_name      = 'reader-' . $pfs_shard_assigner->shardIndex . '-' . $pfs_shard_assigner->shardTotal;
+	} catch (\InvalidArgumentException $e) {
+		fwrite(STDERR, 'ERROR: ' . $e->getMessage() . PHP_EOL);
+		exit(1);
+	}
+}
+
 $pfs_settings = pfs_settings();
 
-if (!register_process_start('pfs', 'reader', $pfs_poller, $pfs_settings->readerBudget + $pfs_settings->readTimeout + 120)) {
+if (!register_process_start('pfs', $pfs_proc_name, $pfs_poller, $pfs_settings->readerBudget + $pfs_settings->readTimeout + 120)) {
 	cacti_log('NOTE: A parallel filesystem reader is already running on poller ' . $pfs_poller, false, 'PFS', POLLER_VERBOSITY_MEDIUM);
 	exit(0);
 }
 
 try {
-	$pfs_run = pfs_reader($pfs_poller, $pfs_settings)->run($pfs_poller, $pfs_settings->readerBudget, $pfs_settings->concurrency, $pfs_settings->readTimeout);
+	$pfs_run = pfs_reader($pfs_poller, $pfs_settings)->run($pfs_poller, $pfs_settings->readerBudget, $pfs_settings->concurrency, $pfs_settings->readTimeout, $pfs_shard_assigner);
 } finally {
-	unregister_process('pfs', 'reader', $pfs_poller);
+	unregister_process('pfs', $pfs_proc_name, $pfs_poller);
 }
 
 cacti_log(sprintf('STATS: Poller:%d Nodes:%d Read:%d Failed:%d NotReached:%d', $pfs_poller, $pfs_run->nodesTotal, $pfs_run->nodesRead, $pfs_run->nodesFailed, $pfs_run->nodesSkipped), false, 'PFS', POLLER_VERBOSITY_MEDIUM);

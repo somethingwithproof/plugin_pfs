@@ -73,72 +73,26 @@ final class BeegfsBackend implements Backend {
 	}
 
 	public function parse(string $output): NodeReport {
-		$lines = explode("\n", str_replace("\r\n", "\n", $output));
+		$parsed = FramedReportParser::parse($output, self::PROTOCOL, self::END, self::MAX_SECTIONS);
 
-		if ($lines[0] !== self::PROTOCOL) {
+		if (!$parsed['framed']) {
 			return NodeReport::unframed();
 		}
 
-		$sections   = [];
-		$bodies     = [];
-		$failed     = [];
-		$current    = null;
-		$complete   = false;
-		$partial    = false;
-		$trailing   = false;
-		$unexpected = 0;
-
-		foreach (array_slice($lines, 1) as $line) {
-			if ($complete) {
-				$trailing = $trailing || $line !== '';
-
-				continue;
-			}
-
-			if ($line === self::END) {
-				$complete = true;
-				$current  = null;
-			} elseif ($line === '!! total-limit') {
-				$partial = true;
-				$current = null;
-			} elseif (str_starts_with($line, '== ')) {
-				if (count($sections) >= self::MAX_SECTIONS) {
-					$partial = true;
-					$current = null;
-
-					continue;
-				}
-
-				$current            = count($sections);
-				$sections[$current] = substr($line, 3);
-				$bodies[$current]   = [];
-				$failed[$current]   = false;
-			} elseif ($current !== null && ($line === '!! read-failed' || $line === '!! truncated')) {
-				$failed[$current] = true;
-				$partial          = true;
-			} elseif ($current !== null) {
-				$bodies[$current][] = $line;
-			}
-		}
-
-		if (!$complete || $trailing) {
+		if (!$parsed['complete']) {
 			return new NodeReport(true, false, true, null, [], 0, 0);
 		}
 
-		$seen     = array_count_values($sections);
-		$version  = null;
-		$rejected = 0;
+		$partial    = $parsed['partial'];
+		$version    = null;
+		$rejected   = 0;
+		$unexpected = 0;
 		/** @var array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition}> $targets */
 		$targets  = [];
 
-		foreach ($sections as $i => $section) {
-			if ($failed[$i] || $seen[$section] > 1) {
-				$partial = true;
-
-				continue;
-			}
-
-			$body = $bodies[$i];
+		foreach ($parsed['sections'] as $entry) {
+			$section = $entry['name'];
+			$body    = $entry['lines'];
 
 			if ($section === 'version') {
 				$version = self::parseVersion($body);
@@ -222,23 +176,21 @@ final class BeegfsBackend implements Backend {
 
 			$condition = self::mapCondition($fields['reachability'] ?? '', $fields['consistency'] ?? '');
 
-			$totalBytes = self::uint($fields['disk_space_total'] ?? null);
-			$freeBytes  = self::uint($fields['disk_space_free'] ?? null);
-			$availBytes = self::uint($fields['disk_space_avail'] ?? ($fields['disk_space_free'] ?? null));
-
+			// Convert raw byte counts directly to integer KiB via exact decimal
+			// division so 500 PB and 2 EB targets keep full integer precision.
 			$values = [
-				'kbytes_total'    => $totalBytes === null ? null : floor($totalBytes / 1024.0),
-				'kbytes_free'     => $freeBytes === null ? null : floor($freeBytes / 1024.0),
-				'kbytes_avail'    => $availBytes === null ? null : floor($availBytes / 1024.0),
-				'files_total'     => self::uint($fields['inodes_total'] ?? null),
-				'files_free'      => self::uint($fields['inodes_free'] ?? null),
-				'work_requests'   => self::uint($fields['work_requests'] ?? null),
-				'queued_requests' => self::uint($fields['queued_requests'] ?? null),
+				'kbytes_total'    => FramedReportParser::bytesToKib($fields['disk_space_total'] ?? null),
+				'kbytes_free'     => FramedReportParser::bytesToKib($fields['disk_space_free'] ?? null),
+				'kbytes_avail'    => FramedReportParser::bytesToKib($fields['disk_space_avail'] ?? ($fields['disk_space_free'] ?? null)),
+				'files_total'     => FramedReportParser::uint($fields['inodes_total'] ?? null),
+				'files_free'      => FramedReportParser::uint($fields['inodes_free'] ?? null),
+				'work_requests'   => FramedReportParser::uint($fields['work_requests'] ?? null),
+				'queued_requests' => FramedReportParser::uint($fields['queued_requests'] ?? null),
 			];
 
 			if ($type === TargetType::Ost) {
-				$values['read_bytes_int']  = self::uint($fields['disk_read_bytes'] ?? null);
-				$values['write_bytes_int'] = self::uint($fields['disk_write_bytes'] ?? null);
+				$values['read_bytes_int']  = FramedReportParser::uint($fields['disk_read_bytes'] ?? null);
+				$values['write_bytes_int'] = FramedReportParser::uint($fields['disk_write_bytes'] ?? null);
 			}
 
 			$targets[$name] = [
@@ -280,19 +232,7 @@ final class BeegfsBackend implements Backend {
 	 * @return array<string, string>
 	 */
 	private static function parseKeyValues(string $line): array {
-		$out = [];
-
-		foreach (preg_split('/\s+/', $line) ?: [] as $token) {
-			if (str_contains($token, '=')) {
-				[$k, $v] = explode('=', $token, 2);
-
-				if (preg_match('/^[a-z0-9_]{1,32}$/', $k) === 1) {
-					$out[$k] = $v;
-				}
-			}
-		}
-
-		return $out;
+		return FramedReportParser::parseKeyValues($line);
 	}
 
 	/**
@@ -302,13 +242,5 @@ final class BeegfsBackend implements Backend {
 		$text = trim(implode("\n", $lines));
 
 		return preg_match('/^(?:beegfs:\s*)?([0-9][0-9A-Za-z._-]{0,31})$/', $text, $m) === 1 ? $m[1] : null;
-	}
-
-	private static function uint(?string $raw): ?float {
-		if ($raw === null) {
-			return null;
-		}
-
-		return preg_match('/^[0-9]{1,20}$/', trim($raw)) === 1 ? (float) trim($raw) : null;
 	}
 }

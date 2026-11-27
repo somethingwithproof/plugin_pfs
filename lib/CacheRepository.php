@@ -33,7 +33,54 @@ namespace Somethingwithproof\Pfs;
  * the plan holds no update for them.
  */
 final class CacheRepository {
+	private const KIB_METRICS = ['kbytes_total', 'kbytes_free', 'kbytes_avail'];
+
 	public function __construct(private readonly \PDO|false $connection) {
+	}
+
+	/**
+	 * Upsert observations in chunked 500-row multi-row INSERT statements so
+	 * large filesystems execute O(targets / 500) SQL round-trips.
+	 *
+	 * @param list<array{target_id: int, observation: Observation}> $entries
+	 */
+	public function upsertObservationsBatch(array $entries, int $batchSize = BatchUpserter::DEFAULT_BATCH_SIZE): int {
+		if ($entries === []) {
+			return 0;
+		}
+
+		$rows = [];
+
+		foreach ($entries as $entry) {
+			$o      = $entry['observation'];
+			$valKib = in_array($o->metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($o->value) : null;
+			$rows[] = [
+				$entry['target_id'],
+				$o->metric,
+				$o->value,
+				$valKib,
+				$o->observedAt,
+				$o->ingestedAt,
+				$o->sourceNodeId,
+				$o->expectedInterval,
+				$o->continuity->value,
+				$o->startMarker ?? '',
+				$o->epoch,
+			];
+		}
+
+		$batches = BatchUpserter::buildUpsertBatches(
+			'plugin_pfs_observation',
+			['target_id', 'metric', 'value', 'value_kib', 'observed_at', 'ingested_at', 'source_node_id', 'expected_interval', 'continuity', 'start_marker', 'epoch'],
+			$rows,
+			['value', 'value_kib', 'observed_at', 'ingested_at', 'source_node_id', 'expected_interval', 'continuity', 'start_marker', 'epoch'],
+			$batchSize,
+		);
+
+		return BatchUpserter::execute(
+			$batches,
+			fn (string $sql, array $params): bool => (bool) db_execute_prepared($sql, $params, true, $this->connection),
+		);
 	}
 
 	/**
@@ -113,25 +160,28 @@ final class CacheRepository {
 	}
 
 	private function observation(int $targetId, Observation $o): bool {
-		return db_execute_prepared('INSERT INTO plugin_pfs_observation (target_id, metric, value, observed_at, ingested_at, source_node_id, expected_interval, continuity, start_marker, epoch)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE value = VALUES(value), observed_at = VALUES(observed_at), ingested_at = VALUES(ingested_at), source_node_id = VALUES(source_node_id),
+		$valKib = in_array($o->metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($o->value) : null;
+
+		return db_execute_prepared('INSERT INTO plugin_pfs_observation (target_id, metric, value, value_kib, observed_at, ingested_at, source_node_id, expected_interval, continuity, start_marker, epoch)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+			ON DUPLICATE KEY UPDATE value = VALUES(value), value_kib = VALUES(value_kib), observed_at = VALUES(observed_at), ingested_at = VALUES(ingested_at), source_node_id = VALUES(source_node_id),
 				expected_interval = VALUES(expected_interval), continuity = VALUES(continuity), start_marker = VALUES(start_marker), epoch = VALUES(epoch)', [
-			$targetId, $o->metric, $o->value, $o->observedAt, $o->ingestedAt, $o->sourceNodeId, $o->expectedInterval, $o->continuity->value, $o->startMarker ?? '', $o->epoch,
+			$targetId, $o->metric, $o->value, $valKib, $o->observedAt, $o->ingestedAt, $o->sourceNodeId, $o->expectedInterval, $o->continuity->value, $o->startMarker ?? '', $o->epoch,
 		], true, $this->connection);
 	}
 
 	private function summary(int $filesystemId, string $metric, ?float $value, Summary $summary): bool {
 		$counter = Summary::counterOf($metric);
+		$valKib  = in_array($metric, self::KIB_METRICS, true) ? FramedReportParser::kibToUint64($value) : null;
 
 		// A rate row keeps its counter's read time, which the next run's rate
 		// is measured from (SummaryRepository).
 		$observedAt = $counter === null ? $summary->observedAt : ($summary->counterAt[$counter] ?? 0);
 
-		return db_execute_prepared('INSERT INTO plugin_pfs_summary (filesystem_id, metric, value, members, observed_at, computed_at)
-			VALUES (?, ?, ?, ?, ?, ?)
-			ON DUPLICATE KEY UPDATE value = VALUES(value), members = VALUES(members), observed_at = VALUES(observed_at), computed_at = VALUES(computed_at)', [
-			$filesystemId, $metric, $value, $summary->members[$metric] ?? '', $observedAt, $summary->computedAt,
+		return db_execute_prepared('INSERT INTO plugin_pfs_summary (filesystem_id, metric, value, value_kib, members, observed_at, computed_at)
+			VALUES (?, ?, ?, ?, ?, ?, ?)
+			ON DUPLICATE KEY UPDATE value = VALUES(value), value_kib = VALUES(value_kib), members = VALUES(members), observed_at = VALUES(observed_at), computed_at = VALUES(computed_at)', [
+			$filesystemId, $metric, $value, $valKib, $summary->members[$metric] ?? '', $observedAt, $summary->computedAt,
 		], true, $this->connection);
 	}
 

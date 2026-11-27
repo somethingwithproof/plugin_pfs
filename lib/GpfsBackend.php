@@ -85,72 +85,26 @@ final class GpfsBackend implements Backend {
 	}
 
 	public function parse(string $output): NodeReport {
-		$lines = explode("\n", str_replace("\r\n", "\n", $output));
+		$parsed = FramedReportParser::parse($output, self::PROTOCOL, self::END, self::MAX_SECTIONS);
 
-		if ($lines[0] !== self::PROTOCOL) {
+		if (!$parsed['framed']) {
 			return NodeReport::unframed();
 		}
 
-		$sections   = [];
-		$bodies     = [];
-		$failed     = [];
-		$current    = null;
-		$complete   = false;
-		$partial    = false;
-		$trailing   = false;
-		$unexpected = 0;
-
-		foreach (array_slice($lines, 1) as $line) {
-			if ($complete) {
-				$trailing = $trailing || $line !== '';
-
-				continue;
-			}
-
-			if ($line === self::END) {
-				$complete = true;
-				$current  = null;
-			} elseif ($line === '!! total-limit') {
-				$partial = true;
-				$current = null;
-			} elseif (str_starts_with($line, '== ')) {
-				if (count($sections) >= self::MAX_SECTIONS) {
-					$partial = true;
-					$current = null;
-
-					continue;
-				}
-
-				$current            = count($sections);
-				$sections[$current] = substr($line, 3);
-				$bodies[$current]   = [];
-				$failed[$current]   = false;
-			} elseif ($current !== null && ($line === '!! read-failed' || $line === '!! truncated')) {
-				$failed[$current] = true;
-				$partial          = true;
-			} elseif ($current !== null) {
-				$bodies[$current][] = $line;
-			}
-		}
-
-		if (!$complete || $trailing) {
+		if (!$parsed['complete']) {
 			return new NodeReport(true, false, true, null, [], 0, 0);
 		}
 
-		$seen     = array_count_values($sections);
-		$version  = null;
-		$rejected = 0;
+		$partial    = $parsed['partial'];
+		$version    = null;
+		$rejected   = 0;
+		$unexpected = 0;
 		/** @var array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets */
 		$targets  = [];
 
-		foreach ($sections as $i => $section) {
-			if ($failed[$i] || $seen[$section] > 1) {
-				$partial = true;
-
-				continue;
-			}
-
-			$body = $bodies[$i];
+		foreach ($parsed['sections'] as $entry) {
+			$section = $entry['name'];
+			$body    = $entry['lines'];
 
 			if ($section === 'version') {
 				$version = self::parseVersion($body);
@@ -377,25 +331,6 @@ final class GpfsBackend implements Backend {
 	}
 
 	/**
-	 * @return array<string, string>
-	 */
-	private static function parseKeyValues(string $line): array {
-		$out = [];
-
-		foreach (preg_split('/\s+/', $line) ?: [] as $token) {
-			if (str_contains($token, '=')) {
-				[$k, $v] = explode('=', $token, 2);
-
-				if (preg_match('/^[a-z0-9_]{1,32}$/', $k) === 1) {
-					$out[$k] = $v;
-				}
-			}
-		}
-
-		return $out;
-	}
-
-	/**
 	 * @param list<string> $lines
 	 */
 	private static function parseVersion(array $lines): ?string {
@@ -405,11 +340,14 @@ final class GpfsBackend implements Backend {
 	}
 
 	private static function uint(?string $raw): ?float {
-		if ($raw === null) {
-			return null;
-		}
+		return FramedReportParser::uint($raw);
+	}
 
-		return preg_match('/^[0-9]{1,20}$/', trim($raw)) === 1 ? (float) trim($raw) : null;
+	/**
+	 * @return array<string, string>
+	 */
+	private static function parseKeyValues(string $line): array {
+		return FramedReportParser::parseKeyValues($line);
 	}
 
 	private static function nonNegFloat(?string $raw): ?float {
