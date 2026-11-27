@@ -271,6 +271,9 @@ it('registers read-only abilities, Doctor checks, CasC descriptor, and remote_ag
 
 		expect(array_keys($recorded))->toBe(['pfs-list-filesystems', 'pfs-get-imbalance', 'pfs-get-health']);
 
+		$statusFlagsSchema = $recorded['pfs-get-imbalance']['output_schema']['properties']['filesystems']['items']['properties']['topSkewedTargets']['items']['properties']['status_flags'];
+		expect($statusFlagsSchema)->toBe(['type' => 'array', 'maxItems' => 64, 'items' => ['type' => 'string']]);
+
 		foreach ($recorded as $def) {
 			expect($def['annotations']['readOnly'])->toBeTrue()
 				->and($def['annotations']['destructive'])->toBeFalse()
@@ -294,16 +297,58 @@ it('registers read-only abilities, Doctor checks, CasC descriptor, and remote_ag
 		$checks = [];
 
 		foreach ($eco->doctorChecks() as $check) {
-			$checks[$check['id']] = ($check['run'])();
+			expect($check)->toHaveKeys(['id', 'plugin', 'category', 'title', 'status', 'message', 'details', 'remediation'])
+				->and($check['plugin'])->toBe('pfs')
+				->and(str_starts_with($check['id'], 'pfs.'))->toBeTrue()
+				->and(['ok', 'warn', 'fail', 'info'])->toContain($check['status'])
+				->and($check['message'])->not->toBe('');
+			$checks[$check['id']] = $check;
 		}
 
-		expect($checks['pfs_schema']['status'])->toBe('ok')
-			->and($checks['pfs_reader_freshness']['status'])->toBe('warning') // poller 2 has no run
-			->and($checks['pfs_capacity_imbalance']['status'])->toBe('critical');
+		expect($checks['pfs.schema']['status'])->toBe('ok')
+			->and($checks['pfs.reader_freshness']['status'])->toBe('warn') // poller 2 has no run
+			->and($checks['pfs.capacity_imbalance']['status'])->toBe('fail');
 
+		// setup.php doctor_register_checks must not echo $context.
+		$hookChecks = pfs_doctor_register_checks(['mode' => 'run', 'plugin' => 'pfs']);
+		expect(array_is_list($hookChecks))->toBeTrue()
+			->and(array_key_exists('mode', $hookChecks))->toBeFalse()
+			->and(array_column($hookChecks, 'id'))->toBe(['pfs.schema', 'pfs.reader_freshness', 'pfs.capacity_imbalance']);
+
+		// CasC provider descriptor matches canonical ProviderRegistrar 1-arg contract.
 		$desc = $eco->cascDescriptor();
-		expect($desc['id'])->toBe('pfs')
-			->and($desc['formats'])->toBe(['yaml', 'xml']);
+		expect($desc['slug'])->toBe('pfs')
+			->and($desc['schemaVersion'])->toBe('1.0');
+
+		$exported = ($desc['export'])([]);
+		expect($exported)->toHaveKeys(['config', 'reference'])
+			->and(($desc['validate'])($exported['config']))->toBe([])
+			->and(($desc['validate'])($exported))->toBe([])
+			->and(($desc['validate'])(['plugin' => 'wrong']))->not->toBeEmpty()
+			->and(($desc['plan'])($exported['config'], []))->toBe([]);
+
+		$planError = ($desc['plan'])(['plugin' => 'wrong'], []);
+		expect($planError[0]['operation'])->toBe('error');
+
+		$planUpdate = ($desc['plan'])(['schema_version' => 1, 'plugin' => 'pfs', 'settings' => ['pfs_concurrency' => 16], 'filesystems' => [['name' => 'gpfs02', 'backend' => 'gpfs', 'poller_id' => 1, 'expected_interval' => 300, 'admin_state' => 'enabled']], 'networks' => [['poller_id' => 1, 'cidr' => '10.99.0.0/24']]], []);
+		expect(count($planUpdate))->toBe(3);
+
+		$applyFail = ($desc['apply'])($exported['config'], 'bad-hash', []);
+		expect($applyFail['ok'])->toBeFalse();
+
+		$cascRegistrar = new class {
+			/** @var list<array<string, mixed>> */
+			public array $registered = [];
+
+			/** @param array<string, mixed> $descriptor */
+			public function register(array $descriptor): void {
+				$this->registered[] = $descriptor;
+			}
+		};
+		expect(pfs_casc_register_providers($cascRegistrar))->toBe($cascRegistrar)
+			->and($cascRegistrar->registered)->toHaveCount(1)
+			->and($cascRegistrar->registered[0]['slug'])->toBe('pfs')
+			->and(pfs_casc_register_providers(null)['slug'])->toBe('pfs');
 
 		$inv = $eco->handleRemoteAgent('pfs_inventory', 2);
 		expect($inv['filesystems'])->toHaveCount(1)
@@ -311,52 +356,68 @@ it('registers read-only abilities, Doctor checks, CasC descriptor, and remote_ag
 			->and($eco->handleRemoteAgent('pfs_health')['plugin'])->toBe('pfs')
 			->and($eco->handleRemoteAgent('unknown_action'))->toBeNull();
 
-		// Decoupled doctor_register_debug_info: plain array with redacted paths.
+		// Decoupled doctor_register_debug_info: plain list with redacted paths, never echoing $context.
 		$debug = $eco->doctorDebugInfo();
-		expect($debug)->toHaveKey('pfs')
-			->and($debug['pfs']['fields']['schema_version']['value'])->toBe(Schema::VERSION)
-			->and($debug['pfs']['fields']['backends']['value'])->toBe('beegfs, gpfs, lustre')
-			->and($debug['pfs']['fields']['filesystems_total']['value'])->toBe(2)
-			->and($debug['pfs']['fields']['ssh_key_file'])->toBe(['label' => 'SSH Key File', 'value' => '[redacted]', 'private' => true])
-			->and($debug['pfs']['fields']['ssh_known_hosts'])->toBe(['label' => 'Known Hosts File', 'value' => '[redacted]', 'private' => true]);
+		expect(array_is_list($debug))->toBeTrue()
+			->and($debug)->toHaveCount(1)
+			->and($debug[0]['id'])->toBe('pfs.overview')
+			->and($debug[0]['plugin'])->toBe('pfs')
+			->and($debug[0]['fields']['schema_version']['value'])->toBe(Schema::VERSION)
+			->and($debug[0]['fields']['backends']['value'])->toBe('beegfs, gpfs, lustre')
+			->and($debug[0]['fields']['filesystems_total']['value'])->toBe(2)
+			->and($debug[0]['fields']['ssh_key_file'])->toBe(['label' => 'SSH Key File', 'value' => '[redacted]', 'private' => true])
+			->and($debug[0]['fields']['ssh_known_hosts'])->toBe(['label' => 'Known Hosts File', 'value' => '[redacted]', 'private' => true]);
 
 		$encodedDebug = json_encode($debug, JSON_THROW_ON_ERROR);
 		expect($encodedDebug)->not->toContain('/etc/cacti/pfs/id_ed25519')
 			->and($encodedDebug)->not->toContain('/etc/cacti/pfs/known_hosts');
 
-		// Decoupled api_register_resources: Google AIP descriptor for pfsFilesystems.
+		// Decoupled api_register_resources: plain list of canonical Google AIP descriptors.
 		$resources = $eco->apiResources();
-		expect($resources)->toHaveKey('pfsFilesystems')
-			->and($resources['pfsFilesystems']['type'])->toBe('cacti.pfs/Filesystem')
-			->and($resources['pfsFilesystems']['pattern'])->toBe('pfsFilesystems/{pfs_filesystem}')
-			->and($resources['pfsFilesystems']['read_only'])->toBeTrue()
-			->and($resources['pfsFilesystems']['methods'])->toBe(['list', 'get'])
-			->and($resources['pfsFilesystems']['schema'])->toBe('schema/pfs.schema.yaml');
+		expect(array_is_list($resources))->toBeTrue()
+			->and($resources)->toHaveCount(1)
+			->and($resources[0]['plugin'])->toBe('pfs')
+			->and($resources[0]['collection'])->toBe('pfsFilesystems')
+			->and($resources[0]['collection'])->toMatch('/^[a-z][A-Za-z0-9]{2,63}$/')
+			->and($resources[0]['realm_read'])->toBe('pfs.php')
+			->and($resources[0]['read_only'])->toBeTrue()
+			->and($resources[0]['schema'])->toBe('schema/pfs.schema.yaml')
+			->and(array_keys($resources[0]['handlers']))->toBe(['list', 'get']);
 
-		$apiList = ($resources['pfsFilesystems']['handlers']['list'])(7, ['page_size' => 10]);
-		expect($apiList['pfsFilesystems'])->toHaveCount(1)
-			->and($apiList['pfsFilesystems'][0]['name'])->toBe('pfsFilesystems/1')
-			->and($apiList['pfsFilesystems'][0]['display_name'])->toBe('gpfs01')
-			->and($apiList['next_page_token'])->toBe('');
+		$apiList = ($resources[0]['handlers']['list'])(['user_id' => 7, 'query' => []]);
+		expect($apiList)->toHaveCount(1)
+			->and($apiList[0]['name'])->toBe('pfsFilesystems/1')
+			->and($apiList[0]['display_name'])->toBe('gpfs01');
 
 		// Unauthorized user receives empty list and null on get.
-		expect(($resources['pfsFilesystems']['handlers']['list'])(99, []))->toBe(['pfsFilesystems' => [], 'next_page_token' => ''])
-			->and(($resources['pfsFilesystems']['handlers']['get'])(99, '1'))->toBeNull()
-			->and(($resources['pfsFilesystems']['handlers']['get'])(7, 'pfsFilesystems/1')['display_name'])->toBe('gpfs01')
-			->and(($resources['pfsFilesystems']['handlers']['get'])(7, 'pfsFilesystems/2'))->toBeNull()
-			->and(($resources['pfsFilesystems']['handlers']['get'])(7, 'invalid'))->toBeNull();
+		expect(($resources[0]['handlers']['list'])(['user_id' => 99, 'query' => []]))->toBe([])
+			->and(($resources[0]['handlers']['get'])('1', ['user_id' => 99]))->toBeNull()
+			->and(($resources[0]['handlers']['get'])('pfsFilesystems/1', ['user_id' => 7])['display_name'])->toBe('gpfs01')
+			->and(($resources[0]['handlers']['get'])('pfsFilesystems/2', ['user_id' => 7]))->toBeNull()
+			->and(($resources[0]['handlers']['get'])('invalid', ['user_id' => 7]))->toBeNull();
 
 		// Backend filter excludes non-matching filesystems.
-		expect(($resources['pfsFilesystems']['handlers']['list'])(7, ['backend' => 'lustre'])['pfsFilesystems'])->toBe([]);
+		expect(($resources[0]['handlers']['list'])(['user_id' => 7, 'query' => ['backend' => 'lustre']]))->toBe([]);
 
-		// setup.php hook shims merge cleanly with arrays and handle non-array callers.
-		$mergedDebug = pfs_doctor_register_debug_info(['other' => ['label' => 'Other']]);
-		expect($mergedDebug)->toHaveKeys(['other', 'pfs'])
-			->and(pfs_doctor_register_debug_info(null))->toHaveKey('pfs');
+		// setup.php hook shims return canonical lists and never echo doctor context.
+		$hookDebug = pfs_doctor_register_debug_info(['plugin' => 'pfs']);
+		expect(array_is_list($hookDebug))->toBeTrue()
+			->and(array_key_exists('plugin', $hookDebug))->toBeFalse()
+			->and($hookDebug[0]['id'])->toBe('pfs.overview');
 
-		$mergedApi = pfs_api_register_resources(['other' => ['plugin' => 'other']]);
-		expect($mergedApi)->toHaveKeys(['other', 'pfsFilesystems'])
-			->and(pfs_api_register_resources(null))->toHaveKey('pfsFilesystems');
+		$hookApi = pfs_api_register_resources([]);
+		expect(array_is_list($hookApi))->toBeTrue()
+			->and($hookApi[0]['collection'])->toBe('pfsFilesystems')
+			->and($hookApi[0]['realm_read'])->toBe('pfs.php');
+
+		$mergedApi = pfs_api_register_resources([['plugin' => 'other', 'collection' => 'otherItems']]);
+		expect($mergedApi)->toHaveCount(2)
+			->and($mergedApi[1]['collection'])->toBe('pfsFilesystems');
+
+		// RealmRepository resolves plugin_realms IDs (+100 offset) for stateless auth.
+		$GLOBALS['__pfs_db_rows']['FROM plugin_realms'] = [['id' => 11], ['id' => 12]];
+		expect((new Somethingwithproof\Pfs\RealmRepository(false))->viewRealmIds())->toBe([111, 112])
+			->and(pfs_user_view_allowed(0))->toBeFalse();
 	} finally {
 		$GLOBALS['__pfs_db_rows'] = [];
 	}

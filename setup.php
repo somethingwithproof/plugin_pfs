@@ -614,7 +614,7 @@ function pfs_reader_with(int $pollerId, \Somethingwithproof\Pfs\NodeSources $sou
 function pfs_in_maintenance(int $host_id): ?bool {
 	global $config;
 
-	if ($host_id <= 0 || !api_plugin_is_enabled('maint') || !is_file($config['base_path'] . '/plugins/maint/functions.php')) {
+	if ($host_id <= 0 || !function_exists('api_plugin_is_enabled') || !api_plugin_is_enabled('maint') || !is_file($config['base_path'] . '/plugins/maint/functions.php')) {
 		return null;
 	}
 
@@ -649,6 +649,28 @@ function pfs_casc(): \Somethingwithproof\Pfs\CascProvider {
 }
 
 /**
+ * Check whether the given Cacti user holds a PFS View (or higher) realm.
+ * Uses user-scoped realm lookup so stateless token and CLI callers succeed
+ * without an active PHP web session.
+ *
+ * @param int $userId
+ * @return bool
+ */
+function pfs_user_view_allowed(int $userId): bool {
+	if ($userId < 1 || !function_exists('is_realm_allowed')) {
+		return false;
+	}
+
+	foreach ((new \Somethingwithproof\Pfs\RealmRepository(false))->viewRealmIds() as $realmId) {
+		if (is_realm_allowed($realmId, $userId)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
  * Construct the decoupled ecosystem integration facade.
  *
  * @return \Somethingwithproof\Pfs\EcosystemIntegration
@@ -669,7 +691,7 @@ function pfs_ecosystem(): \Somethingwithproof\Pfs\EcosystemIntegration {
 		\Somethingwithproof\Pfs\BackendRegistry::production(),
 		$clock,
 		function (int $userId): bool {
-			return api_plugin_user_realm_auth('pfs.php');
+			return pfs_user_view_allowed($userId);
 		},
 		function (int $userId, int $hostId): bool {
 			return is_device_allowed($hostId, $userId);
@@ -746,44 +768,32 @@ function pfs_abilities_register($registrar) {
 }
 
 /**
- * doctor_register_checks hook: register PFS diagnostic checks with Cacti Doctor.
+ * doctor_register_checks hook: return evaluated PFS diagnostic checks for Cacti Doctor.
  *
- * @param mixed $checks
- * @return mixed
+ * @param mixed $context
+ * @return list<array<string, mixed>>
  */
-function pfs_doctor_register_checks($checks) {
+function pfs_doctor_register_checks($context = array()) {
 	if (!pfs_boot()) {
-		return $checks;
+		return array();
 	}
 
-	$registered = pfs_ecosystem()->doctorChecks();
-
-	if (is_array($checks)) {
-		return array_merge($checks, $registered);
-	}
-
-	return $registered;
+	return pfs_ecosystem()->doctorChecks();
 }
 
 /**
- * doctor_register_debug_info hook: register a redacted PFS diagnostic snapshot
- * as a plain array without importing plugin_doctor.
+ * doctor_register_debug_info hook: return a redacted PFS diagnostic snapshot
+ * as a plain list of section arrays without importing plugin_doctor.
  *
- * @param mixed $sections
- * @return mixed
+ * @param mixed $context
+ * @return list<array<string, mixed>>
  */
-function pfs_doctor_register_debug_info($sections) {
+function pfs_doctor_register_debug_info($context = array()) {
 	if (!pfs_boot()) {
-		return $sections;
+		return array();
 	}
 
-	$debug = pfs_ecosystem()->doctorDebugInfo();
-
-	if (is_array($sections)) {
-		return array_merge($sections, $debug);
-	}
-
-	return $debug;
+	return pfs_ecosystem()->doctorDebugInfo();
 }
 
 /**
@@ -791,17 +801,17 @@ function pfs_doctor_register_debug_info($sections) {
  * pfsFilesystems as plain arrays without importing plugin_api.
  *
  * @param mixed $resources
- * @return mixed
+ * @return list<mixed>
  */
-function pfs_api_register_resources($resources) {
+function pfs_api_register_resources($resources = array()) {
 	if (!pfs_boot()) {
-		return $resources;
+		return is_array($resources) ? array_values($resources) : array();
 	}
 
 	$registered = pfs_ecosystem()->apiResources();
 
-	if (is_array($resources)) {
-		return array_merge($resources, $registered);
+	if (is_array($resources) && $resources !== array()) {
+		return array_values(array_merge(array_values($resources), $registered));
 	}
 
 	return $registered;
@@ -813,20 +823,20 @@ function pfs_api_register_resources($resources) {
  * @param mixed $providers
  * @return mixed
  */
-function pfs_casc_register_providers($providers) {
+function pfs_casc_register_providers($providers = null) {
 	if (!pfs_boot()) {
 		return $providers;
 	}
 
 	$descriptor = pfs_ecosystem()->cascDescriptor();
 
-	if (is_array($providers)) {
-		$providers['pfs'] = $descriptor;
+	if (is_object($providers) && method_exists($providers, 'register')) {
+		$providers->register($descriptor);
 
 		return $providers;
 	}
 
-	return array('pfs' => $descriptor);
+	return $descriptor;
 }
 
 /** Resolve role inheritance against Cacti's current user and group grants. */

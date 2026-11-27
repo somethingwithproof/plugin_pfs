@@ -156,7 +156,7 @@ final class EcosystemIntegration {
 									'fill_pct'       => ['type' => 'number'],
 									'skew_delta_pct' => ['type' => ['number', 'null']],
 									'headroom_pct'   => ['type' => ['number', 'null']],
-									'status_flags'   => ['type' => 'array', 'items' => ['type' => 'string']],
+									'status_flags'   => ['type' => 'array', 'maxItems' => 64, 'items' => ['type' => 'string']],
 								],
 								'required'             => ['name', 'type', 'fill_pct', 'skew_delta_pct', 'headroom_pct', 'status_flags'],
 								'additionalProperties' => false,
@@ -307,80 +307,80 @@ final class EcosystemIntegration {
 	}
 
 	/**
-	 * Diagnostic checks for Cacti Doctor (doctor_register_checks).
+	 * Evaluated diagnostic checks for Cacti Doctor (doctor_register_checks).
 	 *
-	 * @return list<array{id: string, plugin: string, label: string, category: string, run: \Closure(): array{status: string, message: string, details: array<string, mixed>}}>
+	 * @return list<array{
+	 *   id: string,
+	 *   plugin: string,
+	 *   category: string,
+	 *   title: string,
+	 *   status: string,
+	 *   message: string,
+	 *   details: array<string, mixed>,
+	 *   remediation: string
+	 * }>
 	 */
 	public function doctorChecks(): array {
+		$stored  = $this->schema->storedVersion();
+		$current = Schema::VERSION;
+
+		$now     = $this->clock->now();
+		$runs    = $this->runs->all();
+		$stale   = [];
+		$pollers = [];
+
+		foreach ($this->filesystems->all() as $fs) {
+			if ($fs->enabled()) {
+				$pollers[$fs->pollerId] = min($pollers[$fs->pollerId] ?? PHP_INT_MAX, $fs->interval);
+			}
+		}
+
+		foreach ($pollers as $pollerId => $interval) {
+			$completed = $runs[$pollerId]->lastCompleted ?? 0;
+
+			if ($completed === 0 || ($now - $completed) > 3 * $interval) {
+				$stale[] = $pollerId;
+			}
+		}
+
+		$health          = $this->casc()->health();
+		$summary         = $health['summary'];
+		$imbalanceStatus = $health['status'] === 'degraded' ? 'fail' : ($health['status'] === 'warning' ? 'warn' : 'ok');
+
 		return [
 			[
-				'id'       => 'pfs_schema',
-				'plugin'   => 'pfs',
-				'label'    => 'Parallel Filesystems schema currency',
-				'category' => 'database',
-				'run'      => function (): array {
-					$stored  = $this->schema->storedVersion();
-					$current = Schema::VERSION;
-
-					return [
-						'status'  => $stored === $current ? 'ok' : 'critical',
-						'message' => $stored === $current
-							? sprintf('PFS schema is current at version %d', $current)
-							: sprintf('PFS schema is at version %d; expected %d', $stored, $current),
-						'details' => ['stored_version' => $stored, 'expected_version' => $current],
-					];
-				},
+				'id'          => 'pfs.schema',
+				'plugin'      => 'pfs',
+				'category'    => 'database',
+				'title'       => 'Parallel Filesystems schema currency',
+				'status'      => $stored === $current ? 'ok' : 'fail',
+				'message'     => $stored === $current
+					? sprintf('PFS schema is current at version %d', $current)
+					: sprintf('PFS schema is at version %d; expected %d', $stored, $current),
+				'details'     => ['stored_version' => $stored, 'expected_version' => $current],
+				'remediation' => $stored === $current ? '' : 'Re-run plugin upgrade to bring the plugin_pfs database schema to the current version.',
 			],
 			[
-				'id'       => 'pfs_reader_freshness',
-				'plugin'   => 'pfs',
-				'label'    => 'Parallel Filesystems reader freshness',
-				'category' => 'polling',
-				'run'      => function (): array {
-					$now     = $this->clock->now();
-					$runs    = $this->runs->all();
-					$stale   = [];
-					$pollers = [];
-
-					foreach ($this->filesystems->all() as $fs) {
-						if ($fs->enabled()) {
-							$pollers[$fs->pollerId] = min($pollers[$fs->pollerId] ?? PHP_INT_MAX, $fs->interval);
-						}
-					}
-
-					foreach ($pollers as $pollerId => $interval) {
-						$completed = $runs[$pollerId]->lastCompleted ?? 0;
-
-						if ($completed === 0 || ($now - $completed) > 3 * $interval) {
-							$stale[] = $pollerId;
-						}
-					}
-
-					return [
-						'status'  => $stale === [] ? 'ok' : 'warning',
-						'message' => $stale === []
-							? sprintf('All %d active PFS pollers completed within freshness window', count($pollers))
-							: sprintf('Stale PFS readers on pollers: %s', implode(', ', $stale)),
-						'details' => ['active_pollers' => array_keys($pollers), 'stale_pollers' => $stale],
-					];
-				},
+				'id'          => 'pfs.reader_freshness',
+				'plugin'      => 'pfs',
+				'category'    => 'polling',
+				'title'       => 'Parallel Filesystems reader freshness',
+				'status'      => $stale === [] ? 'ok' : 'warn',
+				'message'     => $stale === []
+					? sprintf('All %d active PFS pollers completed within freshness window', count($pollers))
+					: sprintf('Stale PFS readers on pollers: %s', implode(', ', $stale)),
+				'details'     => ['active_pollers' => array_keys($pollers), 'stale_pollers' => $stale],
+				'remediation' => $stale === [] ? '' : 'Verify poller_pfs.php execution and SSH connectivity on the stale pollers.',
 			],
 			[
-				'id'       => 'pfs_capacity_imbalance',
-				'plugin'   => 'pfs',
-				'label'    => 'Parallel Filesystems OST/MDT capacity and imbalance',
-				'category' => 'storage',
-				'run'      => function (): array {
-					$health  = $this->casc()->health();
-					$summary = $health['summary'];
-					$status  = $health['status'] === 'degraded' ? 'critical' : ($health['status'] === 'warning' ? 'warning' : 'ok');
-
-					return [
-						'status'  => $status,
-						'message' => sprintf('%d enabled filesystems, %d imbalanced, %d failed nodes', $summary['filesystems_enabled'], $summary['filesystems_imbalanced'], $summary['nodes_failed']),
-						'details' => $summary,
-					];
-				},
+				'id'          => 'pfs.capacity_imbalance',
+				'plugin'      => 'pfs',
+				'category'    => 'storage',
+				'title'       => 'Parallel Filesystems OST/MDT capacity and imbalance',
+				'status'      => $imbalanceStatus,
+				'message'     => sprintf('%d enabled filesystems, %d imbalanced, %d failed nodes', $summary['filesystems_enabled'], $summary['filesystems_imbalanced'], $summary['nodes_failed']),
+				'details'     => $summary,
+				'remediation' => $imbalanceStatus === 'ok' ? '' : 'Inspect imbalanced filesystems and failed storage nodes on the Parallel Filesystems Health page.',
 			],
 		];
 	}
@@ -391,9 +391,12 @@ final class EcosystemIntegration {
 	 * Never exposes host-local SSH paths, node endpoints, SSH usernames, or
 	 * allowlisted network CIDRs.
 	 *
-	 * @return array<string, array{
+	 * @return list<array{
+	 *   id: string,
+	 *   plugin: string,
 	 *   label: string,
 	 *   description: string,
+	 *   private: bool,
 	 *   fields: array<string, array{label: string, value: int|string, private: bool}>
 	 * }>
 	 */
@@ -406,9 +409,12 @@ final class EcosystemIntegration {
 		sort($backendIds);
 
 		return [
-			'pfs' => [
+			[
+				'id'          => 'pfs.overview',
+				'plugin'      => 'pfs',
 				'label'       => 'Parallel Filesystems',
 				'description' => 'Read-only diagnostic snapshot for plugin_pfs with host-local paths and endpoints redacted.',
+				'private'     => false,
 				'fields'      => [
 					'schema_version' => [
 						'label'   => 'Schema Version',
@@ -492,7 +498,7 @@ final class EcosystemIntegration {
 	 * is absent. Both list and get handlers enforce the View realm and Cacti
 	 * per-device permissions.
 	 *
-	 * @return array<string, array<string, mixed>>
+	 * @return list<array<string, mixed>>
 	 */
 	public function apiResources(): array {
 		$serialize = function (Filesystem $fs): array {
@@ -512,45 +518,32 @@ final class EcosystemIntegration {
 		};
 
 		return [
-			'pfsFilesystems' => [
-				'plugin'     => 'pfs',
-				'type'       => 'cacti.pfs/Filesystem',
-				'collection' => 'pfsFilesystems',
-				'singular'   => 'pfsFilesystem',
-				'plural'     => 'pfsFilesystems',
-				'pattern'    => 'pfsFilesystems/{pfs_filesystem}',
-				'read_only'  => true,
-				'methods'    => ['list', 'get'],
-				'realm'      => 'pfs.php',
-				'schema'     => 'schema/pfs.schema.yaml',
-				'fields'     => [
-					'name'              => ['type' => 'string', 'behavior' => ['IDENTIFIER']],
-					'id'                => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
-					'display_name'      => ['type' => 'string', 'behavior' => ['OUTPUT_ONLY']],
-					'backend'           => ['type' => 'string', 'enum' => ['beegfs', 'gpfs', 'lustre'], 'behavior' => ['OUTPUT_ONLY']],
-					'poller_id'         => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
-					'expected_interval' => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
-					'admin_state'       => ['type' => 'string', 'enum' => ['enabled', 'disabled'], 'behavior' => ['OUTPUT_ONLY']],
-					'host_id'           => ['type' => 'integer', 'behavior' => ['OUTPUT_ONLY']],
-					'in_maintenance'    => ['type' => ['boolean', 'null'], 'behavior' => ['OUTPUT_ONLY']],
-				],
-				'handlers' => [
+			[
+				'plugin'        => 'pfs',
+				'collection'    => 'pfsFilesystems',
+				'singleton'     => 'pfsFilesystem',
+				'description'   => 'Read-only registered parallel filesystems visible to the caller.',
+				'realm_read'    => 'pfs.php',
+				'read_only'     => true,
+				'schema'        => 'schema/pfs.schema.yaml',
+				'filter_fields' => ['id', 'name', 'display_name', 'backend', 'poller_id', 'admin_state'],
+				'order_fields'  => ['id', 'name', 'display_name', 'backend', 'poller_id'],
+				'handlers'      => [
 					/**
-					 * @param int                  $userId caller Cacti user id
-					 * @param array<string, mixed> $params optional backend, page_size, page_token
+					 * @param array<string, mixed> $context
 					 *
-					 * @return array{pfsFilesystems: list<array<string, mixed>>, next_page_token: string}
+					 * @return list<array<string, mixed>>
 					 */
-					'list' => function (int $userId, array $params = []) use ($serialize): array {
-						if (!($this->hasViewRealm)($userId)) {
-							return ['pfsFilesystems' => [], 'next_page_token' => ''];
+					'list' => function (array $context = []) use ($serialize): array {
+						$userId = isset($context['user_id']) && is_int($context['user_id']) ? $context['user_id'] : 0;
+
+						if ($userId < 1 || !($this->hasViewRealm)($userId)) {
+							return [];
 						}
 
-						$backendFilter = isset($params['backend']) && is_string($params['backend']) ? $params['backend'] : null;
-						$pageSize      = isset($params['page_size']) && is_int($params['page_size']) ? max(1, min(1000, $params['page_size'])) : 100;
-						$offset        = isset($params['page_token']) && is_string($params['page_token']) && ctype_digit($params['page_token']) ? (int) $params['page_token'] : 0;
-
-						$items = [];
+						$query         = isset($context['query']) && is_array($context['query']) ? $context['query'] : [];
+						$backendFilter = isset($query['backend']) && is_string($query['backend']) ? $query['backend'] : null;
+						$items         = [];
 
 						foreach ($this->permittedFilesystems($userId) as $fs) {
 							if ($backendFilter !== null && $fs->backend !== $backendFilter) {
@@ -560,22 +553,18 @@ final class EcosystemIntegration {
 							$items[] = $serialize($fs);
 						}
 
-						$slice = array_slice($items, $offset, $pageSize);
-						$next  = ($offset + count($slice)) < count($items) ? (string) ($offset + count($slice)) : '';
-
-						return [
-							'pfsFilesystems'  => $slice,
-							'next_page_token' => $next,
-						];
+						return $items;
 					},
 					/**
-					 * @param int    $userId     caller Cacti user id
-					 * @param string $resourceId numeric id or canonical pfsFilesystems/{id}
+					 * @param string               $resourceId numeric id or canonical pfsFilesystems/{id}
+					 * @param array<string, mixed> $context
 					 *
 					 * @return array<string, mixed>|null
 					 */
-					'get' => function (int $userId, string $resourceId) use ($serialize): ?array {
-						if (!($this->hasViewRealm)($userId)) {
+					'get' => function (string $resourceId, array $context = []) use ($serialize): ?array {
+						$userId = isset($context['user_id']) && is_int($context['user_id']) ? $context['user_id'] : 0;
+
+						if ($userId < 1 || !($this->hasViewRealm)($userId)) {
 							return null;
 						}
 
@@ -609,15 +598,98 @@ final class EcosystemIntegration {
 		$casc = $this->casc();
 
 		return [
-			'id'             => 'pfs',
-			'plugin'         => 'pfs',
-			'schema_version' => CascProvider::SCHEMA_VERSION,
-			'formats'        => CascProvider::FORMATS,
-			'export'         => static fn (string $format = 'yaml'): string => $casc->export($format),
-			'validate'       => static fn (array $desired): array => $casc->validate($desired),
-			'plan'           => static fn (array $desired): array => $casc->plan($desired),
-			'apply'          => static fn (array $desired, string $confirmHash): array => $casc->apply($desired, $confirmHash),
+			'slug'          => 'pfs',
+			'schemaVersion' => '1.0',
+			/**
+			 * @param array<string, mixed> $options
+			 * @return array<string, mixed>
+			 */
+			'export'        => static fn (array $options = []): array => [
+				'config'    => $casc->snapshot(),
+				'reference' => [],
+			],
+			/**
+			 * @param array<string, mixed> $desired
+			 * @return list<string>
+			 */
+			'validate'      => static fn (array $desired): array => $casc->validate(self::unwrapCascConfig($desired)),
+			/**
+			 * @param array<string, mixed> $desired
+			 * @param array<string, mixed> $options
+			 * @return list<array{operation: string, key: string, message: string}>
+			 */
+			'plan'          => static function (array $desired, array $options = []) use ($casc): array {
+				$plan = $casc->plan(self::unwrapCascConfig($desired));
+
+				if (!$plan['valid']) {
+					return array_map(
+						static fn (string $err): array => ['operation' => 'error', 'key' => 'pfs', 'message' => $err],
+						$plan['errors'],
+					);
+				}
+
+				$items = [];
+
+				foreach ($plan['changes']['settings'] as $name => $change) {
+					$items[] = [
+						'operation' => 'update',
+						'key'       => 'settings.' . $name,
+						'message'   => sprintf('Update setting %s', $name),
+					];
+				}
+
+				foreach ($plan['changes']['filesystems'] as $fsChange) {
+					$items[] = [
+						'operation' => $fsChange['action'] === 'create' ? 'create' : 'update',
+						'key'       => 'filesystems.' . $fsChange['backend'] . '/' . $fsChange['name'],
+						'message'   => sprintf('%s filesystem %s/%s', ucfirst($fsChange['action']), $fsChange['backend'], $fsChange['name']),
+					];
+				}
+
+				foreach ($plan['changes']['networks'] as $netChange) {
+					$items[] = [
+						'operation' => 'create',
+						'key'       => sprintf('networks.%d/%s', $netChange['poller_id'], $netChange['cidr']),
+						'message'   => sprintf('Add allowed network %s on poller %d', $netChange['cidr'], $netChange['poller_id']),
+					];
+				}
+
+				return $items;
+			},
+			/**
+			 * @param array<string, mixed> $desired
+			 * @param string               $confirm
+			 * @param array<string, mixed> $options
+			 * @return array<string, mixed>
+			 */
+			'apply'         => static function (array $desired, string $confirm = '', array $options = []) use ($casc): array {
+				$result = $casc->apply(self::unwrapCascConfig($desired), $confirm);
+
+				return ['ok' => $result['applied']] + $result;
+			},
 		];
+	}
+
+	/**
+	 * Unwrap an optional ['config' => ...] export envelope into a string-keyed
+	 * desired configuration map.
+	 *
+	 * @param array<array-key, mixed> $desired
+	 *
+	 * @return array<string, mixed>
+	 */
+	private static function unwrapCascConfig(array $desired): array {
+		$raw = (isset($desired['config']) && is_array($desired['config']) && !isset($desired['schema_version']))
+			? $desired['config']
+			: $desired;
+
+		$out = [];
+
+		foreach ($raw as $key => $value) {
+			$out[(string) $key] = $value;
+		}
+
+		return $out;
 	}
 
 	/**
