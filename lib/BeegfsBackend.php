@@ -73,41 +73,29 @@ final class BeegfsBackend implements Backend {
 	}
 
 	public function parse(string $output): NodeReport {
-		$parsed = FramedReportParser::parse($output, self::PROTOCOL, self::END, self::MAX_SECTIONS);
+		return FramedReportParser::parseReport(
+			$output,
+			self::PROTOCOL,
+			self::END,
+			self::MAX_SECTIONS,
+			$this->values(),
+			function (string $section, array $body, array &$targets, int &$rejected, bool &$partial): bool {
+				if ($section === 'storage_targets') {
+					$this->parseTargets($body, TargetType::Ost, $targets, $rejected, $partial);
 
-		if (!$parsed['framed']) {
-			return NodeReport::unframed();
-		}
+					return true;
+				}
 
-		if (!$parsed['complete']) {
-			return new NodeReport(true, false, true, null, [], 0, 0);
-		}
+				if ($section === 'meta_targets') {
+					$this->parseTargets($body, TargetType::Mdt, $targets, $rejected, $partial);
 
-		$partial    = $parsed['partial'];
-		$version    = null;
-		$rejected   = 0;
-		$unexpected = 0;
-		/** @var array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets */
-		$targets  = [];
+					return true;
+				}
 
-		foreach ($parsed['sections'] as $entry) {
-			$section = $entry['name'];
-			$body    = $entry['lines'];
-
-			if ($section === 'version') {
-				$version = self::parseVersion($body);
-			} elseif ($section === 'storage_targets') {
-				$this->parseTargets($body, TargetType::Ost, $targets, $rejected, $partial);
-			} elseif ($section === 'meta_targets') {
-				$this->parseTargets($body, TargetType::Mdt, $targets, $rejected, $partial);
-			} else {
-				$unexpected++;
-			}
-		}
-
-		$reports = FramedReportParser::buildTargetReports($targets, $this->values());
-
-		return new NodeReport(true, true, $partial, $version, $reports, $rejected, $unexpected);
+				return false;
+			},
+			static fn (array $lines): ?string => self::parseVersion($lines),
+		);
 	}
 
 	/**

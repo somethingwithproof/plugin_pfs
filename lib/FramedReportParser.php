@@ -242,4 +242,52 @@ final class FramedReportParser {
 
 		return $reports;
 	}
+
+	/**
+	 * Execute a framed backend parse with a backend-specific section dispatcher
+	 * and version parser, returning a normalized NodeReport.
+	 *
+	 * @param list<ValueSpec>                                                                                                                               $specs
+	 * @param \Closure(string, list<string>, array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}>, int, bool): bool $onSection
+	 * @param \Closure(list<string>): ?string                                                                                                               $parseVersion
+	 */
+	public static function parseReport(
+		string $output,
+		string $header,
+		string $footer,
+		int $maxSections,
+		array $specs,
+		\Closure $onSection,
+		\Closure $parseVersion,
+	): NodeReport {
+		$parsed = self::parse($output, $header, $footer, $maxSections);
+
+		if (!$parsed['framed']) {
+			return NodeReport::unframed();
+		}
+
+		if (!$parsed['complete']) {
+			return new NodeReport(true, false, true, null, [], 0, 0);
+		}
+
+		$partial    = $parsed['partial'];
+		$version    = null;
+		$rejected   = 0;
+		$unexpected = 0;
+		/** @var array<string, array{id: TargetId, values: array<string, ?float>, condition: Condition, start: ?string}> $targets */
+		$targets = [];
+
+		foreach ($parsed['sections'] as $entry) {
+			$section = $entry['name'];
+			$body    = $entry['lines'];
+
+			if ($section === 'version') {
+				$version = $parseVersion($body);
+			} elseif (!$onSection($section, $body, $targets, $rejected, $partial)) {
+				$unexpected++;
+			}
+		}
+
+		return new NodeReport(true, true, $partial, $version, self::buildTargetReports($targets, $specs), $rejected, $unexpected);
+	}
 }

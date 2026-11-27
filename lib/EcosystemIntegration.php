@@ -79,32 +79,19 @@ final class EcosystemIntegration {
 					],
 					'additionalProperties' => false,
 				],
-				'output_schema' => [
-					'type'       => 'object',
-					'properties' => [
-						'filesystems' => [
-							'type'     => 'array',
-							'maxItems' => 1000,
-							'items'    => [
-								'type'       => 'object',
-								'properties' => [
-									'id'               => ['type' => 'integer'],
-									'name'             => ['type' => 'string'],
-									'backend'          => ['type' => 'string'],
-									'pollerId'         => ['type' => 'integer'],
-									'expectedInterval' => ['type' => 'integer'],
-									'adminState'       => ['type' => 'string'],
-									'hostId'           => ['type' => 'integer'],
-									'inMaintenance'    => ['type' => ['boolean', 'null']],
-								],
-								'required'             => ['id', 'name', 'backend', 'pollerId', 'expectedInterval', 'adminState', 'hostId', 'inMaintenance'],
-								'additionalProperties' => false,
-							],
-						],
+				'output_schema' => self::filesystemsOutputSchema(
+					[
+						'id'               => ['type' => 'integer'],
+						'name'             => ['type' => 'string'],
+						'backend'          => ['type' => 'string'],
+						'pollerId'         => ['type' => 'integer'],
+						'expectedInterval' => ['type' => 'integer'],
+						'adminState'       => ['type' => 'string'],
+						'hostId'           => ['type' => 'integer'],
+						'inMaintenance'    => ['type' => ['boolean', 'null']],
 					],
-					'required'             => ['filesystems'],
-					'additionalProperties' => false,
-				],
+					['id', 'name', 'backend', 'pollerId', 'expectedInterval', 'adminState', 'hostId', 'inMaintenance'],
+				),
 				'annotations' => self::READ_ONLY_ANNOTATIONS,
 				'permission'  => $permission,
 				'execute'     => function (int $userId, \stdClass $args): array {
@@ -144,52 +131,39 @@ final class EcosystemIntegration {
 					],
 					'additionalProperties' => false,
 				],
-				'output_schema' => [
-					'type'       => 'object',
-					'properties' => [
-						'filesystems' => [
+				'output_schema' => self::filesystemsOutputSchema(
+					[
+						'id'               => ['type' => 'integer'],
+						'name'             => ['type' => 'string'],
+						'backend'          => ['type' => 'string'],
+						'severity'         => ['type' => 'string'],
+						'fillMaxPct'       => ['type' => ['number', 'null']],
+						'fillMinPct'       => ['type' => ['number', 'null']],
+						'fillMeanPct'      => ['type' => ['number', 'null']],
+						'fillSpreadPct'    => ['type' => ['number', 'null']],
+						'imbalanceIndex'   => ['type' => ['number', 'null']],
+						'headroomMinPct'   => ['type' => ['number', 'null']],
+						'missingTargets'   => ['type' => 'integer'],
+						'topSkewedTargets' => [
 							'type'     => 'array',
-							'maxItems' => 1000,
+							'maxItems' => TopKTracker::DEFAULT_K,
 							'items'    => [
 								'type'       => 'object',
 								'properties' => [
-									'id'             => ['type' => 'integer'],
 									'name'           => ['type' => 'string'],
-									'backend'        => ['type' => 'string'],
-									'severity'       => ['type' => 'string'],
-									'fillMaxPct'     => ['type' => ['number', 'null']],
-									'fillMinPct'     => ['type' => ['number', 'null']],
-									'fillMeanPct'    => ['type' => ['number', 'null']],
-									'fillSpreadPct'  => ['type' => ['number', 'null']],
-									'imbalanceIndex'   => ['type' => ['number', 'null']],
-									'headroomMinPct'   => ['type' => ['number', 'null']],
-									'missingTargets'   => ['type' => 'integer'],
-									'topSkewedTargets' => [
-										'type'     => 'array',
-										'maxItems' => TopKTracker::DEFAULT_K,
-										'items'    => [
-											'type'       => 'object',
-											'properties' => [
-												'name'           => ['type' => 'string'],
-												'type'           => ['type' => 'string'],
-												'fill_pct'       => ['type' => 'number'],
-												'skew_delta_pct' => ['type' => ['number', 'null']],
-												'headroom_pct'   => ['type' => ['number', 'null']],
-												'status_flags'   => ['type' => 'array', 'items' => ['type' => 'string']],
-											],
-											'required'             => ['name', 'type', 'fill_pct', 'skew_delta_pct', 'headroom_pct', 'status_flags'],
-											'additionalProperties' => false,
-										],
-									],
+									'type'           => ['type' => 'string'],
+									'fill_pct'       => ['type' => 'number'],
+									'skew_delta_pct' => ['type' => ['number', 'null']],
+									'headroom_pct'   => ['type' => ['number', 'null']],
+									'status_flags'   => ['type' => 'array', 'items' => ['type' => 'string']],
 								],
-								'required'             => ['id', 'name', 'backend', 'severity', 'fillMaxPct', 'fillMinPct', 'fillMeanPct', 'fillSpreadPct', 'imbalanceIndex', 'headroomMinPct', 'missingTargets', 'topSkewedTargets'],
+								'required'             => ['name', 'type', 'fill_pct', 'skew_delta_pct', 'headroom_pct', 'status_flags'],
 								'additionalProperties' => false,
 							],
 						],
 					],
-					'required'             => ['filesystems'],
-					'additionalProperties' => false,
-				],
+					['id', 'name', 'backend', 'severity', 'fillMaxPct', 'fillMinPct', 'fillMeanPct', 'fillSpreadPct', 'imbalanceIndex', 'headroomMinPct', 'missingTargets', 'topSkewedTargets'],
+				),
 				'annotations' => self::READ_ONLY_ANNOTATIONS,
 				'permission'  => $permission,
 				'execute'     => function (int $userId, \stdClass $args): array {
@@ -526,5 +500,31 @@ final class EcosystemIntegration {
 			$this->clock,
 			$this->inMaintenance,
 		);
+	}
+
+	/**
+	 * @param array<string, mixed> $itemProperties
+	 * @param list<string>         $required
+	 *
+	 * @return array<string, mixed>
+	 */
+	private static function filesystemsOutputSchema(array $itemProperties, array $required): array {
+		return [
+			'type'       => 'object',
+			'properties' => [
+				'filesystems' => [
+					'type'     => 'array',
+					'maxItems' => 1000,
+					'items'    => [
+						'type'                 => 'object',
+						'properties'           => $itemProperties,
+						'required'             => $required,
+						'additionalProperties' => false,
+					],
+				],
+			],
+			'required'             => ['filesystems'],
+			'additionalProperties' => false,
+		];
 	}
 }
