@@ -63,7 +63,10 @@ $pfs_page  = new \Somethingwithproof\Pfs\HealthPage(
 	new \Somethingwithproof\Pfs\ReaderRepository(false, $pfs_clock),
 	\Somethingwithproof\Pfs\HealthWarnings::production($pfs_clock),
 	$pfs_clock,
-	$pfs_access
+	$pfs_access,
+	function ($host_id) {
+		return pfs_in_maintenance((int) $host_id);
+	}
 );
 
 top_header();

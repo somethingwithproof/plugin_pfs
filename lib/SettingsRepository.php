@@ -42,4 +42,15 @@ final class SettingsRepository {
 
 		return Settings::fromRow($row);
 	}
+
+	/**
+	 * Persist one allowlisted plugin setting in Cacti's settings table.
+	 */
+	public function save(string $name, string $value): bool {
+		if (!in_array($name, Settings::NAMES, true)) {
+			return false;
+		}
+
+		return (bool) db_execute_prepared('REPLACE INTO settings (name, value) VALUES (?, ?)', [$name, $value], true, $this->connection);
+	}
 }

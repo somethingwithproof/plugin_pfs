@@ -60,7 +60,7 @@ it('rejects invalid filesystem fields', function (array $input, string $field) {
 })->with([
 	[['name' => 'too-long-name'], 'name'],
 	[['name' => '<script>'], 'name'],
-	[['backend' => 'gpfs'], 'backend'],
+	[['backend' => 'unknownfs'], 'backend'],
 	[['poller_id' => '9'], 'poller_id'],
 	[['expected_interval' => '10'], 'expected_interval'],
 	[['expected_interval' => '1e3'], 'expected_interval'],

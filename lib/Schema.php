@@ -38,14 +38,19 @@ final class Schema {
 	public const VERSION = 3;
 
 	public const HOOKS = [
-		'auth_alternate_realms' => 'pfs_auth_alternate_realms',
-		'config_arrays'        => 'pfs_config_arrays',
-		'config_settings'      => 'pfs_config_settings',
-		'draw_navigation_text' => 'pfs_draw_navigation_text',
-		'poller_bottom'        => 'pfs_poller_bottom',
-		'device_remove'        => 'pfs_device_remove',
-		'api_device_new'       => 'pfs_api_device_new',
-		'graph_buttons'        => 'pfs_graph_buttons',
+		'auth_alternate_realms'   => 'pfs_auth_alternate_realms',
+		'config_arrays'           => 'pfs_config_arrays',
+		'config_settings'         => 'pfs_config_settings',
+		'draw_navigation_text'    => 'pfs_draw_navigation_text',
+		'poller_bottom'           => 'pfs_poller_bottom',
+		'device_remove'           => 'pfs_device_remove',
+		'api_device_new'          => 'pfs_api_device_new',
+		'graph_buttons'           => 'pfs_graph_buttons',
+		'replicate_out'           => 'pfs_replicate_out',
+		'remote_agent'            => 'pfs_remote_agent',
+		'abilities_register'      => 'pfs_abilities_register',
+		'doctor_register_checks'  => 'pfs_doctor_register_checks',
+		'casc_register_providers' => 'pfs_casc_register_providers',
 	];
 
 	private const PLUGIN  = 'pfs';

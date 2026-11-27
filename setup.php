@@ -568,6 +568,176 @@ function pfs_reader_with(int $pollerId, \Somethingwithproof\Pfs\NodeSources $sou
 	);
 }
 
+/**
+ * Whether Maint holds a device in maintenance, or null when Maint is not
+ * enabled.
+ */
+function pfs_in_maintenance(int $host_id): ?bool {
+	global $config;
+
+	if ($host_id <= 0 || !api_plugin_is_enabled('maint') || !is_file($config['base_path'] . '/plugins/maint/functions.php')) {
+		return null;
+	}
+
+	include_once($config['base_path'] . '/plugins/maint/functions.php');
+
+	return function_exists('plugin_maint_check_cacti_host') ? (bool) plugin_maint_check_cacti_host($host_id) : null;
+}
+
+function pfs_casc(): \Somethingwithproof\Pfs\CascProvider {
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\CascProvider(
+		new \Somethingwithproof\Pfs\SettingsRepository(false),
+		new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NodeRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NetworkRepository(false, $clock),
+		new \Somethingwithproof\Pfs\TargetRepository(false),
+		new \Somethingwithproof\Pfs\ObservationRepository(false),
+		new \Somethingwithproof\Pfs\NodeHealthRepository(false),
+		new \Somethingwithproof\Pfs\ReaderRepository(false, $clock),
+		\Somethingwithproof\Pfs\BackendRegistry::production(),
+		$clock,
+		function (int $hostId): ?bool {
+			return pfs_in_maintenance($hostId);
+		},
+	);
+}
+
+function pfs_ecosystem(): \Somethingwithproof\Pfs\EcosystemIntegration {
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\EcosystemIntegration(
+		new \Somethingwithproof\Pfs\Schema(false),
+		new \Somethingwithproof\Pfs\SettingsRepository(false),
+		new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NodeRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NetworkRepository(false, $clock),
+		new \Somethingwithproof\Pfs\TargetRepository(false),
+		new \Somethingwithproof\Pfs\ObservationRepository(false),
+		new \Somethingwithproof\Pfs\NodeHealthRepository(false),
+		new \Somethingwithproof\Pfs\ReaderRepository(false, $clock),
+		\Somethingwithproof\Pfs\BackendRegistry::production(),
+		$clock,
+		function (int $userId): bool {
+			return api_plugin_user_realm_auth('pfs.php');
+		},
+		function (int $userId, int $hostId): bool {
+			return is_device_allowed($hostId, $userId);
+		},
+		function (int $hostId): ?bool {
+			return pfs_in_maintenance($hostId);
+		},
+	);
+}
+
+/**
+ * replicate_out hook: push plugin configuration tables scoped to the target
+ * remote data collector (REQ-REMOTE-002).
+ *
+ * @param mixed $data
+ * @return mixed
+ */
+function pfs_replicate_out($data) {
+	if (!pfs_boot() || !is_array($data)) {
+		return $data;
+	}
+
+	$pollerId = isset($data['remote_poller_id']) && is_numeric($data['remote_poller_id']) ? (int) $data['remote_poller_id'] : 0;
+	$rcnnId   = $data['rcnn_id'] ?? false;
+
+	if ($pollerId < 1 || !is_object($rcnnId) || !function_exists('replicate_out_table')) {
+		return $data;
+	}
+
+	$repo = new \Somethingwithproof\Pfs\ReplicationRepository(false);
+
+	foreach ($repo->tablesForPoller($pollerId) as $table => $rows) {
+		replicate_out_table($rcnnId, $rows, $table, $pollerId);
+	}
+
+	return $data;
+}
+
+/**
+ * remote_agent hook: serve read-only inventory and health actions on a remote
+ * data collector (REQ-REMOTE-020, REQ-REMOTE-021).
+ *
+ * @param mixed $data
+ * @return mixed
+ */
+function pfs_remote_agent($data) {
+	if (!pfs_boot() || !is_array($data)) {
+		return $data;
+	}
+
+	$action   = isset($data['action']) && is_string($data['action']) ? $data['action'] : '';
+	$pollerId = isset($data['poller_id']) && is_numeric($data['poller_id']) ? max(0, (int) $data['poller_id']) : 0;
+	$result   = pfs_ecosystem()->handleRemoteAgent($action, $pollerId);
+
+	if ($result !== null) {
+		$data['result'] = $result;
+	}
+
+	return $data;
+}
+
+/**
+ * abilities_register hook: expose read-only PFS abilities gated by View realm.
+ *
+ * @param mixed $registrar
+ * @return mixed
+ */
+function pfs_abilities_register($registrar) {
+	if (!pfs_boot()) {
+		return $registrar;
+	}
+
+	return pfs_ecosystem()->registerAbilities($registrar);
+}
+
+/**
+ * doctor_register_checks hook: register PFS diagnostic checks with Cacti Doctor.
+ *
+ * @param mixed $checks
+ * @return mixed
+ */
+function pfs_doctor_register_checks($checks) {
+	if (!pfs_boot()) {
+		return $checks;
+	}
+
+	$registered = pfs_ecosystem()->doctorChecks();
+
+	if (is_array($checks)) {
+		return array_merge($checks, $registered);
+	}
+
+	return $registered;
+}
+
+/**
+ * casc_register_providers hook: register the PFS CasC provider.
+ *
+ * @param mixed $providers
+ * @return mixed
+ */
+function pfs_casc_register_providers($providers) {
+	if (!pfs_boot()) {
+		return $providers;
+	}
+
+	$descriptor = pfs_ecosystem()->cascDescriptor();
+
+	if (is_array($providers)) {
+		$providers['pfs'] = $descriptor;
+
+		return $providers;
+	}
+
+	return array('pfs' => $descriptor);
+}
+
 /** Resolve role inheritance against Cacti's current user and group grants. */
 function pfs_auth_alternate_realms(): void {
 	global $user_auth_realm_filenames;

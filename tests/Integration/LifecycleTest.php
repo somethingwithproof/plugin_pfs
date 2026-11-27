@@ -32,7 +32,7 @@ const PFS_TABLES = [
 	'plugin_pfs_target',
 ];
 
-const PFS_HOOKS = ['api_device_new', 'auth_alternate_realms', 'config_arrays', 'config_settings', 'device_remove', 'draw_navigation_text', 'graph_buttons', 'poller_bottom'];
+const PFS_HOOKS = ['abilities_register', 'api_device_new', 'auth_alternate_realms', 'casc_register_providers', 'config_arrays', 'config_settings', 'device_remove', 'doctor_register_checks', 'draw_navigation_text', 'graph_buttons', 'poller_bottom', 'remote_agent', 'replicate_out'];
 
 const PFS_T = 1800000000;
 

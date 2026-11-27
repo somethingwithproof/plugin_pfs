@@ -31,6 +31,8 @@ final class BackendRegistry {
 	public static function production(): self {
 		$registry = new self();
 		$registry->register(new LustreBackend());
+		$registry->register(new GpfsBackend());
+		$registry->register(new BeegfsBackend());
 
 		return $registry;
 	}

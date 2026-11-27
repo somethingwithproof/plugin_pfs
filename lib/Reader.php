@@ -91,7 +91,7 @@ final class Reader {
 		$due      = [];
 
 		foreach ($this->filesystems->all() as $filesystem) {
-			if ($filesystem->enabled() && $this->backends->has($filesystem->backend)) {
+			if ($filesystem->enabled() && $filesystem->pollerId === $pollerId && $this->backends->has($filesystem->backend)) {
 				$fsById[$filesystem->id] = $filesystem;
 			}
 		}
