@@ -42,11 +42,16 @@ final class TemplateInstaller {
 	/** Bump when templates/pfs-templates.xml or a query XML changes. */
 	public const VERSION = 1;
 
+	/** Setting constant. */
 	public const SETTING         = 'pfs_templates_version';
+	/** Failure setting constant. */
 	public const FAILURE_SETTING = 'pfs_templates_failure';
+	/** Files setting constant. */
 	public const FILES_SETTING   = 'pfs_query_files';
 
+	/** Device template constant. */
 	public const DEVICE_TEMPLATE = 'Parallel Filesystem';
+	/** Summary constant. */
 	public const SUMMARY         = 'Parallel Filesystem Summary';
 
 	/** Graph templates created with every filesystem device (ADR 0011). */
@@ -93,6 +98,11 @@ final class TemplateInstaller {
 		return md5('plugin_pfs:' . $kind . ':' . $name);
 	}
 
+	/**
+	 * Is current.
+	 *
+	 * @return bool
+	 */
 	public function isCurrent(): bool {
 		return (int) read_config_option(self::SETTING) === self::VERSION && $this->present() && $this->queryFileProblems() === [];
 	}
@@ -349,10 +359,22 @@ final class TemplateInstaller {
 		return $out;
 	}
 
+	/**
+	 * Query source.
+	 *
+	 * @param string $file
+	 * @return string
+	 */
 	private function querySource(string $file): string {
 		return $this->pluginPath . '/resource/script_server/' . $file;
 	}
 
+	/**
+	 * Query target.
+	 *
+	 * @param string $file
+	 * @return ?string
+	 */
 	private function queryTarget(string $file): ?string {
 		$dir = $this->cactiPath . '/resource/script_server';
 

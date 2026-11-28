@@ -28,8 +28,12 @@ namespace Somethingwithproof\Pfs;
  * patterns, and every cell is escaped.
  */
 final class HealthPage {
+	/** File constant. */
 	public const FILE = 'pfs_health.php';
 
+	/**
+	 * @param ?\Closure(int): ?bool $inMaintenance whether Maint holds a device in maintenance, null without Maint
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly NodeRepository $nodes,
@@ -38,7 +42,21 @@ final class HealthPage {
 		private readonly HealthWarnings $warnings,
 		private readonly Clock $clock,
 		private readonly DeviceAccess $access,
+		private readonly ?\Closure $inMaintenance = null,
 	) {
+	}
+
+	/**
+	 * Whether a filesystem's mapped Cacti device is currently in a Maint
+	 * maintenance window, or null when Maint is unavailable or the filesystem
+	 * is unmapped.
+	 */
+	public function maintenanceState(Filesystem $filesystem): ?bool {
+		if ($this->inMaintenance === null || $filesystem->hostId <= 0) {
+			return null;
+		}
+
+		return ($this->inMaintenance)($filesystem->hostId);
 	}
 
 	/**
@@ -58,9 +76,25 @@ final class HealthPage {
 		$runs   = $this->runs->all();
 		$now    = $this->clock->now();
 
+		// Exclude filesystems currently in a Cacti Maint window from active failure warnings.
+		$activeFilesystems = [];
+		$maintNames        = [];
+
+		foreach ($filesystems as $id => $filesystem) {
+			if ($this->maintenanceState($filesystem) === true) {
+				$maintNames[] = $filesystem->name;
+			} else {
+				$activeFilesystems[$id] = $filesystem;
+			}
+		}
+
 		html_start_box(__('Parallel Filesystem Warnings', 'pfs'), '100%', '', '3', 'center', '');
 
-		$warnings = array_merge($objectWarnings, $this->warnings->for($settings, $nodes, $health, $runs, $filesystems));
+		$warnings = array_merge($objectWarnings, $this->warnings->for($settings, $nodes, $health, $runs, $activeFilesystems));
+
+		if ($maintNames !== []) {
+			print '<tr><td class="textInfo">' . html_escape('Maint: ' . implode(', ', $maintNames)) . '</td></tr>';
+		}
 
 		foreach ($warnings as $warning) {
 			print '<tr><td class="textError">' . html_escape($warning) . '</td></tr>';

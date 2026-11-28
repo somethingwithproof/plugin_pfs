@@ -45,6 +45,7 @@ final readonly class Summary {
 	 */
 	public const RATES = ['read_bytes_rate', 'write_bytes_rate', 'md_ops_rate'];
 
+	/** Rate suffix constant. */
 	public const RATE_SUFFIX = '_rate';
 
 	/** Computed when the data source is polled, from observedAt. */
@@ -71,6 +72,12 @@ final readonly class Summary {
 		return array_merge(self::GAUGES, self::COUNTERS, self::RATES, [self::AGE]);
 	}
 
+	/**
+	 * Value.
+	 *
+	 * @param string $metric
+	 * @return ?float
+	 */
 	public function value(string $metric): ?float {
 		return $this->values[$metric] ?? null;
 	}

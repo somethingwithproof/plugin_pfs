@@ -49,9 +49,12 @@ namespace Somethingwithproof\Pfs;
  * that list is ignored, never guessed at.
  */
 final class LustreBackend implements Backend {
+	/** Protocol constant. */
 	public const PROTOCOL = '#pfs-read 1';
+	/** End constant. */
 	public const END      = '#pfs-read end';
 
+	/** Capacity constant. */
 	private const CAPACITY = [
 		'kbytestotal' => 'kbytes_total',
 		'kbytesfree'  => 'kbytes_free',
@@ -60,12 +63,29 @@ final class LustreBackend implements Backend {
 		'filesfree'   => 'files_free',
 	];
 
-	private const FLAGS = ['degraded', 'no_precreate', 'no_create', 'readonly'];
+	/** Precompiled regex matching allowed read-only OST condition flag paths. */
+	private const FLAG_PATH_PATTERN = '#^obdfilter/([^/]{1,64})/(degraded|no_precreate|no_create|readonly)$#';
 
 	/** OST stats counter => [samples value, sum value] */
 	private const OST_COUNTERS = [
 		'read_bytes'  => ['read_ops', 'read_bytes'],
 		'write_bytes' => ['write_ops', 'write_bytes'],
+	];
+
+	/** OST [usecs] stats counter names mapped to RPC latency channels. */
+	private const OST_LATENCY_CHANNEL = [
+		'ost_read'      => 'read',
+		'brw_read'      => 'read',
+		'read_latency'  => 'read',
+		'ost_write'     => 'write',
+		'brw_write'     => 'write',
+		'write_latency' => 'write',
+		'statfs'        => 'metadata',
+		'get_info'      => 'metadata',
+		'getattr'       => 'metadata',
+		'setattr'       => 'metadata',
+		'punch'         => 'metadata',
+		'sync'          => 'metadata',
 	];
 
 	/** md_stats counter => value name (19 characters at most) */
@@ -92,22 +112,50 @@ final class LustreBackend implements Backend {
 		'rename_trylocks'      => 'md_rename_trylocks',
 	];
 
-	private const RECOVERY = ['INACTIVE', 'COMPLETE', 'WAITING', 'WAITING_FOR_CLIENTS', 'RECOVERING'];
+	/** Recovery state allowlist map for O(1) lookup. */
+	private const RECOVERY_MAP = [
+		'INACTIVE'            => true,
+		'COMPLETE'            => true,
+		'WAITING'             => true,
+		'WAITING_FOR_CLIENTS' => true,
+		'RECOVERING'          => true,
+	];
 
+	/** Max sections constant. */
 	private const MAX_SECTIONS = 50000;
 
+	/**
+	 * Return the canonical backend identifier.
+	 *
+	 * @return string
+	 */
 	public function id(): string {
 		return 'lustre';
 	}
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string {
 		return 'Lustre';
 	}
 
+	/**
+	 * Return the validation regex for filesystem names on this backend.
+	 *
+	 * @return string
+	 */
 	public function filesystemPattern(): string {
 		return '/^[A-Za-z0-9_-]{1,8}$/';
 	}
 
+	/**
+	 * Return the metric value specifications supported by this backend.
+	 *
+	 * @return list<ValueSpec>
+	 */
 	public function values(): array {
 		$values = [];
 
@@ -131,6 +179,13 @@ final class LustreBackend implements Backend {
 		return $values;
 	}
 
+	/**
+	 * Parse a framed node report into structured targets, observations, RPC
+	 * latency quantiles, LNet stall counters, and recovery/eviction metrics.
+	 *
+	 * @param string $output
+	 * @return NodeReport
+	 */
 	public function parse(string $output): NodeReport {
 		$lines = explode("\n", $output);
 
@@ -145,14 +200,19 @@ final class LustreBackend implements Backend {
 		$complete   = false;
 		$partial    = false;
 		$unexpected = 0;
-
 		$trailing   = false;
+		$lineCount  = count($lines);
+		$pathCount  = 0;
 
-		foreach (array_slice($lines, 1) as $line) {
+		for ($idx = 1; $idx < $lineCount; $idx++) {
+			$line = $lines[$idx];
+
 			if ($complete) {
 				// Anything after the end marker is not the script's, so the
 				// whole answer is rejected as incomplete.
-				$trailing = $trailing || $line !== '';
+				if ($line !== '') {
+					$trailing = true;
+				}
 
 				continue;
 			}
@@ -164,14 +224,14 @@ final class LustreBackend implements Backend {
 				$partial = true;
 				$current = null;
 			} elseif (str_starts_with($line, '== ')) {
-				if (count($paths) >= self::MAX_SECTIONS) {
+				if ($pathCount >= self::MAX_SECTIONS) {
 					$partial = true;
 					$current = null;
 
 					continue;
 				}
 
-				$current          = count($paths);
+				$current          = $pathCount++;
 				$paths[$current]  = substr($line, 3);
 				$bodies[$current] = [];
 				$failed[$current] = false;
@@ -188,14 +248,16 @@ final class LustreBackend implements Backend {
 		}
 
 		// A path printed twice in one read is ambiguous; neither copy counts.
-		$seen = array_count_values($paths);
-
-		$version  = null;
-		$rejected = 0;
-		/** @var array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string, absent: list<string>}> $targets */
+		$seen       = array_count_values($paths);
+		$version    = null;
+		$rejected   = 0;
+		$rpcLatency = new RpcLatencyMetrics();
+		$stalls     = null;
+		/** @var array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string, recovery_duration_s: ?float, evicted_clients: ?int, absent: list<string>}> $targets */
 		$targets = [];
 
-		foreach ($paths as $i => $path) {
+		for ($i = 0; $i < $pathCount; $i++) {
+			$path = $paths[$i];
 			$body = $bodies[$i];
 
 			if ($failed[$i] || $seen[$path] > 1) {
@@ -210,6 +272,12 @@ final class LustreBackend implements Backend {
 
 			if ($path === 'version') {
 				$version = self::version($body);
+
+				continue;
+			}
+
+			if ($path === 'lnet/stats') {
+				$stalls = self::parseLnetStats($body);
 
 				continue;
 			}
@@ -231,7 +299,19 @@ final class LustreBackend implements Backend {
 			}
 
 			$name = $id->name();
-			$targets[$name] ??= ['id' => $id, 'values' => [], 'flags' => [], 'start' => null, 'recovery' => null, 'absent' => []];
+
+			if (!isset($targets[$name])) {
+				$targets[$name] = [
+					'id'                  => $id,
+					'values'              => [],
+					'flags'               => [],
+					'start'               => null,
+					'recovery'            => null,
+					'recovery_duration_s' => null,
+					'evicted_clients'     => null,
+					'absent'              => [],
+				];
+			}
 
 			switch ($match['kind']) {
 				case 'capacity':
@@ -259,6 +339,11 @@ final class LustreBackend implements Backend {
 						}
 					}
 
+					if (isset($stats['counters']['evicted_clients']['samples'])) {
+						$targets[$name]['evicted_clients'] = (int) round($stats['counters']['evicted_clients']['samples']);
+					}
+
+					self::foldOstLatency($stats['counters'], $rpcLatency);
 					$targets[$name]['start'] = $stats['start'];
 
 					break;
@@ -273,58 +358,148 @@ final class LustreBackend implements Backend {
 						}
 					}
 
+					if (isset($stats['counters']['evicted_clients']['samples'])) {
+						$targets[$name]['evicted_clients'] = (int) round($stats['counters']['evicted_clients']['samples']);
+					}
+
+					self::foldMdtLatency($stats['counters'], $rpcLatency);
 					$targets[$name]['start'] = $stats['start'];
 
 					break;
 				case 'recovery':
-					$targets[$name]['recovery'] = self::recovery($body);
+					$rec                                     = self::recovery($body);
+					$targets[$name]['recovery']              = $rec['status'];
+					$targets[$name]['recovery_duration_s']   = $rec['duration_s'];
+
+					if ($rec['evicted_clients'] !== null) {
+						$targets[$name]['evicted_clients'] = $rec['evicted_clients'];
+					}
+
+					break;
+				case 'evicted_clients':
+					$evicted = self::integer($body);
+
+					if ($evicted !== null) {
+						$targets[$name]['evicted_clients'] = (int) round($evicted);
+					}
+
+					break;
+				case 'rpc_latency':
+					FramedReportParser::parseRpcLatencyLines($body, $rpcLatency);
 
 					break;
 			}
+		}
+
+		// Pre-index declared ValueSpecs by TargetType once outside the target loop
+		// to avoid instantiating 34 ValueSpec objects per target at exascale.
+		$defaultsByType = [];
+
+		foreach ($this->values() as $spec) {
+			$defaultsByType[$spec->targetType->value][$spec->name] = null;
 		}
 
 		$reports = [];
 
 		foreach ($targets as $name => $target) {
-			$values = [];
+			$values = $defaultsByType[$target['id']->type->value] ?? [];
 
-			foreach ($this->values() as $spec) {
-				if ($spec->targetType === $target['id']->type) {
-					$values[$spec->name] = $target['values'][$spec->name] ?? null;
+			foreach ($target['values'] as $metric => $val) {
+				if (array_key_exists($metric, $values)) {
+					$values[$metric] = $val;
 				}
 			}
 
-			$reports[$name] = new TargetReport($target['id'], $values, $target['start'], self::condition($target['flags']), $target['recovery'], $target['absent']);
+			$reports[$name] = new TargetReport(
+				$target['id'],
+				$values,
+				$target['start'],
+				self::condition($target['flags']),
+				$target['recovery'],
+				$target['absent'],
+				$target['recovery_duration_s'],
+				$target['evicted_clients'],
+			);
 		}
 
 		ksort($reports);
 
-		return new NodeReport(true, true, $partial, $version, $reports, $rejected, $unexpected);
+		$latencyOut  = $rpcLatency->isEmpty() ? null : $rpcLatency;
+		$stallsOut   = ($stalls !== null && !$stalls->isEmpty()) ? $stalls : null;
+		$recoveryOut = $reports !== [] ? RecoveryMetrics::fromTargets($reports) : null;
+
+		if ($recoveryOut !== null && $recoveryOut->evictedClients === 0 && $recoveryOut->recoveryActiveTargets === 0 && $recoveryOut->recoveryDurationSeconds === 0.0) {
+			$recoveryOut = null;
+		}
+
+		return new NodeReport(true, true, $partial, $version, $reports, $rejected, $unexpected, $latencyOut, $stallsOut, $recoveryOut);
 	}
 
 	/**
+	 * Classify a Lustre sysfs/procfs/debugfs relative parameter path using
+	 * fast prefix dispatch before regex matching.
+	 *
+	 * @param string $path relative section path
+	 *
 	 * @return array{kind: string, target: string, item: string, type: ?TargetType}|null
 	 */
 	private function classify(string $path): ?array {
-		return match (true) {
-			preg_match('#^osd-[a-z0-9]{1,16}/([^/]{1,64})/(kbytestotal|kbytesfree|kbytesavail|filestotal|filesfree)$#', $path, $m) === 1 => ['kind' => 'capacity', 'target' => $m[1], 'item' => $m[2], 'type' => null],
-			preg_match('#^obdfilter/([^/]{1,64})/(' . implode('|', self::FLAGS) . ')$#', $path, $m) === 1                    => ['kind' => 'flag', 'target' => $m[1], 'item' => $m[2], 'type' => TargetType::Ost],
-			preg_match('#^obdfilter/([^/]{1,64})/stats$#', $path, $m) === 1                                                       => ['kind' => 'stats', 'target' => $m[1], 'item' => '', 'type' => TargetType::Ost],
-			preg_match('#^obdfilter/([^/]{1,64})/recovery_status$#', $path, $m) === 1                                             => ['kind' => 'recovery', 'target' => $m[1], 'item' => '', 'type' => TargetType::Ost],
-			preg_match('#^mdt/([^/]{1,64})/md_stats$#', $path, $m) === 1                                                          => ['kind' => 'md_stats', 'target' => $m[1], 'item' => '', 'type' => TargetType::Mdt],
-			default                                                                                                               => null,
-		};
+		if (str_starts_with($path, 'osd-')) {
+			if (preg_match('#^osd-[a-z0-9]{1,16}/([^/]{1,64})/(kbytestotal|kbytesfree|kbytesavail|filestotal|filesfree)$#', $path, $m) === 1) {
+				return ['kind' => 'capacity', 'target' => $m[1], 'item' => $m[2], 'type' => null];
+			}
+
+			return null;
+		}
+
+		if (str_starts_with($path, 'obdfilter/')) {
+			if (preg_match(self::FLAG_PATH_PATTERN, $path, $m) === 1) {
+				return ['kind' => 'flag', 'target' => $m[1], 'item' => $m[2], 'type' => TargetType::Ost];
+			}
+
+			if (preg_match('#^obdfilter/([^/]{1,64})/(stats|recovery_status|evicted_clients|rpc_latency)$#', $path, $m) === 1) {
+				$kind = $m[2] === 'recovery_status' ? 'recovery' : $m[2];
+
+				return ['kind' => $kind, 'target' => $m[1], 'item' => '', 'type' => TargetType::Ost];
+			}
+
+			return null;
+		}
+
+		if (str_starts_with($path, 'mdt/')) {
+			if (preg_match('#^mdt/([^/]{1,64})/(md_stats|recovery_status|evicted_clients|rpc_latency)$#', $path, $m) === 1) {
+				$kind = $m[2] === 'recovery_status' ? 'recovery' : $m[2];
+
+				return ['kind' => $kind, 'target' => $m[1], 'item' => '', 'type' => TargetType::Mdt];
+			}
+
+			return null;
+		}
+
+		return null;
 	}
 
 	/**
-	 * @param array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string, absent: list<string>}> $targets
+	 * Note a target whose section failed or duplicated so its values read as unknown.
+	 *
+	 * @param string                                                                                                                                                            $path
+	 * @param array<string, array{id: TargetId, values: array<string, ?float>, flags: array<string, int>, start: ?string, recovery: ?string, recovery_duration_s: ?float, evicted_clients: ?int, absent: list<string>}> $targets
 	 */
 	private function noteTarget(string $path, array &$targets): void {
 		$match = $this->classify($path);
 		$id    = $match === null ? null : TargetId::parse($match['target']);
 
 		if ($id !== null && ($match['type'] === null || $id->type === $match['type'])) {
-			$targets[$id->name()] ??= ['id' => $id, 'values' => [], 'flags' => [], 'start' => null, 'recovery' => null, 'absent' => []];
+			$targets[$id->name()] ??= [
+				'id'                  => $id,
+				'values'              => [],
+				'flags'               => [],
+				'start'               => null,
+				'recovery'            => null,
+				'recovery_duration_s' => null,
+				'evicted_clients'     => null,
+				'absent'              => [],
+			];
 		}
 	}
 
@@ -332,15 +507,22 @@ final class LustreBackend implements Backend {
 	 * A file holding one non-negative integer and nothing else.
 	 *
 	 * @param list<string> $lines
+	 *
+	 * @return ?float
 	 */
 	private static function integer(array $lines): ?float {
 		$text = trim(implode("\n", $lines));
+		$len  = strlen($text);
 
-		return preg_match('/^\d{1,20}$/', $text) === 1 ? (float) $text : null;
+		return ($len >= 1 && $len <= 20 && ctype_digit($text)) ? (float) $text : null;
 	}
 
 	/**
+	 * Parse Lustre software version line.
+	 *
 	 * @param list<string> $lines
+	 *
+	 * @return ?string
 	 */
 	private static function version(array $lines): ?string {
 		$text = trim(implode("\n", $lines));
@@ -358,7 +540,7 @@ final class LustreBackend implements Backend {
 	 *
 	 * @param list<string> $lines
 	 *
-	 * @return array{start: ?string, complete: bool, counters: array<string, array{samples: ?float, sum: ?float}>}
+	 * @return array{start: ?string, complete: bool, counters: array<string, array{samples: ?float, unit: ?string, min: ?float, max: ?float, sum: ?float}>}
 	 */
 	private static function stats(array $lines): array {
 		$start    = null;
@@ -378,19 +560,27 @@ final class LustreBackend implements Backend {
 					$start = $m[2];
 				}
 
-				$snapshot = $snapshot || $m[1] === 'snapshot_time';
+				if ($m[1] === 'snapshot_time') {
+					$snapshot = true;
+				}
 
 				continue;
 			}
 
-			if (preg_match('/^([a-z_]{1,32})\s+(\d{1,20})\s+samples\s+\[[a-z]{1,16}\](?:\s+(\d{1,20})\s+(\d{1,20})\s+(\d{1,20})(?:\s+(\d{1,40}))?)?$/', $line, $m) === 1) {
+			if (preg_match('/^([a-z_]{1,32})\s+(\d{1,20})\s+samples\s+\[([a-z]{1,16})\](?:\s+(\d{1,20})\s+(\d{1,20})\s+(\d{1,20})(?:\s+(\d{1,40}))?)?$/', $line, $m) === 1) {
 				$name = $m[1];
 
 				if (isset($counters[$name])) {
 					$broken[$name] = true;
 				}
 
-				$counters[$name] = ['samples' => (float) $m[2], 'sum' => isset($m[5]) ? (float) $m[5] : null];
+				$counters[$name] = [
+					'samples' => (float) $m[2],
+					'unit'    => $m[3],
+					'min'     => isset($m[4]) ? (float) $m[4] : null,
+					'max'     => isset($m[5]) ? (float) $m[5] : null,
+					'sum'     => isset($m[6]) ? (float) $m[6] : null,
+				];
 
 				continue;
 			}
@@ -404,23 +594,148 @@ final class LustreBackend implements Backend {
 		}
 
 		foreach (array_keys($broken) as $name) {
-			$counters[$name] = ['samples' => null, 'sum' => null];
+			$counters[$name] = ['samples' => null, 'unit' => null, 'min' => null, 'max' => null, 'sum' => null];
 		}
 
 		return ['start' => $start, 'complete' => $snapshot, 'counters' => $counters];
 	}
 
 	/**
-	 * @param list<string> $lines
+	 * Fold OST [usecs] RPC latency lines into the bounded RpcLatencyMetrics accumulator.
+	 *
+	 * @param array<string, array{samples: ?float, unit: ?string, min: ?float, max: ?float, sum: ?float}> $counters
+	 * @param RpcLatencyMetrics                                                                           $latency
 	 */
-	private static function recovery(array $lines): ?string {
+	private static function foldOstLatency(array $counters, RpcLatencyMetrics $latency): void {
+		foreach ($counters as $name => $stat) {
+			$channel = self::OST_LATENCY_CHANNEL[$name] ?? null;
+
+			if ($channel === null || $stat['unit'] !== 'usecs' || $stat['samples'] === null || $stat['min'] === null || $stat['max'] === null || $stat['sum'] === null) {
+				continue;
+			}
+
+			$samples = (int) round($stat['samples']);
+
+			if ($samples < 1) {
+				continue;
+			}
+
+			if ($channel === 'read') {
+				$latency->read->recordSummary($samples, $stat['min'], $stat['max'], $stat['sum']);
+			} elseif ($channel === 'write') {
+				$latency->write->recordSummary($samples, $stat['min'], $stat['max'], $stat['sum']);
+			} else {
+				$latency->metadata->recordSummary($samples, $stat['min'], $stat['max'], $stat['sum']);
+			}
+		}
+	}
+
+	/**
+	 * Fold MDT [usecs] metadata operation latency lines into the metadata histogram.
+	 *
+	 * @param array<string, array{samples: ?float, unit: ?string, min: ?float, max: ?float, sum: ?float}> $counters
+	 * @param RpcLatencyMetrics                                                                           $latency
+	 */
+	private static function foldMdtLatency(array $counters, RpcLatencyMetrics $latency): void {
+		foreach (self::MDT_OPS as $counter => $_value) {
+			$stat = $counters[$counter] ?? null;
+
+			if ($stat === null || $stat['unit'] !== 'usecs' || $stat['samples'] === null || $stat['min'] === null || $stat['max'] === null || $stat['sum'] === null) {
+				continue;
+			}
+
+			$samples = (int) round($stat['samples']);
+
+			if ($samples >= 1) {
+				$latency->metadata->recordSummary($samples, $stat['min'], $stat['max'], $stat['sum']);
+			}
+		}
+	}
+
+	/**
+	 * Parse Lustre recovery_status section for state, recovery_duration (s),
+	 * and evicted_clients / stale_clients counters.
+	 *
+	 * @param list<string> $lines
+	 *
+	 * @return array{status: ?string, duration_s: ?float, evicted_clients: ?int}
+	 */
+	private static function recovery(array $lines): array {
+		$status   = null;
+		$duration = null;
+		$evicted  = null;
+
 		foreach ($lines as $line) {
 			if (preg_match('/^status:\s*([A-Z_]{1,32})\s*$/', $line, $m) === 1) {
-				return in_array($m[1], self::RECOVERY, true) ? $m[1] : null;
+				$status = isset(self::RECOVERY_MAP[$m[1]]) ? $m[1] : null;
+			} elseif (preg_match('/^recovery_duration:\s*([0-9]{1,12}(?:\.[0-9]{1,6})?)\s*$/', $line, $m) === 1) {
+				$duration = (float) $m[1];
+			} elseif (preg_match('/^(?:evicted_clients|stale_clients):\s*([0-9]{1,12})\s*$/', $line, $m) === 1) {
+				$evicted = (int) $m[1];
 			}
 		}
 
-		return null;
+		return ['status' => $status, 'duration_s' => $duration, 'evicted_clients' => $evicted];
+	}
+
+	/**
+	 * Parse Lustre LNet statistics from either standard 11-column /proc/sys/lnet/stats
+	 * or key=value wrapper output (drops/lnet_drops, retransmits/lnet_retransmits).
+	 *
+	 * @param list<string> $lines
+	 *
+	 * @return StallMetrics
+	 */
+	private static function parseLnetStats(array $lines): StallMetrics {
+		$drops       = null;
+		$retransmits = null;
+
+		foreach ($lines as $rawLine) {
+			$line = trim($rawLine);
+
+			if ($line === '' || str_starts_with($line, '#')) {
+				continue;
+			}
+
+			if (str_contains($line, '=')) {
+				$fields = FramedReportParser::parseKeyValues($line);
+				$d      = FramedReportParser::uint($fields['lnet_drops'] ?? ($fields['drops'] ?? ($fields['drop_count'] ?? null)));
+				$r      = FramedReportParser::uint($fields['lnet_retransmits'] ?? ($fields['retransmits'] ?? ($fields['errors'] ?? null)));
+
+				if ($d !== null) {
+					$drops = $d;
+				}
+
+				if ($r !== null) {
+					$retransmits = $r;
+				}
+
+				continue;
+			}
+
+			// Standard /proc/sys/lnet/stats: 11 unsigned integers where index 3 is
+			// errors/retransmit faults and index 7 is drop_count.
+			$cols = preg_split('/\s+/', $line);
+
+			if (is_array($cols) && count($cols) >= 11) {
+				$allDigits = true;
+
+				for ($i = 0; $i < 11; $i++) {
+					if (!ctype_digit($cols[$i]) || strlen($cols[$i]) > 20) {
+						$allDigits = false;
+
+						break;
+					}
+				}
+
+				if ($allDigits) {
+					$retransmits = (float) $cols[3];
+					$drops       = (float) $cols[7];
+				}
+			}
+		}
+
+		return new StallMetrics($drops, $retransmits);
 	}
 
 	/**
@@ -428,14 +743,16 @@ final class LustreBackend implements Backend {
 	 * for every MDT, the condition is Unknown.
 	 *
 	 * @param array<string, int> $flags
+	 *
+	 * @return Condition
 	 */
 	private static function condition(array $flags): Condition {
 		return match (true) {
-			$flags === []                                                     => Condition::Unknown,
-			($flags['readonly'] ?? 0) === 1                                   => Condition::ReadOnly,
-			($flags['degraded'] ?? 0) === 1                                   => Condition::Degraded,
+			$flags === []                                                         => Condition::Unknown,
+			($flags['readonly'] ?? 0) === 1                                       => Condition::ReadOnly,
+			($flags['degraded'] ?? 0) === 1                                       => Condition::Degraded,
 			($flags['no_create'] ?? 0) === 1 || ($flags['no_precreate'] ?? 0) === 1 => Condition::NoCreate,
-			default                                                           => Condition::InService,
+			default                                                               => Condition::InService,
 		};
 	}
 }

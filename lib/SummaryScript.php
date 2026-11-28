@@ -32,6 +32,13 @@ namespace Somethingwithproof\Pfs;
  * taken from.
  */
 final class SummaryScript {
+	/**
+	 * Initialize SummaryScript.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param SummaryRepository $summaries
+	 * @param Clock $clock
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly SummaryRepository $summaries,
@@ -39,6 +46,12 @@ final class SummaryScript {
 	) {
 	}
 
+	/**
+	 * Answer.
+	 *
+	 * @param int $hostId
+	 * @return string
+	 */
 	public function answer(int $hostId): string {
 		$filesystem = $hostId > 0 ? $this->filesystems->findByHost($hostId) : null;
 		$summary    = $filesystem === null ? null : $this->summaries->find($filesystem->id);
@@ -46,6 +59,14 @@ final class SummaryScript {
 		return self::format($summary, $filesystem->interval ?? Filesystem::DEFAULT_INTERVAL, $this->clock);
 	}
 
+	/**
+	 * Format.
+	 *
+	 * @param ?Summary $summary
+	 * @param int $interval
+	 * @param Clock $clock
+	 * @return string
+	 */
 	public static function format(?Summary $summary, int $interval, Clock $clock): string {
 		$freshness = $summary === null ? Freshness::Never : (new FreshnessEvaluator($clock))->evaluate($summary->observedAt, $interval);
 		$pairs     = [];

@@ -118,8 +118,8 @@ jobs:
         php-version: ${{ matrix.php }}
         tools: composer:2.10.3, phpstan:2.3.5
         extensions: intl, mysql, gd, ldap, gmp, xml, json, mbstring, openssl, snmp
-        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York"
-        coverage: none
+        ini-values: "post_max_size=256M, max_execution_time=60, date.timezone=America/New_York, opcache.jit=disable, opcache.jit_buffer_size=0"
+        coverage: ${{ matrix.php == '8.4' && matrix.cacti == 'release/1.2.31' && 'pcov' || 'none' }}
 
     - name: Install system dependencies
       run: |
@@ -170,8 +170,34 @@ jobs:
       run: php cli/install_cacti.php --accept-eula --install --force
 
     - name: Run unit tests
+      if: ${{ !(matrix.php == '8.4' && matrix.cacti == 'release/1.2.31') }}
       working-directory: cacti/plugins/pfs
       run: '"$CACTI_PEST_BIN" --configuration=phpunit.xml'
+
+    - name: Run unit tests with pcov coverage gate
+      if: matrix.php == '8.4' && matrix.cacti == 'release/1.2.31'
+      working-directory: cacti/plugins/pfs
+      run: |
+        set -euo pipefail
+        mkdir -p coverage
+        php -d pcov.enabled=1 -d pcov.directory=. "$CACTI_PEST_BIN" --configuration=phpunit.xml --coverage --min=85 --coverage-clover=coverage/clover.xml
+        php <<'PHP'
+        <?php
+        $xml = simplexml_load_file('coverage/clover.xml');
+        if ($xml === false || !isset($xml->project->metrics)) {
+            fwrite(STDERR, "ERROR: coverage/clover.xml is missing or malformed\n");
+            exit(1);
+        }
+        $m = $xml->project->metrics;
+        $total = (int) $m['statements'];
+        $covered = (int) $m['coveredstatements'];
+        $pct = $total > 0 ? round(($covered / $total) * 100, 2) : 0.0;
+        printf("Measured line coverage: %.2f%% (%d/%d statements)\n", $pct, $covered, $total);
+        if ($pct < 85.0) {
+            fwrite(STDERR, "ERROR: Line coverage below 85.00% threshold\n");
+            exit(1);
+        }
+        PHP
 
     # Installs, upgrades, and uninstalls the plugin through Cacti's own
     # plugin API, so it runs before the plugin is installed for the poller.
@@ -227,7 +253,7 @@ jobs:
       env:
         PFS_TEST_DATABASE: disposable
       run: |
-        php -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
+        php -d opcache.enable=0 -d opcache.jit=disable -d opcache.jit_buffer_size=0 -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
         for _ in 1 2 3 4 5 6 7 8 9 10; do
           curl -fsS -o /dev/null http://127.0.0.1:8080/cacti/index.php && break
           sleep 1
@@ -364,7 +390,7 @@ jobs:
         PFS_TEST_DATABASE: disposable
         PFS_EXPECT_REFUSAL: '1'
       run: |
-        php -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
+        php -d opcache.enable=0 -d opcache.jit=disable -d opcache.jit_buffer_size=0 -S 127.0.0.1:8080 -t "$GITHUB_WORKSPACE" > "$RUNNER_TEMP/php-server.log" 2>&1 &
         for _ in 1 2 3 4 5 6 7 8 9 10; do
           curl -fsS -o /dev/null http://127.0.0.1:8080/cacti/index.php && break
           sleep 1

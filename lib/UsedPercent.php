@@ -57,6 +57,13 @@ final class UsedPercent {
 		return self::ratio((int) $total - (int) $free, (int) $free);
 	}
 
+	/**
+	 * Ratio.
+	 *
+	 * @param int $used
+	 * @param int $avail
+	 * @return float
+	 */
 	private static function ratio(int $used, int $avail): float {
 		$denominator = $used + $avail;
 
@@ -67,6 +74,12 @@ final class UsedPercent {
 		return (float) intdiv($used * 100 + $denominator - 1, $denominator);
 	}
 
+	/**
+	 * Count.
+	 *
+	 * @param float $value
+	 * @return bool
+	 */
 	private static function count(float $value): bool {
 		return $value >= 0 && $value < self::LIMIT && floor($value) === $value;
 	}

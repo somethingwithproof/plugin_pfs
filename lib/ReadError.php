@@ -24,18 +24,34 @@ namespace Somethingwithproof\Pfs;
  * classes, never the node's output or the transport's own messages.
  */
 enum ReadError: string {
+	/** ReadError config case. */
 	case Config      = 'config';
+	/** ReadError network case. */
 	case Network     = 'network';
+	/** ReadError resolve case. */
 	case Resolve     = 'resolve';
+	/** ReadError unreachable case. */
 	case Unreachable = 'unreachable';
+	/** ReadError host key case. */
 	case HostKey     = 'host_key';
+	/** ReadError auth case. */
 	case Auth        = 'auth';
+	/** ReadError timeout case. */
 	case Timeout     = 'timeout';
+	/** ReadError too large case. */
 	case TooLarge    = 'too_large';
+	/** ReadError exit status case. */
 	case ExitStatus  = 'exit_status';
+	/** ReadError unframed case. */
 	case Unframed    = 'unframed';
+	/** ReadError incomplete case. */
 	case Incomplete  = 'incomplete';
 
+	/**
+	 * Message.
+	 *
+	 * @return string
+	 */
 	public function message(): string {
 		return match ($this) {
 			self::Config      => __('The plugin settings for node access are incomplete or unusable', 'pfs'),

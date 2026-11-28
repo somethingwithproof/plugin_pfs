@@ -24,10 +24,24 @@ namespace Somethingwithproof\Pfs;
  * 0010), or 0 while it has none.
  */
 final readonly class Filesystem {
+	/** Default interval constant. */
 	public const DEFAULT_INTERVAL = 300;
+	/** Min interval constant. */
 	public const MIN_INTERVAL     = 60;
+	/** Max interval constant. */
 	public const MAX_INTERVAL     = 86400;
 
+	/**
+	 * Initialize Filesystem.
+	 *
+	 * @param int $id
+	 * @param string $name
+	 * @param string $backend
+	 * @param int $pollerId
+	 * @param int $interval
+	 * @param AdminState $adminState
+	 * @param int $hostId
+	 */
 	public function __construct(
 		public int $id,
 		public string $name,
@@ -64,6 +78,11 @@ final readonly class Filesystem {
 		);
 	}
 
+	/**
+	 * Return whether this entity is administratively enabled.
+	 *
+	 * @return bool
+	 */
 	public function enabled(): bool {
 		return $this->adminState === AdminState::Enabled;
 	}

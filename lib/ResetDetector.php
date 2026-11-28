@@ -43,6 +43,16 @@ namespace Somethingwithproof\Pfs;
  * has no earlier observation, is Absent.
  */
 final class ResetDetector {
+	/**
+	 * Continuity.
+	 *
+	 * @param ?Observation $previous
+	 * @param ?float $value
+	 * @param ?string $start
+	 * @param int $sourceNodeId
+	 * @param ValueKind $kind
+	 * @return Continuity
+	 */
 	public static function continuity(?Observation $previous, ?float $value, ?string $start, int $sourceNodeId, ValueKind $kind): Continuity {
 		if ($kind === ValueKind::Gauge || $previous === null || $value === null) {
 			return Continuity::Continuous;

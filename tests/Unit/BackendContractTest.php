@@ -19,6 +19,8 @@
 
 use Somethingwithproof\Pfs\Backend;
 use Somethingwithproof\Pfs\BackendRegistry;
+use Somethingwithproof\Pfs\BeegfsBackend;
+use Somethingwithproof\Pfs\GpfsBackend;
 use Somethingwithproof\Pfs\LustreBackend;
 use Somethingwithproof\Pfs\TargetId;
 use Somethingwithproof\Pfs\Tests\DemoBackend;
@@ -52,6 +54,8 @@ function pfs_hostile_inputs(): array {
 
 dataset('backends', [
 	'lustre' => [fn (): Backend => new LustreBackend()],
+	'gpfs'   => [fn (): Backend => new GpfsBackend()],
+	'beegfs' => [fn (): Backend => new BeegfsBackend()],
 	'demo'   => [fn (): Backend => new DemoBackend()],
 ]);
 

@@ -40,6 +40,14 @@ namespace Somethingwithproof\Pfs;
  *    violation is a failed read, never a partial one (REQ-SRC-003).
  */
 final class SshNodeSource implements NodeSource {
+	/**
+	 * Initialize SshNodeSource.
+	 *
+	 * @param ProcessRunner $runner
+	 * @param Settings $settings
+	 * @param Resolver $resolver
+	 * @param NetworkPolicy $policy
+	 */
 	public function __construct(
 		private readonly ProcessRunner $runner,
 		private readonly Settings $settings,
@@ -48,6 +56,14 @@ final class SshNodeSource implements NodeSource {
 	) {
 	}
 
+	/**
+	 * Read all.
+	 *
+	 * @param list<Node> $nodes
+	 * @param int $concurrency
+	 * @param float $deadline
+	 * @return array<int, NodeRead>
+	 */
 	public function readAll(array $nodes, int $concurrency, float $deadline): array {
 		$results  = [];
 		$commands = [];

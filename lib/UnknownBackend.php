@@ -19,5 +19,8 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Raised when a backend identifier is not registered in BackendRegistry.
+ */
 final class UnknownBackend extends \RuntimeException {
 }

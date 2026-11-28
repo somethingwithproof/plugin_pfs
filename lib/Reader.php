@@ -35,8 +35,25 @@ namespace Somethingwithproof\Pfs;
  * can send a node anything else.
  */
 final class Reader {
+	/** Due slack constant. */
 	public const DUE_SLACK = 30;
 
+	/**
+	 * Initialize Reader.
+	 *
+	 * @param FilesystemRepository $filesystems
+	 * @param NodeRepository $nodes
+	 * @param TargetRepository $targets
+	 * @param ObservationRepository $observations
+	 * @param NodeHealthRepository $health
+	 * @param ReaderRepository $runs
+	 * @param CacheRepository $cache
+	 * @param SummaryRepository $summaries
+	 * @param BackendRegistry $backends
+	 * @param NodeSources $sources
+	 * @param Clock $clock
+	 * @param string $holder
+	 */
 	public function __construct(
 		private readonly FilesystemRepository $filesystems,
 		private readonly NodeRepository $nodes,
@@ -68,7 +85,7 @@ final class Reader {
 	 * plus time to write, so a slow last read does not cost the run its
 	 * results.
 	 */
-	public function run(int $pollerId, int $budgetSeconds, int $concurrency, int $readTimeout): ReaderRun {
+	public function run(int $pollerId, int $budgetSeconds, int $concurrency, int $readTimeout, ?ShardAssigner $shard = null): ReaderRun {
 		$started = $this->clock->now();
 
 		if (!$this->runs->acquire($pollerId, $this->holder, $budgetSeconds + $readTimeout + 60)) {
@@ -78,20 +95,30 @@ final class Reader {
 		}
 
 		try {
-			return $this->runLeased($pollerId, $started, $budgetSeconds, $concurrency);
+			return $this->runLeased($pollerId, $started, $budgetSeconds, $concurrency, $shard);
 		} finally {
 			$this->runs->release($pollerId, $this->holder);
 		}
 	}
 
-	private function runLeased(int $pollerId, int $started, int $budgetSeconds, int $concurrency): ReaderRun {
+	/**
+	 * Run leased.
+	 *
+	 * @param int $pollerId
+	 * @param int $started
+	 * @param int $budgetSeconds
+	 * @param int $concurrency
+	 * @param ?ShardAssigner $shard
+	 * @return ReaderRun
+	 */
+	private function runLeased(int $pollerId, int $started, int $budgetSeconds, int $concurrency, ?ShardAssigner $shard = null): ReaderRun {
 		$deadline = microtime(true) + $budgetSeconds;
 		$health   = $this->health->all();
 		$fsById   = [];
 		$due      = [];
 
 		foreach ($this->filesystems->all() as $filesystem) {
-			if ($filesystem->enabled() && $this->backends->has($filesystem->backend)) {
+			if ($filesystem->enabled() && $filesystem->pollerId === $pollerId && $this->backends->has($filesystem->backend)) {
 				$fsById[$filesystem->id] = $filesystem;
 			}
 		}
@@ -100,6 +127,10 @@ final class Reader {
 			$filesystem = $fsById[$node->filesystemId] ?? null;
 
 			if ($filesystem === null || !$node->enabled()) {
+				continue;
+			}
+
+			if ($shard !== null && !$shard->ownsNode($node)) {
 				continue;
 			}
 
@@ -112,7 +143,12 @@ final class Reader {
 			$due[] = $node;
 		}
 
-		usort($due, static fn (Node $a, Node $b): int => [$health[$a->id]->lastAttempt ?? 0, $a->id] <=> [$health[$b->id]->lastAttempt ?? 0, $b->id]);
+		usort($due, static function (Node $a, Node $b) use ($health): int {
+			$aLast = $health[$a->id]->lastAttempt ?? 0;
+			$bLast = $health[$b->id]->lastAttempt ?? 0;
+
+			return $aLast !== $bLast ? ($aLast <=> $bLast) : ($a->id <=> $b->id);
+		});
 
 		$reads = $this->readNodes($due, $concurrency, $deadline);
 		$now   = $this->clock->now();
@@ -313,9 +349,12 @@ final class Reader {
 			return [];
 		}
 
-		$targetId = $update->existing->id ?? 0;
-		$before   = $previous[$targetId] ?? [];
-		$out      = [];
+		$targetId  = $update->existing->id ?? 0;
+		$before    = $previous[$targetId] ?? [];
+		$absentMap = ($update->report !== null && $update->report->absent !== [])
+			? array_fill_keys($update->report->absent, true)
+			: [];
+		$out = [];
 
 		foreach ($specs as $name => $spec) {
 			$prior = $before[$name] ?? null;
@@ -328,7 +367,7 @@ final class Reader {
 
 			$value      = $update->report->values[$name] ?? null;
 			$start      = $update->report->startMarker;
-			$continuity = $value === null && $spec->kind === ValueKind::Counter && in_array($name, $update->report->absent, true)
+			$continuity = $value === null && $spec->kind === ValueKind::Counter && isset($absentMap[$name])
 				? ResetDetector::absent($prior, $start, $update->sourceNodeId)
 				: ResetDetector::continuity($prior, $value, $start, $update->sourceNodeId, $spec->kind);
 			$epoch      = ($prior->epoch ?? 0) + ($continuity === Continuity::Reset ? 1 : 0);

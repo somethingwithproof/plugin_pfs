@@ -1,14 +1,14 @@
-<!-- Source: README.md; SHA256: 40f2c5a5e9be97e4bd2b05a9ebab2a77de51de3af1b1c21dbeb5ee7f936cdd3b -->
+<!-- Source: README.md; SHA256: e88d6875d113220a91cfc0a9d230c829a78477b17e6aa7e44dda38c9591c86ad -->
 
 <!-- translations:start -->
-[English](../../../README.md) | [简体中文](../zh-CN/README.md) | [हिन्दी](../hi-IN/README.md) | [Español (España)](../es-ES/README.md) | [Español (Latinoamérica)](../es-419/README.md) | [العربية (السعودية)](../ar-SA/README.md) | [Afrikaans](../af-ZA/README.md) | [አማርኛ](../am-ET/README.md) | [العربية (مصر)](../ar-EG/README.md) | [العربية (المغرب)](../ar-MA/README.md) | [বাংলা](../bn-BD/README.md) | [Bosanski](../bs-BA/README.md) | [Deutsch](../de-DE/README.md) | [فارسی](../fa-IR/README.md) | [Filipino](../fil-PH/README.md) | [Français](../fr-FR/README.md) | [Français (Maroc)](../fr-MA/README.md) | [Français (Sénégal)](../fr-SN/README.md) | [Hausa](../ha-NG/README.md) | [עברית](../he-IL/README.md) | [Hrvatski](../hr-HR/README.md) | [Bahasa Indonesia](../id-ID/README.md) | [Igbo](../ig-NG/README.md) | [Italiano](../it-IT/README.md) | [日本語](../ja-JP/README.md) | [한국어](../ko-KR/README.md) | [Malagasy](../mg-MG/README.md) | [मराठी](../mr-IN/README.md) | [Bahasa Melayu](../ms-MY/README.md) | [Nederlands](../nl-NL/README.md) | [Polski](../pl-PL/README.md) | [Português (Brasil)](../pt-BR/README.md) | [Русский](../ru-RU/README.md) | [Kinyarwanda](../rw-RW/README.md) | [Soomaali](../so-SO/README.md) | [Српски](../sr-RS/README.md) | [Svenska](../sv-SE/README.md) | [Kiswahili](../sw-KE/README.md) | [தமிழ்](../ta-IN/README.md) | [తెలుగు](../te-IN/README.md) | [ไทย](README.md) | [Türkçe](../tr-TR/README.md) | [Українська](../uk-UA/README.md) | [اردو](../ur-PK/README.md) | [Tiếng Việt](../vi-VN/README.md) | [isiXhosa](../xh-ZA/README.md) | [Yorùbá](../yo-NG/README.md) | [繁體中文](../zh-TW/README.md) | [isiZulu](../zu-ZA/README.md)
+[English](../../../README.md) | [简体中文](../zh-CN/README.md) | [हिन्दी](../hi-IN/README.md) | [Español (España)](../es-ES/README.md) | [Español (Latinoamérica)](../es-419/README.md) | [العربية (السعودية)](../ar-SA/README.md) | [Afrikaans](../af-ZA/README.md) | [አማርኛ](../am-ET/README.md) | [العربية (مصر)](../ar-EG/README.md) | [العربية (المغرب)](../ar-MA/README.md) | [Български](../bg-BG/README.md) | [বাংলা](../bn-BD/README.md) | [Bosanski](../bs-BA/README.md) | [Deutsch](../de-DE/README.md) | [Ελληνικά](../el-GR/README.md) | [فارسی](../fa-IR/README.md) | [Filipino](../fil-PH/README.md) | [Français](../fr-FR/README.md) | [Français (Maroc)](../fr-MA/README.md) | [Français (Sénégal)](../fr-SN/README.md) | [Hausa](../ha-NG/README.md) | [עברית](../he-IL/README.md) | [Hrvatski](../hr-HR/README.md) | [Bahasa Indonesia](../id-ID/README.md) | [Igbo](../ig-NG/README.md) | [Italiano](../it-IT/README.md) | [日本語](../ja-JP/README.md) | [ქართული](../ka-GE/README.md) | [한국어](../ko-KR/README.md) | [Latviešu](../lv-LV/README.md) | [Malagasy](../mg-MG/README.md) | [मराठी](../mr-IN/README.md) | [Bahasa Melayu](../ms-MY/README.md) | [Nederlands](../nl-NL/README.md) | [Polski](../pl-PL/README.md) | [Português (Brasil)](../pt-BR/README.md) | [Português (Portugal)](../pt-PT/README.md) | [Русский](../ru-RU/README.md) | [Kinyarwanda](../rw-RW/README.md) | [Soomaali](../so-SO/README.md) | [Српски](../sr-RS/README.md) | [Svenska](../sv-SE/README.md) | [Kiswahili](../sw-KE/README.md) | [தமிழ்](../ta-IN/README.md) | [తెలుగు](../te-IN/README.md) | [ไทย](README.md) | [Türkçe](../tr-TR/README.md) | [Українська](../uk-UA/README.md) | [اردو](../ur-PK/README.md) | [Tiếng Việt](../vi-VN/README.md) | [isiXhosa](../xh-ZA/README.md) | [Yorùbá](../yo-NG/README.md) | [繁體中文](../zh-TW/README.md) | [isiZulu](../zu-ZA/README.md)
 <!-- translations:end -->
 
 # plugin_pfs
 
-ปลั๊กอินสำหรับ Cacti 1.2 ที่นำข้อมูลสุขภาพและภาระงานของระบบไฟล์แบบขนานเข้ามาใน Cacti ได้แก่ ความจุและความไม่สมดุลของการใช้งานพื้นที่ข้ามเป้าหมาย ปริมาณงานต่อเป้าหมาย และอัตราการดำเนินการกับเมทาดาทา โดย Lustre เป็นแบ็กเอนด์แรก ส่วน GPFS (IBM Storage Scale) และ BeeGFS จะตามมาภายหลังผ่านอินเทอร์เฟซของแบ็กเอนด์ ข้อมูลจะถูกจัดเก็บลงในอุปกรณ์ แหล่งข้อมูล และกราฟปกติของ Cacti เพื่อให้ Thold และ Maint แจ้งเตือนและระงับการแจ้งเตือนได้โดยไม่ต้องแก้ไข
+ปลั๊กอินสำหรับ Cacti 1.2 ที่นำข้อมูลสุขภาพ ความจุ ความไม่สมดุลของการเติมข้อมูล ปริมาณงานต่อเป้าหมาย และอัตราการดำเนินการเมทาดาทาของระบบไฟล์แบบขนานเข้ามาใน Cacti ครอบคลุม Lustre, IBM Storage Scale (GPFS) และ BeeGFS ภายใต้อินเทอร์เฟซ `Backend` เดียวกัน ระบบไฟล์แต่ละระบบจะจับคู่กับอุปกรณ์ Cacti ปกติที่มีคิวรีข้อมูล กราฟภาพรวม กราฟรายเป้าหมายตามต้องการ และเกจสรุป เพื่อให้ Thold และ Maint แจ้งเตือนและระงับการแจ้งเตือนได้โดยไม่ต้องแก้ไข
 
-> **สถานะ: ไมล์สโตนที่ 4 เขียนโค้ดครบถ้วนสำหรับระยะที่ 1 แล้ว ยังไม่ได้เผยแพร่** ไมล์สโตนที่ 2 (โครงสร้างพื้นฐาน), 3 (การสังเกตการณ์ Lustre) และ 4 (การแจ้งเตือนและการเตรียมเผยแพร่) เสร็จสมบูรณ์บน `main` หรืออยู่ระหว่างการตรวจสอบแล้ว ปลั๊กอินนี้ติดตั้ง อัปเกรด และถอนการติดตั้งผ่าน API ปลั๊กอินของ Cacti และปฏิเสธ PHP เวอร์ชันต่ำกว่า 8.2 ตัวอ่านเบื้องหลังบนตัวโพลล์แต่ละตัวจะอ่านข้อมูลจากเซิร์ฟเวอร์ Lustre ผ่าน SSH ด้วยสคริปต์คำสั่งบังคับแบบคงที่ ([node/pfs-read.sh](../../../node/pfs-read.sh)) และแคชรายการทรัพยากร สถานะ ความจุ และตัวนับพร้อมความสดใหม่ของข้อมูล ระบบไฟล์แต่ละระบบจะกลายเป็นอุปกรณ์ของ Cacti ที่มีคิวรีข้อมูล OST และ MDT กราฟภาพรวม 5 กราฟ กราฟรายเป้าหมายตามต้องการ และแหล่งข้อมูลสรุปสำหรับ Thold โดย Thold v1.8.2 และ Maint v1.3 ที่ไม่ได้ดัดแปลงสามารถแจ้งเตือนและระงับการแจ้งเตือนบนเกจสรุปในการทดสอบแบบครบวงจรได้ ส่วนเกณฑ์เตือนของ Thold บนตัวนับยังไม่รองรับใน Thold 1.8.2 ([docs/alerting.md](../../alerting.md)) การทดสอบทั้งหมดจนถึงขณะนี้ทำงานบนผลลัพธ์จำลองของโหนดใน Cacti แบบใช้แล้วทิ้ง โดยปลั๊กอินยังไม่เคยรันกับโหนด Lustre จริง สิ่งที่ยังเปิดค้างอยู่ก่อนการเผยแพร่ ได้แก่ การนำร่องบนระบบไฟล์จริง ([แผนการนำร่อง](../../pilot-plan.md)), การตรวจสอบความปลอดภัยจากภายนอก ([การตรวจสอบด้วยตนเอง](../../security-review.md)) และการวัดขนาดการทำงานบนฮาร์ดแวร์ที่มีเอกสารอ้างอิง ([ขนาดการทำงาน](../../research/scale.md)) เวอร์ชัน 0.1.0 ถูกเตรียมไว้ใน `INFO` และ [CHANGELOG.md](../../../CHANGELOG.md) แล้ว แต่ยังไม่ได้ติดแท็ก
+> **สถานะ: ระยะที่ 1 ถึง 3 และองค์ประกอบพื้นฐานสำหรับการขยายระดับ exascale ถูกพัฒนาในโค้ดแล้ว ยังไม่ได้เผยแพร่** โครงสร้างพื้นฐาน, การสังเกตการณ์ Lustre, การแจ้งเตือนและการระงับของ Maint, ไดรเวอร์แบบอ่านอย่างเดียวของ GPFS และ BeeGFS, การวิเคราะห์ความไม่สมดุลของ OST/MDT ที่เชื่อมต่อกับ Maint, การกำหนดขอบเขตตัวเก็บข้อมูลระยะไกล (`replicate_out`, `remote_agent`), องค์ประกอบพื้นฐานสำหรับการขยาย 100+ PB / exascale (`FramedReportParser`, Schema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CLI ของ CasC สำหรับผู้ดูแลระบบ (`cli/pfs.php`) และฮุกระบบนิเวศ (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) ได้รับการพัฒนาและทวนสอบด้วยการทดสอบระดับยูนิต ความปลอดภัย และการบูรณาการใน Cacti แบบใช้แล้วทิ้งแล้ว การทดสอบทั้งหมดจนถึงขณะนี้ใช้ผลลัพธ์จำลองของโหนดแทนฮาร์ดแวร์ Lustre, GPFS หรือ BeeGFS จริง สิ่งที่ยังเปิดค้างอยู่ก่อนติดแท็กรุ่นเผยแพร่: การนำร่องบนระบบไฟล์จริง ([แผนการนำร่อง](../../pilot-plan.md)), การตรวจสอบความปลอดภัยจากภายนอก ([การตรวจสอบด้วยตนเอง](../../security-review.md)) และการวัดขนาดการทำงานบนฮาร์ดแวร์ที่มีเอกสารอ้างอิง ([ขนาดการทำงาน](../../research/scale.md)) เวอร์ชัน 0.1.0 ถูกเตรียมไว้ใน `INFO` และ [CHANGELOG.md](../../../CHANGELOG.md) แล้ว แต่ยังไม่ได้ติดแท็ก
 
 ## บทบาทการเข้าถึง
 
@@ -44,27 +44,35 @@ Cacti สร้างกราฟโฮสต์และตั้งค่า�
 
 ## ขอบเขตที่วางแผนไว้
 
-| ระยะ | ขอบเขต | ไมล์สโตน |
-|---|---|---|
-| 0, การวิจัย | เมทริกซ์การเผยแพร่, การตัดสินใจการเข้าถึงโหนด, การยืนยันพฤติกรรมต้นน้ำ, พฤติกรรมของตัวนับและการสลับการทำงานเมื่อล้มเหลว, การวัดขนาดการทำงาน | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, การสังเกตการณ์ | รายการทรัพยากร Lustre, ความจุและการเติมข้อมูล, ปริมาณงาน OST, อัตราการดำเนินการ MDT, กราฟ, การแจ้งเตือน Thold, การระงับ Maint, หน้าสุขภาพระบบ | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, เชิงลึก | ตัวเก็บข้อมูลระยะไกลของ Cacti, มุมมองระดับงานและระดับไคลเอนต์ภายในจำนวนออบเจกต์ที่จำกัด | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, แบ็กเอนด์ | แบ็กเอนด์ GPFS (IBM Storage Scale) และ BeeGFS | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| ระยะ | ขอบเขต | สถานะ | ไมล์สโตน |
+|---|---|---|---|
+| 0, การวิจัย | เมทริกซ์การเผยแพร่, การตัดสินใจการเข้าถึงโหนด, การยืนยันพฤติกรรมต้นน้ำ, พฤติกรรมของตัวนับและการสลับการทำงานเมื่อล้มเหลว, การวัดขนาดการทำงาน | เสร็จสมบูรณ์ | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, การสังเกตการณ์ | รายการทรัพยากร Lustre, ความจุและการเติมข้อมูล, ความไม่สมดุลของ OST/MDT (`lib/ImbalanceAnalyzer.php`), การเชื่อมต่อ Maint (`lib/HealthPage.php`), ปริมาณงาน OST, อัตราการดำเนินการ MDT, กราฟ, การแจ้งเตือน Thold, หน้าสุขภาพระบบ | พัฒนาแล้ว (ทดสอบด้วยข้อมูลจำลอง) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, ระยะไกลและขนาดใหญ่ | การเก็บรวบรวมระยะไกลตามขอบเขตตัวโพลล์ (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), องค์ประกอบพื้นฐานสำหรับการขยาย 100+ PB (การจัดการ KiB 64 บิต + Schema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI (`cli/pfs.php`), ฮุก MCP/Doctor/CasC | พัฒนาแล้ว (ทดสอบระดับยูนิตและการบูรณาการ CI) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, แบ็กเอนด์ | ไดรเวอร์แบบอ่านอย่างเดียวของ IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) และ BeeGFS (`lib/BeegfsBackend.php`) ที่ลงทะเบียนใน `BackendRegistry::production()` | พัฒนาแล้ว (ทดสอบระดับยูนิต) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-นอกขอบเขต: การเขียน ล้าง รีเซ็ต หรือปรับแต่งใดๆ บนโหนดหรือระบบไฟล์; กลไกการแจ้งเตือนที่ปลั๊กอินสร้างขึ้นเอง; ดีมอนหรือโปรโตคอลเครือข่ายเฉพาะ; แหล่งข้อมูลรายงาน; และการแก้ไขแกนหลักของ Cacti, Thold หรือ Maint
+องค์ประกอบพื้นฐานที่สำคัญด้านปฏิบัติการและการขยายขนาดซึ่งพัฒนาแล้ว:
+
+- **ไดรเวอร์แบบอ่านอย่างเดียวสำหรับระบบไฟล์หลายชนิด:** `LustreBackend`, `GpfsBackend` (เฉพาะ `mmpmon` `fs_io_s`/`io_s` แบบจัดเฟรมโดยห้าม `reset`, ความจุและสถานะพูลจาก `mmdf` และสรุปรายการรอ) และ `BeegfsBackend` (เป้าหมายจัดเก็บข้อมูลและเมทาดาทาของ BeeGFS 7.4 และ 8.x พร้อมการแปลงไบต์เป็น KiB ที่แม่นยำ การจับคู่เงื่อนไขการเข้าถึงและความสอดคล้อง และความหมายแบบเกจต่อช่วงเวลา) โดยใช้ `lib/FramedReportParser.php` ร่วมกัน
+- **การวิเคราะห์ความไม่สมดุล พื้นที่เหลือ และ Maint:** `lib/ImbalanceAnalyzer.php` คำนวณอัตราส่วนการเติมข้อมูลของ OST/MDT, ช่วงต่าง, ดัชนีความไม่สมดุลจากส่วนเบี่ยงเบนมาตรฐานประชากร, พื้นที่เหลือ, การบังคับความสดใหม่ 1 ช่วงเวลา (`missing_targets`), ธงสถานะรายเป้าหมาย และเป้าหมายเอียงสูงสุดแบบจำกัดจำนวน Top-K ส่วน `HealthPage` (`pfs_health.php`) และ `CascProvider::health()` จะแสดงช่วงเวลาบำรุงรักษาของ Cacti `Maint` และระงับคำเตือนความล้มเหลวที่ยังทำงานอยู่ระหว่างการบำรุงรักษาตามกำหนด
+- **การขยายขนาด 100+ PB และ exascale** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): การแปลงเลขฐานสิบจากไบต์เป็น KiB ที่แม่นยำ (`FramedReportParser::bytesToKibInt()`) ซึ่งทวนสอบแล้วที่ 500 PB และ 2 EB ควบคู่กับคอลัมน์ `BIGINT UNSIGNED value_kib` (Schema v4); การรวมข้อมูล RRD แบบลำดับชั้น `Filesystem -> Pool -> Storage Server` พร้อมการเลื่อนระดับเป้าหมายแบบเลือกเข้าร่วม ร้อนแรง หรือเอียงอย่างจำกัดจำนวน (`lib/RollupPolicy.php`); เป้าหมายเอียง Top-K ที่จำกัด $O(K)$ และสรุปงาน/ไคลเอนต์หนักที่รวมข้อมูลล่วงหน้า (`lib/TopKTracker.php` โดยไม่สร้างอุปกรณ์หรือ RRD รายไคลเอนต์); การแบ่งส่วนตัวเก็บข้อมูลด้วย CRC32 แบบกำหนดผลแน่นอน (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); และการอัปเซิร์ต SQL แบบแบ่งชุด 500 แถวพร้อมการแบ่งหน้าด้วย keyset (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`)
+- **CLI ของ CasC สำหรับผู้ดูแลระบบและฮุกระบบนิเวศ:** `cli/pfs.php` รองรับ `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]` และ `health [--format=text|json]` โดยไม่มีการพึ่งพา Composer ภายนอก `setup.php` และ `lib/EcosystemIntegration.php` ลงทะเบียน `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; แบบอ่านอย่างเดียว ควบคุมด้วย `Parallel Filesystem View` และสิทธิ์อุปกรณ์ Cacti), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out` และ `remote_agent`
+
+นอกขอบเขต: การเขียน ล้าง รีเซ็ต หรือปรับแต่งใดๆ บนโหนดหรือระบบไฟล์; กลไกการแจ้งเตือนที่ปลั๊กอินสร้างขึ้นเอง; ดีมอนหรือโปรโตคอลเครือข่ายเฉพาะ; อุปกรณ์หรือ RRD ของ Cacti ต่อหนึ่งงานหรือต่อหนึ่งไคลเอนต์; และการแก้ไขแกนหลักของ Cacti, Thold หรือ Maint
 
 ## เป้าหมายความเข้ากันได้
 
 | องค์ประกอบ | เป้าหมาย |
 |---|---|
 | Cacti | 1.2.31 หรือใหม่กว่า โดยไม่ต้องแพตช์แกนหลัก |
-| PHP | 8.2 หรือใหม่กว่า; `setup.php` ยังคงแยกวิเคราะห์ได้บน 8.0 เพื่อให้รันไทม์ที่ไม่รองรับได้รับการปฏิเสธแทนที่จะทำให้ UI ของ Cacti เสียหาย |
-| Lustre | สายรุ่นที่จะกำหนดให้ชัดเจนในไมล์สโตนที่ 1; ซอร์สโค้ดและคู่มือที่ตรวจสอบจนถึงขณะนี้อยู่ที่ 2.17.0 |
-| GPFS, BeeGFS | ระยะที่ 3; รุ่นจะถูกกำหนดจากการวิจัย |
-| Thold, Maint | ไม่ต้องแก้ไขเพิ่มเติม |
+| PHP | 8.2 หรือใหม่กว่า; `setup.php`, `poller_pfs.php` และ `cli/pfs.php` ยังคงแยกวิเคราะห์ได้บน 8.0 เพื่อให้รันไทม์ที่ไม่รองรับได้รับการปฏิเสธแทนที่จะทำให้ UI ของ Cacti เสียหาย |
+| Lustre | ตรวจสอบซอร์สโค้ดและคู่มือที่เวอร์ชัน 2.17.0; ทดสอบด้วยข้อมูลจำลอง |
+| GPFS, BeeGFS | พัฒนาไดรเวอร์แบบอ่านอย่างเดียวของ IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` และ BeeGFS 7.4 / 8.x แล้ว และทดสอบด้วยข้อมูลจำลอง |
+| Thold, Maint | Thold 1.8.2 และ Maint 1.3 โดยไม่ต้องแก้ไข |
 
 ## การออกแบบ
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) อธิบายสถาปัตยกรรมเทเลเมทรีสองระดับสำหรับ 100+ PB / exascale (ระดับเซิร์ฟเวอร์ Cacti/`plugin_pfs` + การรวมข้อมูล + Top-K จับคู่กับเทเลเมทรีไคลเอนต์นอกแบนด์อย่าง LDMS/Darshan/TOKIO) และบริบททางวรรณกรรมวิชาการ
 - [docs/PLAN.md](../../PLAN.md) คือแผนฉบับเต็ม: สถาปัตยกรรม ข้อเท็จจริงต้นน้ำที่ต้องพึ่งพา (พร้อมแหล่งที่มาและสิ่งที่ยังไม่ผ่านการยืนยัน) ความหมายของตัวนับ โมเดลสถานะ ขอบเขตความปลอดภัย การคำนวณประสิทธิภาพ การทดสอบ และความเสี่ยง
 - [docs/operator-guide.md](../../operator-guide.md) ครอบคลุมการติดตั้ง กราฟและค่าต่างๆ การอัปเกรด การสำรองและกู้คืน การถอนการติดตั้ง และการแก้ไขปัญหา; [docs/alerting.md](../../alerting.md) ครอบคลุม Thold และ Maint
 - [docs/node-setup.md](../../node-setup.md) อธิบายวิธีเตรียมเซิร์ฟเวอร์ Lustre และตัวโพลล์สำหรับตัวอ่านข้อมูล
@@ -73,12 +81,13 @@ Cacti สร้างกราฟโฮสต์และตั้งค่า�
 
 ```mermaid
 flowchart LR
-    N["เซิร์ฟเวอร์ Lustre: OSS, MDS"] -->|"คำขอแบบอ่านอย่างเดียวที่กำหนดตายตัว"| S["แหล่งโหนดบนตัวโพลล์ Cacti"]
-    S --> R["ตัวอ่านข้อมูล"]
-    R --> C[("แคชข้อมูลสังเกตการณ์")]
-    C --> SS["อินพุตสคริปต์เซิร์ฟเวอร์"]
+    N["เซิร์ฟเวอร์จัดเก็บข้อมูล: Lustre OSS/MDS, GPFS NSD, BeeGFS"] -->|"คำขอแบบอ่านอย่างเดียวที่กำหนดตายตัว"| S["ตัวอ่านตามขอบเขตตัวโพลล์และแบ่งส่วน"]
+    S --> B["BatchUpserter + แคช KiB 64 บิต"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["อินพุตสคริปต์เซิร์ฟเวอร์"]
+    R --> ECO["CasC CLI, ความสามารถ MCP, การตรวจสอบ Doctor"]
     SS -->|poller_output| T["Thold และ Maint"]
-    SS --> RRD[("Cacti RRDs")]
+    SS --> RRD[("Cacti RRDs: FS/Pool/เซิร์ฟเวอร์ + เป้าหมายที่เลือกเข้าร่วม")]
     RRD --> G["กราฟและสิทธิ์ของ Cacti"]
 ```
 

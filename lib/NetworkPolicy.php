@@ -51,6 +51,13 @@ final readonly class NetworkPolicy {
 		return true;
 	}
 
+	/**
+	 * Allows.
+	 *
+	 * @param int $pollerId
+	 * @param string $address
+	 * @return bool
+	 */
 	public function allows(int $pollerId, string $address): bool {
 		foreach ($this->allowed[$pollerId] ?? [] as $cidr) {
 			if (self::contains($cidr, $address)) {
@@ -69,6 +76,13 @@ final readonly class NetworkPolicy {
 		return self::split($cidr) !== null;
 	}
 
+	/**
+	 * Contains.
+	 *
+	 * @param string $cidr
+	 * @param string $address
+	 * @return bool
+	 */
 	public static function contains(string $cidr, string $address): bool {
 		$block = self::split($cidr);
 		$addr  = filter_var($address, FILTER_VALIDATE_IP) === false ? false : inet_pton($address);

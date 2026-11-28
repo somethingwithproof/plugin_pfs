@@ -25,6 +25,20 @@ namespace Somethingwithproof\Pfs;
  * else the node printed is kept.
  */
 final readonly class NodeHealth {
+	/**
+	 * Initialize NodeHealth.
+	 *
+	 * @param int $nodeId
+	 * @param int $lastAttempt
+	 * @param int $lastSuccess
+	 * @param float $duration
+	 * @param int $bytes
+	 * @param Collection $outcome
+	 * @param ?ReadError $error
+	 * @param ?string $version
+	 * @param int $unexpectedSections
+	 * @param int $rejectedNames
+	 */
 	public function __construct(
 		public int $nodeId,
 		public int $lastAttempt = 0,

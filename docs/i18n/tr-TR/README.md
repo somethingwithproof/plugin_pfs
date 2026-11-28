@@ -1,14 +1,14 @@
-<!-- Source: README.md; SHA256: 40f2c5a5e9be97e4bd2b05a9ebab2a77de51de3af1b1c21dbeb5ee7f936cdd3b -->
+<!-- Source: README.md; SHA256: e88d6875d113220a91cfc0a9d230c829a78477b17e6aa7e44dda38c9591c86ad -->
 
 <!-- translations:start -->
-[English](../../../README.md) | [简体中文](../zh-CN/README.md) | [हिन्दी](../hi-IN/README.md) | [Español (España)](../es-ES/README.md) | [Español (Latinoamérica)](../es-419/README.md) | [العربية (السعودية)](../ar-SA/README.md) | [Afrikaans](../af-ZA/README.md) | [አማርኛ](../am-ET/README.md) | [العربية (مصر)](../ar-EG/README.md) | [العربية (المغرب)](../ar-MA/README.md) | [বাংলা](../bn-BD/README.md) | [Bosanski](../bs-BA/README.md) | [Deutsch](../de-DE/README.md) | [فارسی](../fa-IR/README.md) | [Filipino](../fil-PH/README.md) | [Français](../fr-FR/README.md) | [Français (Maroc)](../fr-MA/README.md) | [Français (Sénégal)](../fr-SN/README.md) | [Hausa](../ha-NG/README.md) | [עברית](../he-IL/README.md) | [Hrvatski](../hr-HR/README.md) | [Bahasa Indonesia](../id-ID/README.md) | [Igbo](../ig-NG/README.md) | [Italiano](../it-IT/README.md) | [日本語](../ja-JP/README.md) | [한국어](../ko-KR/README.md) | [Malagasy](../mg-MG/README.md) | [मराठी](../mr-IN/README.md) | [Bahasa Melayu](../ms-MY/README.md) | [Nederlands](../nl-NL/README.md) | [Polski](../pl-PL/README.md) | [Português (Brasil)](../pt-BR/README.md) | [Русский](../ru-RU/README.md) | [Kinyarwanda](../rw-RW/README.md) | [Soomaali](../so-SO/README.md) | [Српски](../sr-RS/README.md) | [Svenska](../sv-SE/README.md) | [Kiswahili](../sw-KE/README.md) | [தமிழ்](../ta-IN/README.md) | [తెలుగు](../te-IN/README.md) | [ไทย](../th-TH/README.md) | [Türkçe](README.md) | [Українська](../uk-UA/README.md) | [اردو](../ur-PK/README.md) | [Tiếng Việt](../vi-VN/README.md) | [isiXhosa](../xh-ZA/README.md) | [Yorùbá](../yo-NG/README.md) | [繁體中文](../zh-TW/README.md) | [isiZulu](../zu-ZA/README.md)
+[English](../../../README.md) | [简体中文](../zh-CN/README.md) | [हिन्दी](../hi-IN/README.md) | [Español (España)](../es-ES/README.md) | [Español (Latinoamérica)](../es-419/README.md) | [العربية (السعودية)](../ar-SA/README.md) | [Afrikaans](../af-ZA/README.md) | [አማርኛ](../am-ET/README.md) | [العربية (مصر)](../ar-EG/README.md) | [العربية (المغرب)](../ar-MA/README.md) | [Български](../bg-BG/README.md) | [বাংলা](../bn-BD/README.md) | [Bosanski](../bs-BA/README.md) | [Deutsch](../de-DE/README.md) | [Ελληνικά](../el-GR/README.md) | [فارسی](../fa-IR/README.md) | [Filipino](../fil-PH/README.md) | [Français](../fr-FR/README.md) | [Français (Maroc)](../fr-MA/README.md) | [Français (Sénégal)](../fr-SN/README.md) | [Hausa](../ha-NG/README.md) | [עברית](../he-IL/README.md) | [Hrvatski](../hr-HR/README.md) | [Bahasa Indonesia](../id-ID/README.md) | [Igbo](../ig-NG/README.md) | [Italiano](../it-IT/README.md) | [日本語](../ja-JP/README.md) | [ქართული](../ka-GE/README.md) | [한국어](../ko-KR/README.md) | [Latviešu](../lv-LV/README.md) | [Malagasy](../mg-MG/README.md) | [मराठी](../mr-IN/README.md) | [Bahasa Melayu](../ms-MY/README.md) | [Nederlands](../nl-NL/README.md) | [Polski](../pl-PL/README.md) | [Português (Brasil)](../pt-BR/README.md) | [Português (Portugal)](../pt-PT/README.md) | [Русский](../ru-RU/README.md) | [Kinyarwanda](../rw-RW/README.md) | [Soomaali](../so-SO/README.md) | [Српски](../sr-RS/README.md) | [Svenska](../sv-SE/README.md) | [Kiswahili](../sw-KE/README.md) | [தமிழ்](../ta-IN/README.md) | [తెలుగు](../te-IN/README.md) | [ไทย](../th-TH/README.md) | [Türkçe](README.md) | [Українська](../uk-UA/README.md) | [اردو](../ur-PK/README.md) | [Tiếng Việt](../vi-VN/README.md) | [isiXhosa](../xh-ZA/README.md) | [Yorùbá](../yo-NG/README.md) | [繁體中文](../zh-TW/README.md) | [isiZulu](../zu-ZA/README.md)
 <!-- translations:end -->
 
 # plugin_pfs
 
-Paralel dosya sistemlerinin sağlık durumunu ve yükünü Cacti'ye aktaran bir Cacti 1.2 eklentisi: hedefler genelindeki kapasite ve doluluk dengesizliği, hedef başına aktarım hızı ve üstveri işlem oranları. İlk arka uç Lustre'dır. GPFS (IBM Storage Scale) ve BeeGFS bir arka uç arayüzünün arkasından gelir. Veriler standart Cacti aygıtlarına, veri kaynaklarına ve grafiklerine aktarılır; böylece Thold ve Maint herhangi bir değişiklik gerektirmeden bu veriler üzerinde uyarı üretir ve uyarıları bastırır.
+Tek bir `Backend` arayüzünün arkasında Lustre, IBM Storage Scale (GPFS) ve BeeGFS genelindeki paralel dosya sistemi sağlık durumunu, kapasiteyi, doluluk dengesizliğini, hedef başına aktarım hızını ve üstveri işlem oranlarını Cacti'ye aktaran bir Cacti 1.2 eklentisi. Her dosya sistemi veri sorguları, genel bakış ve isteğe bağlı hedef grafikleri ile özet göstergeler içeren standart bir Cacti aygıtına eşlenir; böylece Thold ve Maint herhangi bir değişiklik gerektirmeden uyarı verir ve uyarıları bastırır.
 
-> **Durum: kilometre taşı 4, faz 1 için kod tamamlandı, henüz yayımlanmadı.** Kilometre taşı 2 (temel yapı), 3 (Lustre gözlemi) ve 4 (uyarılar ve sürüm hazırlığı) `main` dalında tamamlanmıştır veya inceleme aşamasındadır. Eklenti, Cacti'nin eklenti API'si üzerinden kurulur, yükseltilir ve kaldırılır; 8.2'nin altındaki PHP sürümlerini reddeder. Her poller üzerindeki bir arka plan okuyucusu, Lustre sunucularını SSH üzerinden sabit bir zorunlu komut betiği ([node/pfs-read.sh](../../../node/pfs-read.sh)) aracılığıyla okur ve envanteri, durumu, kapasiteyi ve sayaçları güncellik bilgileriyle birlikte önbelleğe alır. Her dosya sistemi; OST ve MDT veri sorguları, beş genel bakış grafiği, isteğe bağlı hedef başına grafikler ve Thold için bir özet veri kaynağı ile bir Cacti aygıtı hâline gelir. Değiştirilmemiş Thold v1.8.2 ve Maint v1.3, uçtan uca çalıştırmada özet gösterge değerleri üzerinde uyarı verir ve bunları bastırır; sayaçlar üzerindeki Thold eşikleri Thold 1.8.2 ile desteklenmemektedir ([docs/alerting.md](../../alerting.md)). Şimdiye kadarki tüm testler, tek kullanımlık bir Cacti ortamında sabit düğüm çıktılarıyla çalıştırılmıştır: eklenti henüz gerçek bir Lustre düğümüne karşı çalıştırılmamıştır. Sürüm öncesinde hâlâ açık olan konular: gerçek dosya sistemleri üzerinde pilot çalışmalar ([pilot planı](../../pilot-plan.md)), haricî güvenlik incelemesi ([öz değerlendirme](../../security-review.md)) ve belgelenmiş donanım üzerinde ölçek ölçümleri ([ölçek](../../research/scale.md)). Sürüm 0.1.0 `INFO` ve [CHANGELOG.md](../../../CHANGELOG.md) dosyalarında hazırlanmıştır ancak henüz etiketlenmemiştir.
+> **Durum: 1'den 3'e kadar olan fazlar ve exascale ölçeklendirme temel bileşenleri kodda tamamlandı, henüz yayımlanmadı.** Temel yapı, Lustre gözlemi, uyarılar ve Maint bastırması, GPFS ve BeeGFS salt okunur sürücüleri, Maint entegrasyonlu OST/MDT dengesizlik analizi, uzak veri toplayıcı kapsamlandırması (`replicate_out`, `remote_agent`), 100+ PB / exascale ölçeklendirme temel bileşenleri (`FramedReportParser`, Şema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), CasC operatör CLI aracı (`cli/pfs.php`) ve ekosistem kancaları (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) geliştirilmiş ve birim, güvenlik ve tek kullanımlık Cacti entegrasyon testleriyle doğrulanmıştır. Şimdiye kadarki tüm çalıştırmalarda gerçek Lustre, GPFS veya BeeGFS donanımı yerine sabit düğüm çıktıları kullanılmıştır. Sürüm etiketi basılmadan önce hâlâ açık olan konular: gerçek dosya sistemleri üzerinde pilot çalışmalar ([pilot planı](../../pilot-plan.md)), haricî güvenlik incelemesi ([öz değerlendirme](../../security-review.md)) ve belgelenmiş donanım üzerinde ölçek ölçümleri ([ölçek](../../research/scale.md)). Sürüm 0.1.0 `INFO` ve [CHANGELOG.md](../../../CHANGELOG.md) dosyalarında hazırlanmıştır ancak henüz etiketlenmemiştir.
 
 ## Erişim rolleri
 
@@ -34,27 +34,35 @@ Cacti ana makinelerin grafiklerini çizer ve değerleri Thold ile eşik denetimi
 
 ## Planlanan kapsam
 
-| Faz | Kapsam | Kilometre Taşları |
-|---|---|---|
-| 0, araştırma | Sürüm matrisi, düğüm erişim kararı, yukarı akış davranış doğrulaması, sayaç ve yük devretme davranışı, ölçek ölçümleri | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, gözlem | Lustre envanteri, kapasite ve doluluk, OST aktarım hızı, MDT işlem oranları, grafikler, Thold uyarıları, Maint bastırması, sağlık durumu sayfası | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, derinlik | Cacti uzak veri toplayıcıları, sınırlı bir nesne sayısı içinde iş düzeyi ve istemci düzeyi görünümler | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, arka uçlar | GPFS (IBM Storage Scale) ve BeeGFS arka uçları | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Faz | Kapsam | Durum | Kilometre Taşları |
+|---|---|---|---|
+| 0, araştırma | Sürüm matrisi, düğüm erişim kararı, yukarı akış davranış doğrulaması, sayaç ve yük devretme davranışı, ölçek ölçümleri | Tamamlandı | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, gözlem | Lustre envanteri, kapasite ve doluluk, OST/MDT dengesizliği (`lib/ImbalanceAnalyzer.php`), Maint entegrasyonu (`lib/HealthPage.php`), OST aktarım hızı, MDT işlem oranları, grafikler, Thold uyarıları, sağlık durumu sayfası | Uygulandı (sabit verilerle test edildi) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, uzak ve ölçek | Poller kapsamlı uzak toplama (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), 100+ PB ölçeklendirme temel bileşenleri (64 bit KiB hijyeni + Şema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC CLI (`cli/pfs.php`), MCP/Doctor/CasC kancaları | Uygulandı (birim ve CI entegrasyon testleri yapıldı) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, arka uçlar | `BackendRegistry::production()` içinde kayıtlı salt okunur IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) ve BeeGFS (`lib/BeegfsBackend.php`) sürücüleri | Uygulandı (birim testleri yapıldı) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Kapsam dışı: bir düğüm veya dosya sistemi üzerinde herhangi bir yazma, temizleme, sıfırlama veya ince ayar işlemi; eklentiye özgü bir uyarı motoru; özel bir arka plan programı veya ağ protokolü; iş başına veri kaynakları; Cacti çekirdeğinde, Thold'da veya Maint'te değişiklikler.
+Uygulanan temel operatör ve ölçeklendirme bileşenleri:
+
+- **Çoklu dosya sistemi salt okunur sürücüleri:** `lib/FramedReportParser.php` bileşenini paylaşan `LustreBackend`, `GpfsBackend` (`reset` yasaklı çerçeveli `mmpmon` `fs_io_s`/`io_s`, `mmdf` havuz kapasitesi/durumları ve bekleyen iş özetleri) ve `BeegfsBackend` (kesin bayt-KiB dönüştürme, erişilebilirlik/tutarlılık durum eşlemesi ve aralık başına gösterge semantiğine sahip BeeGFS 7.4 ve 8.x depolama/üstveri hedefleri).
+- **Dengesizlik, boş kapasite ve Maint farkındalığı:** `lib/ImbalanceAnalyzer.php` OST/MDT doluluk oranlarını, yayılımı, popülasyon standart sapması dengesizlik indeksini, kalan kapasiteyi, 1 aralıklı güncellik denetimini (`missing_targets`), hedef başına durum bayraklarını ve sınırlı Top-K dengesiz hedefleri hesaplar. `HealthPage` (`pfs_health.php`) ve `CascProvider::health()`, Cacti `Maint` bakım pencerelerini görünür kılar ve planlı bakım sırasında etkin arıza uyarılarını bastırır.
+- **100+ PB ve exascale ölçeklendirme** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): `BIGINT UNSIGNED value_kib` sütunları (Şema v4) ile birlikte 500 PB ve 2 EB düzeyinde doğrulanmış kesin ondalık bayt-KiB dönüşümü (`FramedReportParser::bytesToKibInt()`); sınırlı isteğe bağlı/yoğun/dengesiz hedef yükseltmesiyle hiyerarşik `Filesystem -> Pool -> Storage Server` RRD toplamaları (`lib/RollupPolicy.php`); sınırlı $O(K)$ Top-K dengesiz hedefler ve önceden toplanmış yoğun iş/istemci özetleri (`lib/TopKTracker.php`, hiçbir zaman istemci başına aygıt veya RRD oluşturmaz); deterministik CRC32 toplayıcı bölümleme (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); ve 500 satırlık toplu SQL upsert işlemleri ile keyset sayfalama (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **Operatör CasC CLI ve ekosistem kancaları:** `cli/pfs.php` haricî Composer bağımlılığı olmadan `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]` ve `health [--format=text|json]` komutlarını destekler. `setup.php` ve `lib/EcosystemIntegration.php`, `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; salt okunur, `Parallel Filesystem View` ve Cacti aygıt izinleriyle denetlenir), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out` ve `remote_agent` kancalarını kaydeder.
+
+Kapsam dışı: bir düğüm veya dosya sistemi üzerinde herhangi bir yazma, temizleme, sıfırlama veya ince ayar işlemi; eklentiye özgü bir uyarı motoru; özel bir arka plan programı veya ağ protokolü; iş başına veya istemci başına Cacti aygıtları/RRD dosyaları; Cacti çekirdeğinde, Thold'da veya Maint'te değişiklikler.
 
 ## Uyumluluk hedefleri
 
 | Bileşen | Hedef |
 |---|---|
 | Cacti | 1.2.31 veya üzeri, çekirdek yaması gerektirmez |
-| PHP | 8.2 veya üzeri; `setup.php` dosyası 8.0 üzerinde ayrıştırılabilir kalır, böylece desteklenmeyen bir çalışma zamanı bozuk bir Cacti arayüzü yerine bir reddetme mesajı alır |
-| Lustre | Sürüm serileri kilometre taşı 1 ile kesinleştirilecektir; şimdiye kadar kontrol edilen kaynak kod ve kılavuzlar 2.17.0 sürümündedir |
-| GPFS, BeeGFS | Faz 3; sürümler araştırma sonucunda kesinleştirilecektir |
-| Thold, Maint | Değişiklik gerektirmez |
+| PHP | 8.2 veya üzeri; `setup.php`, `poller_pfs.php` ve `cli/pfs.php` dosyaları 8.0 üzerinde ayrıştırılabilir kalır, böylece desteklenmeyen bir çalışma zamanı bozuk bir Cacti arayüzü yerine bir reddetme mesajı alır |
+| Lustre | Kaynak kod ve kılavuzlar 2.17.0 sürümünde kontrol edildi; sabit verilerle test edildi |
+| GPFS, BeeGFS | IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` ve BeeGFS 7.4 / 8.x salt okunur sürücüleri uygulandı ve sabit verilerle test edildi |
+| Thold, Maint | Thold 1.8.2 ve Maint 1.3, değişiklik yok |
 
 ## Tasarım
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) iki katmanlı 100+ PB / exascale telemetri mimarisini (bant dışı LDMS/Darshan/TOKIO istemci telemetrisi ile eşleştirilmiş Cacti/`plugin_pfs` sunucu + toplama + Top-K katmanı) ve akademik literatür bağlamını belgeler.
 - [docs/PLAN.md](../../PLAN.md) tam plandır: mimari, dayandığı yukarı akış gerçekleri (kaynakları ve henüz doğrulanmamış kısımlarıyla birlikte), sayaç semantiği, durum modeli, güvenlik sınırları, performans aritmetiği, testler ve riskler.
 - [docs/operator-guide.md](../../operator-guide.md) kurulum, grafikler ve değerler, yükseltme, yedekleme ve geri yükleme, kaldırma ve sorun giderme konularını kapsar; [docs/alerting.md](../../alerting.md) ise Thold ve Maint'i kapsar.
 - [docs/node-setup.md](../../node-setup.md) bir Lustre sunucusunun ve bir poller'ın okuyucu için nasıl hazırlanacağını açıklar.
@@ -63,13 +71,14 @@ Kapsam dışı: bir düğüm veya dosya sistemi üzerinde herhangi bir yazma, te
 
 ```mermaid
 flowchart LR
-    N[Lustre sunucuları: OSS, MDS] -->|sabit salt okunur istek| S[Cacti poller üzerindeki düğüm kaynağı]
-    S --> R[Okuyucu]
-    R --> C[(Gözlem önbelleği)]
-    C --> SS[Betik sunucusu girdisi]
-    SS -->|poller_output| T[Thold ve Maint]
-    SS --> RRD[(Cacti RRD dosyaları)]
-    RRD --> G[Cacti grafikleri ve izinleri]
+    N["Depolama sunucuları: Lustre OSS/MDS, GPFS NSD, BeeGFS"] -->|sabit salt okunur istek| S["Poller kapsamlı ve bölümlenmiş okuyucu"]
+    S --> B["BatchUpserter + 64 bit KiB önbelleği"]
+    B --> R["RollupPolicy + TopKTracker + ImbalanceAnalyzer"]
+    B --> SS["Betik sunucusu girdisi"]
+    R --> ECO["CasC CLI, MCP yetenekleri, Doctor kontrolleri"]
+    SS -->|poller_output| T["Thold ve Maint"]
+    SS --> RRD[("Cacti RRD'leri: FS/Havuz/Sunucu + isteğe bağlı hedefler")]
+    RRD --> G["Cacti grafikleri ve izinleri"]
 ```
 
 ## İş takibi nasıl yapılır

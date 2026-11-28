@@ -36,6 +36,12 @@ final readonly class SummaryTarget {
 	) {
 	}
 
+	/**
+	 * Value.
+	 *
+	 * @param string $metric
+	 * @return ?Observation
+	 */
 	public function value(string $metric): ?Observation {
 		return $this->values[$metric] ?? null;
 	}

@@ -26,10 +26,27 @@ namespace Somethingwithproof\Pfs;
  * a credential.
  */
 final readonly class Node {
+	/** Name pattern constant. */
 	public const NAME_PATTERN     = '/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/';
+	/** Endpoint pattern constant. */
 	public const ENDPOINT_PATTERN = '/^(?=.{1,253}$)(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/';
+	/** User pattern constant. */
 	public const USER_PATTERN     = '/^[a-z_][a-z0-9_-]{0,31}$/';
 
+	/**
+	 * Initialize Node.
+	 *
+	 * @param int $id
+	 * @param int $filesystemId
+	 * @param string $name
+	 * @param NodeRole $role
+	 * @param int $pollerId
+	 * @param string $endpoint
+	 * @param int $port
+	 * @param string $user
+	 * @param AccessMethod $accessMethod
+	 * @param AdminState $adminState
+	 */
 	public function __construct(
 		public int $id,
 		public int $filesystemId,
@@ -83,6 +100,11 @@ final readonly class Node {
 		);
 	}
 
+	/**
+	 * Return whether this entity is administratively enabled.
+	 *
+	 * @return bool
+	 */
 	public function enabled(): bool {
 		return $this->adminState === AdminState::Enabled;
 	}

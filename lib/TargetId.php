@@ -29,8 +29,16 @@ namespace Somethingwithproof\Pfs;
  * Anything else is rejected, not repaired (REQ-INV-005).
  */
 final readonly class TargetId {
+	/** Pattern constant. */
 	public const PATTERN = '/^([A-Za-z0-9_-]{1,8})-(OST|MDT)([0-9a-f]{4})$/';
 
+	/**
+	 * Initialize TargetId.
+	 *
+	 * @param string $filesystem
+	 * @param TargetType $type
+	 * @param int $index
+	 */
 	public function __construct(
 		public string $filesystem,
 		public TargetType $type,
@@ -38,6 +46,12 @@ final readonly class TargetId {
 	) {
 	}
 
+	/**
+	 * Parse a framed node report into structured targets and observations.
+	 *
+	 * @param string $name
+	 * @return ?self
+	 */
 	public static function parse(string $name): ?self {
 		if (preg_match(self::PATTERN, $name, $match) !== 1) {
 			return null;
@@ -46,10 +60,23 @@ final readonly class TargetId {
 		return new self($match[1], $match[2] === 'OST' ? TargetType::Ost : TargetType::Mdt, (int) hexdec($match[3]));
 	}
 
+	/**
+	 * Name.
+	 *
+	 * @return string
+	 */
 	public function name(): string {
-		return sprintf('%s-%s%04x', $this->filesystem, strtoupper($this->type->value), $this->index);
+		$prefix = $this->type === TargetType::Ost ? '-OST' : '-MDT';
+		$hex    = dechex($this->index);
+
+		return $this->filesystem . $prefix . (strlen($hex) < 4 ? str_pad($hex, 4, '0', STR_PAD_LEFT) : $hex);
 	}
 
+	/**
+	 * Key.
+	 *
+	 * @return string
+	 */
 	public function key(): string {
 		return $this->type->value . ':' . $this->index;
 	}

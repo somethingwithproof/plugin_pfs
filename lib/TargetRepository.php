@@ -24,6 +24,11 @@ namespace Somethingwithproof\Pfs;
  * writes go through CacheRepository.
  */
 final class TargetRepository {
+	/**
+	 * Initialize TargetRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 
@@ -41,18 +46,48 @@ final class TargetRepository {
 	}
 
 	/**
+	 * Indexed keyset pagination over a filesystem's targets (WHERE id > ? ORDER BY id ASC LIMIT ?),
+	 * avoiding O(N) OFFSET scans on 10k-50k target filesystems.
+	 *
+	 * @return list<Target>
+	 */
+	public function forFilesystemPage(int $filesystemId, int $afterId = 0, int $limit = BatchUpserter::DEFAULT_PAGE_SIZE): array {
+		$bounds = BatchUpserter::keysetBounds($afterId, $limit);
+
+		return $this->targets(Row::rows(db_fetch_assoc_prepared(
+			'SELECT * FROM plugin_pfs_target WHERE filesystem_id = ? AND id > ? ORDER BY id ASC LIMIT ?',
+			[$filesystemId, $bounds['after_id'], $bounds['limit']],
+			true,
+			$this->connection,
+		)));
+	}
+
+	/**
 	 * @return list<Target>
 	 */
 	public function all(): array {
 		return $this->targets(Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_target ORDER BY filesystem_id, type, target_index', [], true, $this->connection)));
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param int $id
+	 * @return ?Target
+	 */
 	public function find(int $id): ?Target {
 		$row = db_fetch_row_prepared('SELECT * FROM plugin_pfs_target WHERE id = ?', [$id], true, $this->connection);
 
 		return is_array($row) ? Target::fromRow($row) : null;
 	}
 
+	/**
+	 * Review.
+	 *
+	 * @param int $id
+	 * @param Review $review
+	 * @return bool
+	 */
 	public function review(int $id, Review $review): bool {
 		return $this->find($id) !== null && db_execute_prepared('UPDATE plugin_pfs_target SET review = ? WHERE id = ?', [$review->value, $id], true, $this->connection);
 	}

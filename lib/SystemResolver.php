@@ -19,7 +19,16 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Production Resolver backed by DNS and IP literal validation.
+ */
 final class SystemResolver implements Resolver {
+	/**
+	 * Resolve.
+	 *
+	 * @param string $host
+	 * @return list<string>
+	 */
 	public function resolve(string $host): array {
 		if (filter_var($host, FILTER_VALIDATE_IP) !== false) {
 			return [$host];

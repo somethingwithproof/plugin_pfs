@@ -39,10 +39,22 @@ final class DeviceAccess {
 	public function __construct(private readonly \Closure $deviceAllowed) {
 	}
 
+	/**
+	 * Device.
+	 *
+	 * @param int $hostId
+	 * @return bool
+	 */
 	public function device(int $hostId): bool {
 		return $hostId > 0 && ($this->deviceAllowed)($hostId) === true;
 	}
 
+	/**
+	 * Filesystem.
+	 *
+	 * @param ?Filesystem $filesystem
+	 * @return bool
+	 */
 	public function filesystem(?Filesystem $filesystem): bool {
 		return $filesystem !== null && ($filesystem->hostId === 0 || $this->device($filesystem->hostId));
 	}

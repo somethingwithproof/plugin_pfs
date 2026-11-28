@@ -1,14 +1,14 @@
-<!-- Source: README.md; SHA256: 40f2c5a5e9be97e4bd2b05a9ebab2a77de51de3af1b1c21dbeb5ee7f936cdd3b -->
+<!-- Source: README.md; SHA256: e88d6875d113220a91cfc0a9d230c829a78477b17e6aa7e44dda38c9591c86ad -->
 
 <!-- translations:start -->
-[English](../../../README.md) | [简体中文](../zh-CN/README.md) | [हिन्दी](../hi-IN/README.md) | [Español (España)](../es-ES/README.md) | [Español (Latinoamérica)](../es-419/README.md) | [العربية (السعودية)](../ar-SA/README.md) | [Afrikaans](README.md) | [አማርኛ](../am-ET/README.md) | [العربية (مصر)](../ar-EG/README.md) | [العربية (المغرب)](../ar-MA/README.md) | [বাংলা](../bn-BD/README.md) | [Bosanski](../bs-BA/README.md) | [Deutsch](../de-DE/README.md) | [فارسی](../fa-IR/README.md) | [Filipino](../fil-PH/README.md) | [Français](../fr-FR/README.md) | [Français (Maroc)](../fr-MA/README.md) | [Français (Sénégal)](../fr-SN/README.md) | [Hausa](../ha-NG/README.md) | [עברית](../he-IL/README.md) | [Hrvatski](../hr-HR/README.md) | [Bahasa Indonesia](../id-ID/README.md) | [Igbo](../ig-NG/README.md) | [Italiano](../it-IT/README.md) | [日本語](../ja-JP/README.md) | [한국어](../ko-KR/README.md) | [Malagasy](../mg-MG/README.md) | [मराठी](../mr-IN/README.md) | [Bahasa Melayu](../ms-MY/README.md) | [Nederlands](../nl-NL/README.md) | [Polski](../pl-PL/README.md) | [Português (Brasil)](../pt-BR/README.md) | [Русский](../ru-RU/README.md) | [Kinyarwanda](../rw-RW/README.md) | [Soomaali](../so-SO/README.md) | [Српски](../sr-RS/README.md) | [Svenska](../sv-SE/README.md) | [Kiswahili](../sw-KE/README.md) | [தமிழ்](../ta-IN/README.md) | [తెలుగు](../te-IN/README.md) | [ไทย](../th-TH/README.md) | [Türkçe](../tr-TR/README.md) | [Українська](../uk-UA/README.md) | [اردو](../ur-PK/README.md) | [Tiếng Việt](../vi-VN/README.md) | [isiXhosa](../xh-ZA/README.md) | [Yorùbá](../yo-NG/README.md) | [繁體中文](../zh-TW/README.md) | [isiZulu](../zu-ZA/README.md)
+[English](../../../README.md) | [简体中文](../zh-CN/README.md) | [हिन्दी](../hi-IN/README.md) | [Español (España)](../es-ES/README.md) | [Español (Latinoamérica)](../es-419/README.md) | [العربية (السعودية)](../ar-SA/README.md) | [Afrikaans](README.md) | [አማርኛ](../am-ET/README.md) | [العربية (مصر)](../ar-EG/README.md) | [العربية (المغرب)](../ar-MA/README.md) | [Български](../bg-BG/README.md) | [বাংলা](../bn-BD/README.md) | [Bosanski](../bs-BA/README.md) | [Deutsch](../de-DE/README.md) | [Ελληνικά](../el-GR/README.md) | [فارسی](../fa-IR/README.md) | [Filipino](../fil-PH/README.md) | [Français](../fr-FR/README.md) | [Français (Maroc)](../fr-MA/README.md) | [Français (Sénégal)](../fr-SN/README.md) | [Hausa](../ha-NG/README.md) | [עברית](../he-IL/README.md) | [Hrvatski](../hr-HR/README.md) | [Bahasa Indonesia](../id-ID/README.md) | [Igbo](../ig-NG/README.md) | [Italiano](../it-IT/README.md) | [日本語](../ja-JP/README.md) | [ქართული](../ka-GE/README.md) | [한국어](../ko-KR/README.md) | [Latviešu](../lv-LV/README.md) | [Malagasy](../mg-MG/README.md) | [मराठी](../mr-IN/README.md) | [Bahasa Melayu](../ms-MY/README.md) | [Nederlands](../nl-NL/README.md) | [Polski](../pl-PL/README.md) | [Português (Brasil)](../pt-BR/README.md) | [Português (Portugal)](../pt-PT/README.md) | [Русский](../ru-RU/README.md) | [Kinyarwanda](../rw-RW/README.md) | [Soomaali](../so-SO/README.md) | [Српски](../sr-RS/README.md) | [Svenska](../sv-SE/README.md) | [Kiswahili](../sw-KE/README.md) | [தமிழ்](../ta-IN/README.md) | [తెలుగు](../te-IN/README.md) | [ไทย](../th-TH/README.md) | [Türkçe](../tr-TR/README.md) | [Українська](../uk-UA/README.md) | [اردو](../ur-PK/README.md) | [Tiếng Việt](../vi-VN/README.md) | [isiXhosa](../xh-ZA/README.md) | [Yorùbá](../yo-NG/README.md) | [繁體中文](../zh-TW/README.md) | [isiZulu](../zu-ZA/README.md)
 <!-- translations:end -->
 
 # plugin_pfs
 
-'n Cacti 1.2-inprop wat die gesondheid en lading van parallelle lêerstelsels na Cacti bring: kapasiteit en vulwanbalans oor teikens, deurset per teiken en metadata-bewerkingskoerse. Lustre is die eerste agterend. GPFS (IBM Storage Scale) en BeeGFS volg agter 'n agterend-koppelvlak. Die data beland in gewone Cacti-toestelle, -databronne en -grafieke, sodat Thold en Maint onveranderd daarop waarsku en dit onderdruk.
+'n Cacti 1.2-inprop wat die gesondheid, kapasiteit, vulwanbalans, deurset per teiken en metadata-bewerkingskoerse van parallelle lêerstelsels na Cacti bring oor Lustre, IBM Storage Scale (GPFS) en BeeGFS agter 'n verenigde `Backend`-koppelvlak. Elke lêerstelsel karteer na 'n gewone Cacti-toestel met datanavrae, oorsig- en op-aanvraag-teikengrafieke en opsommingsmeters, sodat Thold en Maint onveranderd daarop waarsku en dit onderdruk.
 
-> **Status: mylpaal 4, kode voltooi vir fase 1, nie vrygestel nie.** Mylpale 2 (grondslag), 3 (Lustre-waarneming) en 4 (waarskuwing en vrystellingsvoorbereiding) is afgehandel op `main` of onder hersiening. Die inprop installeer, gradeer op en deïnstalleer deur Cacti se inprop-API en weier PHP onder 8.2. 'n Agtergrondleser op elke poller lees Lustre-bedieners oor SSH deur 'n vaste geforseerde-bevelskrip ([node/pfs-read.sh](../../../node/pfs-read.sh)) en kas inventaris, toestand, kapasiteit en tellers saam met hul varsheid. Elke lêerstelsel word 'n Cacti-toestel met OST- en MDT-datanavrae, vyf oorsiggrafieke, grafieke per teiken op aanvraag en 'n opsommingsdatabron vir Thold. Thold v1.8.2 en Maint v1.3, onveranderd, waarsku oor en onderdruk die opsommingsmeters in die end-tot-end-lopie; Thold-drempels op tellers word nie met Thold 1.8.2 ondersteun nie ([docs/alerting.md](../../alerting.md)). Elke toets tot dusver loop op toetsdata-knooppuntafvoer in 'n weggooibare Cacti: die inprop het nog nie teen 'n regte Lustre-knooppunt geloop nie. Nog oop voor 'n vrystelling: loodsprojekte op regte lêerstelsels ([loodsplan](../../pilot-plan.md)), die eksterne sekuriteitsoorsig ([selfoorsig](../../security-review.md)) en skaalmetings op gedokumenteerde hardeware ([skaal](../../research/scale.md)). Weergawe 0.1.0 is voorberei in `INFO` en [CHANGELOG.md](../../../CHANGELOG.md), maar nie gemerk nie.
+> **Status: fases 1 tot 3 en eksaskaal-skaalprimitiewe in kode geïmplementeer, nog nie vrygestel nie.** Grondslag, Lustre-waarneming, waarskuwing en Maint-onderdrukking, GPFS- en BeeGFS-leesalleen-drywers, OST/MDT-wanbalansontleding met Maint-integrasie, afgeleë data-insamelaaromvangbepaling (`replicate_out`, `remote_agent`), 100+ PB / eksaskaal-skaalprimitiewe (`FramedReportParser`, Schema v4 `value_kib`, `RollupPolicy`, `TopKTracker`, `ShardAssigner`, `BatchUpserter`), die CasC-operateur-CLI (`cli/pfs.php`) en ekosisteemhake (`abilities_register`, `doctor_register_checks`, `casc_register_providers`) is geïmplementeer en geverifieer met eenheids-, sekuriteits- en weggooibare-Cacti-integrasietoetse. Alle lopies tot dusver gebruik toetsdata-knooppuntafvoer eerder as regte Lustre-, GPFS- of BeeGFS-hardeware. Nog oop voor die merk van 'n vrystelling: loodsprojekte op regte lêerstelsels ([loodsplan](../../pilot-plan.md)), 'n eksterne sekuriteitsoorsig ([selfoorsig](../../security-review.md)) en skaalmetings op gedokumenteerde hardeware ([skaal](../../research/scale.md)). Weergawe 0.1.0 is voorberei in `INFO` en [CHANGELOG.md](../../../CHANGELOG.md), maar nie gemerk nie.
 
 ## Toegangsrolle
 
@@ -44,27 +44,35 @@ Cacti maak grafieke van gashere en stel drempels op waardes met Thold, en die Ca
 
 ## Beplande omvang
 
-| Fase | Omvang | Mylpale |
-|---|---|---|
-| 0, navorsing | Vrystellingsmatriks, knooppunttoegangsbesluit, bevestiging van stroomop-gedrag, teller- en oorskakelingsgedrag, skaalmetings | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
-| 1, waarneming | Lustre-inventaris, kapasiteit en vulling, OST-deurset, MDT-bewerkingskoerse, grafieke, Thold-waarskuwing, Maint-onderdrukking, gesondheidsbladsy | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
-| 2, diepte | Cacti afgeleë data-insamelaars, taakvlak- en kliëntvlak-aansigte binne 'n begrensde objektelling | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
-| 3, agterende | GPFS- (IBM Storage Scale) en BeeGFS-agterende | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
+| Fase | Omvang | Status | Mylpale |
+|---|---|---|---|
+| 0, navorsing | Vrystellingsmatriks, knooppunttoegangsbesluit, bevestiging van stroomop-gedrag, teller- en oorskakelingsgedrag, skaalmetings | Voltooi | [M1](https://github.com/somethingwithproof/plugin_pfs/milestone/1) |
+| 1, waarneming | Lustre-inventaris, kapasiteit en vulling, OST/MDT-wanbalans (`lib/ImbalanceAnalyzer.php`), Maint-integrasie (`lib/HealthPage.php`), OST-deurset, MDT-bewerkingskoerse, grafieke, Thold-waarskuwing, gesondheidsbladsy | Geïmplementeer (toetsdata-getoets) | [M2](https://github.com/somethingwithproof/plugin_pfs/milestone/2), [M3](https://github.com/somethingwithproof/plugin_pfs/milestone/3), [M4](https://github.com/somethingwithproof/plugin_pfs/milestone/4) |
+| 2, afgeleë en skaal | Poller-beperkte afgeleë insameling (`lib/Reader.php`, `lib/ReplicationRepository.php`, `replicate_out`, `remote_agent`), 100+ PB skaalprimitiewe (64-bis KiB-higiëne + Schema v4 `value_kib`, `lib/RollupPolicy.php`, `lib/TopKTracker.php`, `lib/ShardAssigner.php` + `poller_pfs.php --shard=K/N`, `lib/BatchUpserter.php`), CasC-CLI (`cli/pfs.php`), MCP/Doctor/CasC-hake | Geïmplementeer (eenheids- en CI-integrasietoetse) | [M5](https://github.com/somethingwithproof/plugin_pfs/milestone/5) |
+| 3, agterende | Leesalleen IBM Storage Scale (GPFS) (`lib/GpfsBackend.php`) en BeeGFS (`lib/BeegfsBackend.php`) drywers geregistreer in `BackendRegistry::production()` | Geïmplementeer (eenheidsgetoets) | [M6](https://github.com/somethingwithproof/plugin_pfs/milestone/6) |
 
-Buite omvang: enige skryf-, skoonmaak-, terugstel- of instellingsbewerking op 'n knooppunt of lêerstelsel; 'n inprop-beheerde waarskuwingsenjin; 'n pasgemaakte bedryfsdiens of netwerkprotokol; databronne per taak; veranderinge aan Cacti-kern, Thold of Maint.
+Belangrikste geïmplementeerde operateur- en skaalprimitiewe:
+
+- **Veelvuldige lêerstelsel leesalleen-drywers:** `LustreBackend`, `GpfsBackend` (slegs geraamde `mmpmon` `fs_io_s`/`io_s` met `reset` verbied, `mmdf` poelkapasiteit/-toestande en wagteropsommings), en `BeegfsBackend` (BeeGFS 7.4 en 8.x bergings-/metadatateikens met presiese greep-na-KiB-omskakeling, bereikbaarheid-/konsekwentheidstoestandkartering en per-interval-metersemantiek) wat `lib/FramedReportParser.php` deel.
+- **Wanbalans, vryruimte en Maint-bewustheid:** `lib/ImbalanceAnalyzer.php` bereken OST/MDT-vulverhoudings, verspreiding, populasie-standaardafwyking-wanbalansindeks, vryruimte, 1-interval-varsheidshandhawing (`missing_targets`), per-teiken-statusvlae en begrensde Top-K skewe teikens. `HealthPage` (`pfs_health.php`) en `CascProvider::health()` vertoon Cacti `Maint`-instandhoudingsvensters en onderdruk aktiewe falingwaarskuwings tydens geskeduleerde instandhouding.
+- **100+ PB en eksaskaal-skalering** ([docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md)): presiese desimale greep-na-KiB-omskakeling (`FramedReportParser::bytesToKibInt()`) geverifieer teen 500 PB en 2 EB saam met `BIGINT UNSIGNED value_kib`-kolomme (Schema v4); hiërargiese `Filesystem -> Pool -> Storage Server` RRD-opsommings met begrensde inteken-/warm-/skewe-teikenbevordering (`lib/RollupPolicy.php`); begrensde $O(K)$ Top-K skewe teikens en vooraf-saamgevoegde swaar taak-/kliëntopsommings (`lib/TopKTracker.php`, wat nooit per-kliënt-toestelle of RRD's skep nie); deterministiese CRC32-insamelaarverdeling (`lib/ShardAssigner.php`, `php plugins/pfs/poller_pfs.php [--poller=N] [--shard=K/N] [--force] [--debug]`); en 500-ry bondel-SQL-opdaterings plus sleutelstel-paginering (`lib/BatchUpserter.php`, `CacheRepository::upsertObservationsBatch()`, `TargetRepository::forFilesystemPage()`).
+- **Operateur CasC-CLI en ekosisteemhake:** `cli/pfs.php` ondersteun `export [--format=yaml|xml]`, `validate <file> [--format=yaml|xml]`, `plan <file> [--format=yaml|xml] [--output=text|json]`, `apply <file> --confirm=<PLAN_HASH> [--format=yaml|xml]`, en `health [--format=text|json]` met nul eksterne Composer-afhanklikhede. `setup.php` en `lib/EcosystemIntegration.php` registreer `abilities_register` (`pfs-list-filesystems`, `pfs-get-imbalance`, `pfs-get-health`; leesalleen, beperk op `Parallel Filesystem View` en Cacti-toesteltoestemmings), `doctor_register_checks` (`pfs_schema`, `pfs_reader_freshness`, `pfs_capacity_imbalance`), `casc_register_providers`, `replicate_out` en `remote_agent`.
+
+Buite omvang: enige skryf-, skoonmaak-, terugstel- of instellingsbewerking op 'n knooppunt of lêerstelsel; 'n inprop-beheerde waarskuwingsenjin; 'n pasgemaakte bedryfsdiens of netwerkprotokol; per-taak- of per-kliënt-Cacti-toestelle/-RRD's; veranderinge aan Cacti-kern, Thold of Maint.
 
 ## Versoenbaarheidsteikens
 
 | Komponent | Teiken |
 |---|---|
 | Cacti | 1.2.31 of later, geen kernlappe nie |
-| PHP | 8.2 of later; `setup.php` bly ontleedbaar op 8.0 sodat 'n nie-ondersteunde looptyd 'n weiering kry in plaas van 'n stukkende Cacti-UI |
-| Lustre | Vrystellingslyne word deur mylpaal 1 vasgestel; bronkode en handleidings wat tot dusver nagegaan is, is by 2.17.0 |
-| GPFS, BeeGFS | Fase 3; vrystellings word deur navorsing vasgestel |
-| Thold, Maint | Geen veranderinge nodig nie |
+| PHP | 8.2 of later; `setup.php`, `poller_pfs.php` en `cli/pfs.php` bly ontleedbaar op 8.0 sodat 'n nie-ondersteunde looptyd 'n weiering kry in plaas van 'n stukkende Cacti-UI |
+| Lustre | Bronkode en handleidings nagegaan by 2.17.0; toetsdata-getoets |
+| GPFS, BeeGFS | IBM Storage Scale (GPFS) 5.x `mmpmon`/`mmdf` en BeeGFS 7.4 / 8.x leesalleen-drywers geïmplementeer en toetsdata-getoets |
+| Thold, Maint | Thold 1.8.2 en Maint 1.3, onveranderd |
 
 ## Ontwerp
 
+- [docs/architecture/exascale-scaling.md](../../architecture/exascale-scaling.md) dokumenteer die tweevlak 100+ PB / eksaskaal-telemetrie-argitektuur (Cacti/`plugin_pfs`-bediener + opsomming + Top-K-vlak gepaard met buite-band LDMS/Darshan/TOKIO-kliënttelemetrie) en sy akademiese literatuurkonteks.
 - [docs/PLAN.md](../../PLAN.md) is die volledige plan: argitektuur, stroomop-feite waarop dit steun (met bronne en wat nog ongeverifieer is), tellersemantiek, toestandmodel, sekuriteitsgrense, werkverrigtingsrekenkunde, toetsing en risiko's.
 - [docs/operator-guide.md](../../operator-guide.md) dek installasie, die grafieke en waardes, opgradering, rugsteun en herstel, deïnstallasie en foutsporing; [docs/alerting.md](../../alerting.md) dek Thold en Maint.
 - [docs/node-setup.md](../../node-setup.md) beskryf hoe om 'n Lustre-bediener en 'n poller vir die leser voor te berei.
@@ -73,12 +81,13 @@ Buite omvang: enige skryf-, skoonmaak-, terugstel- of instellingsbewerking op 'n
 
 ```mermaid
 flowchart LR
-    N[Lustre-bedieners: OSS, MDS] -->|vaste leesalleen-versoek| S[Knooppuntbron op die Cacti-poller]
-    S --> R[Leser]
-    R --> C[(Waarnemingskas)]
-    C --> SS[Skripbediener-invoer]
+    N[Bergingsbedieners: Lustre OSS/MDS, GPFS NSD, BeeGFS] -->|vaste leesalleen-versoek| S[Poller-beperkte & verdeelde leser]
+    S --> B[BatchUpserter + 64-bis KiB-kas]
+    B --> R[RollupPolicy + TopKTracker + ImbalanceAnalyzer]
+    B --> SS[Skripbediener-invoer]
+    R --> ECO[CasC CLI, MCP-vermoëns, Doctor-kontroles]
     SS -->|poller_output| T[Thold en Maint]
-    SS --> RRD[(Cacti RRD-lêers)]
+    SS --> RRD[(Cacti RRD's: FS/Pool/Server + inteken-teikens)]
     RRD --> G[Cacti-grafieke en -toestemmings]
 ```
 

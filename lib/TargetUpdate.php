@@ -26,6 +26,15 @@ namespace Somethingwithproof\Pfs;
  * values as they were.
  */
 final readonly class TargetUpdate {
+	/**
+	 * Initialize TargetUpdate.
+	 *
+	 * @param TargetId $id
+	 * @param ?Target $existing
+	 * @param Presence $presence
+	 * @param int $sourceNodeId
+	 * @param ?TargetReport $report
+	 */
 	public function __construct(
 		public TargetId $id,
 		public ?Target $existing,

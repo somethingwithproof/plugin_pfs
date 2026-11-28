@@ -24,6 +24,11 @@ namespace Somethingwithproof\Pfs;
  * server input read here; neither contacts a node (REQ-READ-005).
  */
 final class ObservationRepository {
+	/**
+	 * Initialize ObservationRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 

@@ -27,9 +27,20 @@ namespace Somethingwithproof\Pfs;
  * summary's oldest observation.
  */
 final class SummaryRepository {
+	/**
+	 * Initialize SummaryRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param int $filesystemId
+	 * @return ?Summary
+	 */
 	public function find(int $filesystemId): ?Summary {
 		$rows = Row::rows(db_fetch_assoc_prepared('SELECT metric, value, members, observed_at, computed_at FROM plugin_pfs_summary WHERE filesystem_id = ?', [$filesystemId], true, $this->connection));
 

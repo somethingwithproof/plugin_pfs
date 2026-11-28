@@ -26,10 +26,20 @@
  * down the whole Cacti UI (REQ-COMPAT-001 to REQ-COMPAT-003).
  */
 
+/**
+ * Check whether the running PHP version meets the 8.2.0 floor.
+ *
+ * @return bool
+ */
 function pfs_php_supported(): bool {
 	return version_compare(PHP_VERSION, '8.2.0', '>=');
 }
 
+/**
+ * Verify PHP version support and register the lib/ autoloader.
+ *
+ * @return bool
+ */
 function pfs_boot(): bool {
 	if (!pfs_php_supported()) {
 		return false;
@@ -83,6 +93,9 @@ function plugin_pfs_version(): array {
 	return $version;
 }
 
+/**
+ * Install the plugin schema, hooks, realms, and templates.
+ */
 function plugin_pfs_install(): void {
 	if (pfs_refuse_unsupported()) {
 		return;
@@ -91,6 +104,11 @@ function plugin_pfs_install(): void {
 	plugin_pfs_upgrade(true);
 }
 
+/**
+ * Verify runtime requirements and bring schema and hooks up to date.
+ *
+ * @return bool
+ */
 function plugin_pfs_check_config(): bool {
 	if (pfs_refuse_unsupported()) {
 		return false;
@@ -143,6 +161,11 @@ function pfs_require_post(string $page, array $actions): void {
 	}
 }
 
+/**
+ * Load the current plugin settings from Cacti.
+ *
+ * @return \Somethingwithproof\Pfs\Settings
+ */
 function pfs_settings(): \Somethingwithproof\Pfs\Settings {
 	return (new \Somethingwithproof\Pfs\SettingsRepository(false))->load();
 }
@@ -196,12 +219,22 @@ function plugin_pfs_upgrade(bool $grant = false): bool {
 	return true;
 }
 
+/**
+ * Construct the template and data query installer for this Cacti checkout.
+ *
+ * @return \Somethingwithproof\Pfs\TemplateInstaller
+ */
 function pfs_template_installer(): \Somethingwithproof\Pfs\TemplateInstaller {
 	global $config;
 
 	return new \Somethingwithproof\Pfs\TemplateInstaller(__DIR__, $config['base_path'], new \Somethingwithproof\Pfs\CactiObjectRepository(false));
 }
 
+/**
+ * Construct the Cacti device provisioner for parallel filesystems.
+ *
+ * @return \Somethingwithproof\Pfs\DeviceProvisioner
+ */
 function pfs_provisioner(): \Somethingwithproof\Pfs\DeviceProvisioner {
 	global $config;
 
@@ -368,6 +401,9 @@ function pfs_uninstall_devices(array $hostIds): void {
 	cacti_log(sprintf('NOTE: Uninstall deleted the %d devices the plugin created, as configured', count($hostIds)), false, 'PFS');
 }
 
+/**
+ * Register navigation menu entries and trigger schema upgrades on plugin pages.
+ */
 function pfs_config_arrays(): void {
 	global $menu;
 
@@ -384,6 +420,9 @@ function pfs_config_arrays(): void {
 	}
 }
 
+/**
+ * Register the Parallel Filesystems settings tab for authorized administrators.
+ */
 function pfs_config_settings(): void {
 	global $tabs, $settings;
 
@@ -566,6 +605,238 @@ function pfs_reader_with(int $pollerId, \Somethingwithproof\Pfs\NodeSources $sou
 		$clock,
 		$holder !== '' ? $holder : 'poller' . $pollerId . '-' . getmypid() . '-' . bin2hex(random_bytes(4))
 	);
+}
+
+/**
+ * Whether Maint holds a device in maintenance, or null when Maint is not
+ * enabled.
+ */
+function pfs_in_maintenance(int $host_id): ?bool {
+	global $config;
+
+	if ($host_id <= 0 || !function_exists('api_plugin_is_enabled') || !api_plugin_is_enabled('maint') || !is_file($config['base_path'] . '/plugins/maint/functions.php')) {
+		return null;
+	}
+
+	include_once($config['base_path'] . '/plugins/maint/functions.php');
+
+	return function_exists('plugin_maint_check_cacti_host') ? (bool) plugin_maint_check_cacti_host($host_id) : null;
+}
+
+/**
+ * Construct the Configuration-as-Code provider.
+ *
+ * @return \Somethingwithproof\Pfs\CascProvider
+ */
+function pfs_casc(): \Somethingwithproof\Pfs\CascProvider {
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\CascProvider(
+		new \Somethingwithproof\Pfs\SettingsRepository(false),
+		new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NodeRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NetworkRepository(false, $clock),
+		new \Somethingwithproof\Pfs\TargetRepository(false),
+		new \Somethingwithproof\Pfs\ObservationRepository(false),
+		new \Somethingwithproof\Pfs\NodeHealthRepository(false),
+		new \Somethingwithproof\Pfs\ReaderRepository(false, $clock),
+		\Somethingwithproof\Pfs\BackendRegistry::production(),
+		$clock,
+		function (int $hostId): ?bool {
+			return pfs_in_maintenance($hostId);
+		},
+	);
+}
+
+/**
+ * Check whether the given Cacti user holds a PFS View (or higher) realm.
+ * Uses user-scoped realm lookup so stateless token and CLI callers succeed
+ * without an active PHP web session.
+ *
+ * @param int $userId
+ * @return bool
+ */
+function pfs_user_view_allowed(int $userId): bool {
+	if ($userId < 1 || !function_exists('is_realm_allowed')) {
+		return false;
+	}
+
+	foreach ((new \Somethingwithproof\Pfs\RealmRepository(false))->viewRealmIds() as $realmId) {
+		if (is_realm_allowed($realmId, $userId)) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Construct the decoupled ecosystem integration facade.
+ *
+ * @return \Somethingwithproof\Pfs\EcosystemIntegration
+ */
+function pfs_ecosystem(): \Somethingwithproof\Pfs\EcosystemIntegration {
+	$clock = new \Somethingwithproof\Pfs\SystemClock();
+
+	return new \Somethingwithproof\Pfs\EcosystemIntegration(
+		new \Somethingwithproof\Pfs\Schema(false),
+		new \Somethingwithproof\Pfs\SettingsRepository(false),
+		new \Somethingwithproof\Pfs\FilesystemRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NodeRepository(false, $clock),
+		new \Somethingwithproof\Pfs\NetworkRepository(false, $clock),
+		new \Somethingwithproof\Pfs\TargetRepository(false),
+		new \Somethingwithproof\Pfs\ObservationRepository(false),
+		new \Somethingwithproof\Pfs\NodeHealthRepository(false),
+		new \Somethingwithproof\Pfs\ReaderRepository(false, $clock),
+		\Somethingwithproof\Pfs\BackendRegistry::production(),
+		$clock,
+		function (int $userId): bool {
+			return pfs_user_view_allowed($userId);
+		},
+		function (int $userId, int $hostId): bool {
+			return is_device_allowed($hostId, $userId);
+		},
+		function (int $hostId): ?bool {
+			return pfs_in_maintenance($hostId);
+		},
+	);
+}
+
+/**
+ * replicate_out hook: push plugin configuration tables scoped to the target
+ * remote data collector (REQ-REMOTE-002).
+ *
+ * @param mixed $data
+ * @return mixed
+ */
+function pfs_replicate_out($data) {
+	if (!pfs_boot() || !is_array($data)) {
+		return $data;
+	}
+
+	$pollerId = isset($data['remote_poller_id']) && is_numeric($data['remote_poller_id']) ? (int) $data['remote_poller_id'] : 0;
+	$rcnnId   = $data['rcnn_id'] ?? false;
+
+	if ($pollerId < 1 || !is_object($rcnnId) || !function_exists('replicate_out_table')) {
+		return $data;
+	}
+
+	$repo = new \Somethingwithproof\Pfs\ReplicationRepository(false);
+
+	foreach ($repo->tablesForPoller($pollerId) as $table => $rows) {
+		replicate_out_table($rcnnId, $rows, $table, $pollerId);
+	}
+
+	return $data;
+}
+
+/**
+ * remote_agent hook: serve read-only inventory and health actions on a remote
+ * data collector (REQ-REMOTE-020, REQ-REMOTE-021).
+ *
+ * @param mixed $data
+ * @return mixed
+ */
+function pfs_remote_agent($data) {
+	if (!pfs_boot() || !is_array($data)) {
+		return $data;
+	}
+
+	$action   = isset($data['action']) && is_string($data['action']) ? $data['action'] : '';
+	$pollerId = isset($data['poller_id']) && is_numeric($data['poller_id']) ? max(0, (int) $data['poller_id']) : 0;
+	$result   = pfs_ecosystem()->handleRemoteAgent($action, $pollerId);
+
+	if ($result !== null) {
+		$data['result'] = $result;
+	}
+
+	return $data;
+}
+
+/**
+ * abilities_register hook: expose read-only PFS abilities gated by View realm.
+ *
+ * @param mixed $registrar
+ * @return mixed
+ */
+function pfs_abilities_register($registrar) {
+	if (!pfs_boot()) {
+		return $registrar;
+	}
+
+	return pfs_ecosystem()->registerAbilities($registrar);
+}
+
+/**
+ * doctor_register_checks hook: return evaluated PFS diagnostic checks for Cacti Doctor.
+ *
+ * @param mixed $context
+ * @return list<array<string, mixed>>
+ */
+function pfs_doctor_register_checks($context = array()) {
+	if (!pfs_boot()) {
+		return array();
+	}
+
+	return pfs_ecosystem()->doctorChecks();
+}
+
+/**
+ * doctor_register_debug_info hook: return a redacted PFS diagnostic snapshot
+ * as a plain list of section arrays without importing plugin_doctor.
+ *
+ * @param mixed $context
+ * @return list<array<string, mixed>>
+ */
+function pfs_doctor_register_debug_info($context = array()) {
+	if (!pfs_boot()) {
+		return array();
+	}
+
+	return pfs_ecosystem()->doctorDebugInfo();
+}
+
+/**
+ * api_register_resources hook: register Google AIP resource descriptors for
+ * pfsFilesystems as plain arrays without importing plugin_api.
+ *
+ * @param mixed $resources
+ * @return list<mixed>
+ */
+function pfs_api_register_resources($resources = array()) {
+	if (!pfs_boot()) {
+		return is_array($resources) ? array_values($resources) : array();
+	}
+
+	$registered = pfs_ecosystem()->apiResources();
+
+	if (is_array($resources) && $resources !== array()) {
+		return array_values(array_merge(array_values($resources), $registered));
+	}
+
+	return $registered;
+}
+
+/**
+ * casc_register_providers hook: register the PFS CasC provider.
+ *
+ * @param mixed $providers
+ * @return mixed
+ */
+function pfs_casc_register_providers($providers = null) {
+	if (!pfs_boot()) {
+		return $providers;
+	}
+
+	$descriptor = pfs_ecosystem()->cascDescriptor();
+
+	if (is_object($providers) && method_exists($providers, 'register')) {
+		$providers->register($descriptor);
+
+		return $providers;
+	}
+
+	return $descriptor;
 }
 
 /** Resolve role inheritance against Cacti's current user and group grants. */

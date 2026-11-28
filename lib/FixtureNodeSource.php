@@ -40,6 +40,14 @@ final class FixtureNodeSource implements NodeSource {
 		$this->answers[$nodeId] = $answer;
 	}
 
+	/**
+	 * Read all.
+	 *
+	 * @param list<Node> $nodes
+	 * @param int $concurrency
+	 * @param float $deadline
+	 * @return array<int, NodeRead>
+	 */
 	public function readAll(array $nodes, int $concurrency, float $deadline): array {
 		$out = [];
 

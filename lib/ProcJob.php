@@ -23,11 +23,17 @@ namespace Somethingwithproof\Pfs;
  * One child process while ProcRunner runs it. Internal to ProcRunner.
  */
 final class ProcJob {
+	/** Buffered standard output read from the child process. */
 	public string $out = '';
+	/** Buffered standard error read from the child process. */
 	public string $err = '';
+	/** Whether the child stdout pipe has reached EOF. */
 	public bool $stdoutEof = false;
+	/** Whether the child stderr pipe has reached EOF. */
 	public bool $stderrEof = false;
+	/** Whether output exceeded the configured byte ceiling. */
 	public bool $tooLarge = false;
+	/** Captured process exit status once terminated, or null while running. */
 	public ?int $exit = null;
 
 	/**

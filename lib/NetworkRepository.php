@@ -19,7 +19,16 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Persistence layer for per-poller allowed CIDR networks.
+ */
 final class NetworkRepository {
+	/**
+	 * Initialize NetworkRepository.
+	 *
+	 * @param \PDO|false $connection
+	 * @param Clock $clock
+	 */
 	public function __construct(private readonly \PDO|false $connection, private readonly Clock $clock) {
 	}
 
@@ -40,6 +49,11 @@ final class NetworkRepository {
 		return $out;
 	}
 
+	/**
+	 * Policy.
+	 *
+	 * @return NetworkPolicy
+	 */
 	public function policy(): NetworkPolicy {
 		$allowed = [];
 
@@ -50,6 +64,13 @@ final class NetworkRepository {
 		return new NetworkPolicy($allowed);
 	}
 
+	/**
+	 * Add.
+	 *
+	 * @param int $pollerId
+	 * @param string $cidr
+	 * @return bool
+	 */
 	public function add(int $pollerId, string $cidr): bool {
 		if ($pollerId < 1 || !NetworkPolicy::validCidr($cidr)) {
 			return false;
@@ -58,6 +79,12 @@ final class NetworkRepository {
 		return db_execute_prepared('INSERT IGNORE INTO plugin_pfs_network (poller_id, cidr, created_at) VALUES (?, ?, ?)', [$pollerId, trim($cidr), $this->clock->now()], true, $this->connection);
 	}
 
+	/**
+	 * Delete.
+	 *
+	 * @param int $id
+	 * @return bool
+	 */
 	public function delete(int $id): bool {
 		return db_execute_prepared('DELETE FROM plugin_pfs_network WHERE id = ?', [$id], true, $this->connection);
 	}

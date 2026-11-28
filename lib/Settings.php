@@ -25,6 +25,7 @@ namespace Somethingwithproof\Pfs;
  * the settings holds a credential, only where the SSH key file is.
  */
 final readonly class Settings {
+	/** Ordered list of Cacti setting keys owned by plugin_pfs. */
 	public const NAMES = [
 		'pfs_ssh_binary',
 		'pfs_ssh_key_file',
@@ -38,15 +39,37 @@ final readonly class Settings {
 		'pfs_uninstall_delete_devices',
 	];
 
+	/** Default absolute path to the SSH client binary. */
 	public const DEFAULT_SSH         = '/usr/bin/ssh';
+	/** Default path to the poller SSH private key file. */
 	public const DEFAULT_KEY_FILE    = '/etc/cacti/pfs/id_ed25519';
+	/** Default path to the poller SSH known_hosts file. */
 	public const DEFAULT_KNOWN_HOSTS = '/etc/cacti/pfs/known_hosts';
+	/** Default SSH connection timeout in seconds. */
 	public const DEFAULT_CONNECT     = 5;
+	/** Default per-node read timeout in seconds. */
 	public const DEFAULT_TIMEOUT     = 30;
+	/** Default maximum node response size in KiB. */
 	public const DEFAULT_MAX_KIB     = 4352;
+	/** Default total reader run time budget in seconds. */
 	public const DEFAULT_BUDGET      = 240;
+	/** Default concurrent node read limit per poller. */
 	public const DEFAULT_CONCURRENCY = 8;
 
+	/**
+	 * Initialize Settings.
+	 *
+	 * @param string $sshBinary
+	 * @param string $sshKeyFile
+	 * @param string $sshKnownHosts
+	 * @param int $connectTimeout
+	 * @param int $readTimeout
+	 * @param int $maxResponseKib
+	 * @param int $readerBudget
+	 * @param int $concurrency
+	 * @param bool $keepTablesOnUninstall
+	 * @param bool $deleteDevicesOnUninstall
+	 */
 	public function __construct(
 		public string $sshBinary,
 		public string $sshKeyFile,
@@ -85,6 +108,11 @@ final readonly class Settings {
 		);
 	}
 
+	/**
+	 * Max response bytes.
+	 *
+	 * @return int
+	 */
 	public function maxResponseBytes(): int {
 		return $this->maxResponseKib * 1024;
 	}

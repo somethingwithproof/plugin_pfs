@@ -19,10 +19,25 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Persistence layer for registered storage nodes.
+ */
 final class NodeRepository {
+	/**
+	 * Initialize NodeRepository.
+	 *
+	 * @param \PDO|false $connection
+	 * @param Clock $clock
+	 */
 	public function __construct(private readonly \PDO|false $connection, private readonly Clock $clock) {
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param int $id
+	 * @return ?Node
+	 */
 	public function find(int $id): ?Node {
 		$row = db_fetch_row_prepared('SELECT * FROM plugin_pfs_node WHERE id = ?', [$id], true, $this->connection);
 
@@ -50,10 +65,23 @@ final class NodeRepository {
 		return $this->nodes(Row::rows(db_fetch_assoc_prepared('SELECT * FROM plugin_pfs_node WHERE poller_id = ? ORDER BY id', [$pollerId], true, $this->connection)));
 	}
 
+	/**
+	 * Name taken.
+	 *
+	 * @param string $name
+	 * @param int $exceptId
+	 * @return bool
+	 */
 	public function nameTaken(string $name, int $exceptId): bool {
 		return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_node WHERE name = ? AND id != ?', [$name, $exceptId], '', true, $this->connection) > 0;
 	}
 
+	/**
+	 * Save.
+	 *
+	 * @param Node $node
+	 * @return int
+	 */
 	public function save(Node $node): int {
 		$now    = $this->clock->now();
 		$values = [$node->filesystemId, $node->name, $node->role->value, $node->pollerId, $node->endpoint, $node->port, $node->user, $node->accessMethod->value, $node->adminState->value];

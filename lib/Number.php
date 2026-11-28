@@ -24,6 +24,12 @@ namespace Somethingwithproof\Pfs;
  * and U for anything that is not a finite, non-negative number.
  */
 final class Number {
+	/**
+	 * Format.
+	 *
+	 * @param ?float $value
+	 * @return string
+	 */
 	public static function format(?float $value): string {
 		if ($value === null || !is_finite($value) || $value < 0) {
 			return 'U';

@@ -19,7 +19,12 @@
 
 namespace Somethingwithproof\Pfs;
 
+/**
+ * Administrative enablement state of a filesystem or storage node.
+ */
 enum AdminState: string {
+	/** AdminState enabled case. */
 	case Enabled  = 'enabled';
+	/** AdminState disabled case. */
 	case Disabled = 'disabled';
 }

@@ -28,13 +28,26 @@ final class BackendRegistry {
 	/** @var array<string, Backend> */
 	private array $backends = [];
 
+	/**
+	 * Production.
+	 *
+	 * @return self
+	 */
 	public static function production(): self {
 		$registry = new self();
 		$registry->register(new LustreBackend());
+		$registry->register(new GpfsBackend());
+		$registry->register(new BeegfsBackend());
 
 		return $registry;
 	}
 
+	/**
+	 * Register.
+	 *
+	 * @param Backend $backend
+	 * @throws \InvalidArgumentException
+	 */
 	public function register(Backend $backend): void {
 		if (preg_match('/^[a-z]{1,16}$/', $backend->id()) !== 1 || isset($this->backends[$backend->id()])) {
 			throw new \InvalidArgumentException('Backend identifiers are unique lower-case words');
@@ -50,6 +63,12 @@ final class BackendRegistry {
 		return $this->backends[$id] ?? throw new UnknownBackend(sprintf('Unknown backend %s', preg_replace('/[^a-z0-9_]/', '?', substr($id, 0, 32))));
 	}
 
+	/**
+	 * Has.
+	 *
+	 * @param string $id
+	 * @return bool
+	 */
 	public function has(string $id): bool {
 		return isset($this->backends[$id]);
 	}

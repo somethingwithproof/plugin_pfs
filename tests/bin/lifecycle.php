@@ -143,6 +143,21 @@ switch ($action) {
 		db_execute("UPDATE settings SET value = '2' WHERE name = 'pfs_schema_version'");
 
 		break;
+	case 'to_schema_3':
+		// Prior main branch schema (version 3): no value_kib columns and only
+		// the 8 original hooks. Seed observation and summary rows so the
+		// upgrade test proves existing rows survive migration 4.
+		db_execute('ALTER TABLE plugin_pfs_observation DROP COLUMN value_kib');
+		db_execute('ALTER TABLE plugin_pfs_summary DROP COLUMN value_kib');
+		$seed_fs = (int) db_fetch_cell('SELECT id FROM plugin_pfs_filesystem ORDER BY id LIMIT 1');
+		db_execute_prepared("INSERT INTO plugin_pfs_target (filesystem_id, type, target_index, name, review, presence, condition_state, recovery, source_node_id, first_seen, last_seen) VALUES (?, 'ost', 0, 'seed-OST0000', 'accepted', 'present', 'in_service', '', 0, 1800000000, 1800000000)", array($seed_fs));
+		$seed_target = (int) db_fetch_insert_id();
+		db_execute_prepared("INSERT INTO plugin_pfs_observation (target_id, metric, value, observed_at, ingested_at, source_node_id, expected_interval, continuity, start_marker, epoch) VALUES (?, 'kbytes_total', 1048576, 1800000000, 1800000000, 0, 300, 'continuous', '', 0)", array($seed_target));
+		db_execute_prepared("INSERT INTO plugin_pfs_summary (filesystem_id, metric, value, members, observed_at, computed_at) VALUES (?, 'kbytes_total', 1048576, 'seed', 1800000000, 1800000000)", array($seed_fs));
+		db_execute("DELETE FROM plugin_hooks WHERE name = 'pfs' AND hook NOT IN ('auth_alternate_realms', 'config_arrays', 'config_settings', 'draw_navigation_text', 'poller_bottom', 'device_remove', 'api_device_new', 'graph_buttons')");
+		db_execute("UPDATE settings SET value = '3' WHERE name = 'pfs_schema_version'");
+
+		break;
 	case 'seed':
 		// A filesystem row, so table drops and keeps are visible.
 		db_execute("INSERT INTO plugin_pfs_filesystem (name, backend, poller_id, expected_interval, admin_state) VALUES ('seed', 'lustre', 1, 300, 'enabled')");
@@ -243,4 +258,8 @@ print json_encode(array(
 	'legacy_created_devices' => (string) db_fetch_cell("SELECT value FROM settings WHERE name = 'pfs_created_devices'"),
 	'filesystem_hosts' => db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") ? array_map('intval', array_column(db_fetch_assoc('SELECT name, host_id FROM plugin_pfs_filesystem ORDER BY name'), 'host_id', 'name')) : array(),
 	'host_column' => (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_filesystem' AND COLUMN_NAME = 'host_id'") === 1,
+	'value_kib_columns' => array(
+		'observation' => (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_observation' AND COLUMN_NAME = 'value_kib'") === 1,
+		'summary'     => (int) db_fetch_cell("SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plugin_pfs_summary' AND COLUMN_NAME = 'value_kib'") === 1,
+	),
 ), JSON_PRETTY_PRINT) . PHP_EOL;

@@ -34,6 +34,11 @@ interface Backend {
 	 */
 	public function id(): string;
 
+	/**
+	 * Return the human-readable display label.
+	 *
+	 * @return string
+	 */
 	public function label(): string;
 
 	/**
@@ -46,5 +51,11 @@ interface Backend {
 	 */
 	public function filesystemPattern(): string;
 
+	/**
+	 * Parse a framed node report into structured targets and observations.
+	 *
+	 * @param string $output
+	 * @return NodeReport
+	 */
 	public function parse(string $output): NodeReport;
 }

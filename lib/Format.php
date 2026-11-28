@@ -23,6 +23,13 @@ namespace Somethingwithproof\Pfs;
  * Plain-text formatting for page cells. Callers escape the result.
  */
 final class Format {
+	/**
+	 * Age.
+	 *
+	 * @param int $time
+	 * @param int $now
+	 * @return string
+	 */
 	public static function age(int $time, int $now): string {
 		if ($time <= 0) {
 			return __('Never', 'pfs');
@@ -38,6 +45,12 @@ final class Format {
 		};
 	}
 
+	/**
+	 * Bytes.
+	 *
+	 * @param int $bytes
+	 * @return string
+	 */
 	public static function bytes(int $bytes): string {
 		return match (true) {
 			$bytes < 1024        => __('%d B', $bytes, 'pfs'),

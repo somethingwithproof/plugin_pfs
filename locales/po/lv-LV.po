@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-27 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: lv-LV\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n % 10 == 0 || n % 100 >= 11 && n % 100 <= 19) ? 0 : ((n % 10 == 1 && n % 100 != 11) ? 1 : 2);\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Pārbaudiet mērķu ietilpību, nelīdzsvarotību un datu aktualitāti paralēlajās failu sistēmās. Mezgla piekļuvi, mērķu apstiprināšanu un ierīču piesaisti nododiet administratoram."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "SSH piespiedu komanda"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Failu sistēmas"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Darbības"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Aizmugursistēma"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Cacti ierīce"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Paredzamais intervāls"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Nosaukums"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Mezgli"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Aptaujātājs"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Stāvoklis"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Vēl nav reģistrēta neviena failu sistēma."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d sekundes"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Dzēst"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Piekļuve"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Galapunkts"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Failu sistēma"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Lietotājvārds"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Loma"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Vēl nav reģistrēts neviens mezgls."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Vispirms reģistrējiet failu sistēmu."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Eksportēt"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Lejupielādējiet reģistru (failu sistēmas, mezglus, tīklus un mērķu pārskatīšanu) JSON formātā pirms atinstalēšanas, kas izdzēš spraudņa tabulas. Tas nesatur nekādas atslēgas vai akreditācijas datus."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Failu sistēma: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Jauna failu sistēma"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Paredzamais intervāls (sekundēs)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Iespējots"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Jauns mezgls"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Mezgls: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Galapunkts (resursdatora nosaukums vai adrese)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "SSH ports"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Mezglam šī lietotājvārda failā authorized_keys jānorāda lasītāja atslēga ar piespiedu komandu, kas palaiž pfs-read.sh, piemēram: restrict,command=\"/usr/local/libexec/pfs-read.sh\", kam seko publiskā atslēga. Resursdatora atslēgai jāatrodas zināmo resursdatoru failā zem šeit norādītā galapunkta nosaukuma."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Cacti ierīce failu sistēmai %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Izveidot jaunu ierīci"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Ierīce"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Rādīt, kas tiks pievienots"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Pievienojamie objekti"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Ierīce saglabā savus iestatījumus, tostarp aptaujātāju. Nekas tajā netiek mainīts vai noņemts."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Atsevišķu mērķu grafiki tiek izveidoti pēc pieprasījuma ierīces lapā Jauni grafiki."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Izveidot ierīci"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Piesaistīt šo ierīci"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Atļautie tīkli"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Tīkls"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Vēl nav atļauts neviens tīkls. Aptaujātājs nesasniedz nevienu mezglu, kamēr tā tīkli nav norādīti šeit."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Atļaut"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Mērķi, kas gaida pārskatīšanu"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Klātbūtne"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Mērķis"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Pievienojamās vērtības"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Pieņemt"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Ignorēt"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Neviens mērķis negaida pārskatīšanu."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Pievienot ierīci"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(aptaujā aptaujātājs %d, nevis %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Atsaistīt"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Saglabāt"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Paralēlās failu sistēmas veidnes nav instalētas. Pārinstalējiet tās veselības lapā."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Ierīce \"%s\" no %s ierīces veidnes, ko aptaujā aptaujātājs %d, ar izslēgtām pieejamības pārbaudēm."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Datu vaicājums \"%s\", kurā uzskaitīti %d pašlaik zināmi mērķi. Pats par sevi tas neveido nevienu grafiku."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Grafiks \"%s\"."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Datu avots \"%s\" katram no šiem grafikiem — viens skriptu servera izsaukums katrā aptaujas ciklā neatkarīgi no mērķu skaita."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Izveidoja paralēlās failu sistēmas spraudnis failu sistēmai %s. Tās vērtības tiek ņemtas no spraudņa kešatmiņas; resursdatora nosaukums ir rezervēts nosaukums, ar kuru nekad netiek veidots savienojums."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Aizmugursistēma: izvēlieties vienu no uzskaitītajām aizmugursistēmām."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Nosaukums: izmantojiet failu sistēmas nosaukumu, ko izvada mezgli, piemēram, Lustre fsname ar ne vairāk kā 8 burtiem, cipariem, domuzīmēm vai pasvītrām."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Aptaujātājs: izvēlieties vienu no uzskaitītajiem aptaujātājiem."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Paredzamais intervāls: ievadiet veselas sekundes no %d līdz %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Nekad"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "pirms %d sekundēm"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "pirms %d minūtēm"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "pirms %d stundām"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "pirms %d dienām"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Paralēlās failu sistēmas skats: %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Paralēlās failu sistēmas brīdinājumi"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Nav brīdinājumu."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Instalēt veidnes vēlreiz"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Lasītāji"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Neizdevās"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Pēdējā pabeigtā izpilde"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Pēdējā izpilde"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Nesasniedzams"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Nolasīts"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Neviens lasītājs vēl nav darbojies."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Ilgums"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Kļūme"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Pēdējā nolasīšana"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Pēdējā veiksmīgā reize"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Mezgls"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Ziņotā versija"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Atbildes lielums"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "atspējots"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s s"
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: mezgls atbildēja bez fiksētā lasīšanas skripta ietvara. Tā atslēga, iespējams, nav ierobežota ar piespiedu komandu, kas palaiž pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: mezgla resursdatora atslēga nav zināmo resursdatoru failā vai ir mainījusies. Pirms pievienošanas pārbaudiet atslēgu."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: galapunkts tiek atrisināts ārpus aptaujātājam %d atļautajiem tīkliem, tāpēc tas netiek lasīts."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: lasīšanas skripts izvadīja %d parametrus, kurus spraudnis nelasa, tāpēc tas nav piegādātais pfs-read.sh. Mezgls, iespējams, atklāj vairāk datu, nekā spraudnim nepieciešams."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d mērķu nosaukumi mezgla izvadē neatbilda paredzamajam šablonam vai failu sistēmai un tika ignorēti."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Lasītājs uz aptaujātāja %d pēdējo %d sekunžu laikā nav pabeidzis izpildi. Vērtības no tā mezgliem kļūst novecojušas."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Paralēlās failu sistēmas veidņu instalēšana neizdevās: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Paralēlās failu sistēmas veidnes nav instalētas, tāpēc nevar pievienot nevienu ierīci."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Datu vaicājuma fails resource/script_server/%s trūkst Cacti instalācijā vai atšķiras no šī spraudņa piegādātā faila, tāpēc datu vaicājumi nevar uzskaitīt mērķus."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Failu sistēma %s ir piesaistīta ierīcei %d, kura vairs neeksistē."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Failu sistēmas %s ierīci aptaujā aptaujātājs %d, bet tās mezglus lasa aptaujātājs %d, kura kešatmiņa ir nepieciešama ierīces datu avotiem."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "SSH atslēgas fails %s šajā serverī neeksistē."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "SSH atslēgas failu %s var lasīt vai rakstīt citi lietotāji, ne tikai tā īpašnieks (tiesības %s). Ierobežojiet piekļuvi tikai aptaujātāja lietotājam."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Zināmo resursdatoru fails %s šajā serverī neeksistē, tāpēc no tā nevar nolasīt nevienu mezglu."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "SSH klients %s šajā serverī neeksistē."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Failu sistēma: izvēlieties vienu no reģistrētajām failu sistēmām."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Nosaukums: izmantojiet 1 līdz 64 burtus, ciparus, punktus, domuzīmes vai pasvītras, sākot ar burtu vai ciparu."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Loma: izvēlieties vienu no uzskaitītajām lomām."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Ports: ievadiet porta numuru no 1 līdz 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Lietotājvārds: izmantojiet konta nosaukumu ar mazajiem burtiem līdz 32 rakstzīmēm, sākot ar burtu vai pasvītru."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Galapunkts: ievadiet tikai resursdatora nosaukumu vai IP adresi bez lietotāja, porta vai ceļa."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Galapunkts: šis nosaukums šajā serverī netiek atrisināts."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Galapunkts: tas tiek atrisināts uz %s, kas neietilpst šim aptaujātājam atļautajos tīklos. Vispirms pievienojiet tīklu."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Pārvaldības serveris (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Metadatu serveris (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Objektu krātuves serveris (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Klients"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Pārskatiet tālāk reģistrētos novērojumus. Apstiprinājumi attiecas tikai uz šo sesiju, zaudē spēku, mainoties novērojumiem, un nekad neapslāpē brīdinājumus vai nemaina veselības stāvokli."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Paralēlās failu sistēmas darbības"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Izmeklēšana"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Objekts"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Novērots (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Nezināms vai novecojis"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Apstiprināts; veselības stāvoklis nav mainīts."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Apstiprināt"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Nav pieejamu novērojumu ierīcēm, kurām jums ir piekļuve."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Paralēlās failu sistēmas operators"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Paralēlās failu sistēmas skats"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Paralēlās failu sistēmas administrēšana"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Paralēlās failu sistēmas"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Paralēlo failu sistēmu reģistrs"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Paralēlās failu sistēmas veselība"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Spraudņa iestatījumi piekļuvei mezgliem ir nepilnīgi vai nederīgi"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Galapunkts tiek atrisināts ārpus tā aptaujātājam atļautajiem tīkliem"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Galapunkta nosaukums netiek atrisināts"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Mezglu nevarēja sasniegt"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Mezgla resursdatora atslēga nav zināma vai ir mainījusies"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Mezgls noraidīja atslēgu"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Nolasīšana pārsniedza laika ierobežojumu"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Atbilde pārsniedza lieluma ierobežojumu"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Lasīšanas komanda neizdevās"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Mezgls neatbildēja ar fiksēto lasīšanas skriptu"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Atbilde beidzās pirms lasīšanas skripta pabeigšanas"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Piekļuve mezgliem"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Absolūtais ceļš līdz ssh klientam katrā aptaujātājā, kas lasa mezglus."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "SSH klients"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Absolūtais ceļš katrā aptaujātājā, kas lasa mezglus, līdz privātajai atslēgai, kuras publisko daļu katrs mezgls norāda failā authorized_keys ar piespiedu komandu, kas palaiž pfs-read.sh. Jābūt lasāmai tikai aptaujātāja lietotājam. Spraudnis to nekad neveido, nekopē un neizdrukā."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "SSH atslēgas fails"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Absolūtais ceļš līdz failam known_hosts, kurā zem mezgla galapunkta nosaukuma glabājas katra mezgla resursdatora atslēga. Mezgls, kura atslēga trūkst vai ir mainījusies, netiek lasīts."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Zināmo resursdatoru fails"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Savienojuma noildze"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Sekundes, cik ilgi gaidīt, līdz mezgls pieņem savienojumu."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Lasīšanas noildze"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Kopējais sekunžu skaits, cik ilgi drīkst ilgt viena mezgla nolasīšana, pirms tā tiek apturēta un reģistrēta kā neveiksmīga."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB skaits, ko viens mezgls drīkst atgriezt. Lielāka atbilde tiek atmesta un reģistrēta kā neveiksmīga."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Maksimālā atbilde"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Lasītājs"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Lasītāja laika budžets"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Sekundes, ko drīkst patērēt viena lasītāja izpilde, pirms tā pārstāj sākt jaunu mezglu lasīšanu. Saglabājiet to mazāku par aptaujas intervālu; nenolasītie mezgli tiks nolasīti nākamajā izpildē."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Vienlaicīgās nolasīšanas"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Mezglu nolasīšanu skaits, ko viens lasītājs veic vienlaicīgi."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Atinstalēšana"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Saglabāt spraudņa tabulas atinstalēšanas laikā"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Ja atzīmēts, atinstalējot spraudni, tiek saglabātas tā failu sistēmas, mezgli, inventārs un kešatmiņa. Noņemiet atzīmi, lai atinstalēšana tās izdzēstu; vispirms eksportējiet reģistru no Paralēlās failu sistēmas administrēšanas lapas. Ar krātuves mezgliem jebkurā gadījumā netiek veidots savienojums."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Atinstalējot dzēst šī spraudņa izveidotās ierīces"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Ja atzīmēts, atinstalējot spraudni, tiek dzēstas tā failu sistēmām izveidotās ierīces kopā ar to grafikiem un datu avotiem — tāpat kā dzēšot tās Cacti. Esošās ierīces, kas tika piesaistītas failu sistēmai, nekad netiek dzēstas. RRD faili tiek noņemti tikai tad, ja to paredz paša Cacti RRD tīrīšanas iestatījums. Ja atzīme nav iestatīta, ierīces paliek."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Jums nav redzama neviena failu sistēma."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Failu sistēma %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Šīs failu sistēmas grafiki"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Stāvoklis"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Aktualitāte"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Zināmās vērtības"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Pēdējoreiz redzēts"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Atkopšana"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Pārskatīšana"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Avota mezgls"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Vēl nav atrasts neviens mērķis."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Šis ieraksts pieder Cacti ierīcei, kurai jums nav atļaujas. Nekas netika mainīts."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Nosaukums: cita šīs aizmugursistēmas failu sistēma jau izmanto šo nosaukumu."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Failu sistēmu nevarēja saglabāt."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Failu sistēma tika saglabāta."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Failu sistēma, tās mezgli un inventārs tika dzēsti. Tās Cacti ierīce, datu avoti un grafiki tika saglabāti. Ar nevienu mezglu netika veidots savienojums."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Nosaukums: cits mezgls jau izmanto šo nosaukumu."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Mezglu nevarēja saglabāt."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Mezgls tika saglabāts."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Mezgls tika dzēsts. Mērķi, par kuriem tas ziņoja, saglabā savu vēsturi."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Ievadiet tīklu kā adresi un prefiksa garumu, piemēram, 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Ierīce netika pievienota: failu sistēmai tā jau ir vai veidnes nav instalētas."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Ierīci nevarēja piesaistīt. Tā, iespējams, ir piesaistīta citai failu sistēmai."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Ierīce tika piesaistīta, un tika pievienoti datu vaicājumi un pārskata grafiki."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Cacti neizveidoja ierīci. Skatiet Cacti žurnālu."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Ierīce, tās datu vaicājumi un pārskata grafiki tika izveidoti."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Ierīce vairs nav piesaistīta. Tā un tās grafiki tika saglabāti; tās datu vaicājumi neuzskaita mērķus, līdz tā atkal tiek piesaistīta."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Veidnes un datu vaicājumu faili tika instalēti."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Veidnes nevarēja instalēt: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Uzraudzības skats"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Novērojumus nevarēja nolasīt. Lūdziet administratoram pārbaudīt spraudņa žurnālu."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Paralēlās failu sistēmas spraudnim nepieciešama PHP %s vai jaunāka versija. Šajā serverī darbojas PHP %s, tāpēc spraudnis netika instalēts vai iespējots."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Paralēlās failu sistēmas spraudnis nav iespējots."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Paralēlās failu sistēmas spraudnim nepieciešama PHP %s vai jaunāka versija."
+
+#: setup.php
+msgid "Management"
+msgstr "Pārvaldība"

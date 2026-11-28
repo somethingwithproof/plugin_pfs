@@ -25,6 +25,14 @@ namespace Somethingwithproof\Pfs;
  * a partial answer as if it were whole.
  */
 final readonly class NodeRead {
+	/**
+	 * Initialize NodeRead.
+	 *
+	 * @param string $output
+	 * @param ?ReadError $error
+	 * @param int $bytes
+	 * @param float $duration
+	 */
 	private function __construct(
 		public string $output,
 		public ?ReadError $error,
@@ -33,14 +41,34 @@ final readonly class NodeRead {
 	) {
 	}
 
+	/**
+	 * Ok.
+	 *
+	 * @param string $output
+	 * @param float $duration
+	 * @return self
+	 */
 	public static function ok(string $output, float $duration): self {
 		return new self($output, null, strlen($output), $duration);
 	}
 
+	/**
+	 * Failed.
+	 *
+	 * @param ReadError $error
+	 * @param int $bytes
+	 * @param float $duration
+	 * @return self
+	 */
 	public static function failed(ReadError $error, int $bytes = 0, float $duration = 0.0): self {
 		return new self('', $error, $bytes, $duration);
 	}
 
+	/**
+	 * Succeeded.
+	 *
+	 * @return bool
+	 */
 	public function succeeded(): bool {
 		return $this->error === null;
 	}

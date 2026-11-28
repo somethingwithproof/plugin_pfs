@@ -29,9 +29,14 @@ namespace Somethingwithproof\Pfs;
  * the node was read.
  */
 enum Collection: string {
+	/** Collection never case. */
 	case Never     = 'never';
+	/** Collection completed case. */
 	case Completed = 'completed';
+	/** Collection partial case. */
 	case Partial   = 'partial';
+	/** Collection failed case. */
 	case Failed    = 'failed';
+	/** Collection skipped case. */
 	case Skipped   = 'skipped';
 }

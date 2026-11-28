@@ -27,9 +27,23 @@ namespace Somethingwithproof\Pfs;
  * fences a run that outlived its registration.
  */
 final class ReaderRepository {
+	/**
+	 * Initialize ReaderRepository.
+	 *
+	 * @param \PDO|false $connection
+	 * @param Clock $clock
+	 */
 	public function __construct(private readonly \PDO|false $connection, private readonly Clock $clock) {
 	}
 
+	/**
+	 * Acquire.
+	 *
+	 * @param int $pollerId
+	 * @param string $holder
+	 * @param int $seconds
+	 * @return bool
+	 */
 	public function acquire(int $pollerId, string $holder, int $seconds): bool {
 		$now = $this->clock->now();
 
@@ -39,10 +53,23 @@ final class ReaderRepository {
 		return $this->holds($pollerId, $holder);
 	}
 
+	/**
+	 * Holds.
+	 *
+	 * @param int $pollerId
+	 * @param string $holder
+	 * @return bool
+	 */
 	public function holds(int $pollerId, string $holder): bool {
 		return (int) db_fetch_cell_prepared('SELECT COUNT(*) FROM plugin_pfs_reader WHERE poller_id = ? AND holder = ? AND expires_at >= ?', [$pollerId, $holder, $this->clock->now()], '', true, $this->connection) === 1;
 	}
 
+	/**
+	 * Release.
+	 *
+	 * @param int $pollerId
+	 * @param string $holder
+	 */
 	public function release(int $pollerId, string $holder): void {
 		db_execute_prepared('UPDATE plugin_pfs_reader SET expires_at = 0 WHERE poller_id = ? AND holder = ?', [$pollerId, $holder], true, $this->connection);
 	}

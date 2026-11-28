@@ -29,9 +29,19 @@ namespace Somethingwithproof\Pfs;
  * the same defaults everywhere.
  */
 final class SettingsRepository {
+	/**
+	 * Initialize SettingsRepository.
+	 *
+	 * @param \PDO|false $connection
+	 */
 	public function __construct(private readonly \PDO|false $connection) {
 	}
 
+	/**
+	 * Load.
+	 *
+	 * @return Settings
+	 */
 	public function load(): Settings {
 		$placeholders = implode(', ', array_fill(0, count(Settings::NAMES), '?'));
 		$row          = [];
@@ -41,5 +51,16 @@ final class SettingsRepository {
 		}
 
 		return Settings::fromRow($row);
+	}
+
+	/**
+	 * Persist one allowlisted plugin setting in Cacti's settings table.
+	 */
+	public function save(string $name, string $value): bool {
+		if (!in_array($name, Settings::NAMES, true)) {
+			return false;
+		}
+
+		return (bool) db_execute_prepared('REPLACE INTO settings (name, value) VALUES (?, ?)', [$name, $value], true, $this->connection);
 	}
 }

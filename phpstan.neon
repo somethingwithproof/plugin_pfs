@@ -26,6 +26,7 @@ parameters:
         - include/operator.php
         - include/unbooted-uninstall.php
         - scripts
+        - cli/pfs.php
     scanDirectories:
         - %env.CACTI_PATH%/lib
         - %env.CACTI_PATH%/include
@@ -38,3 +39,10 @@ parameters:
             - %env.CACTI_PATH%/include/js/*
             - %env.CACTI_PATH%/include/themes/*
     treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        -
+            identifier: require.fileNotFound
+            path: cli/pfs.php
+        -
+            identifier: variable.undefined
+            path: cli/pfs.php

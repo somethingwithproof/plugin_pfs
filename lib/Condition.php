@@ -24,14 +24,26 @@ namespace Somethingwithproof\Pfs;
  * available the condition is Unknown, never InService.
  */
 enum Condition: string {
+	/** Condition in service case. */
 	case InService  = 'in_service';
+	/** Condition degraded case. */
 	case Degraded   = 'degraded';
+	/** Condition read only case. */
 	case ReadOnly   = 'read_only';
+	/** Condition no create case. */
 	case NoCreate   = 'no_create';
+	/** Condition out of space case. */
 	case OutOfSpace = 'out_of_space';
+	/** Condition inactive case. */
 	case Inactive   = 'inactive';
+	/** Condition unknown case. */
 	case Unknown    = 'unknown';
 
+	/**
+	 * Healthy.
+	 *
+	 * @return bool
+	 */
 	public function healthy(): bool {
 		return $this === self::InService;
 	}
