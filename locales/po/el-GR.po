@@ -1,0 +1,874 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# SPDX-FileCopyrightText: 2026 Thomas Vincent <thomasvincent@gmail.com>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: pfs 0.1.0\n"
+"Report-Msgid-Bugs-To: https://github.com/somethingwithproof/plugin_pfs/issues\n"
+"PO-Revision-Date: 2026-11-27 00:00+0000\n"
+"Last-Translator: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language-Team: Thomas Vincent <thomasvincent@gmail.com>\n"
+"Language: el-GR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: include/operator.php
+msgid "Inspect target capacity, imbalance and freshness on Parallel Filesystems. Escalate node access, target acceptance and device mapping to an administrator."
+msgstr "Επιθεωρήστε τη χωρητικότητα στόχων, την ανισορροπία και την επικαιρότητα στα Παράλληλα Συστήματα Αρχείων. Κλιμακώστε την πρόσβαση σε κόμβους, την αποδοχή στόχων και την αντιστοίχιση συσκευών σε έναν διαχειριστή."
+
+#: lib/AccessMethod.php
+msgid "SSH forced command"
+msgstr "Υποχρεωτική εντολή SSH"
+
+#: lib/AdminPage.php
+msgid "Filesystems"
+msgstr "Συστήματα αρχείων"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "Actions"
+msgstr "Ενέργειες"
+
+#: lib/AdminPage.php
+msgid "Backend"
+msgstr "Σύστημα υποστήριξης"
+
+#: lib/AdminPage.php
+msgid "Cacti Device"
+msgstr "Συσκευή Cacti"
+
+#: lib/AdminPage.php
+msgid "Expected Interval"
+msgstr "Αναμενόμενο διάστημα"
+
+#: lib/AdminPage.php
+msgid "Name"
+msgstr "Όνομα"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Nodes"
+msgstr "Κόμβοι"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Poller"
+msgstr "Poller"
+
+#: lib/AdminPage.php lib/OperatorPage.php
+msgid "State"
+msgstr "Κατάσταση"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "No filesystems registered yet."
+msgstr "Δεν έχουν καταχωρηθεί ακόμη συστήματα αρχείων."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "%d seconds"
+msgstr "%d δευτερόλεπτα"
+
+#: lib/AdminPage.php
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: lib/AdminPage.php
+msgid "Access"
+msgstr "Πρόσβαση"
+
+#: lib/AdminPage.php
+msgid "Endpoint"
+msgstr "Τελικό σημείο"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Filesystem"
+msgstr "Σύστημα αρχείων"
+
+#: lib/AdminPage.php
+msgid "Login Name"
+msgstr "Όνομα σύνδεσης"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "Role"
+msgstr "Ρόλος"
+
+#: lib/AdminPage.php lib/HealthPage.php
+msgid "No nodes registered yet."
+msgstr "Δεν έχουν καταχωρηθεί ακόμη κόμβοι."
+
+#: lib/AdminPage.php
+msgid "Register a filesystem first."
+msgstr "Καταχωρήστε πρώτα ένα σύστημα αρχείων."
+
+#: lib/AdminPage.php
+msgid "Export"
+msgstr "Εξαγωγή"
+
+#: lib/AdminPage.php
+msgid "Download the registry (filesystems, nodes, networks, and target review) as JSON before an uninstall that drops the plugin tables. It holds no key or credential."
+msgstr "Κατεβάστε το μητρώο (συστήματα αρχείων, κόμβοι, δίκτυα και έλεγχος στόχων) ως JSON πριν από μια απεγκατάσταση που διαγράφει τους πίνακες του πρόσθετου. Δεν περιέχει κλειδιά ή διαπιστευτήρια."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Filesystem: %s"
+msgstr "Σύστημα αρχείων: %s"
+
+#: lib/AdminPage.php
+msgid "New Filesystem"
+msgstr "Νέο σύστημα αρχείων"
+
+#: lib/AdminPage.php
+msgid "Expected Interval (seconds)"
+msgstr "Αναμενόμενο διάστημα (δευτερόλεπτα)"
+
+#: lib/AdminPage.php
+msgid "Enabled"
+msgstr "Ενεργοποιημένο"
+
+#: lib/AdminPage.php
+msgid "New Node"
+msgstr "Νέος κόμβος"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Node: %s"
+msgstr "Κόμβος: %s"
+
+#: lib/AdminPage.php
+msgid "Endpoint (host name or address)"
+msgstr "Τελικό σημείο (όνομα κεντρικού υπολογιστή ή διεύθυνση)"
+
+#: lib/AdminPage.php
+msgid "SSH Port"
+msgstr "Θύρα SSH"
+
+#: lib/AdminPage.php
+msgid "The node must list the reader key in authorized_keys for this login with a forced command running pfs-read.sh, for example: restrict,command=\"/usr/local/libexec/pfs-read.sh\" followed by the public key. The host key must be in the known hosts file under the endpoint as written here."
+msgstr "Ο κόμβος πρέπει να περιλαμβάνει το κλειδί του αναγνώστη στο authorized_keys για αυτό το όνομα σύνδεσης με υποχρεωτική εντολή που εκτελεί το pfs-read.sh, για παράδειγμα: restrict,command=\"/usr/local/libexec/pfs-read.sh\" ακολουθούμενο από το δημόσιο κλειδί. Το κλειδί κεντρικού υπολογιστή πρέπει να βρίσκεται στο αρχείο γνωστών κεντρικών υπολογιστών υπό το τελικό σημείο όπως αναγράφεται εδώ."
+
+#: lib/AdminPage.php
+#, php-format
+msgid "Cacti Device for Filesystem %s"
+msgstr "Συσκευή Cacti για το σύστημα αρχείων %s"
+
+#: lib/AdminPage.php
+msgid "Create a new device"
+msgstr "Δημιουργία νέας συσκευής"
+
+#: lib/AdminPage.php
+msgid "Device"
+msgstr "Συσκευή"
+
+#: lib/AdminPage.php
+msgid "Show What Will Be Added"
+msgstr "Εμφάνιση των στοιχείων που θα προστεθούν"
+
+#: lib/AdminPage.php
+msgid "Objects to Add"
+msgstr "Αντικείμενα προς προσθήκη"
+
+#: lib/AdminPage.php
+msgid "The device keeps its own settings, poller included. Nothing on it is changed or removed."
+msgstr "Η συσκευή διατηρεί τις δικές της ρυθμίσεις, συμπεριλαμβανομένου του poller. Τίποτα σε αυτήν δεν αλλάζει και δεν αφαιρείται."
+
+#: lib/AdminPage.php
+msgid "Per-target graphs are created on demand from the device's New Graphs page."
+msgstr "Τα γραφήματα ανά στόχο δημιουργούνται κατ' απαίτηση από τη σελίδα «Νέα γραφήματα» της συσκευής."
+
+#: lib/AdminPage.php
+msgid "Create the Device"
+msgstr "Δημιουργία της συσκευής"
+
+#: lib/AdminPage.php
+msgid "Map This Device"
+msgstr "Αντιστοίχιση αυτής της συσκευής"
+
+#: lib/AdminPage.php
+msgid "Allowed Networks"
+msgstr "Επιτρεπόμενα δίκτυα"
+
+#: lib/AdminPage.php
+msgid "Network"
+msgstr "Δίκτυο"
+
+#: lib/AdminPage.php
+msgid "No networks allowed yet. A poller reaches no node until its networks are listed here."
+msgstr "Δεν επιτρέπονται ακόμη δίκτυα. Ένας poller δεν επικοινωνεί με κανέναν κόμβο έως ότου τα δίκτυά του προστεθούν εδώ."
+
+#: lib/AdminPage.php
+msgid "Allow"
+msgstr "Επιτρέπεται"
+
+#: lib/AdminPage.php
+msgid "Targets Awaiting Review"
+msgstr "Στόχοι σε αναμονή ελέγχου"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Presence"
+msgstr "Παρουσία"
+
+#: lib/AdminPage.php lib/TargetsPage.php
+msgid "Target"
+msgstr "Στόχος"
+
+#: lib/AdminPage.php
+msgid "Values It Adds"
+msgstr "Τιμές που προσθέτει"
+
+#: lib/AdminPage.php
+msgid "Accept"
+msgstr "Αποδοχή"
+
+#: lib/AdminPage.php
+msgid "Ignore"
+msgstr "Αγνόηση"
+
+#: lib/AdminPage.php
+msgid "No targets await review."
+msgstr "Δεν υπάρχουν στόχοι σε αναμονή ελέγχου."
+
+#: lib/AdminPage.php
+msgid "Add a device"
+msgstr "Προσθήκη συσκευής"
+
+#: lib/AdminPage.php
+#, php-format
+msgid "(polled by poller %d, not %d)"
+msgstr "(συλλέγεται από τον poller %d, όχι %d)"
+
+#: lib/AdminPage.php
+msgid "Unmap"
+msgstr "Κατάργηση αντιστοίχισης"
+
+#: lib/AdminPage.php
+msgid "Save"
+msgstr "Αποθήκευση"
+
+#: lib/DeviceProvisioner.php
+msgid "The Parallel Filesystem templates are not installed. Reinstall them from the health page."
+msgstr "Τα πρότυπα Parallel Filesystem δεν είναι εγκατεστημένα. Επανεγκαταστήστε τα από τη σελίδα υγείας."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A device \"%s\" from the %s device template, polled by poller %d, with availability checks off."
+msgstr "Μια συσκευή «%s» από το πρότυπο συσκευής %s, που συλλέγεται από τον poller %d, με απενεργοποιημένους ελέγχους διαθεσιμότητας."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The data query \"%s\", listing %d targets known now. It creates no graph by itself."
+msgstr "Το ερώτημα δεδομένων «%s», που παραθέτει %d γνωστούς στόχους αυτή τη στιγμή. Δεν δημιουργεί κανένα γράφημα από μόνο του."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "The graph \"%s\"."
+msgstr "Το γράφημα «%s»."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "A \"%s\" data source for each of those graphs, each one script server call per poll cycle, whatever the number of targets."
+msgstr "Μια πηγή δεδομένων «%s» για καθένα από αυτά τα γραφήματα, με μία κλήση στον διακομιστή σεναρίων ανά κύκλο συλλογής, ανεξάρτητα από τον αριθμό των στόχων."
+
+#: lib/DeviceProvisioner.php
+#, php-format
+msgid "Created by the Parallel Filesystem plugin for filesystem %s. Its values come from the plugin cache; the host name is a reserved name that is never contacted."
+msgstr "Δημιουργήθηκε από το πρόσθετο Parallel Filesystem για το σύστημα αρχείων %s. Οι τιμές της προέρχονται από την προσωρινή μνήμη του πρόσθετου· το όνομα κεντρικού υπολογιστή είναι δεσμευμένο όνομα με το οποίο δεν γίνεται ποτέ επικοινωνία."
+
+#: lib/FilesystemInput.php
+msgid "Backend: choose one of the listed backends."
+msgstr "Σύστημα υποστήριξης: επιλέξτε ένα από τα αναγραφόμενα συστήματα υποστήριξης."
+
+#: lib/FilesystemInput.php
+msgid "Name: use the filesystem name the nodes print, such as the Lustre fsname of at most 8 letters, digits, dashes, or underscores."
+msgstr "Όνομα: χρησιμοποιήστε το όνομα συστήματος αρχείων που εκτυπώνουν οι κόμβοι, όπως το Lustre fsname με έως 8 γράμματα, ψηφία, παύλες ή κάτω παύλες."
+
+#: lib/FilesystemInput.php lib/NodeInput.php
+msgid "Poller: choose one of the listed pollers."
+msgstr "Poller: επιλέξτε έναν από τους αναγραφόμενους pollers."
+
+#: lib/FilesystemInput.php
+#, php-format
+msgid "Expected Interval: enter whole seconds from %d to %d."
+msgstr "Αναμενόμενο διάστημα: εισαγάγετε ακέραια δευτερόλεπτα από %d έως %d."
+
+#: lib/Format.php lib/OperatorPage.php
+msgid "Never"
+msgstr "Ποτέ"
+
+#: lib/Format.php
+#, php-format
+msgid "%d seconds ago"
+msgstr "πριν από %d δευτερόλεπτα"
+
+#: lib/Format.php
+#, php-format
+msgid "%d minutes ago"
+msgstr "πριν από %d λεπτά"
+
+#: lib/Format.php
+#, php-format
+msgid "%d hours ago"
+msgstr "πριν από %d ώρες"
+
+#: lib/Format.php
+#, php-format
+msgid "%d days ago"
+msgstr "πριν από %d ημέρες"
+
+#: lib/Format.php
+#, php-format
+msgid "%d B"
+msgstr "%d B"
+
+#: lib/Format.php
+#, php-format
+msgid "%s KiB"
+msgstr "%s KiB"
+
+#: lib/Format.php
+#, php-format
+msgid "%s MiB"
+msgstr "%s MiB"
+
+#: lib/GraphLinks.php
+#, php-format
+msgid "Parallel Filesystem view of %s"
+msgstr "Προβολή παράλληλου συστήματος αρχείων του %s"
+
+#: lib/HealthPage.php
+msgid "Parallel Filesystem Warnings"
+msgstr "Προειδοποιήσεις παράλληλων συστημάτων αρχείων"
+
+#: lib/HealthPage.php
+msgid "No warnings."
+msgstr "Δεν υπάρχουν προειδοποιήσεις."
+
+#: lib/HealthPage.php
+msgid "Install the Templates Again"
+msgstr "Επανεγκατάσταση των προτύπων"
+
+#: lib/HealthPage.php
+msgid "Readers"
+msgstr "Αναγνώστες"
+
+#: lib/HealthPage.php
+msgid "Failed"
+msgstr "Απέτυχε"
+
+#: lib/HealthPage.php
+msgid "Last Completed Run"
+msgstr "Τελευταία ολοκληρωμένη εκτέλεση"
+
+#: lib/HealthPage.php
+msgid "Last Run"
+msgstr "Τελευταία εκτέλεση"
+
+#: lib/HealthPage.php
+msgid "Not Reached"
+msgstr "Μη προσβάσιμοι"
+
+#: lib/HealthPage.php
+msgid "Read"
+msgstr "Αναγνώστηκαν"
+
+#: lib/HealthPage.php
+msgid "No reader has run yet."
+msgstr "Δεν έχει εκτελεστεί ακόμη κανένας αναγνώστης."
+
+#: lib/HealthPage.php
+msgid "Duration"
+msgstr "Διάρκεια"
+
+#: lib/HealthPage.php
+msgid "Failure"
+msgstr "Αποτυχία"
+
+#: lib/HealthPage.php
+msgid "Last Read"
+msgstr "Τελευταία ανάγνωση"
+
+#: lib/HealthPage.php
+msgid "Last Success"
+msgstr "Τελευταία επιτυχία"
+
+#: lib/HealthPage.php
+msgid "Node"
+msgstr "Κόμβος"
+
+#: lib/HealthPage.php
+msgid "Reported Version"
+msgstr "Αναφερόμενη έκδοση"
+
+#: lib/HealthPage.php
+msgid "Response Size"
+msgstr "Μέγεθος απάντησης"
+
+#: lib/HealthPage.php
+msgid "disabled"
+msgstr "απενεργοποιημένο"
+
+#: lib/HealthPage.php
+#, php-format
+msgid "%s s"
+msgstr "%s δευτ."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node answered without the fixed read script framing. Its key may not be limited to a forced command running pfs-read.sh."
+msgstr "%s: ο κόμβος απάντησε χωρίς το σταθερό πλαίσιο του σεναρίου ανάγνωσης. Το κλειδί του ενδέχεται να μην περιορίζεται σε υποχρεωτική εντολή που εκτελεί το pfs-read.sh."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the node host key is not in the known hosts file, or it changed. Check the key before adding it."
+msgstr "%s: το κλειδί κεντρικού υπολογιστή του κόμβου δεν βρίσκεται στο αρχείο γνωστών κεντρικών υπολογιστών ή έχει αλλάξει. Ελέγξτε το κλειδί πριν το προσθέσετε."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the endpoint resolves outside the networks allowed for poller %d, so it is not read."
+msgstr "%s: το τελικό σημείο επιλύεται εκτός των δικτύων που επιτρέπονται για τον poller %d, επομένως δεν αναγιγνώσκεται."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: the read script printed %d parameters the plugin does not read, so it is not the shipped pfs-read.sh. The node may be exposing more than the plugin needs."
+msgstr "%s: το σενάριο ανάγνωσης εκτύπωσε %d παραμέτρους που δεν διαβάζει το πρόσθετο, επομένως δεν είναι το παρεχόμενο pfs-read.sh. Ο κόμβος ενδέχεται να εκθέτει περισσότερα δεδομένα από όσα χρειάζεται το πρόσθετο."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "%s: %d target names in the node output did not match the expected pattern or filesystem and were ignored."
+msgstr "%s: %d ονόματα στόχων στην έξοδο του κόμβου δεν ταίριαζαν με το αναμενόμενο μοτίβο ή σύστημα αρχείων και αγνοήθηκαν."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The reader on poller %d has not completed a run in the last %d seconds. Values from its nodes are getting stale."
+msgstr "Ο αναγνώστης στον poller %d δεν έχει ολοκληρώσει εκτέλεση τα τελευταία %d δευτερόλεπτα. Οι τιμές από τους κόμβους του καθίστανται παρωχημένες."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Installing the Parallel Filesystem templates failed: %s"
+msgstr "Η εγκατάσταση των προτύπων Parallel Filesystem απέτυχε: %s"
+
+#: lib/HealthWarnings.php
+msgid "The Parallel Filesystem templates are not installed, so no device can be added."
+msgstr "Τα πρότυπα Parallel Filesystem δεν είναι εγκατεστημένα, επομένως δεν μπορεί να προστεθεί συσκευή."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The data query file resource/script_server/%s is missing from Cacti or differs from the one this plugin ships, so the data queries cannot list targets."
+msgstr "Το αρχείο ερωτήματος δεδομένων resource/script_server/%s λείπει από το Cacti ή διαφέρει από αυτό που παρέχει το πρόσθετο, επομένως τα ερωτήματα δεδομένων δεν μπορούν να παραθέσουν στόχους."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "Filesystem %s is mapped to device %d, which no longer exists."
+msgstr "Το σύστημα αρχείων %s έχει αντιστοιχιστεί στη συσκευή %d, η οποία δεν υπάρχει πλέον."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The device of filesystem %s is polled by poller %d, but its nodes are read by poller %d, whose cache the device's data sources need."
+msgstr "Η συσκευή του συστήματος αρχείων %s συλλέγεται από τον poller %d, αλλά οι κόμβοι του διαβάζονται από τον poller %d, την προσωρινή μνήμη του οποίου χρειάζονται οι πηγές δεδομένων της συσκευής."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s does not exist on this server."
+msgstr "Το αρχείο κλειδιού SSH %s δεν υπάρχει σε αυτόν τον διακομιστή."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH key file %s can be read or written by users other than its owner (mode %s). Limit it to the poller user."
+msgstr "Το αρχείο κλειδιού SSH %s μπορεί να αναγνωστεί ή να τροποποιηθεί από χρήστες άλλους από τον κάτοχό του (δικαιώματα %s). Περιορίστε το στον χρήστη του poller."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The known hosts file %s does not exist on this server, so no node can be read from it."
+msgstr "Το αρχείο γνωστών κεντρικών υπολογιστών %s δεν υπάρχει σε αυτόν τον διακομιστή, επομένως δεν μπορεί να αναγνωστεί κανένας κόμβος από αυτόν."
+
+#: lib/HealthWarnings.php
+#, php-format
+msgid "The SSH client %s does not exist on this server."
+msgstr "Ο πελάτης SSH %s δεν υπάρχει σε αυτόν τον διακομιστή."
+
+#: lib/NodeInput.php
+msgid "Filesystem: choose one of the registered filesystems."
+msgstr "Σύστημα αρχείων: επιλέξτε ένα από τα καταχωρημένα συστήματα αρχείων."
+
+#: lib/NodeInput.php
+msgid "Name: use 1 to 64 letters, digits, dots, dashes, or underscores, starting with a letter or digit."
+msgstr "Όνομα: χρησιμοποιήστε 1 έως 64 γράμματα, ψηφία, τελείες, παύλες ή κάτω παύλες, ξεκινώντας με γράμμα ή ψηφίο."
+
+#: lib/NodeInput.php
+msgid "Role: choose one of the listed roles."
+msgstr "Ρόλος: επιλέξτε έναν από τους αναγραφόμενους ρόλους."
+
+#: lib/NodeInput.php
+msgid "Port: enter a port from 1 to 65535."
+msgstr "Θύρα: εισαγάγετε μια θύρα από 1 έως 65535."
+
+#: lib/NodeInput.php
+msgid "Login Name: use a lower-case account name of at most 32 characters, starting with a letter or underscore."
+msgstr "Όνομα σύνδεσης: χρησιμοποιήστε όνομα λογαριασμού με πεζούς χαρακτήρες έως 32 χαρακτήρων, που ξεκινά με γράμμα ή κάτω παύλα."
+
+#: lib/NodeInput.php
+msgid "Endpoint: enter a host name or an IP address only, without a user, port, or path."
+msgstr "Τελικό σημείο: εισαγάγετε μόνο όνομα κεντρικού υπολογιστή ή διεύθυνση IP, χωρίς χρήστη, θύρα ή διαδρομή."
+
+#: lib/NodeInput.php
+msgid "Endpoint: the name does not resolve on this server."
+msgstr "Τελικό σημείο: το όνομα δεν επιλύεται σε αυτόν τον διακομιστή."
+
+#: lib/NodeInput.php
+#, php-format
+msgid "Endpoint: it resolves to %s, which is not inside the networks allowed for this poller. Add the network first."
+msgstr "Τελικό σημείο: επιλύεται σε %s, το οποίο δεν ανήκει στα δίκτυα που επιτρέπονται για αυτόν τον poller. Προσθέστε πρώτα το δίκτυο."
+
+#: lib/NodeRole.php
+msgid "Management server (MGS)"
+msgstr "Διακομιστής διαχείρισης (MGS)"
+
+#: lib/NodeRole.php
+msgid "Metadata server (MDS)"
+msgstr "Διακομιστής μεταδεδομένων (MDS)"
+
+#: lib/NodeRole.php
+msgid "Object storage server (OSS)"
+msgstr "Διακομιστής αποθήκευσης αντικειμένων (OSS)"
+
+#: lib/NodeRole.php
+msgid "Client"
+msgstr "Πελάτης"
+
+#: lib/OperatorPage.php
+msgid "Review the recorded observations below. Acknowledgments are personal to this session, expire when observations change, and never suppress alerts or change health."
+msgstr "Εξετάστε τις καταγεγραμμένες παρατηρήσεις παρακάτω. Οι επιβεβαιώσεις είναι προσωπικές για αυτή τη συνεδρία, λήγουν όταν αλλάξουν οι παρατηρήσεις και δεν καταστέλλουν ποτέ ειδοποιήσεις ούτε αλλάζουν την κατάσταση υγείας."
+
+#: lib/OperatorPage.php lib/Pages.php
+msgid "Parallel Filesystem Operations"
+msgstr "Λειτουργίες παράλληλων συστημάτων αρχείων"
+
+#: lib/OperatorPage.php
+msgid "Investigation"
+msgstr "Διερεύνηση"
+
+#: lib/OperatorPage.php
+msgid "Object"
+msgstr "Αντικείμενο"
+
+#: lib/OperatorPage.php
+msgid "Observed (UTC)"
+msgstr "Παρατηρήθηκε (UTC)"
+
+#: lib/OperatorPage.php
+msgid "Unknown or stale"
+msgstr "Άγνωστο ή παρωχημένο"
+
+#: lib/OperatorPage.php
+msgid "Acknowledged; health unchanged."
+msgstr "Επιβεβαιώθηκε· η κατάσταση υγείας παραμένει αμετάβλητη."
+
+#: lib/OperatorPage.php
+msgid "Acknowledge"
+msgstr "Επιβεβαίωση"
+
+#: lib/OperatorPage.php
+msgid "No observations are available for devices you may access."
+msgstr "Δεν υπάρχουν διαθέσιμες παρατηρήσεις για συσκευές στις οποίες έχετε πρόσβαση."
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Operator"
+msgstr "Χειριστής παράλληλων συστημάτων αρχείων"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem View"
+msgstr "Προβολή παράλληλων συστημάτων αρχείων"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Admin"
+msgstr "Διαχειριστής παράλληλων συστημάτων αρχείων"
+
+#: lib/Pages.php lib/TargetsPage.php setup.php
+msgid "Parallel Filesystems"
+msgstr "Παράλληλα συστήματα αρχείων"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Registry"
+msgstr "Μητρώο παράλληλων συστημάτων αρχείων"
+
+#: lib/Pages.php
+msgid "Parallel Filesystem Health"
+msgstr "Υγεία παράλληλων συστημάτων αρχείων"
+
+#: lib/ReadError.php
+msgid "The plugin settings for node access are incomplete or unusable"
+msgstr "Οι ρυθμίσεις του πρόσθετου για την πρόσβαση σε κόμβους είναι ελλιπείς ή μη χρησιμοποιήσιμες"
+
+#: lib/ReadError.php
+msgid "The endpoint resolves outside the networks allowed for its poller"
+msgstr "Το τελικό σημείο επιλύεται εκτός των δικτύων που επιτρέπονται για τον poller του"
+
+#: lib/ReadError.php
+msgid "The endpoint name does not resolve"
+msgstr "Το όνομα του τελικού σημείου δεν επιλύεται"
+
+#: lib/ReadError.php
+msgid "The node could not be reached"
+msgstr "Δεν ήταν δυνατή η επικοινωνία με τον κόμβο"
+
+#: lib/ReadError.php
+msgid "The node host key is unknown or changed"
+msgstr "Το κλειδί κεντρικού υπολογιστή του κόμβου είναι άγνωστο ή άλλαξε"
+
+#: lib/ReadError.php
+msgid "The node refused the key"
+msgstr "Ο κόμβος απέρριψε το κλειδί"
+
+#: lib/ReadError.php
+msgid "The read exceeded its time limit"
+msgstr "Η ανάγνωση υπερέβη το χρονικό της όριο"
+
+#: lib/ReadError.php
+msgid "The response exceeded the size limit"
+msgstr "Η απάντηση υπερέβη το όριο μεγέθους"
+
+#: lib/ReadError.php
+msgid "The read command failed"
+msgstr "Η εντολή ανάγνωσης απέτυχε"
+
+#: lib/ReadError.php
+msgid "The node did not answer with the fixed read script"
+msgstr "Ο κόμβος δεν απάντησε με το σταθερό σενάριο ανάγνωσης"
+
+#: lib/ReadError.php
+msgid "The response ended before the read script finished"
+msgstr "Η απάντηση τερματίστηκε πριν ολοκληρωθεί το σενάριο ανάγνωσης"
+
+#: lib/Settings.php
+msgid "Node Access"
+msgstr "Πρόσβαση σε κόμβους"
+
+#: lib/Settings.php
+msgid "Absolute path to the ssh client on each poller that reads nodes."
+msgstr "Απόλυτη διαδρομή προς τον πελάτη ssh σε κάθε poller που διαβάζει κόμβους."
+
+#: lib/Settings.php
+msgid "SSH Client"
+msgstr "Πελάτης SSH"
+
+#: lib/Settings.php
+msgid "Absolute path, on each poller that reads nodes, to the private key whose public half each node lists in authorized_keys with a forced command running pfs-read.sh. Readable only by the poller user. The plugin never creates, copies, or prints it."
+msgstr "Απόλυτη διαδρομή, σε κάθε poller που διαβάζει κόμβους, προς το ιδιωτικό κλειδί του οποίου το δημόσιο μισό περιλαμβάνει κάθε κόμβος στο authorized_keys με υποχρεωτική εντολή που εκτελεί το pfs-read.sh. Αναγνώσιμο μόνο από τον χρήστη του poller. Το πρόσθετο δεν το δημιουργεί, δεν το αντιγράφει και δεν το εκτυπώνει ποτέ."
+
+#: lib/Settings.php
+msgid "SSH Key File"
+msgstr "Αρχείο κλειδιού SSH"
+
+#: lib/Settings.php
+msgid "Absolute path to the known_hosts file holding each node host key under the node endpoint name. A node whose key is missing or changed is not read."
+msgstr "Απόλυτη διαδρομή προς το αρχείο known_hosts που περιέχει το κλειδί κεντρικού υπολογιστή κάθε κόμβου υπό το όνομα τελικού σημείου του κόμβου. Ένας κόμβος του οποίου το κλειδί λείπει ή έχει αλλάξει δεν διαβάζεται."
+
+#: lib/Settings.php
+msgid "Known Hosts File"
+msgstr "Αρχείο γνωστών κεντρικών υπολογιστών"
+
+#: lib/Settings.php
+msgid "Connect Timeout"
+msgstr "Χρονικό όριο σύνδεσης"
+
+#: lib/Settings.php
+msgid "Seconds to wait for a node to accept the connection."
+msgstr "Δευτερόλεπτα αναμονής ώστε ένας κόμβος να αποδεχτεί τη σύνδεση."
+
+#: lib/Settings.php
+msgid "Read Timeout"
+msgstr "Χρονικό όριο ανάγνωσης"
+
+#: lib/Settings.php
+msgid "Seconds one node read may take in total before it is stopped and recorded as failed."
+msgstr "Συνολικά δευτερόλεπτα που μπορεί να διαρκέσει η ανάγνωση ενός κόμβου προτού διακοπεί και καταγραφεί ως αποτυχημένη."
+
+#: lib/Settings.php
+msgid "KiB one node may return. A larger answer is discarded and recorded as failed."
+msgstr "KiB που επιτρέπεται να επιστρέψει ένας κόμβος. Μια μεγαλύτερη απάντηση απορρίπτεται και καταγράφεται ως αποτυχημένη."
+
+#: lib/Settings.php
+msgid "Maximum Response"
+msgstr "Μέγιστη απάντηση"
+
+#: lib/Settings.php
+msgid "Reader"
+msgstr "Αναγνώστης"
+
+#: lib/Settings.php
+msgid "Reader Time Budget"
+msgstr "Χρονικό περιθώριο αναγνώστη"
+
+#: lib/Settings.php
+msgid "Seconds one reader run may spend before it stops starting node reads. Keep it below the poller interval; unread nodes are read on the next run."
+msgstr "Δευτερόλεπτα που μπορεί να δαπανήσει μία εκτέλεση αναγνώστη προτού σταματήσει να ξεκινά αναγνώσεις κόμβων. Διατηρήστε το μικρότερο από το διάστημα του poller· οι κόμβοι που δεν διαβάστηκαν διαβάζονται στην επόμενη εκτέλεση."
+
+#: lib/Settings.php
+msgid "Concurrent Reads"
+msgstr "Ταυτόχρονες αναγνώσεις"
+
+#: lib/Settings.php
+msgid "Node reads one reader runs at the same time."
+msgstr "Αναγνώσεις κόμβων που εκτελεί ταυτόχρονα ένας αναγνώστης."
+
+#: lib/Settings.php
+msgid "Uninstall"
+msgstr "Απεγκατάσταση"
+
+#: lib/Settings.php
+msgid "Keep Plugin Tables on Uninstall"
+msgstr "Διατήρηση πινάκων του πρόσθετου κατά την απεγκατάσταση"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin keeps its filesystems, nodes, inventory, and cache. Clear it to have the uninstall drop them; export the registry first from the Parallel Filesystem Admin page. Storage nodes are never contacted either way."
+msgstr "Όταν είναι επιλεγμένο, η απεγκατάσταση του πρόσθετου διατηρεί τα συστήματα αρχείων, τους κόμβους, την απογραφή και την προσωρινή μνήμη του. Αποεπιλέξτε το ώστε η απεγκατάσταση να τα διαγράψει· εξαγάγετε πρώτα το μητρώο από τη σελίδα διαχείρισης Parallel Filesystem. Δεν γίνεται ποτέ επικοινωνία με τους κόμβους αποθήκευσης σε καμία περίπτωση."
+
+#: lib/Settings.php
+msgid "Delete the Devices This Plugin Created on Uninstall"
+msgstr "Διαγραφή των συσκευών που δημιούργησε αυτό το πρόσθετο κατά την απεγκατάσταση"
+
+#: lib/Settings.php
+msgid "When checked, uninstalling the plugin deletes the devices it created for filesystems, with their graphs and data sources, as deleting them in Cacti would. Existing devices that were mapped to a filesystem are never deleted. RRD files are removed only if Cacti's own RRD cleanup setting removes them. Cleared, the devices stay."
+msgstr "Όταν είναι επιλεγμένο, η απεγκατάσταση του πρόσθετου διαγράφει τις συσκευές που δημιούργησε για συστήματα αρχείων, μαζί με τα γραφήματα και τις πηγές δεδομένων τους, όπως θα γινόταν με τη διαγραφή τους στο Cacti. Υπάρχουσες συσκευές που αντιστοιχίστηκαν σε σύστημα αρχείων δεν διαγράφονται ποτέ. Τα αρχεία RRD αφαιρούνται μόνο αν τα αφαιρεί η ρύθμιση εκκαθάρισης RRD του ίδιου του Cacti. Όταν δεν είναι επιλεγμένο, οι συσκευές παραμένουν."
+
+#: lib/TargetsPage.php
+msgid "No filesystem is visible to you."
+msgstr "Κανένα σύστημα αρχείων δεν είναι ορατό σε εσάς."
+
+#: lib/TargetsPage.php
+#, php-format
+msgid "Filesystem %s"
+msgstr "Σύστημα αρχείων %s"
+
+#: lib/TargetsPage.php
+msgid "Graphs of this filesystem"
+msgstr "Γραφήματα αυτού του συστήματος αρχείων"
+
+#: lib/TargetsPage.php
+msgid "Condition"
+msgstr "Κατάσταση λειτουργίας"
+
+#: lib/TargetsPage.php
+msgid "Freshness"
+msgstr "Επικαιρότητα"
+
+#: lib/TargetsPage.php
+msgid "Known Values"
+msgstr "Γνωστές τιμές"
+
+#: lib/TargetsPage.php
+msgid "Last Seen"
+msgstr "Τελευταία εμφάνιση"
+
+#: lib/TargetsPage.php
+msgid "Recovery"
+msgstr "Ανάκαμψη"
+
+#: lib/TargetsPage.php
+msgid "Review"
+msgstr "Έλεγχος"
+
+#: lib/TargetsPage.php
+msgid "Source Node"
+msgstr "Κόμβος προέλευσης"
+
+#: lib/TargetsPage.php
+msgid "No targets found yet."
+msgstr "Δεν έχουν βρεθεί ακόμη στόχοι."
+
+#: pfs_admin.php
+msgid "That record belongs to a Cacti device you do not have permission for. Nothing was changed."
+msgstr "Αυτή η εγγραφή ανήκει σε μια συσκευή Cacti για την οποία δεν έχετε δικαίωμα. Δεν άλλαξε τίποτα."
+
+#: pfs_admin.php
+msgid "Name: another filesystem of this backend already uses this name."
+msgstr "Όνομα: ένα άλλο σύστημα αρχείων αυτού του συστήματος υποστήριξης χρησιμοποιεί ήδη αυτό το όνομα."
+
+#: pfs_admin.php
+msgid "The filesystem could not be saved."
+msgstr "Δεν ήταν δυνατή η αποθήκευση του συστήματος αρχείων."
+
+#: pfs_admin.php
+msgid "The filesystem was saved."
+msgstr "Το σύστημα αρχείων αποθηκεύτηκε."
+
+#: pfs_admin.php
+msgid "The filesystem, its nodes, and its inventory were deleted. Its Cacti device, data sources, and graphs were kept. No node was contacted."
+msgstr "Το σύστημα αρχείων, οι κόμβοι του και η απογραφή του διαγράφηκαν. Η συσκευή Cacti, οι πηγές δεδομένων και τα γραφήματά του διατηρήθηκαν. Δεν έγινε επικοινωνία με κανέναν κόμβο."
+
+#: pfs_admin.php
+msgid "Name: another node already uses this name."
+msgstr "Όνομα: ένας άλλος κόμβος χρησιμοποιεί ήδη αυτό το όνομα."
+
+#: pfs_admin.php
+msgid "The node could not be saved."
+msgstr "Δεν ήταν δυνατή η αποθήκευση του κόμβου."
+
+#: pfs_admin.php
+msgid "The node was saved."
+msgstr "Ο κόμβος αποθηκεύτηκε."
+
+#: pfs_admin.php
+msgid "The node was deleted. Targets it reported keep their history."
+msgstr "Ο κόμβος διαγράφηκε. Οι στόχοι που ανέφερε διατηρούν το ιστορικό τους."
+
+#: pfs_admin.php
+msgid "Enter a network as an address and prefix length, such as 10.20.0.0/16."
+msgstr "Εισαγάγετε ένα δίκτυο ως διεύθυνση και μήκος προθέματος, όπως 10.20.0.0/16."
+
+#: pfs_admin.php
+msgid "No device was added: the filesystem already has one, or the templates are not installed."
+msgstr "Δεν προστέθηκε καμία συσκευή: το σύστημα αρχείων έχει ήδη μία ή τα πρότυπα δεν είναι εγκατεστημένα."
+
+#: pfs_admin.php
+msgid "The device could not be mapped. It may be mapped to another filesystem."
+msgstr "Δεν ήταν δυνατή η αντιστοίχιση της συσκευής. Ενδέχεται να έχει αντιστοιχιστεί σε άλλο σύστημα αρχείων."
+
+#: pfs_admin.php
+msgid "The device was mapped and the data queries and overview graphs were added."
+msgstr "Η συσκευή αντιστοιχίστηκε και προστέθηκαν τα ερωτήματα δεδομένων και τα γραφήματα επισκόπησης."
+
+#: pfs_admin.php
+msgid "Cacti did not create the device. See the Cacti log."
+msgstr "Το Cacti δεν δημιούργησε τη συσκευή. Δείτε το αρχείο καταγραφής του Cacti."
+
+#: pfs_admin.php
+msgid "The device, its data queries, and its overview graphs were created."
+msgstr "Η συσκευή, τα ερωτήματα δεδομένων της και τα γραφήματα επισκόπησής της δημιουργήθηκαν."
+
+#: pfs_admin.php
+msgid "The device is no longer mapped. It and its graphs were kept; its data queries list no targets until it is mapped again."
+msgstr "Η συσκευή δεν είναι πλέον αντιστοιχισμένη. Η ίδια και τα γραφήματά της διατηρήθηκαν· τα ερωτήματα δεδομένων της δεν παραθέτουν στόχους έως ότου αντιστοιχιστεί ξανά."
+
+#: pfs_health.php
+msgid "The templates and data query files were installed."
+msgstr "Τα πρότυπα και τα αρχεία ερωτημάτων δεδομένων εγκαταστάθηκαν."
+
+#: pfs_health.php
+#, php-format
+msgid "The templates could not be installed: %s"
+msgstr "Δεν ήταν δυνατή η εγκατάσταση των προτύπων: %s"
+
+#: pfs_operator.php
+msgid "Monitoring view"
+msgstr "Προβολή παρακολούθησης"
+
+#: pfs_operator.php
+msgid "Observations could not be read. Ask an administrator to check the plugin log."
+msgstr "Δεν ήταν δυνατή η ανάγνωση των παρατηρήσεων. Ζητήστε από έναν διαχειριστή να ελέγξει το αρχείο καταγραφής του πρόσθετου."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later. This server runs PHP %s, so the plugin was not installed or enabled."
+msgstr "Το πρόσθετο Parallel Filesystem απαιτεί PHP %s ή νεότερη. Αυτός ο διακομιστής εκτελεί PHP %s, επομένως το πρόσθετο δεν εγκαταστάθηκε ούτε ενεργοποιήθηκε."
+
+#: setup.php
+msgid "The Parallel Filesystem plugin is not enabled."
+msgstr "Το πρόσθετο Parallel Filesystem δεν είναι ενεργοποιημένο."
+
+#: setup.php
+#, php-format
+msgid "The Parallel Filesystem plugin requires PHP %s or later."
+msgstr "Το πρόσθετο Parallel Filesystem απαιτεί PHP %s ή νεότερη."
+
+#: setup.php
+msgid "Management"
+msgstr "Διαχείριση"
